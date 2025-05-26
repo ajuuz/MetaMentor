@@ -12,7 +12,6 @@ export class OtpController {
     ){}
     
     async createUser(req:Request,res:Response):Promise<void>{
-
         const data = req.body;
         try{
             // const response = await this._createUserUsecase.handle(data)
