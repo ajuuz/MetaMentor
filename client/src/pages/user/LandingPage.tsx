@@ -69,7 +69,7 @@ const LandingPage = () => {
               </Button>
             </div>
             <div className="md:w-1/2 mt-8 md:mt-0">
-              <img src="https://placehold.co/600x400" alt="Mentorship Illustration" className="w-full" />
+              <img src="/ChatGPT Image May 8, 2025, 03_11_22 PM.png" alt="Mentorship Illustration" className="w-full" />
             </div>
           </div>
         </div>

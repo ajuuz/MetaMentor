@@ -5,10 +5,11 @@ export interface IUserEntity{
     profileImage?:string,
     country:string,
     gender:string,
-    phoneNumber:number,
+    mobileNumber:number,
     email:string,
     password:string,
     isBlocked:boolean,
     createdAt:Date,
     role:ROLES,
+    isVerified:boolean
 }

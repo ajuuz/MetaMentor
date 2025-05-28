@@ -17,7 +17,7 @@ export const userSchema = new mongoose.Schema<IUserModel>({
         type:String,
         enum:Object.values(GENDER)
     },
-    phoneNumber:{
+    mobileNumber:{
         type:Number
     },
     email:{
@@ -37,5 +37,9 @@ export const userSchema = new mongoose.Schema<IUserModel>({
         type:String,
         enum:Object.values(ROLES),
         default:ROLES.USER
+    },
+    isVerified:{
+        type:Boolean,
+        default:false
     }
 })
