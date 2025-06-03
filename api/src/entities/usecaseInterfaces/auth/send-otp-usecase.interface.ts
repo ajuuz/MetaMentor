@@ -1,9 +1,10 @@
-import { ISignupDto } from "shared/dto/authDto/signupDto";
-import { IResponseSpecifier } from "shared/responseSpecifiers";
+import { IloginDTO, ISignupRequestDto } from "shared/dto/authDto";
+import { ISuccessResponseHandler} from "shared/utils/successResponseHandler";
 
 
 
 export interface IAuthUsecase {
-    register(formData:ISignupDto):Promise<IResponseSpecifier>;
+    register(formData:ISignupRequestDto):Promise<ISuccessResponseHandler>;
     verifyOtp(email:string,otp:string):Promise<void>;
+    login(email:string,password:string):Promise<IloginDTO>;
 }

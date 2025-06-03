@@ -3,6 +3,7 @@ import { OtpRepository } from "interfaceAdapters/repositories/auth/otp.repositor
 import { IOtpRespository } from "entities/repositoryInterfaces/auth/otp-repository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user/user-repository.interface";
 import { UserRepository } from "interfaceAdapters/repositories/user/user.repository";
+import { StudentRepository } from "interfaceAdapters/repositories/student/student.repository";
 
 @injectable()
 export class RepositoryRegistry{
@@ -14,6 +15,10 @@ export class RepositoryRegistry{
         
         container.register<IUserRespository>('IUserRepository',{
             useClass:UserRepository
+        })
+
+        container.register('IStudentRepository',{
+            useClass:StudentRepository
         })
     }
 }

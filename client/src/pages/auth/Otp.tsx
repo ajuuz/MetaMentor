@@ -6,24 +6,31 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { verifyOtp } from "@/services/authService.ts/authApi";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const Otp = () => {
     const [otp,setOtp]=useState<string>("")
     const location = useLocation()
+    const navigate = useNavigate();
+    
+    const mutation = useMutation({
+        mutationFn:verifyOtp,
+        onSuccess:(response)=>{
+            toast.success(response.message);
+            navigate('/login');
+        },
+        onError:(error)=>{
+            console.log(error.message)
+        }
+    })
+    
     const {email} = location.state;
 
-    console.log(email)
-
     const handleOtpSubmit=async()=>{
-        try{
-            const response = await verifyOtp(email,otp);
-            console.log(response)
-        }catch(error){
-            console.log(error)
-        }
-        
+        mutation.mutate({email,otp})
     }
     
   return (
@@ -43,7 +50,7 @@ const Otp = () => {
               <InputOTPSlot index={5} />
             </InputOTPGroup>
           </InputOTP>
-          <Button onClick={handleOtpSubmit}>VERIFY</Button>
+          <Button disabled={mutation.isPending} onClick={handleOtpSubmit}>VERIFY</Button>
         </div>
     </div>
 

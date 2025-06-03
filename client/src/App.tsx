@@ -3,7 +3,7 @@ import {Toaster} from 'sonner'
 import UserRoutes from './routes/UserRoutes'
 import AdminRoutes from './routes/AdminRoutes'
 import MentorRoutes from './routes/MentorRoutes'
-
+import './App.css'
 const App = () => {
   return (
     <div >

@@ -3,6 +3,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import { AuthRoutes } from 'frameworks/routes/auth';
 import { config } from 'shared/config';
+import { errorMiddleware } from 'frameworks/di/resolver';
 
 export class App{
     private _app:Application;
@@ -11,6 +12,7 @@ export class App{
         this._app = express();
         this.configureMiddleware()
         this.configureRoutes();
+        this.configureErrorMiddleware()
     }
 
     private configureRoutes():void{
@@ -24,6 +26,10 @@ export class App{
         }));
         this._app.use(express.json());
         this._app.use(express.urlencoded({extended:true}));
+    }
+
+    private configureErrorMiddleware():void{
+        this._app.use(errorMiddleware.handleError.bind(errorMiddleware))
     }
 
 

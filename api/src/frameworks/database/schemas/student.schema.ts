@@ -32,7 +32,8 @@ export const studentSchema = new mongoose.Schema<IStudentModel>({
         userId:{
             type:mongoose.Schema.ObjectId,
             ref:'users',
-            required:true
+            required:true,
+            unique:true
         },
         domains:{
             type:[domainSchema],

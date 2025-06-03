@@ -1,4 +1,4 @@
-import {Request,Response,Router } from 'express';
+import {NextFunction, Request,Response,Router } from 'express';
 import { authController } from 'frameworks/di/resolver';
 
 
@@ -11,13 +11,17 @@ export class AuthRoutes {
     }
 
     private configureRoutes(): void {
-        this._router.post('/signup', (req: Request, res: Response) => {
-            authController.signup(req, res)
+        this._router.post('/signup', (req: Request, res: Response,next:NextFunction) => {
+            authController.signup(req,res,next)
         });
 
-        this._router.post('/verifyOtp', (req: any, res: any) => {
-            authController.verifyOtp(req,res)
+        this._router.post('/verifyOtp', (req: Request, res: Response,next:NextFunction) => {
+            authController.verifyOtp(req,res,next)
         });
+
+        this._router.post('/login',(req:Request,res:Response,next:NextFunction)=>{
+            authController.login(req,res,next)
+        })
     }
 
     public getRouter(): Router {

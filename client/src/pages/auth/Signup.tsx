@@ -41,8 +41,7 @@ const Signup = () => {
   const mutation = useMutation({
     mutationFn:signup,
     onSuccess:(data)=>{
-      console.log(data)
-       toast.success(data.message);
+      toast.success(data.message);
       navigate('/otp',{state:{email:formData.email}})
     },
     onError:(error)=>{
@@ -59,7 +58,6 @@ const Signup = () => {
 
   const handleChange=(e: React.ChangeEvent<HTMLInputElement>)=>{
     const { name, value } = e.target;
-    console.log(name,value)
     setFormData((prevData) => ({
       ...prevData,
       [name]: value
@@ -69,7 +67,6 @@ const Signup = () => {
   const handleSubmit = async() => {
 
       const {country,gender,...rest} = formData;
-      console.log(errors)
       const validationErrors = signupValidation(rest);
 
       if (Object.keys(validationErrors).length > 0) {
@@ -80,7 +77,7 @@ const Signup = () => {
           return;
       }
 
-       const {confirmPwd,...userData} = formData;
+      const {confirmPwd,...userData} = formData;
       mutation.mutate(userData)
   }
   
@@ -143,7 +140,8 @@ const Signup = () => {
               </div>
             </div>
           </form>
-          <Button disabled={mutation.isPending} onClick={handleSubmit} className='bg-[#E63946] text-white py-2 rounded-lg hover:bg-[#dc2f3c] transition-colors'>Signup</Button>
+          
+          <Button disabled={mutation.isPending} onClick={handleSubmit} className='signupButton bg-[#E63946] text-white py-2 rounded-lg hover:bg-[#dc2f3c] transition-colors'>{mutation.isPending?<span className="loader"></span>:"Signup"}</Button>
           <p className='text-center text-sm'>Already have an account? <a href="/login" className='text-[#E63946] hover:underline'>Login</a></p>
         </div>
     </div>
