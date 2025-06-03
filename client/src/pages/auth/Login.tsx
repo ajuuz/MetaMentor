@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
+import { useUserStore } from '@/zustand/userStore';
 
 const Login = () => {
 
@@ -15,10 +16,14 @@ const Login = () => {
   })
   const navigate = useNavigate()
 
+  //zustand
+  const loginDispatch = useUserStore((state)=>state.login)
+  
   const mutation = useMutation({
     mutationFn:login,
     onSuccess:(response)=>{
       toast.success(response.message)
+      loginDispatch(response.userDetails)
       navigate('/')
     },
     onError:(error)=>{
