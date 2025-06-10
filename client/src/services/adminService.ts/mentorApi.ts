@@ -50,3 +50,14 @@ export const acceptMentorApplication=async({
         throw error?.response?.data || error;
     }
 }
+
+
+export const updateMentorStatus=async({mentorId,status}:{mentorId:string,status:boolean}):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+    try{
+        const response = await adminAxiosInstance.patch(`/mentors/${mentorId}`,{status})
+        return response.data;
+    }
+    catch(error:any){
+        throw error?.response?.data || error;
+    }
+}

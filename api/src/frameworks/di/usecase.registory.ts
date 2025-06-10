@@ -12,19 +12,21 @@ import { IGetAllStudentsUsecase } from "entities/usecaseInterfaces/student/getAl
 import { IUpdateStudentStatusUsecase } from "entities/usecaseInterfaces/student/updateStudentStatusUsecase.interface";
 import { UpdateStudentStatusUsecase } from "useCases/student/updateStudentStatusUsecase";
 import { IRegisterMentorUsecase } from "entities/usecaseInterfaces/mentor/registerMentorUsecase.interface";
-import { RegisterMentorUsecase } from "useCases/mentor/registerMentor";
+import { RegisterMentorUsecase } from "useCases/mentor/registerMentor.usecase";
 import { IGetNotVerifiedMentorsUsecase } from "entities/usecaseInterfaces/mentor/getNotVerifiedMentorsUsecase.interface";
-import { GetNotVerifiedMentorsUsecase } from "useCases/mentor/getNotVerifiedMentors";
+import { GetNotVerifiedMentorsUsecase } from "useCases/mentor/getNotVerifiedMentors.usecase";
 import { IGetVerifiedMentorsUsecase } from "entities/usecaseInterfaces/mentor/getVerifiedMentors.interface";
-import { GetVerifiedMentorsUsecase } from "useCases/mentor/getVerifiedMentors";
+import { GetVerifiedMentorsUsecase } from "useCases/mentor/getVerifiedMentors.usecase";
 import { IUploadImageUsecase } from "entities/usecaseInterfaces/common/uploadImageUsecase.interface";
 import { UploadImageUsecase } from "useCases/common/uploadImageUsecase";
 import { IGetSpecificMentorUsecase } from "entities/usecaseInterfaces/mentor/getSpecificMentorUsecase.interface";
-import { GetSpecificMentorUsecase } from "useCases/mentor/getSpecificMentorUsecase";
+import { GetSpecificMentorUsecase } from "useCases/mentor/getSpecificMentor.usecase";
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
 import { AcceptMentorApplicationUsecase } from "useCases/mentor/acceptMentorApplication.usecase";
 import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
 import { RejectMentorApplicationUsecase } from "useCases/mentor/rejectMentorApplication.usecase";
+import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/updateMentorStatusUsecase.interface";
+import { UpdateMentorStatusUsecase } from "useCases/mentor/updateMentorStatus.usecase";
 
 export class UseCaseRegistory{
     static RegisterUsecases():void{
@@ -75,6 +77,10 @@ export class UseCaseRegistory{
 
         container.register<IRejectMentorApplicationUsecase>('IRejectMentorApplicationUsecase',{
             useClass:RejectMentorApplicationUsecase
+        })
+
+        container.register<IUpdateMentorStatusUsecase>("IUpdateMentorStatusUsecase",{
+            useClass:UpdateMentorStatusUsecase
         })
 
 

@@ -45,11 +45,16 @@ export class StudentRepository implements IStudentRepository{
         return {students,totalDocuments}
     }
 
+
+    async updateOne(filter:any,update:any):Promise<void>{
+        await studentDB.updateOne(filter,update)
+    }
+
     async updateStatus(userId: string, status: boolean): Promise<number> {
         const update=await studentDB.updateOne({userId},{$set:{isBlocked:status}})
         return update.modifiedCount
     }
 
-    
+
     
 }

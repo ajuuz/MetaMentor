@@ -20,6 +20,7 @@ export class AdminRoutes{
         this._router.get('/mentors',adminMentorController.getAllMentors.bind(adminMentorController))
         this._router.get('/mentors/:mentorId',adminMentorController.getSpecificMentor.bind(adminMentorController))
         this._router.patch('/mentors/:mentorId/:applicationStatus',adminMentorController.mentorApplicationVerification.bind(adminMentorController))
+        this._router.patch('/mentors/:mentorId',adminMentorController.updateMentorStatus.bind(adminMentorController))
     }
 
     getRouter():Router{

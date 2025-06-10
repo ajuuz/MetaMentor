@@ -16,7 +16,6 @@ export class UpdateStudentStatusUsecase implements IUpdateStudentStatusUsecase{
     async execute(userId: string,status:boolean): Promise<void> {
         if(!userId || ![true,false].includes(status)) throw new ValidationError("insufficient data for updating status");
         const updateResult:number=await this._studentRepository.updateStatus(userId,status);
-
         if(updateResult===0) throw new CustomError(400,"No updation performed");
     }
 }

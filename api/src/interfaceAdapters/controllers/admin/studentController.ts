@@ -44,11 +44,4 @@ export class StudentController implements IStudentController{
         }
     }
 
-     async  getAllMentors(req:Request,res:Response,next:NextFunction):Promise<void>{
-            const currentPage:number=Number(req.query.currentPage ?? "1");
-            const limit:number=Number(req.query.limit ?? '10')
-            const isVerified:boolean=req.query.isVerified==="true"?true:false;
-
-
-    }
 }

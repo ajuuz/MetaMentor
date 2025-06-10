@@ -13,7 +13,7 @@ export class GetVerifiedMentorsUsecase implements IGetVerifiedMentorsUsecase{
     async execute(currentPage:number,limit:number):Promise<Omit<Omit<GetAllMentorResponseDTO,"cv"|"experienceCirtificate">,"totalDocuments">>{
         const skip:number = (currentPage-1)*limit
         const filter:Pick<MentorReadFilterDTO,"isVerified">={isVerified:true}
-        
+
         const {mentors,totalDocuments}:Omit<GetAllMentorResponseDTO,'totalPages'>=await this._mentorRepository.find(filter,skip,limit);
         const totalPages:number = Math.ceil(totalDocuments/limit)
         return {mentors,totalPages}

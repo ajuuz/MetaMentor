@@ -50,7 +50,7 @@ const ManageStudents = () => {
                     0,
                     <Badge variant={student.isBlocked?'destructive':'outline'}>{student.isBlocked?"Blocked":"Active"}</Badge>,
                     <AlertDialogComponent alertTriggerer={<Switch checked={student.isBlocked}/>} alertDescription="This action cannot be undone. This will permanently delete your
-                    account and remove your data from our servers." handleClick={()=>handleStatusChange('student.userId',!student.isBlocked)}/>,
+                    account and remove your data from our servers." handleClick={()=>handleStatusChange(student.userId,!student.isBlocked)}/>,
                     student.point
                 ]}
             })

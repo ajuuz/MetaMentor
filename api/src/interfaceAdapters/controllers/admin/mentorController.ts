@@ -4,6 +4,7 @@ import { IGetNotVerifiedMentorsUsecase } from "entities/usecaseInterfaces/mentor
 import { IGetSpecificMentorUsecase } from "entities/usecaseInterfaces/mentor/getSpecificMentorUsecase.interface";
 import { IGetVerifiedMentorsUsecase } from "entities/usecaseInterfaces/mentor/getVerifiedMentors.interface";
 import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
+import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/updateMentorStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { MENTOR_APPLICATION_STATUS } from "shared/constants";
 import { MentorDataDTO } from "shared/dto/mentorDTO";
@@ -27,7 +28,10 @@ export class AdminMentorController implements IAdminMentorController{
         private _acceptMentorApplicationUsecase:IAcceptMentorApplicationUsecase,
 
         @inject('IRejectMentorApplicationUsecase')
-        private _rejectMentorApplicationUsecase:IRejectMentorApplicationUsecase
+        private _rejectMentorApplicationUsecase:IRejectMentorApplicationUsecase,
+
+        @inject('IUpdateMentorStatusUsecase')
+        private _updateMentorStatusUsecase:IUpdateMentorStatusUsecase
 
     ){}
    
@@ -67,7 +71,7 @@ export class AdminMentorController implements IAdminMentorController{
         const applicationStatus:string = req.params.applicationStatus;
         const email:string = req.body.email;
         const reason:string=req.body.reason
-        console.log("coming")
+
         if(applicationStatus===MENTOR_APPLICATION_STATUS.ACCEPTED){
             await this._acceptMentorApplicationUsecase.execute(mentorId,email)
             res.status(200).json({success:true,message:"Mentor Application Accepted Successfully"})
@@ -75,5 +79,14 @@ export class AdminMentorController implements IAdminMentorController{
             await this._rejectMentorApplicationUsecase.execute(mentorId,email,reason)
             res.status(200).json({success:true,message:"Mentor Application Rejected Successfully"})
         }
+    }
+
+    async updateMentorStatus(req:Request,res:Response,next:NextFunction):Promise<void>{
+        const mentorId:string=req.params.mentorId
+        const status:boolean=req.body.status;
+        console.log(status)
+
+        await this._updateMentorStatusUsecase.execute(mentorId,status);
+        res.status(200).json({success:true,message:`mentor ${status?"blocked":"unblocked"} successfully`})
     }
 }

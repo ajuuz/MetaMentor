@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
-  CardHeader,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,11 +20,14 @@ import { registerForm } from "@/services/mentorService.ts/registrationApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { acceptMentorApplication, getSpecificMentor } from "@/services/adminService.ts/mentorApi";
 import { MENTOR_APPLICATION_STATUS } from "@/utils/constants";
-import './applicationForm.css'
+import './MentorDetailsManage.css'
 import {AnimatePresence, motion} from 'framer-motion'
 import  LoadingSpinnerComponent from "@/components/common/LoadingSpinnerComponent";
-export default function ApplicationForm() {
+import { useUserStore, type UserType } from "@/zustand/userStore";
 
+export default function MentorDetailsManage() {
+
+  //states
   const [userDetails,setUserDetails] = useState<{name:string,country:string,mobileNumber:number|undefined,email:string}>({
     name:'',
     country:"",
@@ -52,8 +54,10 @@ export default function ApplicationForm() {
   const [rejectionReason,setRejectionReason] = useState<string>('')
   const [rejectionReasonError,setRejectionReasonError] = useState<string>('')
 
-  const navigate = useNavigate();
+   const user:UserType | null= useUserStore(state=>state.user)
 
+  //router-dom
+  const navigate = useNavigate();
   const {mentorId} = useParams()
 
   const pathname = window.location.pathname
@@ -84,11 +88,6 @@ export default function ApplicationForm() {
       console.log(error)
     }
   })
-
-  const {mutate:userDetailsFetchMutation}=useMutation({
-    
-  })
-
 
    
   //handle submit button mutations
@@ -202,25 +201,23 @@ export default function ApplicationForm() {
       <h1 className="text-3xl font-bold text-center mb-10">Reviewer Registeration</h1>
 
       <Card className="p-6">
-        <CardHeader className="items-center flex flex-col">
-          {/* <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
-            <img src="/avatar-placeholder.png" alt="Profile" className="w-20 h-20 rounded-full" />
-          </div> */}
-        </CardHeader>
 
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <CardContent className="grid grid-cols-1  md:grid-cols-2 gap-10">
           <div>
             <Label>Full Name</Label>
-            <Input  placeholder="Enter your name" value={userDetails?.name} disabled/>
-          </div>
-          <div>
-            <Label>Country</Label>
-            <Input placeholder="Enter your country" value={userDetails?.country} disabled/>
+            <Input  placeholder="Enter your name" value={userDetails?.name || user?.name} disabled/>
           </div>
 
-          <div>
-            <Label>Phone</Label>
-            <Input value={userDetails?.mobileNumber} placeholder="Enter your mobile Number..." disabled />
+        <div className="row-span-2 flex justify-center items-center">
+          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
+            <img src="/avatar-placeholder.png" alt="Profile" className="w-20 h-20 rounded-full" />
+          </div>
+        </div>
+
+          <div className="col-span-1">
+            <Label>My Email Address</Label>
+            <p className="text-sm text-muted-foreground mt-1">{userDetails?.email || user?.email}</p>
+            <p className="text-xs text-gray-400">1 month ago</p>
           </div>
 
           <div className="col-span-2">
@@ -302,11 +299,7 @@ export default function ApplicationForm() {
             <p className="text-red-300">{errors?.skillsError}</p>
           </div>
 
-          <div className=" col-span-2 md:col-span-1 mt-6">
-            <Label>My Email Address</Label>
-            <p className="text-sm text-muted-foreground mt-1">elixarowles@gmail.com</p>
-            <p className="text-xs text-gray-400">1 month ago</p>
-          </div>
+          
 
           
           {purpose.mentorRegister
