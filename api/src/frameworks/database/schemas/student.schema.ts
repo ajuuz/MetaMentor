@@ -40,6 +40,10 @@ export const studentSchema = new mongoose.Schema<IStudentModel>({
             required:true,
             default:[]
         },
+         isBlocked:{
+            type:Boolean,
+            default:false
+        },
         point:{
             type:Number,
             default:0

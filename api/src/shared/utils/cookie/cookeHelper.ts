@@ -7,13 +7,13 @@ export const setCookie=(res:Response,accessTokenCookieName:string,accessToken:st
             res.cookie(accessTokenCookieName,accessToken,{
                 httpOnly: true,
                 secure: isProduction,
-                sameSite: "none",
+                 maxAge: 5 * 60 * 1000,
             })
 
             res.cookie(refreshTokenCookieName,refreshToken,{
             httpOnly: true,
             secure: isProduction,
-            sameSite: "none",
+            maxAge:   7 * 24 * 60 * 60 * 1000,
         })
 }
 

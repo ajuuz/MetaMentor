@@ -1,18 +1,18 @@
 import {create} from "zustand";
 
-export type User={
+export type UserType={
     name:string,
     email:string,
     role:'user' | 'admin' | 'mentor'
 }
 
-type UserStore={
-    user:User|null;
-    login:(user:User)=>void;
+type UserStoreType={
+    user:UserType|null;
+    login:(user:UserType)=>void;
     logout:()=>void;
 }
 
-export const useUserStore = create<UserStore>((set)=>({
+export const useUserStore = create<UserStoreType>((set)=>({
     user:localStorage.getItem("user")?JSON.parse(localStorage.getItem("user") as string):null,
     login(user) {
         set({user})

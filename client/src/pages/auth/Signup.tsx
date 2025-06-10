@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { signup } from '@/services/authService.ts/authApi';
 
 //types
-import type { AuthFormErrorsType, AuthFormType } from '@/types/auth/authTypes';
+import type { AuthFormErrorsType, AuthFormType } from '@/types/authTypes';
 
 //hooks
 import { useState } from 'react';
@@ -19,7 +19,7 @@ import { useMutation } from '@tanstack/react-query';
 //utils
 import { toast } from 'sonner';
 import countries from 'world-countries';
-import { signupValidation } from '@/utils/validations/signupValidation';
+import { signupValidation } from '@/utils/validations/signupValidations';
 
 
 const Signup = () => {

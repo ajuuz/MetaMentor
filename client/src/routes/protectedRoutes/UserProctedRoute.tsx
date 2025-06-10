@@ -1,4 +1,4 @@
-import { useUserStore, type User } from '@/zustand/userStore'
+import { useUserStore, type UserType } from '@/zustand/userStore'
 import {  type ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 
@@ -7,7 +7,7 @@ type Prop={
     children:ReactNode
 }
 export const UserPrivate = ({children}:Prop) => {
-    const user:User | null= useUserStore(state=>state.user)
+    const user:UserType | null= useUserStore(state=>state.user)
     if(!user || user.role!=='user'){
         return <Navigate to="/"/>
     }
@@ -16,7 +16,7 @@ export const UserPrivate = ({children}:Prop) => {
 
 
 export const UserLoginPrivate = ({children}:Prop)=>{
-    const user:User | null= useUserStore(state=>state.user)
+    const user:UserType | null= useUserStore(state=>state.user)
     if(user){
         if(user.role==='admin'){
             return <Navigate to="/admin/dashboard"/>

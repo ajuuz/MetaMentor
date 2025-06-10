@@ -3,6 +3,7 @@ import { ObjectId } from "mongoose";
 export interface IStudentEntity{
     userId:ObjectId,
     domains:ISelectedDomain[],
+    isBlocked:boolean,
     point:number,
     isPremium:boolean,
     premiumPlan:ObjectId,

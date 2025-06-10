@@ -1,6 +1,6 @@
 import { ROLES } from "shared/constants";
 
-export interface ISignupRequestDto {
+export type SignupRequestDto = {
     name: string;
     email: string;
     password: string;
@@ -10,7 +10,7 @@ export interface ISignupRequestDto {
 }
 
 
-export interface IloginDTO{
+export type loginResponseDTO = {
     name:string,
     email:string,
     role:ROLES,

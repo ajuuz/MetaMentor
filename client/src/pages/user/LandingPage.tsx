@@ -7,14 +7,14 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { useUserStore, type User } from '@/zustand/userStore'
+import { useUserStore, type UserType } from '@/zustand/userStore'
 import { Menu, UserCircle } from "lucide-react"
 import { useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 const LandingPage = () => {
 
-  const user:User|null= useUserStore((state)=>state.user);
+  const user:UserType|null= useUserStore((state)=>state.user);
   const navigate = useNavigate();
 
   const dropDownContents = useMemo(() => {

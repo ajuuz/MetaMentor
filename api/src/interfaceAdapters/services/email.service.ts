@@ -18,15 +18,13 @@ export class EmailService implements IEmailService{
         })
     }
 
-    async sendMail(to:string,subject:string,otp:string):Promise<void>{
-
+    async sendMail(to:string,subject:string,html:string):Promise<void>{
         const mailOptions = {
             from :"Meta Mentor",
             to,
             subject,
-            text: `Your OTP code for signup is: ${otp}`
+            html
         }
-
         await this.transporter.sendMail(mailOptions);
     }
 

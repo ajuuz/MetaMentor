@@ -2,6 +2,7 @@ import Header from "@/components/admin/Header"
 import Dashboard from "@/pages/admin/dashboard/Dashboard"
 import ManageMentors from "@/pages/admin/manageMentors/ManageMentors"
 import ManageStudents from "@/pages/admin/manageStudents/ManageStudents"
+import ApplicationForm from "@/pages/mentor/applicationForm/ApplicationForm"
 import { Route, Routes } from "react-router-dom"
 
 const AdminRoutes = () => {
@@ -12,6 +13,7 @@ const AdminRoutes = () => {
     <Routes>
       <Route path='/dashboard' element={<Dashboard/>}/>
       <Route path='/mentors' element={<ManageMentors/>}/>
+      <Route path='/mentors/:mentorId/verify' element={<ApplicationForm/>}/>
       <Route path='/students' element={<ManageStudents/>}/>
     </Routes>
     </div>

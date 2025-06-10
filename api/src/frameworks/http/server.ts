@@ -4,7 +4,10 @@ import cors from 'cors';
 import { AuthRoutes } from 'frameworks/routes/auth';
 import { config } from 'shared/config';
 import { errorMiddleware } from 'frameworks/di/resolver';
-
+import { AdminRoutes } from 'frameworks/routes/admin';
+import { MentorRoutes } from 'frameworks/routes/mentor';
+import cookieParser from "cookie-parser"
+import { CommonRoutes } from 'frameworks/routes/common';
 export class App{
     private _app:Application;
     
@@ -17,6 +20,9 @@ export class App{
 
     private configureRoutes():void{
         this._app.use("/api/auth",new AuthRoutes().getRouter());
+        this._app.use("/api/admin",new AdminRoutes().getRouter());
+        this._app.use("/api/mentor",new MentorRoutes().getRouter());
+        this._app.use("/api",new CommonRoutes().getRouter());
     }
 
     private configureMiddleware():void{
@@ -24,6 +30,7 @@ export class App{
         origin: config.origin.uri, 
         credentials: true     
         }));
+        this._app.use(cookieParser())
         this._app.use(express.json());
         this._app.use(express.urlencoded({extended:true}));
     }

@@ -9,24 +9,29 @@ import {
 } from "@/components/ui/table";
 
 type Prop = {
-    tableHeaders:string[]
+    tableHeaders:string[],
+    tableBody:any[]
 }
-const TableComponent = ({tableHeaders}:Prop) => {
+const TableComponent = ({tableHeaders,tableBody}:Prop) => {
   return (
     <Table>
       <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader className="bg-black text-white">
         <TableRow>
-          {tableHeaders.map((header,index)=><TableHead className="text-white border text-center">{header}</TableHead>)}
+          {tableHeaders.map((header)=><TableHead className="text-white border text-center">{header}</TableHead>)}
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow className="text-center">
-          <TableCell>INV001</TableCell>
-          <TableCell>Paid</TableCell>
-          <TableCell>Credit </TableCell>
-          <TableCell>$250.00</TableCell>
-        </TableRow>
+        {
+          tableBody.map(row=>(
+              <TableRow className="text-center">
+                  {row.content.map((data:any)=>(
+                      <TableCell>{data}</TableCell>
+                  ))}
+          </TableRow>
+          ))
+        }
+        
       </TableBody>
     </Table>
   );

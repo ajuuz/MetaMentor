@@ -20,5 +20,10 @@ export const config={
     },
     accessTokenSecretKey:process.env.ACCESS_TOKEN_SECRET || "h3gj2k2b4mmd2km625kc9efnb9a44",
     refreshTokenSecretKey:process.env.REFRESH_TOKEN_SECRET || "h3gj2k2b4mmd2km625kc9efnb9a44",
-    node_env:process.env.NODE_ENV || "development"
+    node_env:process.env.NODE_ENV || "development",
+    cloudinary:{
+         cloud_name: process.env.CLOUD_NAME,
+         api_key: process.env.CLOUD_API_KEY,
+         api_secret: process.env.CLOUD_API_SECRET,
+    }
 }

@@ -1,0 +1,25 @@
+.RejectReasonDiv::before{
+  content: "";
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  height: 100vh; 
+  background: linear-gradient(to top,transparent, rgba(32, 32, 32,0.8));
+  backdrop-filter: blur(1px)
+}
+
+.RejectReasonDiv div{
+  position: relative;
+  z-index: 50;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  width: 70%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.RejectReasonDiv textarea {
+  z-index: 51;
+  position: relative;
+}

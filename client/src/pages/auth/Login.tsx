@@ -23,7 +23,7 @@ const Login = () => {
     mutationFn:login,
     onSuccess:(response)=>{
       toast.success(response.message)
-      loginDispatch(response.userDetails)
+      loginDispatch(response.data)
       navigate('/')
     },
     onError:(error)=>{

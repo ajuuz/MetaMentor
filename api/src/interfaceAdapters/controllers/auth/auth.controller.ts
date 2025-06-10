@@ -1,7 +1,9 @@
 import { IAuthController } from "entities/controllerInterfaces/user/auth-controller.interface";
-import { IAuthUsecase } from "entities/usecaseInterfaces/auth/send-otp-usecase.interface";
+import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
+import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
+import { IVerifyOtpUsecase } from "entities/usecaseInterfaces/auth/verifyOtpUsecase.interface";
 import { NextFunction, Request, Response } from "express";
-import { IloginDTO, ISignupRequestDto } from "shared/dto/authDto";
+import { loginResponseDTO, SignupRequestDto } from "shared/dto/authDTO";
 import { setCookie } from "shared/utils/cookie/cookeHelper";
 import { ISuccessResponseHandler } from "shared/utils/successResponseHandler";
 import { inject, injectable } from "tsyringe";
@@ -11,14 +13,20 @@ import { inject, injectable } from "tsyringe";
 export class AuthController implements IAuthController{
 
     constructor(
-        @inject("IAuthUsecase")
-        private _AuthUsecase:IAuthUsecase
+        @inject("IRegisterUserUsecase")
+        private _RegisterUserUsecase:IRegisterUserUsecase,
+
+        @inject("IVerifyOtpUsecase")
+        private _VerifyOtpUsecase:IVerifyOtpUsecase,
+
+        @inject("ILoginUsecase")
+        private _LoginUsecase:ILoginUsecase
     ){}
     
     async signup(req: Request, res: Response,next:NextFunction): Promise<void> {
         try {
-            const formData:ISignupRequestDto= req.body;
-            const response:ISuccessResponseHandler=await this._AuthUsecase.register(formData);
+            const formData:SignupRequestDto= req.body;
+            const response:ISuccessResponseHandler=await this._RegisterUserUsecase.execute(formData);
             res.status(response.statusCode).json(response.content);
         } catch (error) {
             next(error)
@@ -28,7 +36,7 @@ export class AuthController implements IAuthController{
     async verifyOtp(req:Request,res:Response,next:NextFunction):Promise<void>{
         try{
             const {email,otp} = req.body;
-            await this._AuthUsecase.verifyOtp(email,otp)
+            await this._VerifyOtpUsecase.execute(email,otp)
             res.status(201).json({success:true,message:"user verified Successfully"})
         }
         catch(error){
@@ -42,13 +50,13 @@ export class AuthController implements IAuthController{
         const {email,password}:{email:string,password:string} = req.body;
         try{
 
-            const details:IloginDTO = await this._AuthUsecase.login(email,password);
+            const details:loginResponseDTO = await this._LoginUsecase.execute(email,password);
             const {accessToken,refreshToken,...rest} = details
-            const accessTokenCookieName=`${details.role}accessToken`;
-            const refreshTokenCookieName=`${details.role}refreshToken`;
+            const accessTokenCookieName=`userAccessToken`;
+            const refreshTokenCookieName=`userRefreshToken`;
             
             setCookie(res,accessTokenCookieName,accessToken,refreshTokenCookieName,refreshToken);
-            res.status(200).json({success:true,message:"user logged in successfully",userDetails:rest})
+            res.status(200).json({success:true,message:"user logged in successfully",data:rest})
         }catch(error){
             next(error)
         }

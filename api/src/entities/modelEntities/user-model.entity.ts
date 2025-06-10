@@ -8,7 +8,6 @@ export interface IUserEntity{
     mobileNumber:number,
     email:string,
     password:string,
-    isBlocked:boolean,
     createdAt:Date,
     role:ROLES,
     isVerified:boolean
