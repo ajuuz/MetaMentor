@@ -27,9 +27,11 @@ import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/ment
 import { RejectMentorApplicationUsecase } from "useCases/mentor/rejectMentorApplication.usecase";
 import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/updateMentorStatusUsecase.interface";
 import { UpdateMentorStatusUsecase } from "useCases/mentor/updateMentorStatus.usecase";
+import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
+import { TokenService } from "interfaceAdapters/services/token.service";
 
 export class UseCaseRegistory{
-    static RegisterUsecases():void{
+    static registerUsecases():void{
 
         //auth usecases
         container.register<IRegisterUserUsecase>('IRegisterUserUsecase',{
@@ -91,9 +93,5 @@ export class UseCaseRegistory{
         })
 
 
-        //register service
-        container.register<IEmailService>('IEmailService',{
-            useClass:EmailService
-        })
     }
 }

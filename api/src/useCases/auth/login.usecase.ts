@@ -1,4 +1,5 @@
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
+import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
 import { TokenService } from "interfaceAdapters/services/token.service";
 import { loginResponseDTO } from "shared/dto/authDTO";
@@ -15,7 +16,8 @@ export class LoginUsecase implements ILoginUsecase{
         @inject("IUserRepository")
         private _userRepository: IUserRespository,
 
-
+        @inject('ITokenService')
+        private _tokenService:ITokenService
     ){}
 
      async execute(email:string,password:string):Promise<loginResponseDTO>{
@@ -37,8 +39,8 @@ export class LoginUsecase implements ILoginUsecase{
             //     throw new CustomError(403,"Admin has been blocked you. please contact admin")
             // }
     
-            const accessToken = TokenService.generateAccessToken({id:user._id,email:user.email,role:user.role});
-            const refreshToken = TokenService.generateRefreshToken({id:user._id,email:user.email,role:user.role});
+            const accessToken = this._tokenService.generateAccessToken({id:user._id,email:user.email,role:user.role});
+            const refreshToken = this._tokenService.generateRefreshToken({id:user._id,email:user.email,role:user.role});
     
             const userDetails:loginResponseDTO={
                 name:user.name,

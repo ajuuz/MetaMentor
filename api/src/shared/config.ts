@@ -18,8 +18,13 @@ export const config={
         EMAIL: process.env.EMAIL_USER,
         PASSWORD: process.env.EMAIL_PASS
     },
-    accessTokenSecretKey:process.env.ACCESS_TOKEN_SECRET || "h3gj2k2b4mmd2km625kc9efnb9a44",
-    refreshTokenSecretKey:process.env.REFRESH_TOKEN_SECRET || "h3gj2k2b4mmd2km625kc9efnb9a44",
+
+    jwt:{
+        ACCESS_SECRET_KEY:process.env.ACCESS_TOKEN_SECRET || "access-secret-key",
+        ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN || "15m",
+        REFRESH_SECRET_KEY:process.env.REFRESH_TOKEN_SECRET || "refresh-scret-key",
+		REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN || "7d",
+    },
     node_env:process.env.NODE_ENV || "development",
     cloudinary:{
          cloud_name: process.env.CLOUD_NAME,

@@ -70,7 +70,7 @@ export class AdminMentorController implements IAdminMentorController{
         const mentorId:string = req.params.mentorId
         const applicationStatus:string = req.params.applicationStatus;
         const email:string = req.body.email;
-        const reason:string=req.body.reason
+        const reason:string = req.body.reason;
 
         if(applicationStatus===MENTOR_APPLICATION_STATUS.ACCEPTED){
             await this._acceptMentorApplicationUsecase.execute(mentorId,email)

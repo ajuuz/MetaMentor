@@ -7,7 +7,6 @@ import { StudentRepository } from "interfaceAdapters/repositories/student.reposi
 import { MentorRepository } from "interfaceAdapters/repositories/mentor.repository";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 
-@injectable()
 export class RepositoryRegistry{
     static registerRepositories():void{
 

@@ -40,7 +40,6 @@ export class AuthController implements IAuthController{
             res.status(201).json({success:true,message:"user verified Successfully"})
         }
         catch(error){
-            console.log("here")
             next(error)
         }
     }
@@ -52,10 +51,8 @@ export class AuthController implements IAuthController{
 
             const details:loginResponseDTO = await this._LoginUsecase.execute(email,password);
             const {accessToken,refreshToken,...rest} = details
-            const accessTokenCookieName=`userAccessToken`;
-            const refreshTokenCookieName=`userRefreshToken`;
             
-            setCookie(res,accessTokenCookieName,accessToken,refreshTokenCookieName,refreshToken);
+            setCookie(res,accessToken,refreshToken);
             res.status(200).json({success:true,message:"user logged in successfully",data:rest})
         }catch(error){
             next(error)

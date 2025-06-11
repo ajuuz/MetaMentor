@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { getAllMentors, updateMentorStatus } from "@/services/adminService.ts/mentorApi"
-import type { MentorTableDetailsType } from "@/types/tableDataTypes"
+import type { TableDetailsType } from "@/types/tableDataTypes"
 import { useMutation } from "@tanstack/react-query"
 import { useEffect, useState, type ReactNode } from "react"
 import { useNavigate } from "react-router-dom"
@@ -13,7 +13,7 @@ type Prop={
     isVerified:boolean,
     children: (
         tableHeaders:string[],
-        mentors: MentorTableDetailsType[],
+        mentors: TableDetailsType[],
         currentPage: number,
         setCurrentPage:React.Dispatch<React.SetStateAction<number>>,
         totalPage: number
@@ -21,7 +21,7 @@ type Prop={
 }
 
 const ManageMentorWrapper = ({isVerified,children}:Prop) => {
-     const [mentors,setMentors] = useState<MentorTableDetailsType[]>([])
+     const [mentors,setMentors] = useState<TableDetailsType[]>([])
       const [currentPage,setCurrentPage] = useState<number>(1);
       const [totalPage,setTotalPages] = useState<number>(0)
 

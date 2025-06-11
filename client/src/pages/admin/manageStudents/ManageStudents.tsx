@@ -14,12 +14,12 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch"
 import PaginationComponent from '@/components/common/PaginationComponent';
 import { toast } from 'sonner';
-import type { StudentTableDetailsType } from '@/types/tableDataTypes';
+import type {  TableDetailsType } from '@/types/tableDataTypes';
 
 
 const ManageStudents = () => {
 
-    const [students,setStudents] = useState<StudentTableDetailsType[]>([]);
+    const [students,setStudents] = useState<TableDetailsType[]>([]);
 
     const [totalPages,setTotalPages] = useState<number>(0)
     const [currentPage,setCurrentPage] = useState<number>(1)
@@ -41,7 +41,7 @@ const ManageStudents = () => {
             const {students,totalPages} = response.data;
             setTotalPages(totalPages);
 
-            const transformedDetails:StudentTableDetailsType[]=students.map((student)=>{
+            const transformedDetails:TableDetailsType[]=students.map((student)=>{
                 return {id:student.userId,
                     content:[
                     student.name,
@@ -85,7 +85,7 @@ const ManageStudents = () => {
 
     const tableHeaders=["Student Name","Number","Country","Review Count","Status","Action","Point"]
   return (
-    <div className="container mx-auto">
+    <div className="mx-5">
       <TableComponent tableHeaders={tableHeaders} tableBody={students}/>
       <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}/>
     </div>

@@ -14,7 +14,7 @@ const ManageMentors = ({tableHeaders,mentors,currentPage,setCurrentPage,totalPag
 
   return (
     <div className="mx-5">
-      <TableComponent tableHeaders={tableHeaders} tableBody={mentors}/>
+      <TableComponent   tableHeaders={tableHeaders} tableBody={mentors}/>
       <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPage}/>
     </div>
   )

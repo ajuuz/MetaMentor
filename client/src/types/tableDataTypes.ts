@@ -9,3 +9,9 @@ export type  MentorTableDetailsType={
     id:string,
     content:(number|string|ReactNode)[],
 }
+
+
+export type TableDetailsType={
+     id:string,
+    content:(number|string|ReactNode)[],
+}

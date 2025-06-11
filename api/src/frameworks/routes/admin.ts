@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { adminMentorController, adminStudentController } from "frameworks/di/resolver";
+import { adminMentorController, adminStudentController, authMiddleware } from "frameworks/di/resolver";
+import { ROLES } from "shared/constants";
 
 export class AdminRoutes{
 
@@ -17,7 +18,7 @@ export class AdminRoutes{
         this._router.patch('/students/:userId',adminStudentController.updateStudentStatus.bind(adminStudentController))
 
         //mentor
-        this._router.get('/mentors',adminMentorController.getAllMentors.bind(adminMentorController))
+        this._router.get('/mentors',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminMentorController.getAllMentors.bind(adminMentorController))
         this._router.get('/mentors/:mentorId',adminMentorController.getSpecificMentor.bind(adminMentorController))
         this._router.patch('/mentors/:mentorId/:applicationStatus',adminMentorController.mentorApplicationVerification.bind(adminMentorController))
         this._router.patch('/mentors/:mentorId',adminMentorController.updateMentorStatus.bind(adminMentorController))

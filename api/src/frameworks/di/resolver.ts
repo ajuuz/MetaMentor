@@ -1,10 +1,8 @@
 import {AuthController} from "interfaceAdapters/controllers/auth/auth.controller";
 import { container } from "tsyringe";
 import { DependencyInjection } from ".";
-
 import { IAuthController } from "entities/controllerInterfaces/user/auth-controller.interface";
 import { ErrorMiddleware } from "interfaceAdapters/middlewares/error.middleware";
-
 import { IStudentController as IAdminStudentController } from "entities/controllerInterfaces/admin/student-controller.interface";
 import { StudentController as AdminStudentController} from "interfaceAdapters/controllers/admin/studentController";
 import { ICommonController } from "entities/controllerInterfaces/common/commonController.interface";
@@ -13,6 +11,9 @@ import { IMentorController } from "entities/controllerInterfaces/mentor/register
 import { MentorController } from "interfaceAdapters/controllers/mentor/mentorController";
 import { IAdminMentorController } from "entities/controllerInterfaces/admin/adminMentorController.interface";
 import { AdminMentorController } from "interfaceAdapters/controllers/admin/mentorController";
+import { IErrorMiddleware } from "entities/middlewareInterfaces/error-middleware.interface";
+import { IAuthMiddleware } from "entities/middlewareInterfaces/authMiddleware.interface";
+import { AuthMiddleware } from "interfaceAdapters/middlewares/auth.middleware";
 
 DependencyInjection.registerAll()
 
@@ -30,5 +31,8 @@ export const commonController = container.resolve<ICommonController>(CommonContr
 //MentorController
 export const mentorController = container.resolve<IMentorController>(MentorController)
 
+
+
 //middleware
-export const errorMiddleware = container.resolve(ErrorMiddleware)
+export const errorMiddleware = container.resolve<IErrorMiddleware>(ErrorMiddleware)
+export const authMiddleware = container.resolve<IAuthMiddleware>(AuthMiddleware)

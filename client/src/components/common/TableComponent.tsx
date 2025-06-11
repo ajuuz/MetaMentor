@@ -24,7 +24,7 @@ const TableComponent = ({tableHeaders,tableBody}:Prop) => {
       <TableBody>
         {
           tableBody.map(row=>(
-              <TableRow className="text-center">
+              <TableRow  className="text-center">
                   {row.content.map((data:any)=>(
                       <TableCell>{data}</TableCell>
                   ))}

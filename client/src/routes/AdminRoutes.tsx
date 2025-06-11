@@ -16,13 +16,13 @@ const AdminRoutes = () => {
 
       <Route path='/mentors/application' element={<ManageMentorWrapper isVerified={false}>
                                                     {(tableHeaders,mentors,currentPage,setCurrentPage, totalPage) => (
-                                                     <ManageMentors tableHeaders={tableHeaders} mentors={mentors}  currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage}/>
+                                                     <ManageMentors  tableHeaders={tableHeaders} mentors={mentors}  currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage}/>
                                                     )}
                                                   </ManageMentorWrapper>}/>
 
       <Route path='/mentors' element={<ManageMentorWrapper isVerified={true}>
                                          {(tableHeaders,mentors,currentPage,setCurrentPage, totalPage) => (
-                                          <ManageMentors tableHeaders={tableHeaders} mentors={mentors}  currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage}/>
+                                          <ManageMentors  tableHeaders={tableHeaders} mentors={mentors}  currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage}/>
                                          )}
                                        </ManageMentorWrapper>}/>
 
