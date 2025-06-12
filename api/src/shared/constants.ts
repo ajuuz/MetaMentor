@@ -29,7 +29,7 @@ export const ERROR_MESSAGE={
   UNAUTHORIZED_ACCESS_NOT_LOGIN:"Unauthorized access. You have'nt Logged in",
   UNAUTHORIZED_ACCESS:"Unauthorized access.",
   INVALID_TOKEN:"Access Denied due to Invalid token",
-  TOKEN_EXPIRED_ACCESS:"Token time out",
+  TOKEN_EXPIRED_ACCESS:"Access Token time out",
   TOKEN_EXPIRED_REFRESH:"Token time out, Please loggin again",
   SERVER_ERROR:"An error occurred, please try again later.",
 }

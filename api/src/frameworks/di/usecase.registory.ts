@@ -29,6 +29,8 @@ import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/up
 import { UpdateMentorStatusUsecase } from "useCases/mentor/updateMentorStatus.usecase";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { TokenService } from "interfaceAdapters/services/token.service";
+import { ITokenRefreshingUsecase } from "entities/usecaseInterfaces/auth/tokenRefreshing.interface";
+import { TokenRefreshingUsecase } from "useCases/auth/tokenRefreshing.usecase";
 
 export class UseCaseRegistory{
     static registerUsecases():void{
@@ -44,6 +46,10 @@ export class UseCaseRegistory{
 
         container.register<ILoginUsecase>('ILoginUsecase',{
             useClass:LoginUsecase
+        })
+
+        container.register<ITokenRefreshingUsecase>('ITokenRefreshingUsecase',{
+            useClass:TokenRefreshingUsecase
         })
 
 

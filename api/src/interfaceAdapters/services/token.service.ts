@@ -40,13 +40,28 @@ export class TokenService implements ITokenService{
     verifyAccessToken(token:string):JwtPayload{
         try{
             const decode = jwt.verify(token,this._accessSecretKey);
-            console.log(decode)
             return decode as JwtPayload
         }
         catch(error:unknown){
              if(error instanceof Error){
                     if(error.name==="TokenExpiredError"){
                         throw new CustomError(HTTP_STATUS.UNAUTHORIZED,ERROR_MESSAGE.TOKEN_EXPIRED_ACCESS)
+                    }else if(error.name==="JsonWebTokenError"){
+                        throw new CustomError(HTTP_STATUS.UNAUTHORIZED,ERROR_MESSAGE.INVALID_TOKEN)
+                    }
+                }
+            throw new CustomError(HTTP_STATUS.UNAUTHORIZED,ERROR_MESSAGE.UNAUTHORIZED_ACCESS)
+        }
+    }
+
+    verifyRefreshToken(token:string):JwtPayload{
+        try{
+            const decode = jwt.verify(token,this._refreshSecretKey);
+            return decode as JwtPayload
+        }catch(error){
+            if(error instanceof Error){
+                    if(error.name==="TokenExpiredError"){
+                        throw new CustomError(HTTP_STATUS.UNAUTHORIZED,ERROR_MESSAGE.TOKEN_EXPIRED_REFRESH)
                     }else if(error.name==="JsonWebTokenError"){
                         throw new CustomError(HTTP_STATUS.UNAUTHORIZED,ERROR_MESSAGE.INVALID_TOKEN)
                     }

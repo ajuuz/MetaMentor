@@ -22,6 +22,8 @@ export class AuthRoutes {
         this._router.post('/login',(req:Request,res:Response,next:NextFunction)=>{
             authController.login(req,res,next)
         })
+
+        this._router.post('/refresh',authController.tokenRefreshing.bind(authController))
     }
 
     public getRouter(): Router {

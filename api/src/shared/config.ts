@@ -21,7 +21,7 @@ export const config={
 
     jwt:{
         ACCESS_SECRET_KEY:process.env.ACCESS_TOKEN_SECRET || "access-secret-key",
-        ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN || "15m",
+        ACCESS_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN || "1m",
         REFRESH_SECRET_KEY:process.env.REFRESH_TOKEN_SECRET || "refresh-scret-key",
 		REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN || "7d",
     },
