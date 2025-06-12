@@ -1,11 +1,14 @@
 import MentorDetailsManage from "@/pages/common/mentorDetailsManage/MentorDetailsManage"
 import { Route, Routes } from "react-router-dom"
-import MentorApplicationProctedRoute from "./protectedRoutes/MentorApplicationProctedRoute"
+import ProtectedRoute from "./protectedRoutes/ProtectedRoute"
 
 const MentorRoutes = () => {
   return (
    <Routes>
-    <Route path='/register' element={<MentorApplicationProctedRoute><MentorDetailsManage/></MentorApplicationProctedRoute>}/>
+      <Route element={<ProtectedRoute allowedRoles={['user']} navitageTo="/admin/dashboard"/>}>
+    <Route path='/register' element={<MentorDetailsManage/>}/>
+      </Route>
+
    </Routes>
   )
 }

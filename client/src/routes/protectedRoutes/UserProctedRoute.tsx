@@ -8,6 +8,7 @@ type Prop={
 }
 export const UserPrivate = ({children}:Prop) => {
     const user:UserType | null= useUserStore(state=>state.user)
+    
     if(!user || user.role!=='user'){
         return <Navigate to="/"/>
     }
