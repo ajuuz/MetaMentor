@@ -33,7 +33,8 @@ export const login = async ({email,password}:{email:string,password:string}):Pro
 
 // export const getLoggedInUserDetails=async()=>{
 //     try{
-//         // const response = await userAxiosInstance.get('/getLoggedUser')
+//         const response = await authAxiosInstance.get('/getLoggedInUser')
+//         return response.data;
 //     }
 //     catch(error:any){
 //         throw error?.response.data || error

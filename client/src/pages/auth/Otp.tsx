@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { verifyOtp } from "@/services/authService.ts/authApi";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -27,7 +27,9 @@ const Otp = () => {
         }
     })
     
-    const {email} = location.state;
+    const email:string = location?.state?.email
+    console.log(email)
+    if(!email) return <Navigate to="/"/>
 
     const handleOtpSubmit=async()=>{
         mutation.mutate({email,otp})

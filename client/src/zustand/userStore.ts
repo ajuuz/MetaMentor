@@ -23,3 +23,13 @@ export const useUserStore = create<UserStoreType>((set)=>({
         localStorage.removeItem('user')
     },
 }))
+
+
+// const getUser=async()=>{
+//     try{
+//         const response = await getLoggedInUserDetails()
+//         return response.data;
+//     }catch(error){
+//         console.log(error)
+//     }
+// }

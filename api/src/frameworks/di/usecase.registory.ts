@@ -1,7 +1,5 @@
-import { IEmailService } from "entities/serviceInterfaces/email-service.interface";
-import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
-import { EmailService } from "interfaceAdapters/services/email.service";
 import { container } from "tsyringe";
+import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
 import { RegisterUserUsecase } from "useCases/auth/registerUser.usecase";
 import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
 import { LoginUsecase } from "useCases/auth/login.usecase";
@@ -27,10 +25,10 @@ import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/ment
 import { RejectMentorApplicationUsecase } from "useCases/mentor/rejectMentorApplication.usecase";
 import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/updateMentorStatusUsecase.interface";
 import { UpdateMentorStatusUsecase } from "useCases/mentor/updateMentorStatus.usecase";
-import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
-import { TokenService } from "interfaceAdapters/services/token.service";
 import { ITokenRefreshingUsecase } from "entities/usecaseInterfaces/auth/tokenRefreshing.interface";
 import { TokenRefreshingUsecase } from "useCases/auth/tokenRefreshing.usecase";
+// import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
+// import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
 export class UseCaseRegistory{
     static registerUsecases():void{
@@ -51,6 +49,10 @@ export class UseCaseRegistory{
         container.register<ITokenRefreshingUsecase>('ITokenRefreshingUsecase',{
             useClass:TokenRefreshingUsecase
         })
+
+        // container.register<IGetLoggedInUserUsecase>('IGetLoggedInUserUsecase',{
+        //     useClass:GetLoggedInUserUsecase
+        // })
 
 
         //student usecases
