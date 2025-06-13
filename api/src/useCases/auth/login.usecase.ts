@@ -2,10 +2,13 @@ import { IUserRespository } from "entities/repositoryInterfaces/user-repository.
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
 import { TokenService } from "interfaceAdapters/services/token.service";
+import { ROLES } from "shared/constants";
 import { loginResponseDTO } from "shared/dto/authDTO";
+import { comparePassword } from "shared/utils/bcryptHelper";
 import { CustomError } from "shared/utils/error/customError";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { ValidationError } from "shared/utils/error/validationError";
+import { successResponseHandler } from "shared/utils/successResponseHandler";
 import { inject, injectable } from "tsyringe";
 
 
@@ -26,13 +29,24 @@ export class LoginUsecase implements ILoginUsecase{
                 throw new ValidationError("insufficient data");
             }
     
-            const user = await this._userRepository.findByEmailAndPassword(email,password);
+            const user = await this._userRepository.findByEmail(email);
             if(!user){
                 throw new NotFoundError("Signup first to login");
             }
-    
-            if(!user.isVerified){
-                throw new CustomError(401,"Verify otp to create account")
+            
+            const userPassword = user.password;
+            const isMatch =await comparePassword(password,userPassword)
+            if(!isMatch){
+                throw new NotFoundError("Invalid Credential");
+            }
+
+            if(user.role!==ROLES.ADMIN){
+
+                if(!user.isVerified){
+                    throw new CustomError(401,"Verify otp to create account")
+                }
+
+                
             }
     
             // if(user.isBlocked){

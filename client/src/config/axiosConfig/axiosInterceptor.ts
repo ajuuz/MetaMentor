@@ -22,6 +22,10 @@ export function setUpInterceptors(instance: AxiosInstance) {
                 return Promise.reject(error)
             }
         }
+
+        if(error.response?.status===403){
+          logout()
+        }
         
       return  Promise.reject(error)
     }

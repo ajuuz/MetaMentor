@@ -32,6 +32,7 @@ export const ERROR_MESSAGE={
   TOKEN_EXPIRED_ACCESS:"Access Token time out",
   TOKEN_EXPIRED_REFRESH:"Token time out, Please loggin again",
   SERVER_ERROR:"An error occurred, please try again later.",
+  BLOCKED_ERROR:"You are blocked by Admin. please contact admin",
 }
 
 export enum MENTOR_APPLICATION_STATUS{

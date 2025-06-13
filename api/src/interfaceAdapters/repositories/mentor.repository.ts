@@ -1,3 +1,4 @@
+import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { mentorDB } from "frameworks/database/models/mentor.model";
 import { Types } from "mongoose";
@@ -77,5 +78,10 @@ export class MentorRepository implements IMentorRepository{
 
     async updateOne(filter:Partial<MentorUpdateDTO.filter>,update:Partial<MentorUpdateDTO.update>):Promise<void>{
         await mentorDB.updateOne(filter,update)
+    }
+
+    async getStatus(userId:string):Promise<IMentorEntity|null>{
+        const user=await mentorDB.findOne({userId})
+        return user;
     }
 }

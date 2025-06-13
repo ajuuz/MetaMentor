@@ -22,3 +22,8 @@ export const setAccessCookie = (res: Response, accessToken: string) => {
     secure: isProduction,
   });
 };
+
+export const clearCookies=(res:Response)=>{
+    res.clearCookie('accessToken')
+    res.clearCookie('refreshToken')
+}

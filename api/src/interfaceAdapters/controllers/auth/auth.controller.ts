@@ -7,7 +7,7 @@ import { IVerifyOtpUsecase } from "entities/usecaseInterfaces/auth/verifyOtpUsec
 import { NextFunction, Request, Response } from "express";
 // import { JwtPayload } from "jsonwebtoken";
 import { loginResponseDTO, SignupRequestDto } from "shared/dto/authDTO";
-import { setAccessCookie, setCookie } from "shared/utils/cookie/cookeHelper";
+import { setAccessCookie, setCookie } from "shared/utils/cookeHelper";
 import { ISuccessResponseHandler } from "shared/utils/successResponseHandler";
 import { inject, injectable } from "tsyringe";
 

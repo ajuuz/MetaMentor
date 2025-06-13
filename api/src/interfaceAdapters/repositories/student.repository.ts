@@ -1,3 +1,4 @@
+import { IStudentEntity } from "entities/modelEntities/student-model.entity";
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
 import { studentDB } from "frameworks/database/models/student.model";
 import { ObjectId } from "mongoose";
@@ -55,6 +56,11 @@ export class StudentRepository implements IStudentRepository{
         return update.modifiedCount
     }
 
-
+     async getStatus(userId:string):Promise<IStudentEntity|null>{
+        console.log(userId)
+        const user=await studentDB.findOne({userId})
+        console.log(user)
+        return user;
+    }
     
 }

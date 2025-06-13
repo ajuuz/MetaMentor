@@ -19,9 +19,7 @@ export class AuthRoutes {
             authController.verifyOtp(req,res,next)
         });
 
-        this._router.post('/login',(req:Request,res:Response,next:NextFunction)=>{
-            authController.login(req,res,next)
-        })
+        this._router.post('/login',authController.login.bind(authController))
 
         this._router.post('/refresh',authController.tokenRefreshing.bind(authController))
     }

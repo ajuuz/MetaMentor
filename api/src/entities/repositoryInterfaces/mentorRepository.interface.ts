@@ -1,3 +1,4 @@
+import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { GetAllMentorResponseDTO, MentorDataDTO, MentorReadFilterDTO, MentorRegisterRequestDTO, MentorUpdateDTO } from "shared/dto/mentorDTO";
 
 export interface IMentorRepository {
@@ -5,4 +6,5 @@ export interface IMentorRepository {
   register(userId:string,mentorDetails:MentorRegisterRequestDTO):Promise<void>
   find(filter: Partial<MentorReadFilterDTO>, skip: number, limit: number):Promise<Omit<Omit<GetAllMentorResponseDTO,"cv"|"experienceCirtificate">,'totalPages'>>
   updateOne(filter:Partial<MentorUpdateDTO.filter>,update:Partial<MentorUpdateDTO.update>):Promise<void>
+  getStatus(userId:string):Promise<IMentorEntity|null>
 }

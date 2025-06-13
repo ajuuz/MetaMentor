@@ -1,8 +1,11 @@
 import { IAuthMiddleware } from "entities/middlewareInterfaces/authMiddleware.interface";
+import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
+import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { ERROR_MESSAGE, HTTP_STATUS, ROLES } from "shared/constants";
+import { clearCookies } from "shared/utils/cookeHelper";
 import { AuthError } from "shared/utils/error/authError";
 import { inject, injectable } from "tsyringe";
 
@@ -19,7 +22,13 @@ export class AuthMiddleware implements IAuthMiddleware{
 
     constructor(
         @inject('ITokenService')
-        private _tokenService:ITokenService
+        private _tokenService:ITokenService,
+
+        @inject('IMentorRepository')
+        private _mentorRepository:IMentorRepository,
+
+        @inject('IStudentRepository')
+        private _studentRepository:IStudentRepository,
     ){}
 
     verifyAuth(req:Request,res:Response,next:NextFunction):void{
@@ -31,7 +40,7 @@ export class AuthMiddleware implements IAuthMiddleware{
                 
                 const user:JwtPayload=this._tokenService.verifyAccessToken(accessToken);
                 (req as ModifiedRequest).user={
-                    id:user._id,
+                    id:user.id,
                     role:user.role
                 }
                 next()
@@ -49,5 +58,38 @@ export class AuthMiddleware implements IAuthMiddleware{
             }
             next()
         }
+    }
+
+
+
+    private async _checkStatus(id:string,role:ROLES.MENTOR|ROLES.USER):Promise<boolean>{
+
+         const repo={
+            mentor:this._mentorRepository,
+            user:this._studentRepository
+        }[role]
+        const user=await repo.getStatus(id)
+        console.log(user)
+        if(!user) throw new AuthError(HTTP_STATUS.NOT_FOUND,"User not found");
+
+        return user.isBlocked;
+    }
+
+
+    async blockChecker(req:Request,res:Response,next:NextFunction):Promise<void>{
+        const modReq= req as ModifiedRequest;
+        console.log(modReq.user)
+        if(!modReq.user) throw new AuthError(HTTP_STATUS.UNAUTHORIZED,ERROR_MESSAGE.UNAUTHORIZED_ACCESS_NOT_LOGIN);
+
+        const role=modReq.user.role;
+        const userId=modReq.user.id
+        const status=await this._checkStatus(userId,role as (ROLES.MENTOR|ROLES.USER))
+        console.log("isblocked ",status)
+        if(status){
+            clearCookies(res)
+            throw new AuthError(HTTP_STATUS.FORBIDDEN,ERROR_MESSAGE.BLOCKED_ERROR)
+        }
+
+        next()
     }
 }

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { upload } from "frameworks/cloudinary/cloudinary";
-import { commonController } from "frameworks/di/resolver";
+import { authMiddleware, commonController } from "frameworks/di/resolver";
+import { ROLES } from "shared/constants";
 
 interface MulterRequest extends Request{
     files: Express.Multer.File[];
@@ -17,9 +18,11 @@ export class CommonRoutes{
     }
 
     configureRoutes():void{
-        this._router.post('/images/upload',upload.array("image",5),(req:Request,res:Response,next:NextFunction) => {
-        commonController.uploadImage(req as MulterRequest,res,next)
-        });
+        this._router.post('/images/upload',
+            authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER]),
+            authMiddleware.blockChecker.bind(authMiddleware),
+            upload.array("image",5),
+            (req:Request,res:Response,next:NextFunction) => {commonController.uploadImage(req as MulterRequest,res,next)});
     }
 
     getRouter():Router{

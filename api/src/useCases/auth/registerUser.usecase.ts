@@ -11,6 +11,7 @@ import {
 } from "shared/utils/successResponseHandler";
 import { CustomError } from "shared/utils/error/customError";
 import { HTTP_STATUS } from "shared/constants";
+import { hashPassword } from "shared/utils/bcryptHelper";
 
 @injectable()
 export class RegisterUserUsecase implements IRegisterUserUsecase {
@@ -68,6 +69,9 @@ export class RegisterUserUsecase implements IRegisterUserUsecase {
     );
 
     if (!userExists) {
+      const password = formData.password;
+      const hashedPassword = await hashPassword(password);
+      formData.password=hashedPassword
       asyncOperations.push(this._userRepository.createUser(formData));
     }
     await Promise.all(asyncOperations);

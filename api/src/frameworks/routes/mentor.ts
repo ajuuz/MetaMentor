@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { upload } from "frameworks/cloudinary/cloudinary";
-import { commonController, mentorController } from "frameworks/di/resolver";
+import { authMiddleware, commonController, mentorController } from "frameworks/di/resolver";
+import { ROLES } from "shared/constants";
 
 export class MentorRoutes{
 
@@ -13,7 +14,11 @@ export class MentorRoutes{
     
     
         private configureRoutes():void{
-            this._router.post('/register',mentorController.registerForm.bind(mentorController))
+            this._router.post('/register',
+                authMiddleware.verifyAuth.bind(authMiddleware),
+                authMiddleware.verifyAuthRole([ROLES.USER]),
+                authMiddleware.blockChecker.bind(authMiddleware),
+                mentorController.registerForm.bind(mentorController))
         }
     
         getRouter():Router{
