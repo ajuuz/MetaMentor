@@ -1,7 +1,9 @@
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { IEmailService } from "entities/serviceInterfaces/email-service.interface";
 import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
+import { EVENT_EMITTER_TYPE } from "shared/constants";
 import { MentorUpdateDTO } from "shared/dto/mentorDTO";
+import { eventBus } from "shared/eventBus";
 import { inject, injectable } from "tsyringe";
 
 
@@ -17,10 +19,10 @@ export class RejectMentorApplicationUsecase implements IRejectMentorApplicationU
     ){}
     async execute(mentorId:string,email:string,reason:string):Promise<void>{
 
-        const asyncOperations=[];
         const filter:Pick<MentorUpdateDTO.filter,"userId">={userId:mentorId}
         const update:Pick<MentorUpdateDTO.update,"isRejected">={isRejected:true}
-        asyncOperations.push(this._mentorRepository.updateOne(filter,update))
+
+        await this._mentorRepository.updateOne(filter,update)
 
         const html=`
                      <div style="max-width: 500px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #e0e0e0; border-radius: 10px; padding: 30px; background-color: #fff9f9; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
@@ -44,7 +46,6 @@ export class RejectMentorApplicationUsecase implements IRejectMentorApplicationU
                       <p style="font-size: 14px; color: #aaa; text-align: center; margin-top: 40px;">— The Meta Mentor Team</p>
                      </div>
                     `
-        asyncOperations.push(this._emailService.sendMail(email,"Application Rejected",html))
-        await Promise.all(asyncOperations)
+        eventBus.emit(EVENT_EMITTER_TYPE.SENDMAIL,email,"Application Rejected",html)
     }
 }

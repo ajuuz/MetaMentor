@@ -10,5 +10,6 @@ export interface IUserEntity{
     password:string,
     createdAt:Date,
     role:ROLES,
+    isBlocked:boolean,
     isVerified:boolean
 }

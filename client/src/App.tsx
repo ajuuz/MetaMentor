@@ -15,7 +15,7 @@ const App = () => {
     <div >
       <Router>
       <Toaster position="bottom-center"  richColors toastOptions={{style: {flex:"flex",justifyContent:"center"}}}/> 
-      <Suspense fallback={  <div className="min-h-screen w-full pl-[10%] flex flex-col justify-center "><Skeleton count={8} height={70} style={{ width: '90%', margin: 'auto auto', borderRadius: '10px' }}/></div>}>
+      <Suspense fallback={<div className="min-h-screen w-full pl-[10%] flex flex-col justify-center "><Skeleton count={8} height={70} style={{ width: '90%', margin: 'auto auto', borderRadius: '10px' }}/></div>}>
         <Routes>
           <Route path='/*' element={<UserRoutes />} />
           <Route path='/admin/*' element={<AdminRoutes />} />

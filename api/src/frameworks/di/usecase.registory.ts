@@ -27,6 +27,8 @@ import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/up
 import { UpdateMentorStatusUsecase } from "useCases/mentor/updateMentorStatus.usecase";
 import { ITokenRefreshingUsecase } from "entities/usecaseInterfaces/auth/tokenRefreshing.interface";
 import { TokenRefreshingUsecase } from "useCases/auth/tokenRefreshing.usecase";
+import { IResendOtpUsecase } from "entities/usecaseInterfaces/auth/resendOtpUsecase.interface";
+import { ResendOtpUsecase } from "useCases/auth/resendOtp.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -40,6 +42,10 @@ export class UseCaseRegistory{
 
         container.register<IVerifyOtpUsecase>('IVerifyOtpUsecase',{
             useClass:VerifyOtpUsecase
+        })
+
+        container.register<IResendOtpUsecase>('IResendOtpUsecase',{
+            useClass:ResendOtpUsecase
         })
 
         container.register<ILoginUsecase>('ILoginUsecase',{

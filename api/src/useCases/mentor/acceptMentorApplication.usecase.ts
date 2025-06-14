@@ -2,7 +2,8 @@ import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepositor
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IEmailService } from "entities/serviceInterfaces/email-service.interface";
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
-import { ROLES } from "shared/constants";
+import { EVENT_EMITTER_TYPE, ROLES } from "shared/constants";
+import { eventBus } from "shared/eventBus";
 import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
 
@@ -33,6 +34,8 @@ export class AcceptMentorApplicationUsecase implements IAcceptMentorApplicationU
 
         asyncOperations.push(this._mentorRepository.updateOne(mentorFilter,mentorUpdate))
 
+        await Promise.all(asyncOperations)
+
         const html = `<div style="max-width: 500px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #e0e0e0; border-radius: 10px; padding: 30px; background-color: #f9f9f9; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
                          <h2 style="text-align: center; color: #333;">🎉 Welcome Aboard, Mentor!</h2>
                          <p style="font-size: 16px; color: #555;">Dear Mentor,</p>
@@ -53,7 +56,7 @@ export class AcceptMentorApplicationUsecase implements IAcceptMentorApplicationU
                          <p style="font-size: 14px; color: #aaa; text-align: center; margin-top: 40px;">— The Meta Mentor Team</p>
                     </div>`
         
-        asyncOperations.push(this._emailService.sendMail(email,'accepted Application',html))        
-        await Promise.all(asyncOperations)
+
+        eventBus.emit(EVENT_EMITTER_TYPE.SENDMAIL,email,"Accepted Application",html)
     }
 }

@@ -10,8 +10,9 @@ import {
   successResponseHandler,
 } from "shared/utils/successResponseHandler";
 import { CustomError } from "shared/utils/error/customError";
-import { HTTP_STATUS } from "shared/constants";
+import { EVENT_EMITTER_TYPE, HTTP_STATUS } from "shared/constants";
 import { hashPassword } from "shared/utils/bcryptHelper";
+import { eventBus } from "shared/eventBus";
 
 @injectable()
 export class RegisterUserUsecase implements IRegisterUserUsecase {
@@ -64,9 +65,6 @@ export class RegisterUserUsecase implements IRegisterUserUsecase {
               </div>
             `;
 
-    asyncOperations.push(
-      this._emailService.sendMail(formData.email, "Account creation", html)
-    );
 
     if (!userExists) {
       const password = formData.password;
@@ -75,6 +73,7 @@ export class RegisterUserUsecase implements IRegisterUserUsecase {
       asyncOperations.push(this._userRepository.createUser(formData));
     }
     await Promise.all(asyncOperations);
+    eventBus.emit(EVENT_EMITTER_TYPE.SENDMAIL,formData.email,"Account creation",html)
 
     return userExists
       ? successResponseHandler(

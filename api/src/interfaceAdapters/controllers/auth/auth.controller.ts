@@ -2,12 +2,13 @@ import { IAuthController } from "entities/controllerInterfaces/user/auth-control
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
 import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
+import { IResendOtpUsecase } from "entities/usecaseInterfaces/auth/resendOtpUsecase.interface";
 import { ITokenRefreshingUsecase } from "entities/usecaseInterfaces/auth/tokenRefreshing.interface";
 import { IVerifyOtpUsecase } from "entities/usecaseInterfaces/auth/verifyOtpUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 // import { JwtPayload } from "jsonwebtoken";
 import { loginResponseDTO, SignupRequestDto } from "shared/dto/authDTO";
-import { setAccessCookie, setCookie } from "shared/utils/cookeHelper";
+import { setAccessCookie, setCookie } from "shared/utils/cookeHelper"
 import { ISuccessResponseHandler } from "shared/utils/successResponseHandler";
 import { inject, injectable } from "tsyringe";
 
@@ -27,9 +28,12 @@ export class AuthController implements IAuthController{
 
         // @inject('IGetLoggedInUserUsecase')
         // private _getLoggedInUserUsecase:IGetLoggedInUserUsecase,
+        
+        @inject('IResendOtpUsecase')
+        private _resendOtpUsecase:IResendOtpUsecase,
 
         @inject("ITokenRefreshingUsecase")
-        private _tokenRefreshingUsecase:ITokenRefreshingUsecase
+        private _tokenRefreshingUsecase:ITokenRefreshingUsecase,
     ){}
     
     async signup(req: Request, res: Response,next:NextFunction): Promise<void> {
@@ -52,6 +56,8 @@ export class AuthController implements IAuthController{
             next(error)
         }
     }
+
+   
 
     async login(req:Request,res:Response,next:NextFunction):Promise<void>{
 
@@ -79,10 +85,18 @@ export class AuthController implements IAuthController{
 
     // }
 
+     async resendOtp(req:Request,res:Response,next:NextFunction):Promise<void>{
+        const {email} = req.body;
+        await this._resendOtpUsecase.execute(email)
+        res.status(200).json({success:true,message:"otp has been resended successfully"})
+    }
+
     async tokenRefreshing(req:Request,res:Response,next:NextFunction):Promise<void>{
         const refreshToken = req.cookies.refreshToken;
         const accessToken=this._tokenRefreshingUsecase.execute(refreshToken)
         setAccessCookie(res,accessToken)
         res.status(200).json({success:true,message:"token refreshed successfully"})
     }
+
+    
 }

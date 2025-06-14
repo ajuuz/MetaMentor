@@ -9,7 +9,7 @@ export class OtpRepository implements IOtpRespository {
 
     public async saveOtp(email: string, otp: string): Promise<void> {
         const redisClient =await RedisClient.connectRedis()
-        await redisClient.setEx(`${email}`,300,otp)
+        await redisClient.setEx(`${email}`,100,otp)
     }
     
     public async getOtp(email: string):Promise<string|null>{

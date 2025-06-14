@@ -34,6 +34,10 @@ export const userSchema = new mongoose.Schema<IUserModel>({
         enum:Object.values(ROLES),
         default:ROLES.USER
     },
+    isBlocked:{
+        type:Boolean,
+        default:false
+    },
     isVerified:{
         type:Boolean,
         default:false

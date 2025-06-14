@@ -14,7 +14,16 @@ export const signup = async (formData:Omit<AuthFormType , "confirmPwd">):Promise
 
 export const verifyOtp = async ({email,otp}:{email:string,otp:string}):Promise<Omit<ApiResponseType<undefined>,'data'>> => {
     try{
-        const response = await authAxiosInstance.post('/verifyOtp', {email,otp});
+        const response = await authAxiosInstance.post('/otp/verify', {email,otp});
+        return response.data;
+    }catch(error:any) {
+        throw error?.response.data || error
+    }
+}
+
+export const resendOtp = async(email:string):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+     try{
+        const response = await authAxiosInstance.post('/otp/resend',{email});
         return response.data;
     }catch(error:any) {
         throw error?.response.data || error

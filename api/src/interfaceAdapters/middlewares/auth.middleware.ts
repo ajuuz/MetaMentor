@@ -29,6 +29,7 @@ export class AuthMiddleware implements IAuthMiddleware{
 
         @inject('IStudentRepository')
         private _studentRepository:IStudentRepository,
+        
     ){}
 
     verifyAuth(req:Request,res:Response,next:NextFunction):void{

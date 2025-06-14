@@ -27,6 +27,7 @@ export class UserRepository implements IUserRespository{
         await userDB.updateOne(filter,update);
     }
 
+
     async findByEmailAndPassword(email:string,password:string):Promise<IUserModel | null>{
         const user = await userDB.findOne({email,password});
         return user;

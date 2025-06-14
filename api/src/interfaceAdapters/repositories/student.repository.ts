@@ -28,8 +28,8 @@ export class StudentRepository implements IStudentRepository{
                 }},
                 {$unwind:"$user"},
                 {$project:{
-                    isBlocked:1,
                     userId:1,
+                    isBlocked:1,
                     point:1,
                     isPremium:1,
                     premiumPlan:1,

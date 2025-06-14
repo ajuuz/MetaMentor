@@ -39,3 +39,8 @@ export enum MENTOR_APPLICATION_STATUS{
     ACCEPTED='accepted',
     REJECTED='rejected'
 }
+
+
+export enum EVENT_EMITTER_TYPE{
+    SENDMAIL='sendmail'
+}
