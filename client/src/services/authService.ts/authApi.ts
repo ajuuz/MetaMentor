@@ -8,7 +8,7 @@ export const signup = async (formData:Omit<AuthFormType , "confirmPwd">):Promise
         const response = await authAxiosInstance.post('/signup', formData);
         return response.data;
     }catch(error:any) {
-        throw error.response.data
+        throw error?.response.data || error
     }
 }
 
@@ -51,6 +51,23 @@ export const login = async ({email,password}:{email:string,password:string}):Pro
 // }
 
 
+export const forgotPasswordSendMail=async(email:string):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+    try{
+        const response = await authAxiosInstance.post('/forgotPassword/mail',{email})
+        return response.data;
+    }
+    catch(error:any){
+        throw error?.response.data || error
+    }
+}
 
-
+export const resetPassword=async({password,token}:{password:string,token:string}):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+    try{
+        const response = await authAxiosInstance.patch('/forgotPassword/reset',{password,token})
+        return response.data;
+    }
+    catch(error:any){
+        throw error?.response.data || error
+    }
+}
 

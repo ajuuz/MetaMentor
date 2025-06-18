@@ -7,10 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type { TableDetailsType } from "@/types/tableDataTypes";
+import type { ReactNode } from "react";
 
 type Prop = {
     tableHeaders:string[],
-    tableBody:any[]
+    tableBody:TableDetailsType[]
 }
 const TableComponent = ({tableHeaders,tableBody}:Prop) => {
   return (
@@ -24,9 +26,9 @@ const TableComponent = ({tableHeaders,tableBody}:Prop) => {
       <TableBody>
         {
           tableBody.map(row=>(
-              <TableRow  className="text-center">
-                  {row.content.map((data:any)=>(
-                      <TableCell>{data}</TableCell>
+              <TableRow key={row.id}  className="text-center">
+                  {row.content.map((data:(number|string|ReactNode),index:number)=>(
+                      <TableCell key={index}>{data}</TableCell>
                   ))}
           </TableRow>
           ))

@@ -12,14 +12,14 @@ import type { AuthFormErrorsType, AuthFormType } from '@/types/authTypes';
 
 //hooks
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 
 
 //utils
 import { toast } from 'sonner';
 import countries from 'world-countries';
-import { signupValidation } from '@/utils/validations/signupValidations';
+import { formDataValidation } from '@/utils/validations/formDataValidation';
 
 
 const Signup = () => {
@@ -67,7 +67,7 @@ const Signup = () => {
   const handleSubmit = async() => {
 
       const {country,gender,...rest} = formData;
-      const validationErrors = signupValidation(rest);
+      const validationErrors = formDataValidation(rest);
 
       if (Object.keys(validationErrors).length > 0) {
         setErrors(validationErrors);
@@ -142,7 +142,7 @@ const Signup = () => {
           </form>
           
           <Button disabled={mutation.isPending} onClick={handleSubmit} className='signupButton bg-[#E63946] text-white py-2 rounded-lg hover:bg-[#dc2f3c] transition-colors'>{mutation.isPending?<span className="loader"></span>:"Signup"}</Button>
-          <p className='text-center text-sm'>Already have an account? <a href="/login" className='text-[#E63946] hover:underline'>Login</a></p>
+          <p className='text-center text-sm'>Already have an account? <Link to="/login" className='text-[#E63946] hover:underline'>Login</Link></p>
         </div>
     </div>
   )

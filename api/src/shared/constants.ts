@@ -29,6 +29,7 @@ export const ERROR_MESSAGE={
   UNAUTHORIZED_ACCESS_NOT_LOGIN:"Unauthorized access. You have'nt Logged in",
   UNAUTHORIZED_ACCESS:"Unauthorized access.",
   INVALID_TOKEN:"Access Denied due to Invalid token",
+  TOKEN_EXPIRED_FORGOT:"Link Validity Expired. Try verify email once more",
   TOKEN_EXPIRED_ACCESS:"Access Token time out",
   TOKEN_EXPIRED_REFRESH:"Token time out, Please loggin again",
   SERVER_ERROR:"An error occurred, please try again later.",
@@ -43,4 +44,11 @@ export enum MENTOR_APPLICATION_STATUS{
 
 export enum EVENT_EMITTER_TYPE{
     SENDMAIL='sendmail'
+}
+
+export enum MAIL_CONTENT_PURPOSE{
+  OTP='otp',
+  MENTOR_ACCEPTANCE='mentorAcceptance',
+  MENTOR_REJECTION='mentorRejection',
+  FORGOT_PASSWORD='forgotPassword'
 }

@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label'
 import { login } from '@/services/authService.ts/authApi'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useUserStore } from '@/zustand/userStore';
 
@@ -56,10 +56,11 @@ const Login = () => {
             <div className='flex flex-col gap-2'>
             <Label htmlFor="password">Password</Label>
             <Input onChange={handleChange} type="password"  className='w-full' name='password'/>
+            <p onClick={()=>navigate('/forgotPassword/sendMail')} className='text-muted-foreground text-xs font-medium hover:underline cursor-pointer'>Forgot password?</p>
             </div>
           </form>
           <Button onClick={handleSubmit} className='bg-[#E63946] text-white py-2 rounded-lg hover:bg-[#dc2f3c] transition-colors'>Login</Button>
-          <p className='text-center text-sm'>Don't have an account? <a href="/signup" className='text-[#E63946] hover:underline'>Sign Up</a></p>
+          <p className='text-center text-sm'>Don't have an account? <Link to="/signup" className='text-[#E63946] hover:underline'>Sign Up</Link></p>
         </div>
     </div>
   )

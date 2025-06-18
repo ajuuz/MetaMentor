@@ -13,7 +13,7 @@ export function setUpInterceptors(instance: AxiosInstance) {
 
         if (error.response?.status === 401 && !originalRequest.url.includes('/auth/refresh') && !originalRequest._retry) {
             try{
-                console.log(error.response.status);
+                console.log("error in access token",error.response.status);
                 originalRequest._retry = true;
                 await instance.post(`${import.meta.env.VITE_API_USER_BASE_URL}/auth/refresh`)
                 return instance(originalRequest)

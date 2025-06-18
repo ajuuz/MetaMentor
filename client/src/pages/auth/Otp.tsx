@@ -20,8 +20,12 @@ const Otp = () => {
       return storedTimer ? parseInt(storedTimer) : 60
     });
 
-    const location = useLocation()
     const navigate = useNavigate();
+
+    const location = useLocation()
+    const email:string=location?.state?.email
+    if(!email) return <Navigate to="/"/>
+
     
     const {mutate:verifyOtpMutation,isPending:verifyOtpLoading} = useMutation({
         mutationFn:verifyOtp,
@@ -59,13 +63,15 @@ const Otp = () => {
         })
       },1000)
 
-      return ()=>clearInterval(timerInterval)
+      return ()=>{
+        clearInterval(timerInterval)
+        localStorage.removeItem('timer')
+      }
+
     },[otpSend])
 
     
-    const email:string = location?.state?.email
-    console.log(email)
-    if(!email) return <Navigate to="/"/>
+    
 
     const handleOtpSubmit=async()=>{
         verifyOtpMutation({email,otp})

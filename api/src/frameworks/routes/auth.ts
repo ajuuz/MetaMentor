@@ -23,6 +23,10 @@ export class AuthRoutes {
 
         this._router.post('/otp/resend',authController.resendOtp.bind(authController))
 
+        this._router.post('/forgotPassword/mail',authController.forgotPasswordSendMail.bind(authController))
+
+        this._router.patch('/forgotPassword/reset',authController.forgotPasswordReset.bind(authController))
+
         this._router.post('/refresh',authController.tokenRefreshing.bind(authController))
     }
 

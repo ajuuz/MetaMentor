@@ -1,4 +1,6 @@
 import { IAuthController } from "entities/controllerInterfaces/user/auth-controller.interface";
+import { IForgotPasswordSendMailUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordMailUsecase.interface";
+import { IForgotPasswordResetUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordResetUsecase.interface";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
 import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
@@ -31,6 +33,12 @@ export class AuthController implements IAuthController{
         
         @inject('IResendOtpUsecase')
         private _resendOtpUsecase:IResendOtpUsecase,
+
+        @inject('IForgotPasswordSendMailUsecase')
+        private _forgotPasswordSendMailUsecase:IForgotPasswordSendMailUsecase,
+
+        @inject('IForgotPasswordResetUsecase')
+        private _forgotPasswordResetUsecase:IForgotPasswordResetUsecase,
 
         @inject("ITokenRefreshingUsecase")
         private _tokenRefreshingUsecase:ITokenRefreshingUsecase,
@@ -91,12 +99,29 @@ export class AuthController implements IAuthController{
         res.status(200).json({success:true,message:"otp has been resended successfully"})
     }
 
+
+    async forgotPasswordSendMail(req:Request,res:Response,next:NextFunction):Promise<void>{
+        const {email} = req.body;
+        await this._forgotPasswordSendMailUsecase.execute(email)
+        res.status(200).json({success:true,message:"Password reset link has been send to your mail id"})
+    }
+
+    async forgotPasswordReset(req:Request,res:Response,next:NextFunction):Promise<void>{
+        const {password,token} = req.body;
+        console.log("here req comes")
+        await this._forgotPasswordResetUsecase.execute(password,token);
+        res.status(200).json({success:true,message:'Password changed successfully'})
+    }
+
+
     async tokenRefreshing(req:Request,res:Response,next:NextFunction):Promise<void>{
         const refreshToken = req.cookies.refreshToken;
         const accessToken=this._tokenRefreshingUsecase.execute(refreshToken)
         setAccessCookie(res,accessToken)
         res.status(200).json({success:true,message:"token refreshed successfully"})
     }
+
+
 
     
 }

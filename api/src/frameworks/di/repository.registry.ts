@@ -6,12 +6,18 @@ import { UserRepository } from "interfaceAdapters/repositories/user.repository";
 import { StudentRepository } from "interfaceAdapters/repositories/student.repository";
 import { MentorRepository } from "interfaceAdapters/repositories/mentor.repository";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
+import { IBlackListTokenRepository } from "entities/repositoryInterfaces/blackListTokenRepository.interface";
+import { BlackListTokenRepository } from "interfaceAdapters/repositories/blackListToken.repository";
 
 export class RepositoryRegistry{
     static registerRepositories():void{
 
         container.register<IOtpRespository>("IOtpRepository",{
             useClass:OtpRepository
+        })
+
+        container.register<IBlackListTokenRepository>('IBlackListTokenRepository',{
+            useClass:BlackListTokenRepository
         })
         
         container.register<IUserRespository>('IUserRepository',{

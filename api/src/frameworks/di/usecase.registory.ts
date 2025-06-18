@@ -29,6 +29,10 @@ import { ITokenRefreshingUsecase } from "entities/usecaseInterfaces/auth/tokenRe
 import { TokenRefreshingUsecase } from "useCases/auth/tokenRefreshing.usecase";
 import { IResendOtpUsecase } from "entities/usecaseInterfaces/auth/resendOtpUsecase.interface";
 import { ResendOtpUsecase } from "useCases/auth/resendOtp.usecase";
+import { IForgotPasswordSendMailUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordMailUsecase.interface";
+import { ForgotPasswordSendMailUsecase } from "useCases/auth/forgotPasswordMail.usecase";
+import { IForgotPasswordResetUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordResetUsecase.interface";
+import { ForgotPasswordResetUsecase } from "useCases/auth/forgotPasswordReset.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -50,6 +54,14 @@ export class UseCaseRegistory{
 
         container.register<ILoginUsecase>('ILoginUsecase',{
             useClass:LoginUsecase
+        })
+
+        container.register<IForgotPasswordSendMailUsecase>('IForgotPasswordSendMailUsecase',{
+            useClass:ForgotPasswordSendMailUsecase
+        })
+
+        container.register<IForgotPasswordResetUsecase>('IForgotPasswordResetUsecase',{
+            useClass:ForgotPasswordResetUsecase
         })
 
         container.register<ITokenRefreshingUsecase>('ITokenRefreshingUsecase',{

@@ -27,7 +27,7 @@ export class App{
 
     private configureMiddleware():void{
         this._app.use(cors({
-        origin: config.origin.uri, 
+        origin: config.client.uri, 
         credentials: true     
         }));
         this._app.use(cookieParser())
