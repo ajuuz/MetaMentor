@@ -20,10 +20,10 @@ const Navbar = () => {
   const user:UserType|null= useUserStore((state)=>state.user);
   const navigate = useNavigate();
   return (
-      <header className="fixed w-full bg-white shadow-sm">
+      <header className="fixed w-full bg-white shadow-sm z-2">
         <div className=" mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="text-[#E63946] font-bold text-xl">META MENTOR</div>
+            <div className="text-[#E63946] font-bold text-xl"><span className="text-black">META</span> MENTOR</div>
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center ">

@@ -1,36 +1,42 @@
 import { Button } from '@/components/ui/button'
 import Navbar from '@/components/user/Navbar'
-
-
+import './landingPage.css'
+import { HeroSection1, HeroSection2 } from '@/components/user/HeroSection'
+import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence } from 'framer-motion'
 
 const LandingPage = () => {
+  const [heroSection,setHeroSection]=useState<boolean>(false)
+  const heroSectionTimerRef=useRef<ReturnType<typeof setInterval> | null>(null);
 
+  useEffect(()=>{
+    heroSectionTimerRef.current=setInterval(()=>{
+      setHeroSection(prev=>!prev)
+    },9000)
 
+    return ()=>{
+      if(heroSectionTimerRef.current)
+      clearInterval(heroSectionTimerRef.current)
+    }
+  },[])
 
   return (
     <div className="min-h-screen">
 
       <Navbar/>
       {/* Hero Section */}
-      <section className="bg-[#E63946] pt-24">
-        <div className="container mx-auto px-4 py-16">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="text-white md:w-1/2 space-y-6">
-              <p className="text-xl">Learn a new skill, launch a project, land your dream career.</p>
-              <h1 className="text-4xl md:text-5xl font-bold">1-on-1 JAVASCRIPT MENTORSHIP</h1>
-              <Button className="bg-white text-[#E63946] hover:bg-gray-100">
-                Choose Your Domain
-              </Button>
-            </div>
-            <div className="md:w-1/2 mt-8 md:mt-0">
-              <img src="/ChatGPT Image May 8, 2025, 03_11_22 PM.png" alt="Mentorship Illustration" className="w-full" />
-            </div>
-          </div>
-        </div>
+      <section className="pt-24">
+        <AnimatePresence>
+        {
+          heroSection
+          ?<HeroSection1/>
+          :<HeroSection2/>
+        }
+        </AnimatePresence>
       </section>
 
       {/* Domains Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white relative z-1">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-[#E63946] text-center mb-12">Our Domains</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">

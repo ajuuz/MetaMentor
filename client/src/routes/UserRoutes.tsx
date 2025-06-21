@@ -1,7 +1,7 @@
 import Login from "@/pages/auth/Login"
 import Otp from "@/pages/auth/Otp"
 import Signup from "@/pages/auth/Signup"
-import LandingPage from "@/pages/user/LandingPage"
+import LandingPage from "@/pages/user/LandingPage/LandingPage"
 import { Routes,Route } from "react-router-dom"
 import { PublicOnlyRoute } from "./protectedRoutes/PublicOnlyRoute"
 import SendEmail from "@/pages/auth/ForgotPassword/SendEmail"
