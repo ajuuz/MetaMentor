@@ -1,6 +1,7 @@
 import { IAuthController } from "entities/controllerInterfaces/user/auth-controller.interface";
 import { IForgotPasswordSendMailUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordMailUsecase.interface";
 import { IForgotPasswordResetUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordResetUsecase.interface";
+import { IGoogleAuthUsecase } from "entities/usecaseInterfaces/auth/googleAuthUsecase.interface";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
 import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
@@ -28,6 +29,9 @@ export class AuthController implements IAuthController{
         @inject("ILoginUsecase")
         private _LoginUsecase:ILoginUsecase,
 
+        @inject('IGoogleAuthUsecase')
+        private _googleAuthUsecase:IGoogleAuthUsecase,
+
         // @inject('IGetLoggedInUserUsecase')
         // private _getLoggedInUserUsecase:IGetLoggedInUserUsecase,
         
@@ -46,7 +50,7 @@ export class AuthController implements IAuthController{
     
     async signup(req: Request, res: Response,next:NextFunction): Promise<void> {
         try {
-            const formData:SignupRequestDto= req.body;
+            const formData:Omit<SignupRequestDto,"googleId"|"isVerified"|"profileImage">= req.body;
             const response:ISuccessResponseHandler=await this._RegisterUserUsecase.execute(formData);
             res.status(response.statusCode).json(response.content);
         } catch (error) {
@@ -77,6 +81,21 @@ export class AuthController implements IAuthController{
             setCookie(res,accessToken,refreshToken);
             res.status(200).json({success:true,message:"user logged in successfully",data:rest})
         }catch(error){
+            next(error)
+        }
+    }
+
+    async googleAuth(req:Request,res:Response,next:NextFunction):Promise<void>{
+        const {idToken} = req.body;
+        try{
+           const details:loginResponseDTO=await this._googleAuthUsecase.execute(idToken);
+           const {accessToken,refreshToken,...rest} = details
+           setCookie(res,accessToken,refreshToken);
+           res.status(200).json({success:true,message:"user logged in via google",data:rest})
+
+        }
+        catch(error){
+            console.log(error)
             next(error)
         }
     }

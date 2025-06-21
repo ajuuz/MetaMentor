@@ -33,6 +33,8 @@ import { IForgotPasswordSendMailUsecase } from "entities/usecaseInterfaces/auth/
 import { ForgotPasswordSendMailUsecase } from "useCases/auth/forgotPasswordMail.usecase";
 import { IForgotPasswordResetUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordResetUsecase.interface";
 import { ForgotPasswordResetUsecase } from "useCases/auth/forgotPasswordReset.usecase";
+import { IGoogleAuthUsecase } from "entities/usecaseInterfaces/auth/googleAuthUsecase.interface";
+import { GoogleAuthUsecase } from "useCases/auth/googleAuth.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -54,6 +56,10 @@ export class UseCaseRegistory{
 
         container.register<ILoginUsecase>('ILoginUsecase',{
             useClass:LoginUsecase
+        })
+
+        container.register<IGoogleAuthUsecase>('IGoogleAuthUsecase',{
+            useClass:GoogleAuthUsecase
         })
 
         container.register<IForgotPasswordSendMailUsecase>('IForgotPasswordSendMailUsecase',{

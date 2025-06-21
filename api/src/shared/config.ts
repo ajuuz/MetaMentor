@@ -27,10 +27,16 @@ export const config={
         REFRESH_SECRET_KEY:process.env.REFRESH_TOKEN_SECRET || "refresh-scret-key",
 		REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN || "7d",
     },
+
     node_env:process.env.NODE_ENV || "development",
+
     cloudinary:{
          cloud_name: process.env.CLOUD_NAME,
          api_key: process.env.CLOUD_API_KEY,
          api_secret: process.env.CLOUD_API_SECRET,
+    },
+
+    FIREBASE:{
+        SERVICE_ACCOUNT_KEY_JSON:process.env.FIREBASE_SERVICE_ACCOUNT_KEY_JSON || ""
     }
 }

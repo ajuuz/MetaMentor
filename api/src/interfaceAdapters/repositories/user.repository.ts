@@ -18,9 +18,10 @@ export class UserRepository implements IUserRespository{
         return user?true:false
     }
 
-    async createUser(formData:SignupRequestDto):Promise<void>{
-        const newUser = new userDB(formData);
+    async createUser(formData:Partial<SignupRequestDto>):Promise<IUserModel>{
+        const newUser=new userDB(formData);
         await newUser.save();
+        return newUser
     }
 
     async updateOne(filter:Partial<UserUpdateDTO.filter>,update:Partial<UserUpdateDTO.update>):Promise<void>{

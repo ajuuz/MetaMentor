@@ -40,6 +40,16 @@ export const login = async ({email,password}:{email:string,password:string}):Pro
 }
 
 
+export const googleAuth=async(idToken:string):Promise<Required<ApiResponseType<UserType>>>=>{
+    try{
+        const response = await authAxiosInstance.post('/googleAuth',{idToken})
+        return response.data
+    }
+    catch(error:any){
+        throw error?.response.data || error;
+    }
+}
+
 // export const getLoggedInUserDetails=async()=>{
 //     try{
 //         const response = await authAxiosInstance.get('/getLoggedInUser')

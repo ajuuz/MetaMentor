@@ -21,6 +21,8 @@ export class AuthRoutes {
 
         this._router.post('/login',authController.login.bind(authController))
 
+        this._router.post('/googleAuth',authController.googleAuth.bind(authController))
+
         this._router.post('/otp/resend',authController.resendOtp.bind(authController))
 
         this._router.post('/forgotPassword/mail',authController.forgotPasswordSendMail.bind(authController))

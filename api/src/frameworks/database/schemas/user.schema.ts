@@ -8,17 +8,21 @@ export const userSchema = new mongoose.Schema<IUserModel>({
         required:true
     },
     profileImage:{
-        type:String
+        type:String,
+        default:null
     },
     country:{
-        type:String
+        type:String,
+        default:null,
     },
     gender:{
         type:String,
-        enum:Object.values(GENDER)
+        enum:Object.values(GENDER),
+        default:null,
     },
     mobileNumber:{
-        type:Number
+        type:Number,
+        default:null
     },
     email:{
         type:String,
@@ -27,7 +31,11 @@ export const userSchema = new mongoose.Schema<IUserModel>({
     },
     password:{
         type:String,
-        required:true
+        default:null
+    },
+    googleId:{
+        type:String,
+        default:null
     },
     role:{
         type:String,

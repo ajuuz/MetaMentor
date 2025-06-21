@@ -23,14 +23,13 @@ export class RegisterUserUsecase implements IRegisterUserUsecase {
 
     @inject("IOtpRepository")
     private _otpRepository: IOtpRespository,
-
-    @inject("IEmailService")
-    private _emailService: IEmailService
   ) {}
 
-  async execute(formData: SignupRequestDto): Promise<ISuccessResponseHandler> {
+  async execute(formData: Omit<SignupRequestDto,"googleId"|"isVerified"|"profileImage">): Promise<ISuccessResponseHandler> {
+    
     const userExists: IUserEntity | null =
       await this._userRepository.findByEmail(formData.email);
+
     const userWithSameNumber: boolean = await this._userRepository.findBynumber(
       formData.mobileNumber
     );

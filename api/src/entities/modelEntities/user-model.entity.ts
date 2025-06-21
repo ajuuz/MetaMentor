@@ -10,6 +10,7 @@ export interface IUserEntity{
     password:string,
     createdAt:Date,
     role:ROLES,
+    googleId:string,
     isBlocked:boolean,
     isVerified:boolean
 }

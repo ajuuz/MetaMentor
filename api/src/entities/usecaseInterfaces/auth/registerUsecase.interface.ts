@@ -4,5 +4,5 @@ import { ISuccessResponseHandler} from "shared/utils/successResponseHandler";
 
 
 export interface IRegisterUserUsecase {
-    execute(formData:SignupRequestDto):Promise<ISuccessResponseHandler>;
+    execute(formData:Omit<SignupRequestDto,"googleId"|"isVerified"|"profileImage">):Promise<ISuccessResponseHandler>;
 }
