@@ -10,5 +10,6 @@ export interface IAuthController {
     forgotPasswordSendMail(req:Request,res:Response,next:NextFunction):Promise<void>
     forgotPasswordReset(req:Request,res:Response,next:NextFunction):Promise<void>
     tokenRefreshing(req:Request,res:Response,next:NextFunction):Promise<void>
+    logout(req:Request,res:Response,next:NextFunction):Promise<void>
 }
 

@@ -30,6 +30,8 @@ export class AuthRoutes {
         this._router.patch('/forgotPassword/reset',authController.forgotPasswordReset.bind(authController))
 
         this._router.post('/refresh',authController.tokenRefreshing.bind(authController))
+
+        this._router.post('/logout',authController.logout.bind(authController))
     }
 
     public getRouter(): Router {

@@ -1,83 +1,16 @@
-import DropDownMenuComponent from '@/components/common/DropDownMenuComponent'
 import { Button } from '@/components/ui/button'
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { useUserStore, type UserType } from '@/zustand/userStore'
-import { Menu, UserCircle } from "lucide-react"
-import { useMemo } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import Navbar from '@/components/user/Navbar'
+
+
 
 const LandingPage = () => {
 
-  const user:UserType|null= useUserStore((state)=>state.user);
-  const navigate = useNavigate();
 
-  const dropDownContents = useMemo(() => {
-  return [
-    "Profile",
-    ...(user?.role === 'admin' ? ['Admin Side'] : []),
-    ...(user?.role === 'mentor' ? ['Mentor side'] : []),
-    "Logout"
-  ];
-}, [user]);
 
   return (
     <div className="min-h-screen">
-      {/* Navigation Bar */}
-      <header className="fixed w-full bg-white shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="text-[#E63946] font-bold text-xl">META MENTOR</div>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center ">
-                <NavigationMenu className="flex items-center space-x-4">
-                    <NavigationMenuList>
-                      {["Community", "Reviewers", "About", "Network", "Rooms", "Highlights", "Dashboard"].map((item) => (
-                        <NavigationMenuItem key={item}>
-                          <NavigationMenuLink className="text-black hover:text-[#E63946] transition-colors" href="#">
-                            {item}
-                          </NavigationMenuLink>
-                        </NavigationMenuItem>
-                      ))}
-                    </NavigationMenuList>
-                </NavigationMenu>
-            </div>
-              {!user ? <Button onClick={()=>navigate('/signup')} className="bg-[#E63946] text-white hover:bg-[#dc2f3c]">
-                Sign Up
-              </Button>:
-              <div>
-                <DropDownMenuComponent dropDownTriggerrer={<UserCircle/>} dropDownContents={dropDownContents}/>
-              </div>
-              }
 
-            {/* Mobile Navigation */}
-            <Sheet>
-              <SheetTrigger className="md:hidden">
-                <Menu className="h-6 w-6" />
-              </SheetTrigger>
-              <SheetContent>
-                <div className="flex flex-col space-y-4 mt-4">
-                  {["Community", "Reviewers", "About", "Network", "Rooms", "Highlights", "Dashboard"].map((item) => (
-                    <Link key={item} to="#" className="text-black hover:text-[#E63946]">
-                      {item}
-                    </Link>
-                  ))}
-                  <Button className="bg-[#E63946] text-white hover:bg-[#dc2f3c]">
-                    Sign 
-                  </Button>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
-
+      <Navbar/>
       {/* Hero Section */}
       <section className="bg-[#E63946] pt-24">
         <div className="container mx-auto px-4 py-16">

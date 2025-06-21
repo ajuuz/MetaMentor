@@ -11,7 +11,7 @@ import { IVerifyOtpUsecase } from "entities/usecaseInterfaces/auth/verifyOtpUsec
 import { NextFunction, Request, Response } from "express";
 // import { JwtPayload } from "jsonwebtoken";
 import { loginResponseDTO, SignupRequestDto } from "shared/dto/authDTO";
-import { setAccessCookie, setCookie } from "shared/utils/cookeHelper"
+import { clearCookies, setAccessCookie, setCookie } from "shared/utils/cookeHelper"
 import { ISuccessResponseHandler } from "shared/utils/successResponseHandler";
 import { inject, injectable } from "tsyringe";
 
@@ -141,6 +141,9 @@ export class AuthController implements IAuthController{
     }
 
 
-
+    async logout(req:Request,res:Response,next:NextFunction):Promise<void>{
+        clearCookies(res)
+        res.status(200).json({success:true,message:'you have been logged out successfully'})
+    }
     
 }
