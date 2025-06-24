@@ -21,13 +21,11 @@ export type MentorDataDTO={
     skills: string[],
     workedAt:string[],
     name: string,
-    country: string,
-    gender: GENDER,
-    mobileNumber: number
+    country: string|null,
+    gender: GENDER|null,
+    mobileNumber: number|null
+    profileImage:string|null
 }
-
-
-
 
 export type GetAllMentorResponseDTO={
    mentors:MentorDataDTO[],
@@ -37,11 +35,9 @@ export type GetAllMentorResponseDTO={
 
 
 export namespace MentorUpdateDTO{
-
     export type filter={
         userId:string
     }
-
     export type update={
         about:string,
         domains:string[]
@@ -55,7 +51,7 @@ export namespace MentorUpdateDTO{
 }
 
 
-export type MentorReadFilterDTO={
+export type MentorFindFilterDTO={
     userId:string|ObjectId,
     isBlocked:boolean,
     skills:string[],

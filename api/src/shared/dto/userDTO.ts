@@ -1,5 +1,14 @@
-import { ObjectId } from "mongoose"
+import { IUserEntity } from "entities/modelEntities/user-model.entity"
 import { ROLES } from "shared/constants"
+
+export type UserFindFilterDTO={
+    _id:string,
+    email:string,
+    mobileNumber:number
+}
+
+export type UserDetailsResponseDTO=Pick<IUserEntity,"email"|"mobileNumber"|"name"|"profileImage"|"country"|"gender">
+
 
 
 export namespace UserUpdateDTO{
@@ -17,6 +26,7 @@ export namespace UserUpdateDTO{
         email:string,
         password:string,
         role:ROLES,
+        isBlocked:boolean
         isVerified:boolean
     }
 }

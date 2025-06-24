@@ -1,4 +1,5 @@
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
+import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IUpdateStudentStatusUsecase } from "entities/usecaseInterfaces/student/updateStudentStatusUsecase.interface";
 import { ObjectId } from "mongoose";
 import { CustomError } from "shared/utils/error/customError";
@@ -11,11 +12,18 @@ export class UpdateStudentStatusUsecase implements IUpdateStudentStatusUsecase{
 
     constructor(
         @inject('IStudentRepository')
-        private _studentRepository:IStudentRepository
+        private _studentRepository:IStudentRepository,
+
+        @inject('IUserRepository')
+        private _userRepository:IUserRespository
     ){}
     async execute(userId: string,status:boolean): Promise<void> {
         if(!userId || ![true,false].includes(status)) throw new ValidationError("insufficient data for updating status");
-        const updateResult:number=await this._studentRepository.updateStatus(userId,status);
-        if(updateResult===0) throw new CustomError(400,"No updation performed");
+        let asyncOperations=[];
+        let filter = {_id:userId};
+        let update = {isBlocked:status}
+        asyncOperations.push(this._userRepository.updateOne(filter,update))
+        asyncOperations.push(this._studentRepository.updateStatus(userId,status));
+        await Promise.all(asyncOperations)
     }
 }

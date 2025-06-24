@@ -58,7 +58,7 @@ export class AdminMentorController implements IAdminMentorController{
     async getSpecificMentor(req:Request,res:Response,next:NextFunction):Promise<void>{
             const mentorId :string=req.params.mentorId;
             try{
-                const mentor:MentorDataDTO = await this._getSpecificMentorUsecase.execute(mentorId)
+                const mentor:MentorDataDTO=await this._getSpecificMentorUsecase.execute(mentorId)
                 res.status(200).json({success:true,message:'mentor fetched successfully',data:mentor})
             }
             catch(error){
@@ -68,7 +68,7 @@ export class AdminMentorController implements IAdminMentorController{
 
     async mentorApplicationVerification(req:Request,res:Response,next:NextFunction):Promise<void>{
         const mentorId:string = req.params.mentorId
-        const applicationStatus:string = req.params.applicationStatus;
+        const applicationStatus:string=req.params.applicationStatus;
         const email:string = req.body.email;
         const reason:string = req.body.reason;
 

@@ -3,6 +3,7 @@ import bgImage from '@/assets/download.svg'
 import mentorStudentImage from '@/assets/manager-secretary-discussing-working-thumb-up-white-background-C6eGu2rl.png';
 import {easeInOut, motion} from 'framer-motion'
 import { Button } from '../ui/button';
+import { useNavigate } from 'react-router-dom';
 export const HeroSection1 = () => {
   return (
    <motion.div
@@ -92,6 +93,8 @@ export const HeroSection1 = () => {
 
 
 export const HeroSection2=()=>{
+
+  const navigate = useNavigate()
     return(
         <motion.div
         initial={{opacity:0}}
@@ -138,7 +141,7 @@ export const HeroSection2=()=>{
                   </div>
                 </div>
 
-                <Button onClick={()=>console.log("working")} className='mt-9 rounded-3xl bg-red-400 hover:bg-red-500 z-1 relative'>Register As Mentor <ArrowRightCircleIcon className='rounded-lg bg-white text-red-400'/></Button>
+                <Button onClick={()=>navigate('/mentor/register')} className='mt-9 rounded-3xl bg-red-400 hover:bg-red-500 z-1 relative'>Register As Mentor <ArrowRightCircleIcon className='rounded-lg bg-white text-red-400'/></Button>
 
                   <div className='h-10 w-[50%] absolute bg-red-200  blur-3xl right-0 -bottom-30 z-0'></div>
               </div>

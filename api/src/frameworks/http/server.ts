@@ -8,6 +8,7 @@ import { AdminRoutes } from 'frameworks/routes/admin';
 import { MentorRoutes } from 'frameworks/routes/mentor';
 import cookieParser from "cookie-parser"
 import { CommonRoutes } from 'frameworks/routes/common';
+import { UserRoutes } from 'frameworks/routes/user';
 export class App{
     private _app:Application;
     
@@ -22,7 +23,8 @@ export class App{
         this._app.use("/api/auth",new AuthRoutes().getRouter());
         this._app.use("/api/admin",new AdminRoutes().getRouter());
         this._app.use("/api/mentor",new MentorRoutes().getRouter());
-        this._app.use("/api",new CommonRoutes().getRouter());
+        this._app.use("/api/common",new CommonRoutes().getRouter());
+        this._app.use("/api",new UserRoutes().getRouter());
     }
 
     private configureMiddleware():void{

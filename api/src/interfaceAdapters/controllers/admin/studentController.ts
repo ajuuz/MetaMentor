@@ -1,4 +1,4 @@
-import { IStudentController } from "entities/controllerInterfaces/admin/student-controller.interface";
+import { IAdminStudentController } from "entities/controllerInterfaces/admin/student-controller.interface";
 import { IStudentEntity } from "entities/modelEntities/student-model.entity";
 import { IGetAllStudentsUsecase } from "entities/usecaseInterfaces/student/getAllStudentsUsecase.interface";
 import { IUpdateStudentStatusUsecase } from "entities/usecaseInterfaces/student/updateStudentStatusUsecase.interface";
@@ -10,7 +10,7 @@ import { inject, injectable } from "tsyringe";
 
 
 @injectable()
-export class StudentController implements IStudentController{
+export class AdminStudentController implements IAdminStudentController{
 
     constructor(
          @inject('IGetAllStudentsUsecase')

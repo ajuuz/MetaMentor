@@ -35,6 +35,8 @@ import { IForgotPasswordResetUsecase } from "entities/usecaseInterfaces/auth/for
 import { ForgotPasswordResetUsecase } from "useCases/auth/forgotPasswordReset.usecase";
 import { IGoogleAuthUsecase } from "entities/usecaseInterfaces/auth/googleAuthUsecase.interface";
 import { GoogleAuthUsecase } from "useCases/auth/googleAuth.usecase";
+import { IGetSpecificUserUsecase } from "entities/usecaseInterfaces/user/getSpecificUserUsecase.interface";
+import { GetSpecificUserUsecase } from "useCases/user/getSpecificUser.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -78,6 +80,11 @@ export class UseCaseRegistory{
         //     useClass:GetLoggedInUserUsecase
         // })
 
+
+        //user usecases
+        container.register<IGetSpecificUserUsecase>('IGetSpecificUserUsecase',{
+            useClass:GetSpecificUserUsecase
+        })
 
         //student usecases
         container.register<IGetAllStudentsUsecase>('IGetAllStudentsUsecase',{

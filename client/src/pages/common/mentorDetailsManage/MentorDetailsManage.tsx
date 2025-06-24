@@ -23,16 +23,21 @@ import { MENTOR_APPLICATION_STATUS } from "@/utils/constants";
 import './MentorDetailsManage.css'
 import {AnimatePresence, motion} from 'framer-motion'
 import  LoadingSpinnerComponent from "@/components/common/LoadingSpinnerComponent";
-import { useUserStore, type UserType } from "@/zustand/userStore";
+import { getSpecificUser } from "@/services/userService.ts/userApi";
+import type { UserDetailsType } from "@/types/userType";
+
+
 
 export default function MentorDetailsManage() {
 
   //states
-  const [userDetails,setUserDetails] = useState<{name:string,country:string,mobileNumber:number|undefined,email:string}>({
+  const [userDetails,setUserDetails] = useState<Omit<UserDetailsType,"_id"|"role"|"isVerified">>({
     name:'',
-    country:"",
     email:"",
-    mobileNumber:undefined
+    country:null,
+    gender:null,
+    mobileNumber:null,
+    profileImage:""
   })
 
   const [domains, setDomains] = useState<string[]>(["mern","mean","go"]);
@@ -54,7 +59,6 @@ export default function MentorDetailsManage() {
   const [rejectionReason,setRejectionReason] = useState<string>('')
   const [rejectionReasonError,setRejectionReasonError] = useState<string>('')
 
-   const user:UserType | null= useUserStore(state=>state.user)
 
   //router-dom
   const navigate = useNavigate();
@@ -73,20 +77,29 @@ export default function MentorDetailsManage() {
     onSuccess:(response)=>{
       const mentor = response.data; 
       console.log(mentor)
-      setUserDetails({name:mentor.name,
-        country:mentor.country,
-        mobileNumber:mentor.mobileNumber,
-        email:mentor.email
-      });
-      setAbout(mentor.about);
-      setSelectedDomains(mentor.domains);
-      setSkills(mentor.skills)
-      setWorkedAt(mentor.workedAt)
-      setImages([mentor.cv,mentor.experienceCirtificate])
+      const {about,domains,skills,workedAt,cv,experienceCirtificate,_id,userId,isBlocked,...rest} =mentor 
+      setUserDetails(rest);
+
+      setAbout(about);
+      setSelectedDomains(domains);
+      setSkills(skills)
+      setWorkedAt(workedAt)
+      setImages([cv,experienceCirtificate])
     },
     onError:(error)=>{
       console.log(error)
     }
+  })
+
+  const {mutate:userDetailsFetch} = useMutation({
+      mutationFn:getSpecificUser,
+      onSuccess:(response)=>{
+        const user = response.data
+        setUserDetails(user)
+      },
+      onError:(error)=>{
+        toast.error(error.message)
+      }
   })
 
    
@@ -117,6 +130,8 @@ export default function MentorDetailsManage() {
   useEffect(()=>{
       if(purpose.adminVerification && mentorId){
         mentorAplicationDetailsFetchMutation(mentorId)
+      }else if(purpose.mentorRegister){
+        userDetailsFetch()
       }
   },[])
 
@@ -181,7 +196,6 @@ export default function MentorDetailsManage() {
   }
 
   const handleVerify=(status:(typeof MENTOR_APPLICATION_STATUS)[keyof typeof MENTOR_APPLICATION_STATUS])=>{
-
     if(mentorId){
       const isValid=/^(?=.*[a-zA-Z])[a-zA-Z0-9 ]{6,}$/.test(rejectionReason)
       if(status===MENTOR_APPLICATION_STATUS.REJECTED  && !isValid) {
@@ -203,52 +217,72 @@ export default function MentorDetailsManage() {
       <Card className="p-6">
 
         <CardContent className="grid grid-cols-1  md:grid-cols-2 gap-10">
-          <div>
+
+           <div className="col-span-2 flex justify-center items-center">
+              <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
+                <img  src={userDetails?.profileImage?userDetails.profileImage:"https://imgs.search.brave.com/bWNFz9pFC1Ul5pZ7ql6Z9qc1cTlkBrZbXMdCTkoMqeY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS12ZWN0/b3IvbWFuLWF2YXRh/ci1wcm9maWxlLXBp/Y3R1cmUtdmVjdG9y/LWlsbHVzdHJhdGlv/bl8yNjg4MzQtNTM4/LmpwZz9zZW10PWFp/c19oeWJyaWQmdz03/NDA"} alt="Profile" className="w-20 h-20 rounded-full" />
+              </div>
+           </div>
+
+          <div className="flex flex-col gap-2">
             <Label>Full Name</Label>
-            <Input  placeholder="Enter your name" value={userDetails?.name || user?.name} disabled/>
+            <Input  placeholder="Enter your name" value={userDetails?.name} disabled/>
           </div>
 
-        <div className="row-span-2 flex justify-center items-center">
-          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
-            <img src="/avatar-placeholder.png" alt="Profile" className="w-20 h-20 rounded-full" />
+          <div className="flex flex-col gap-2">
+            <Label>Country</Label>
+            <Input  placeholder="Enter your Country" value={userDetails?.country||"N/A"} disabled/>
           </div>
-        </div>
+
+          <div className="flex flex-col gap-2">
+            <Label>Gender</Label>
+            <Input  placeholder="Enter your Gender" value={userDetails?.gender||"N/A"} disabled/>
+          </div>
 
           <div className="col-span-1">
             <Label>My Email Address</Label>
-            <p className="text-sm text-muted-foreground mt-1">{userDetails?.email || user?.email}</p>
+            <p className="text-sm text-muted-foreground mt-1">{userDetails?.email}</p>
             <p className="text-xs text-gray-400">1 month ago</p>
           </div>
 
-          <div className="col-span-2">
-            <Label>Domains you know</Label>
+          <div className="col-span-2 flex flex-col gap-2">
+            
             <div className="flex gap-4">
+
                 {!purpose.adminVerification &&
-                  <div className="flex-1 border flex flex-wrap p-5 gap-5">
+                <div className="flex-1  flex flex-col gap-2">
+                 <Label className="">Domains you know</Label>
+                  <div className=" border flex flex-wrap p-5 gap-5 h-full">
                     {domains.map((domain,index)=>(
-                        <div onClick={()=>handleSelectDomain(index)} className="cursor-pointer py-2 px-3  bg-black text-white rounded-lg">{domain}</div>
+                      <div onClick={()=>handleSelectDomain(index)} className="cursor-pointer py-2 px-3  bg-black text-white rounded-lg">{domain}</div>
                     ))
-                    }
+                  }
+                </div>
                 </div>
                 }
-                <div className="flex-1 border flex flex-wrap p-5 gap-5">
-                    {selectedDomains.map((domain,index)=>(
-                        <div className="cursor-pointer py-2 px-3 relative bg-black text-white rounded-lg">
-                            {!purpose.adminVerification &&
-                              <div onClick={()=>handleRemoveSelectedDomain(index)} className="scale-75 -right-2 -top-2 bg-red-500 rounded-4xl absolute">
-                                <Cross className="scale-75 rotate-45"/>
-                            </div>
-                            }
-                            {domain}
-                        </div>
-                    ))
-                    }
+
+                <div className="flex-1 flex flex-col gap-2">
+                 <Label className="">Selected Domain</Label>
+                  <div className="border flex flex-wrap p-5 gap-5 h-full">
+                      {selectedDomains.map((domain,index)=>(
+                          <div className="cursor-pointer py-2 px-3 relative bg-black text-white rounded-lg">
+                              {!purpose.adminVerification &&
+                                <div onClick={()=>handleRemoveSelectedDomain(index)} className="scale-75 -right-2 -top-2 bg-red-500 rounded-4xl absolute">
+                                  <Cross className="scale-75 rotate-45"/>
+                              </div>
+                              }
+                              {domain}
+                          </div>
+                      ))
+                      }
+                  </div>
                 </div>
+
             </div>
           </div>
           <p className="text-red-300">{errors?.selectedDomainsError}</p>
 
-          <div className="col-span-2">
+          <div className="col-span-2 flex flex-wrap gap-2">
             <Label>Describe Yourself</Label>
             <Textarea
               value={about}

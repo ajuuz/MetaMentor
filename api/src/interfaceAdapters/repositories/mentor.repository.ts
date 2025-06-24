@@ -2,7 +2,7 @@ import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { mentorDB } from "frameworks/database/models/mentor.model";
 import { Types } from "mongoose";
-import { GetAllMentorResponseDTO, MentorDataDTO, MentorReadFilterDTO, MentorRegisterRequestDTO, MentorUpdateDTO } from "shared/dto/mentorDTO";
+import { GetAllMentorResponseDTO, MentorDataDTO, MentorFindFilterDTO, MentorRegisterRequestDTO, MentorUpdateDTO } from "shared/dto/mentorDTO";
 import { injectable } from "tsyringe";
 
 @injectable()
@@ -34,6 +34,7 @@ export class MentorRepository implements IMentorRepository{
                 gender:"$userDetails.gender",
                 mobileNumber:'$userDetails.mobileNumber',
                 email:'$userDetails.email',
+                profileImage:'$userDetails.profileImage'
             }}
         ]);
         return mentor[0]
@@ -44,7 +45,7 @@ export class MentorRepository implements IMentorRepository{
         await newMentor.save()
     }
 
-    async find(filter:Partial<MentorReadFilterDTO>, skip: number, limit: number):Promise<Omit<Omit<GetAllMentorResponseDTO,"cv"|"experienceCirtificate">,'totalPages'>>{
+    async find(filter:Partial<MentorFindFilterDTO>, skip: number, limit: number):Promise<Omit<Omit<GetAllMentorResponseDTO,"cv"|"experienceCirtificate">,'totalPages'>>{
         const [mentors,totalDocuments] = await Promise.all([
             mentorDB.aggregate([
                 {$match:filter},

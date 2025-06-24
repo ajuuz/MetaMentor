@@ -50,6 +50,17 @@ export const googleAuth=async(idToken:string):Promise<Required<ApiResponseType<U
     }
 }
 
+
+export const logout =async():Promise<Omit<ApiResponseType<undefined>,"data">>=>{
+    try{
+        const response = await authAxiosInstance.post('/logout')
+        return response.data
+    }
+    catch(error:any){
+        throw error?.response.data || error
+    }
+}
+
 // export const getLoggedInUserDetails=async()=>{
 //     try{
 //         const response = await authAxiosInstance.get('/getLoggedInUser')

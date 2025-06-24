@@ -22,8 +22,19 @@ export class StudentRepository implements IStudentRepository{
                 {$limit:limit},
                 {$lookup:{
                     from:'users',
-                    localField:'userId',
-                    foreignField:'_id',
+                    let: { userId: '$userId' },
+                     pipeline: [
+                       {
+                         $match: {
+                           $expr: {
+                             $and: [
+                               { $eq: ['$_id', '$$userId'] },
+                               { $eq: ['$role', 'user'] } 
+                             ]
+                           }
+                         }
+                       }
+                     ],
                     as:'user'
                 }},
                 {$unwind:"$user"},
@@ -57,9 +68,7 @@ export class StudentRepository implements IStudentRepository{
     }
 
      async getStatus(userId:string):Promise<IStudentEntity|null>{
-        console.log(userId)
         const user=await studentDB.findOne({userId})
-        console.log(user)
         return user;
     }
     

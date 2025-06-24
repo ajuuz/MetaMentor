@@ -5,17 +5,12 @@ import { ITokenService } from "entities/serviceInterfaces/tokenService.interface
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { ERROR_MESSAGE, HTTP_STATUS, ROLES } from "shared/constants";
+import { ModifiedRequest } from "shared/types";
 import { clearCookies } from "shared/utils/cookeHelper";
 import { AuthError } from "shared/utils/error/authError";
 import { inject, injectable } from "tsyringe";
 
 
-interface ModifiedRequest extends Request{
-    user:{
-        id:string
-        role:ROLES
-    }
-}
 
 @injectable()
 export class AuthMiddleware implements IAuthMiddleware{
@@ -70,7 +65,6 @@ export class AuthMiddleware implements IAuthMiddleware{
             user:this._studentRepository
         }[role]
         const user=await repo.getStatus(id)
-        console.log(user)
         if(!user) throw new AuthError(HTTP_STATUS.NOT_FOUND,"User not found");
 
         return user.isBlocked;
@@ -78,14 +72,12 @@ export class AuthMiddleware implements IAuthMiddleware{
 
 
     async blockChecker(req:Request,res:Response,next:NextFunction):Promise<void>{
-        const modReq= req as ModifiedRequest;
-        console.log(modReq.user)
+        const modReq=req as ModifiedRequest;
         if(!modReq.user) throw new AuthError(HTTP_STATUS.UNAUTHORIZED,ERROR_MESSAGE.UNAUTHORIZED_ACCESS_NOT_LOGIN);
 
         const role=modReq.user.role;
         const userId=modReq.user.id
         const status=await this._checkStatus(userId,role as (ROLES.MENTOR|ROLES.USER))
-        console.log("isblocked ",status)
         if(status){
             clearCookies(res)
             throw new AuthError(HTTP_STATUS.FORBIDDEN,ERROR_MESSAGE.BLOCKED_ERROR)

@@ -1,4 +1,4 @@
-import { IAuthController } from "entities/controllerInterfaces/user/auth-controller.interface";
+import { IAuthController } from "entities/controllerInterfaces/auth/authController.interface";
 import { IForgotPasswordSendMailUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordMailUsecase.interface";
 import { IForgotPasswordResetUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordResetUsecase.interface";
 import { IGoogleAuthUsecase } from "entities/usecaseInterfaces/auth/googleAuthUsecase.interface";

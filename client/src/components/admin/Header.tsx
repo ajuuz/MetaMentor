@@ -1,13 +1,37 @@
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '../ui/navigation-menu'
 import { Button } from '../ui/button'
 import { Link } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+import { logout } from '@/services/authService.ts/authApi'
+import { toast } from 'sonner'
+import { useUserStore } from '@/zustand/userStore'
 
 const Header = () => {
+
+  const logoutDispatch = useUserStore(state=>state.logout)
+  const {mutate:logoutMutation}=useMutation({
+      mutationFn:logout,
+      onSuccess:(response)=>{
+        logoutDispatch()
+        toast.success(response.message)
+      },
+      onError:(error)=>{
+        toast.error(error.message)
+      }
+  })
+
+
+  const handleLogout=()=>{
+    logoutMutation()
+  }
+
   const navItmes=[{itemName:"Dashboard",itemEndPoint:'dashboard'},
           {itemName:"Mentors",itemEndPoint:"mentors"},
           {itemName:"Students",itemEndPoint:'students'},
           {itemName:"Mentor Application",itemEndPoint:'mentors/application'}
         ]
+
+
   return (
     <header className='w-screen fixed bg-gray-100 p-5'>
         <div className='container mx-auto flex items-center justify-between'>
@@ -26,7 +50,7 @@ const Header = () => {
                 </NavigationMenu>
             </div>
             <div>
-                <Button>Logout</Button>
+                <Button onClick={handleLogout}>Logout</Button>
             </div>
         </div>
     </header>

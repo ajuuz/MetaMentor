@@ -39,9 +39,10 @@ export type MentorDataType={
     skills: string[],
     workedAt:string[],
     name: string,
-    country: string,
-    gender: GENDER,
-    mobileNumber: number
+    country: string|null,
+    gender: GENDER|null,
+    mobileNumber: number|null,
+    profileImage:string|null
 }
 
 

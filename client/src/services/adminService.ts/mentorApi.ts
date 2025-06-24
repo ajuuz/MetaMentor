@@ -32,16 +32,9 @@ export const getSpecificMentor=async(mentorId:string):Promise<Required<ApiRespon
     }
 }
 
-export const acceptMentorApplication=async({
-    mentorId,
-    email,
-    status,
-    reason}:
-    {mentorId:string,
-        email:string,
-        status:'accepted'|'rejected',
-        reason?:string}):
-    Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+export const acceptMentorApplication=async(
+    {mentorId,email,status,reason}:{mentorId:string,email:string,status:'accepted'|'rejected',reason?:string}
+    ):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
     try{
         const response = await adminAxiosInstance.patch(`/mentors/${mentorId}/${status}`,{email,reason});
         return response.data

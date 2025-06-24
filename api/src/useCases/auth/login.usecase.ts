@@ -46,12 +46,12 @@ export class LoginUsecase implements ILoginUsecase{
                     throw new CustomError(401,"Verify otp to create account")
                 }
 
-                
+                 if(user.isBlocked){
+                throw new CustomError(403,"Admin has been blocked you. please contact admin")
+                }
             }
     
-            // if(user.isBlocked){
-            //     throw new CustomError(403,"Admin has been blocked you. please contact admin")
-            // }
+           
     
             const accessToken = this._tokenService.generateAccessToken({id:user._id,email:user.email,role:user.role});
             const refreshToken = this._tokenService.generateRefreshToken({id:user._id,email:user.email,role:user.role});

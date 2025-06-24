@@ -7,6 +7,7 @@ import { FirebaseAdminConfig } from "frameworks/firebase/firebaseAdmin";
 import { JwtPayload } from "jsonwebtoken";
 import { loginResponseDTO, SignupRequestDto } from "shared/dto/authDTO";
 import { AuthError } from "shared/utils/error/authError";
+import { CustomError } from "shared/utils/error/customError";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { inject, injectable } from "tsyringe";
 
@@ -46,6 +47,8 @@ export class GoogleAuthUsecase implements IGoogleAuthUsecase{
         }
 
         if(!user) throw new NotFoundError("user not found . some thing went wrong during google login");
+
+        if(user.isBlocked) throw new CustomError(403,"User is blocked please contact admin")
 
         if(decode.user_id!==user.googleId) throw new AuthError(401,'Your google id is not matched')
 
