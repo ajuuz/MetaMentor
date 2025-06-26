@@ -6,7 +6,7 @@ const MentorRoutes = () => {
   return (
    <Routes>
       <Route element={<ProtectedRoute allowedRoles={['user']} navitageTo="/admin/dashboard"/>}>
-    <Route path='/register' element={<MentorDetailsManage/>}/>
+         <Route path='/register' element={<MentorDetailsManage/>}/>
       </Route>
 
    </Routes>

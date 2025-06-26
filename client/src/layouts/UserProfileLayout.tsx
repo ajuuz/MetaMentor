@@ -1,21 +1,45 @@
 import { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import {Outlet} from 'react-router-dom';
 import { FaHamburger } from "react-icons/fa";
 import './layoutStyle.css';
 import { X } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import { logout } from '@/services/authService.ts/authApi';
+import { toast } from 'sonner';
+import { useUserStore } from '@/zustand/userStore';
 
 const UserProfileLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [active,setActive] = useState(0)
+  const logoutDispatch = useUserStore(state=>state.logout)
+
+  const handleClick=(index:number)=>{
+     setActive(index);
+  }
+
+  const {mutate:logoutMutation}=useMutation({
+    mutationFn:logout,
+    onSuccess:(response)=>{
+      logoutDispatch()
+      toast.success(response.message)
+    },
+    onError:(error)=>{
+      toast.error(error.message)
+    }
+  })
 
   return (
     <div className="min-h-[90vh] flex relative">
 
         <div className='flex items-center relative  z-2'>
             <div onClick={()=>setSidebarOpen(prev=>!prev)} className={`absolute z-3 sm:hidden transition-all duration-300 ${sidebarOpen?"top-5 translate-x-43 p-1":"top-5 translate-x-2 p-2"}  bg-black text-white  rounded-4xl`}>{!sidebarOpen?<FaHamburger/>:<X/>}</div>
-            <div className={`h-7/8 sm:h-full bg-white fixed shadow-lg sm:relative z-2 flex flex-col gap-10 px-20  justify-center transition-all duration-300  -translate-x-full sm:translate-x-0 ${sidebarOpen && "translate-x-0"}`}>
-                <div className='font-medium'>Profile</div>
-                <div className='font-medium'>Settings</div>
-                <div className='font-medium'>Logout</div>
+            <div className={`h-7/8 sm:h-full bg-white fixed shadow-lg sm:relative z-2 flex flex-col gap-6 px-2  justify-center transition-all duration-300  -translate-x-full sm:translate-x-0 ${sidebarOpen && "translate-x-0"}`}>
+                {
+                ["Profile","Settings"].map((element,index)=>(
+                    <div onClick={()=>handleClick(index)} className={`font-medium ${active===index?"bg-red-200 text-white":"text-black"}  px-20 py-2 rounded-md`}>{element}</div>
+                ))
+                }
+             <div onClick={()=>logoutMutation()} className={`cursor-pointer font-medium bg-black text-white  px-20 py-2 rounded-md`}>Logout</div>
             </div>
         </div>
 

@@ -11,6 +11,7 @@ import MentorListing from "@/pages/user/mentors/MentorListing"
 import Profile from "@/pages/user/Profile/Profile"
 import UserLayout from "@/layouts/UserLayout"
 import UserProfileLayout from "@/layouts/UserProfileLayout"
+import ProtectedRoute from "./protectedRoutes/ProtectedRoute"
 
 const UserRoutes = () => {
   return (
@@ -25,12 +26,18 @@ const UserRoutes = () => {
             <Route path="/forgotPassword/reset/:token" element={<PasswordReset/>}/>
 
             <Route element={<UserLayout/>}>
-            <Route path="/" element={<LandingPage/>}/>
-            <Route path="/mentors" element={<MentorListing/>}/>
-            <Route element={<UserProfileLayout/>}>
-              <Route path="/profile" element={<Profile/>}/>
+              <Route path="/" element={<LandingPage/>}/>
+
+              <Route path="/mentors" element={<MentorListing/>}/>
+
+                <Route element={<ProtectedRoute allowedRoles={['user']}/>}>
+                  <Route element={<UserProfileLayout/>}>
+                    <Route path="/profile" element={<Profile/>}/>
+                  </Route>
+                </Route>
+                
             </Route>
-            </Route>
+
         </Routes>
     </div>
   )

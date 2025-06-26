@@ -13,30 +13,11 @@ import { useUserStore, type UserType } from '@/zustand/userStore'
 
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from "../ui/button";
-import { useMutation } from "@tanstack/react-query";
-import { logout } from "@/services/authService.ts/authApi";
-import { toast } from "sonner";
 
 const Navbar = () => {
-
+  
   const user:UserType|null= useUserStore((state)=>state.user);
   const navigate = useNavigate();
-  const logoutDispatch=useUserStore(state=>state.logout)
-
-  const {mutate:logoutMutation}=useMutation({
-    mutationFn:logout,
-    onSuccess:(response)=>{
-      logoutDispatch()
-      toast.success(response.message)
-    },
-    onError:(error)=>{
-      toast.error(error.message)
-    }
-  })
-
-  const handleLogout=()=>{
-    logoutMutation()
-  }
 
   return (
       <header className="fixed top-0 w-full bg-white shadow-sm z-2">
@@ -66,7 +47,6 @@ const Navbar = () => {
               <div className='flex gap-4 items-center'>
                 <FaUserCircle onClick={()=>navigate('/profile')} className='cursor-pointer scale-[1.2]'/>
                 <FaPaperPlane />
-                <Button onClick={handleLogout}>Logout</Button>
               </div>
               }
 
