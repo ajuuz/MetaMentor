@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import Navbar from '@/components/user/Navbar'
 import './landingPage.css'
 import { HeroSection1, HeroSection2 } from '@/components/user/HeroSection'
 import { useEffect, useRef, useState } from 'react'
@@ -21,11 +20,10 @@ const LandingPage = () => {
   },[])
 
   return (
-    <div className="min-h-screen">
-
-      <Navbar/>
+    <div>
+      
       {/* Hero Section */}
-      <section className="pt-24">
+      <section>
         <AnimatePresence>
         {
           heroSection

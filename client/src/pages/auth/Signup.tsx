@@ -11,7 +11,7 @@ import { signup } from '@/services/authService.ts/authApi';
 import type { AuthFormErrorsType, AuthFormType } from '@/types/authTypes';
 
 //hooks
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 
@@ -24,7 +24,8 @@ import { formDataValidation } from '@/utils/validations/formDataValidation';
 
 const Signup = () => {
 
-  const countryNames = countries.map(c => c.name.common);
+  const countryNames = useMemo(()=>countries.map(c => c.name.common),[]);
+
   const [formData, setFormData] = useState<AuthFormType>({
     name: '',
     email: '',
@@ -132,11 +133,11 @@ const Signup = () => {
             <div className='grid grid-cols-2 gap-4'>
               <div className='flex flex-col gap-2'>
                 <Label htmlFor="country">Country</Label>
-                <SelectComponent placeHolder='country' handleSelectChange={handleSelectChange} content={countryNames}/>
+                <SelectComponent disabled={false} placeHolder='country' handleSelectChange={handleSelectChange} content={countryNames}/>
               </div>
               <div className='flex flex-col gap-2'>
                 <Label htmlFor="gender">Gender</Label>
-                <SelectComponent placeHolder='gender' handleSelectChange={handleSelectChange} content={["male","female","other"]} />
+                <SelectComponent disabled={false} placeHolder='gender' handleSelectChange={handleSelectChange} content={["male","female","other"]} />
               </div>
             </div>
           </form>

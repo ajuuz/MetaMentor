@@ -4,14 +4,15 @@ type SelectComponentProps = {
   placeHolder: string;
   content: string[];
   handleSelectChange: (name:string,value: string) => void;
+  disabled:boolean
 }
 
 
-const SelectComponent = ({placeHolder,handleSelectChange,content}:SelectComponentProps) => {
+const SelectComponent = ({placeHolder,handleSelectChange,content,disabled}:SelectComponentProps) => {
   return (
-    <Select onValueChange={(value)=>handleSelectChange(placeHolder,value)}>
+    <Select disabled={disabled}  onValueChange={(value)=>handleSelectChange(placeHolder,value)}>
         <SelectTrigger  className="w-[180px]">
-          <SelectValue placeholder={placeHolder} />
+          <SelectValue  placeholder={placeHolder} />
         </SelectTrigger>
         <SelectContent>
           {

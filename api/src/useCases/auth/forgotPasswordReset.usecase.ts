@@ -28,7 +28,7 @@ export class ForgotPasswordResetUsecase implements IForgotPasswordResetUsecase{
         if(!password) throw new ValidationError("Password is required");
         if(!token) throw new AuthError(HTTP_STATUS.UNAUTHORIZED,ERROR_MESSAGE.UNAUTHORIZED_ACCESS)
 
-        const payload:JwtPayload = this._tokenService.verifyForgotPasswordToken(token)
+        const payload:JwtPayload =this._tokenService.verifyForgotPasswordToken(token)
         const {email} = payload
         const fieldName=`forgotPassword:${email}`
         const blacklisteToken=await this._blackListTokenRepository.getToken(fieldName)

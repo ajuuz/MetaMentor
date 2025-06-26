@@ -14,14 +14,14 @@ export class AdminRoutes{
 
     private configureRoutes():void{
         //student
-        this._router.get('/students',adminStudentController.getAllStudents.bind(adminStudentController))
-        this._router.patch('/students/:userId',adminStudentController.updateStudentStatus.bind(adminStudentController))
+        this._router.get('/students',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminStudentController.getAllStudents.bind(adminStudentController))
+        this._router.patch('/students/:userId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminStudentController.updateStudentStatus.bind(adminStudentController))
 
         //mentor
         this._router.get('/mentors',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminMentorController.getAllMentors.bind(adminMentorController))
-        this._router.get('/mentors/:mentorId',adminMentorController.getSpecificMentor.bind(adminMentorController))
-        this._router.patch('/mentors/:mentorId/:applicationStatus',adminMentorController.mentorApplicationVerification.bind(adminMentorController))
-        this._router.patch('/mentors/:mentorId',adminMentorController.updateMentorStatus.bind(adminMentorController))
+        this._router.get('/mentors/:mentorId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminMentorController.getSpecificMentor.bind(adminMentorController))
+        this._router.patch('/mentors/:mentorId/:applicationStatus',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminMentorController.mentorApplicationVerification.bind(adminMentorController))
+        this._router.patch('/mentors/:mentorId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminMentorController.updateMentorStatus.bind(adminMentorController))
     }
 
     getRouter():Router{

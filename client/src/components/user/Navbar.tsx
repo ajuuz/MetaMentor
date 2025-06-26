@@ -1,7 +1,6 @@
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -40,7 +39,7 @@ const Navbar = () => {
   }
 
   return (
-      <header className="fixed w-full bg-white shadow-sm z-2">
+      <header className="fixed top-0 w-full bg-white shadow-sm z-2">
         <div className=" mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="text-[#E63946] font-bold text-xl"><span className="text-black">META</span> MENTOR</div>
@@ -48,12 +47,12 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center ">
                 <NavigationMenu className="flex items-center space-x-4">
-                    <NavigationMenuList>
-                      {["Community", "Reviewers", "About", "Network", "Rooms", "Highlights", "Dashboard"].map((item) => (
-                        <NavigationMenuItem key={item}>
-                          <NavigationMenuLink className="text-black hover:text-[#E63946] transition-colors" href="#">
+                    <NavigationMenuList className="flex gap-5">
+                      {["Community", "Mentors", "About", "Network", "Rooms", "Highlights", "Dashboard"].map((item) => (
+                        <NavigationMenuItem key={item} >
+                          <Link className="text-black hover:text-[#E63946] transition-colors" to={`/${item.toLowerCase()}`}>
                             {item}
-                          </NavigationMenuLink>
+                          </Link>
                         </NavigationMenuItem>
                       ))}
                     </NavigationMenuList>
@@ -65,7 +64,7 @@ const Navbar = () => {
                 Sign Up
               </Button>:
               <div className='flex gap-4 items-center'>
-                <FaUserCircle className='scale-[1.2]'/>
+                <FaUserCircle onClick={()=>navigate('/profile')} className='cursor-pointer scale-[1.2]'/>
                 <FaPaperPlane />
                 <Button onClick={handleLogout}>Logout</Button>
               </div>
@@ -82,7 +81,7 @@ const Navbar = () => {
                    <div className="flex flex-col gap-3 mt-6 px-6 py-4  rounded-2xl">
                    <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-2">Explore</h2>
 
-                    {["Community","Reviewers","About","Network","Rooms","Highlights","Dashboard",].map((item, index) => (
+                    {["Community","Mentors","About","Network","Rooms","Highlights","Dashboard",].map((item, index) => (
                       <Link  key={index}  to={`/${item.toLowerCase()}`}  className="text-[16px] font-medium text-gray-700 hover:text-[#E63946] hover:pl-2 transition-all duration-200 ease-in-out px-2 py-1 rounded-md hover:bg-[#E63946]/10">
                         {item}
                       </Link>

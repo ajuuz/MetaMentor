@@ -27,7 +27,6 @@ export class EmailService implements IEmailService{
 
 
     async sendMail(to:string,subject:string,html:string):Promise<void>{
-       
         const mailOptions = {
             from :"Meta Mentor",
             to,
