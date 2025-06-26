@@ -41,7 +41,7 @@ export type MentorDataType={
     name: string,
     country: string|null,
     gender: GENDER|null,
-    mobileNumber: number|null,
+    mobileNumber: string|null,
     profileImage:string|null
 }
 

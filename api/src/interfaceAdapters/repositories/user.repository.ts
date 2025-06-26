@@ -30,7 +30,9 @@ export class UserRepository implements IUserRespository{
     }
 
     async updateOne(filter:Partial<UserUpdateDTO.filter>,update:Partial<UserUpdateDTO.update>):Promise<void>{
-        await userDB.updateOne(filter,update);
+        console.log("comes here")
+        const updated=await userDB.updateOne(filter,update);
+        console.log(updated)
     }
 
 

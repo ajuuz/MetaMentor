@@ -6,7 +6,7 @@ export interface UserDetailsType{
     profileImage:string|null,
     country:string|null,
     gender:string|null,
-    mobileNumber:number|null,
+    mobileNumber:string|null,
     email:string,
     role:ROLES,
     isVerified:boolean

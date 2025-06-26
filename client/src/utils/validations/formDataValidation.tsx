@@ -11,7 +11,7 @@ export const formDataValidation = (formData:Partial<Omit<AuthFormType,'country'|
         if (key==='name' && (value==="" || value===null)) {
                 errors[key] = `${key} is required`
         } else if(key==='name' && /^[A-Za-z\s]{3,20}$/.test(value)===false){
-                errors[key] = "Name must contain only letters and at least 2 characters. format"
+                errors[key] = "Name must contain only letters and at least 3 characters. format"
         }
 
         if (key==='email' && (value==="" || value===null)) {

@@ -24,6 +24,7 @@ export class CommonController implements ICommonController{
             res.status(200).json({success:true,message:"Image uploaded successfully!",data:uploadedFiles})
         }
         catch(error){
+            console.log(error)
             next(error);
         }
    }

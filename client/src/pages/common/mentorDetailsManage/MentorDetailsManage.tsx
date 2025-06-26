@@ -76,7 +76,6 @@ export default function MentorDetailsManage() {
     mutationFn:getSpecificMentor,
     onSuccess:(response)=>{
       const mentor = response.data; 
-      console.log(mentor)
       const {about,domains,skills,workedAt,cv,experienceCirtificate,_id,userId,isBlocked,...rest} =mentor 
       setUserDetails(rest);
 
@@ -87,7 +86,7 @@ export default function MentorDetailsManage() {
       setImages([cv,experienceCirtificate])
     },
     onError:(error)=>{
-      console.log(error)
+      toast.error(error.message)
     }
   })
 

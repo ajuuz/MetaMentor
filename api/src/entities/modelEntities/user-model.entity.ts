@@ -2,15 +2,15 @@ import { ROLES } from "shared/constants";
 
 export interface IUserEntity{
     name:string,
-    profileImage?:string,
-    country:string,
-    gender:string,
-    mobileNumber:number,
+    profileImage:string|null,
+    country:string|null,
+    gender:string|null,
+    mobileNumber:number|null,
     email:string,
-    password:string,
+    password:string|null,
     createdAt:Date,
     role:ROLES,
-    googleId:string,
+    googleId:string|null,
     isBlocked:boolean,
     isVerified:boolean
 }

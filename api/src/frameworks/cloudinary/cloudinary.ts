@@ -17,7 +17,7 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => ({
     folder: "secure-uploads", //
     resource_type: "auto",
-    allowed_formats: ["jpg", "png", "jpeg", "gif"],
+    allowed_formats: ["jpg", "png", "jpeg", "gif","webp","avif"],
   }),
 });
 

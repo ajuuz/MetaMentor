@@ -22,6 +22,7 @@ export namespace UserUpdateDTO{
         name:string,
         country:string,
         gender:string,
+        profileImage:string,
         mobileNumber:string,
         email:string,
         password:string,

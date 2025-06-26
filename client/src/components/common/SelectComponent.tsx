@@ -1,6 +1,7 @@
 import { Select,SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 
 type SelectComponentProps = {
+  selectKey:string,
   placeHolder: string;
   content: string[];
   handleSelectChange: (name:string,value: string) => void;
@@ -8,9 +9,10 @@ type SelectComponentProps = {
 }
 
 
-const SelectComponent = ({placeHolder,handleSelectChange,content,disabled}:SelectComponentProps) => {
+const SelectComponent = ({selectKey,placeHolder,handleSelectChange,content,disabled}:SelectComponentProps) => {
+  console.log(selectKey)
   return (
-    <Select disabled={disabled}  onValueChange={(value)=>handleSelectChange(placeHolder,value)}>
+    <Select disabled={disabled}  onValueChange={(value)=>handleSelectChange(selectKey,value)}>
         <SelectTrigger  className="w-[180px]">
           <SelectValue  placeholder={placeHolder} />
         </SelectTrigger>

@@ -35,6 +35,8 @@ export class LoginUsecase implements ILoginUsecase{
             }
             
             const userPassword = user.password;
+            if(!userPassword) throw new CustomError(400,"try google login");
+            
             const isMatch =await comparePassword(password,userPassword)
             if(!isMatch){
                 throw new NotFoundError("Invalid Credential");

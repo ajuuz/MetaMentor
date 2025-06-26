@@ -133,11 +133,11 @@ const Signup = () => {
             <div className='grid grid-cols-2 gap-4'>
               <div className='flex flex-col gap-2'>
                 <Label htmlFor="country">Country</Label>
-                <SelectComponent disabled={false} placeHolder='country' handleSelectChange={handleSelectChange} content={countryNames}/>
+                <SelectComponent disabled={false} selectKey='country' placeHolder='Country' handleSelectChange={handleSelectChange} content={countryNames}/>
               </div>
               <div className='flex flex-col gap-2'>
                 <Label htmlFor="gender">Gender</Label>
-                <SelectComponent disabled={false} placeHolder='gender' handleSelectChange={handleSelectChange} content={["male","female","other"]} />
+                <SelectComponent disabled={false} selectKey='gender' placeHolder='Gender' handleSelectChange={handleSelectChange} content={["male","female","other"]} />
               </div>
             </div>
           </form>

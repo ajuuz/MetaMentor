@@ -1,6 +1,6 @@
 import { uploadImage } from "@/services/commonApi";
 
-export const imageUploader=async(images:Blob[])=>{
+export const imageUploader=async(images:Blob[]|File[])=>{
         const imageData = new FormData();
         images.forEach((image)=>{
             imageData.append('image',image);

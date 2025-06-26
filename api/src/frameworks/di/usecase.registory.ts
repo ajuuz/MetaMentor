@@ -37,6 +37,8 @@ import { IGoogleAuthUsecase } from "entities/usecaseInterfaces/auth/googleAuthUs
 import { GoogleAuthUsecase } from "useCases/auth/googleAuth.usecase";
 import { IGetSpecificUserUsecase } from "entities/usecaseInterfaces/user/getSpecificUserUsecase.interface";
 import { GetSpecificUserUsecase } from "useCases/user/getSpecificUser.usecase";
+import { IUpdateUserUsecase } from "entities/usecaseInterfaces/user/updateUserUsecase.interface";
+import { UpdateUserUsecase } from "useCases/user/updateUser.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -84,6 +86,10 @@ export class UseCaseRegistory{
         //user usecases
         container.register<IGetSpecificUserUsecase>('IGetSpecificUserUsecase',{
             useClass:GetSpecificUserUsecase
+        })
+
+        container.register<IUpdateUserUsecase>('IUpdateUserUsecase',{
+            useClass:UpdateUserUsecase
         })
 
         //student usecases
