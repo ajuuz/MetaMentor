@@ -25,17 +25,16 @@ const UserRoutes = () => {
             <Route path="/forgotPassword/success" element={<ForgotEmailSuccess/>}/>
             <Route path="/forgotPassword/reset/:token" element={<PasswordReset/>}/>
 
+            {/* user layout */}
             <Route element={<UserLayout/>}>
               <Route path="/" element={<LandingPage/>}/>
-
               <Route path="/mentors" element={<MentorListing/>}/>
-
                 <Route element={<ProtectedRoute allowedRoles={['user']}/>}>
+                {/* user profile layout */}
                   <Route element={<UserProfileLayout/>}>
                     <Route path="/profile" element={<Profile/>}/>
                   </Route>
                 </Route>
-                
             </Route>
 
         </Routes>

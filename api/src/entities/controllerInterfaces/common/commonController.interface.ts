@@ -7,6 +7,6 @@ interface MulterRequest extends Request{
 
 
 export interface ICommonController{
-
     uploadImage(req:MulterRequest,res:Response,next:NextFunction):Promise<void>
+    eventSource(req:Request,res:Response,next:NextFunction):Promise<void>
 }

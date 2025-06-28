@@ -23,6 +23,8 @@ export class CommonRoutes{
             authMiddleware.blockChecker.bind(authMiddleware),
             upload.array("image",5),
             (req:Request,res:Response,next:NextFunction) => {commonController.uploadImage(req as MulterRequest,res,next)});
+
+        this._router.get('/eventSource/:email',commonController.eventSource.bind(commonController))
     }
 
     getRouter():Router{

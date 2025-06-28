@@ -1,16 +1,22 @@
+import { useEffect, useMemo, useState } from "react"
+import { useMutation } from "@tanstack/react-query";
+
 import LoadingSpinnerComponent from "@/components/common/LoadingSpinnerComponent";
 import SelectComponent from "@/components/common/SelectComponent";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { getSpecificUser, updateProfile } from "@/services/userService.ts/userApi";
+
 import type { UserDetailsType } from "@/types/userType";
+
+import { getSpecificUser, updateProfile } from "@/services/userService.ts/userApi";
 import { imageUploader } from "@/utils/helperFunctions/imageUploadFunction";
-import { useMutation } from "@tanstack/react-query";
+
 import { Edit, Eye, Image } from "lucide-react";
-import { useEffect, useMemo, useState } from "react"
-import { toast } from "sonner";
+
 import countries from "world-countries";
+
+import { toast } from "sonner";
 
 const Profile = () => {
     const [isViewMode,setIsViewMode] = useState(true);
@@ -120,7 +126,7 @@ const Profile = () => {
             <div className="flex items-center gap-3">
                 {isViewMode && userDetails.profileImage
                     ?<div className="bg-black/30 border-5 text-white rounded-[50%] p-3 text-[0.6rem] relative flex justify-center font-medium">
-                        <img src={userDetails.profileImage}  className="rounded-4xl" alt={`${userDetails.name}'s profile pic`} />
+                        <img src={userDetails?.profileImage}  className="rounded-4xl" alt={`${userDetails.name}'s profile pic`} />
                     </div>
                     :!isViewMode
                     ?<Label htmlFor="profilePic" className={` bg-black/30 border-5 text-white rounded-[50%] ${profileImage?"p-3":"p-6"} text-[0.6rem] relative flex justify-center font-medium`}>

@@ -28,7 +28,8 @@ const Header = () => {
   const navItmes=[{itemName:"Dashboard",itemEndPoint:'dashboard'},
           {itemName:"Mentors",itemEndPoint:"mentors"},
           {itemName:"Students",itemEndPoint:'students'},
-          {itemName:"Mentor Application",itemEndPoint:'mentors/application'}
+          {itemName:"Mentor Application",itemEndPoint:'mentors/application'},
+          {itemName:"Domains",itemEndPoint:'Domains'}
         ]
 
 

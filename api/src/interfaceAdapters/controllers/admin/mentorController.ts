@@ -6,6 +6,7 @@ import { IGetVerifiedMentorsUsecase } from "entities/usecaseInterfaces/mentor/ge
 import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
 import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/updateMentorStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
+import sseClientManager from "frameworks/SSE/sseClientManager";
 import { MENTOR_APPLICATION_STATUS } from "shared/constants";
 import { MentorDataDTO } from "shared/dto/mentorDTO";
 import { inject, injectable } from "tsyringe";
@@ -74,6 +75,7 @@ export class AdminMentorController implements IAdminMentorController{
 
         if(applicationStatus===MENTOR_APPLICATION_STATUS.ACCEPTED){
             await this._acceptMentorApplicationUsecase.execute(mentorId,email)
+            sseClientManager.notifyClient(email,"Mentor Application Accepted")
             res.status(200).json({success:true,message:"Mentor Application Accepted Successfully"})
         }else{
             await this._rejectMentorApplicationUsecase.execute(mentorId,email,reason)

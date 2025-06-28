@@ -19,3 +19,9 @@ export const uploadImage =async (imageData:FormData)=>{
         }    
     }
 }
+
+export const eventSourceProvider=(email:string):EventSource=>{
+    const baseUri=userAxiosInstance.getUri()
+    const eventSource = new EventSource(`${baseUri}/common/eventSource/${email}`)
+    return eventSource
+}
