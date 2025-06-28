@@ -1,4 +1,4 @@
-import { IAdminStudentController } from "entities/controllerInterfaces/admin/student-controller.interface";
+import { IAdminStudentController } from "entities/controllerInterfaces/admin/adminStudentController.interface";
 import { IStudentEntity } from "entities/modelEntities/student-model.entity";
 import { IGetAllStudentsUsecase } from "entities/usecaseInterfaces/student/getAllStudentsUsecase.interface";
 import { IUpdateStudentStatusUsecase } from "entities/usecaseInterfaces/student/updateStudentStatusUsecase.interface";

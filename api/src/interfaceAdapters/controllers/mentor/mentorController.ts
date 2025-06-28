@@ -1,4 +1,4 @@
-import { IMentorController } from "entities/controllerInterfaces/mentor/registerController.interface";
+import { IMentorController } from "entities/controllerInterfaces/mentor/mentorController.interface";
 import { IRegisterMentorUsecase } from "entities/usecaseInterfaces/mentor/registerMentorUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { ObjectId } from "mongoose";

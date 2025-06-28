@@ -129,7 +129,7 @@ const Profile = () => {
                         <img src={userDetails?.profileImage}  className="rounded-4xl" alt={`${userDetails.name}'s profile pic`} />
                     </div>
                     :!isViewMode
-                    ?<Label htmlFor="profilePic" className={` bg-black/30 border-5 text-white rounded-[50%] ${profileImage?"p-3":"p-6"} text-[0.6rem] relative flex justify-center font-medium`}>
+                    ?<Label htmlFor="profilePic" className={`bg-black/30 border-5 text-white rounded-[50%] ${profileImage?"p-3":"p-6"} text-[0.6rem] relative flex justify-center font-medium`}>
                         {
                         profileImage?
                         <img src={URL.createObjectURL(profileImage)} className="rounded-4xl" />

@@ -1,5 +1,5 @@
 import { IStudentEntity } from "entities/modelEntities/student-model.entity";
-import mongoose, { ObjectId } from "mongoose";
+import mongoose, { Document, ObjectId } from "mongoose";
 import { studentSchema } from "../schemas/student.schema";
 
 

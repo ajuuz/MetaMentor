@@ -34,7 +34,7 @@ const Header = () => {
 
 
   return (
-    <header className='w-screen fixed bg-gray-100 p-5'>
+    <header className='w-screen fixed top-0 bg-gray-100 p-5'>
         <div className='container mx-auto flex items-center justify-between'>
             <div className="text-[#E63946] font-bold text-xl">META MENTOR</div>
              <div className="flex  items-center">

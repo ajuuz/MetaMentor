@@ -3,11 +3,11 @@ import { container } from "tsyringe";
 import { DependencyInjection } from ".";
 import { IAuthController } from "entities/controllerInterfaces/auth/authController.interface";
 import { ErrorMiddleware } from "interfaceAdapters/middlewares/error.middleware";
-import { IAdminStudentController} from "entities/controllerInterfaces/admin/student-controller.interface";
+import { IAdminStudentController} from "entities/controllerInterfaces/admin/adminStudentController.interface";
 import { AdminStudentController} from "interfaceAdapters/controllers/admin/studentController";
 import { ICommonController } from "entities/controllerInterfaces/common/commonController.interface";
 import { CommonController } from "interfaceAdapters/controllers/common/commonController";
-import { IMentorController } from "entities/controllerInterfaces/mentor/registerController.interface";
+import { IMentorController } from "entities/controllerInterfaces/mentor/mentorController.interface";
 import { MentorController } from "interfaceAdapters/controllers/mentor/mentorController";
 import { IAdminMentorController } from "entities/controllerInterfaces/admin/adminMentorController.interface";
 import { AdminMentorController } from "interfaceAdapters/controllers/admin/mentorController";
@@ -16,6 +16,8 @@ import { IAuthMiddleware } from "entities/middlewareInterfaces/authMiddleware.in
 import { AuthMiddleware } from "interfaceAdapters/middlewares/auth.middleware";
 import { IUserController } from "entities/controllerInterfaces/user/userController.interface";
 import { UserController } from "interfaceAdapters/controllers/user/userController";
+import { IAdminDomainController } from "entities/controllerInterfaces/admin/adminDomainController.interface";
+import { AdminDomainController } from "interfaceAdapters/controllers/admin/domainController";
 
 DependencyInjection.registerAll()
 
@@ -26,6 +28,7 @@ export const authController = container.resolve<IAuthController>(AuthController)
 //adminControllers
 export const adminStudentController = container.resolve<IAdminStudentController>(AdminStudentController)
 export const adminMentorController = container.resolve<IAdminMentorController>(AdminMentorController);
+export const adminDomainController = container.resolve<IAdminDomainController>(AdminDomainController);
 
 //commomController
 export const commonController = container.resolve<ICommonController>(CommonController)

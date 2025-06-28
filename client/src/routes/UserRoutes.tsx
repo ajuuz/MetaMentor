@@ -29,7 +29,7 @@ const UserRoutes = () => {
             <Route element={<UserLayout/>}>
               <Route path="/" element={<LandingPage/>}/>
               <Route path="/mentors" element={<MentorListing/>}/>
-                <Route element={<ProtectedRoute allowedRoles={['user']}/>}>
+                <Route element={<ProtectedRoute allowedRoles={['user','mentor']}/>}>
                 {/* user profile layout */}
                   <Route element={<UserProfileLayout/>}>
                     <Route path="/profile" element={<Profile/>}/>

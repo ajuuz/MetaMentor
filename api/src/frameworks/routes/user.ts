@@ -14,7 +14,7 @@ export class UserRoutes{
     }
 
     private configureRoutes():void{
-        this._router.get('/user',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER]),authMiddleware.blockChecker.bind(authMiddleware),userController.getDetails.bind(userController))
+        this._router.get('/user',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userController.getDetails.bind(userController))
         this._router.patch('/user',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userController.updateUser.bind(userController))
     }
 

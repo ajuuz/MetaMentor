@@ -1,4 +1,4 @@
-import mongoose, { ObjectId } from "mongoose";
+import mongoose, { Document, ObjectId } from "mongoose";
 import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { mentorSchema } from "../schemas/mentor.schema";
 
