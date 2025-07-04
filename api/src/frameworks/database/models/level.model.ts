@@ -7,4 +7,4 @@ export interface ILevelModel extends Omit<ILevelEntity,"_id">,Document{
     _id:ObjectId
 }
 
-export const levelDB = mongoose.model<ILevelModel>('levels',levelSchema);
+export const levelModel = mongoose.model<ILevelModel>('levels',levelSchema);

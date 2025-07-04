@@ -7,4 +7,4 @@ export interface IDomainModel extends Omit<IDomainEntity,"_id">,Document{
     _id:ObjectId
 }
 
-export const domainDB = mongoose.model<IDomainModel>('domains',domainSchema)
+export const domainModel = mongoose.model<IDomainModel>('domains',domainSchema)

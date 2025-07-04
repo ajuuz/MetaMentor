@@ -6,4 +6,4 @@ export interface IUserModel extends IUserEntity , Document{
     _id:ObjectId
 }
 
-export const userDB = mongoose.model('users',userSchema)
+export const userModel = mongoose.model('users',userSchema)

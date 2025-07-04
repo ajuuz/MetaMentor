@@ -10,6 +10,8 @@ import { imageUploader } from "@/utils/helperFunctions/imageUploadFunction"
 import { useMutation } from "@tanstack/react-query"
 import { Image, X } from "lucide-react"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { toast } from "sonner"
 import { z } from "zod";
 
 
@@ -23,14 +25,16 @@ const ManageDomain = () => {
     })
     const [errors,setErrors] = useState<Partial<DomainType&{noOfLevel:string}>>({})
     const [prevImage,setPrevImage]=useState<File|null>(null);
+    const navigate = useNavigate()
 
     const {mutate:addDomainMutation}=useMutation({
         mutationFn:addDomain,
         onSuccess:(response)=>{
-            console.log(response)
+            toast.success(response.message)
+            navigate('/admin/domains')
         },
         onError:(error)=>{
-            console.log(error)
+            toast.error(error.message)
         }
     })
 
@@ -43,9 +47,8 @@ const ManageDomain = () => {
     setPrevImage(file)
     }
 
-    const addLevel=({name,description,taskfile}:Record<string,string>)=>{
-        
-        setDomainDetails(prev=>({...prev,levels:[...prev.levels,{name,description,taskfile}]}))
+    const addLevel=({name,description,taskFile}:Record<string,string>)=>{
+        setDomainDetails(prev=>({...prev,levels:[...prev.levels,{name,description,taskFile}]}))
     }
 
     const handleRemoveLevel=(index:number)=>{
@@ -57,7 +60,7 @@ const ManageDomain = () => {
       description: z.string().trim().min(10, "Description must be at least 10"),
       motive: z.string().trim().min(10, "Motive must be at least 10"),
       image:z.instanceof(File).refine(file => file.size > 0,"Image file is required"),
-      noOfLevel:z.number().gt(10, "Need more than 10 levels"),
+      noOfLevel:z.number().gt(2, "Need more than 2 levels"),
     });
 
     const handleSubmit=async()=>{

@@ -25,6 +25,27 @@ export enum HTTP_STATUS  {
   INTERNAL_SERVER_ERROR= 500,
 };
 
+export const SUCCESS_MESSAGE={
+   AUTH:{
+     CREATED:'User Registered Successfully',
+     LOGIN:'User logged in Successfully',
+     GOOGLE_LOGIN:"User logged in via google",
+     RESEND_OTP:"otp has been resended successfully",
+     FORGOT_PASSWORD_SEND_MAIL:"Password reset link has been send to your mail id",
+     FORGOT_PASSWORD:"Password reset link has been send to your mail id"
+   },
+   STUDENT:{
+      STATUS_UPDATE:'student status updated successfully',
+      FETCH_ALL:"Fetched all students successfully",
+      FETCH_SINGLE:"Fetched student successfully"
+   },
+   DOMAINS:{
+    CREATED:'Domain created successfully',
+    FETCH_ALL:'Fetched all Domains successfully'
+   }
+
+}
+
 export const ERROR_MESSAGE={
   UNAUTHORIZED_ACCESS_NOT_LOGIN:"Unauthorized access. You have'nt Logged in",
   UNAUTHORIZED_ACCESS:"Unauthorized access.",

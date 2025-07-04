@@ -39,6 +39,12 @@ import { IGetSpecificUserUsecase } from "entities/usecaseInterfaces/user/getSpec
 import { GetSpecificUserUsecase } from "useCases/user/getSpecificUser.usecase";
 import { IUpdateUserUsecase } from "entities/usecaseInterfaces/user/updateUserUsecase.interface";
 import { UpdateUserUsecase } from "useCases/user/updateUser.usecase";
+import { IInsertManyLevelUsecase } from "entities/usecaseInterfaces/level/insertManyLevelUsecase.interface";
+import { InsertManyLevelUsecase } from "useCases/levels/insertManyLevel.usecase";
+import { IAddDomainUsecase } from "entities/usecaseInterfaces/domain/addDomainUsecase.interface";
+import { AddDomainUsecase } from "useCases/domain/addDomain.usecase";
+import { IGetAllDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainUsecase.interface";
+import { GetAllDomainsUsecase } from "useCases/domain/getAllDomain.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -129,7 +135,20 @@ export class UseCaseRegistory{
         container.register<IUpdateMentorStatusUsecase>("IUpdateMentorStatusUsecase",{
             useClass:UpdateMentorStatusUsecase
         })
+        
+        
+        //domain usecase
+        container.register<IAddDomainUsecase>("IAddDomainUsecase",{
+            useClass:AddDomainUsecase
+        })
+        container.register<IGetAllDomainsUsecase>("IGetAllDomainsUsecase",{
+            useClass:GetAllDomainsUsecase
+        })
 
+        //level usecase
+        container.register<IInsertManyLevelUsecase>('IInsertManyLevelUsecase',{
+            useClass:InsertManyLevelUsecase
+        })
 
 
         //common usecase

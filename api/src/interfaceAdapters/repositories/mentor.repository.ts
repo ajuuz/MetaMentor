@@ -1,6 +1,6 @@
 import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
-import { mentorDB } from "frameworks/database/models/mentor.model";
+import { mentorModel } from "frameworks/database/models/mentor.model";
 import { Types } from "mongoose";
 import { GetAllMentorResponseDTO, MentorDataDTO, MentorFindFilterDTO, MentorRegisterRequestDTO, MentorUpdateDTO } from "shared/dto/mentorDTO";
 import { injectable } from "tsyringe";
@@ -11,7 +11,7 @@ export class MentorRepository implements IMentorRepository{
 
     async findById(mentorId:string):Promise<MentorDataDTO|undefined>{
         const mentorObjectId = new Types.ObjectId(mentorId);
-        const mentor = await mentorDB.aggregate([
+        const mentor = await mentorModel.aggregate([
             {$match:{userId:mentorObjectId}},
             {$lookup:{
                 from:'users',
@@ -41,13 +41,13 @@ export class MentorRepository implements IMentorRepository{
     }
 
     async register(userId:string,mentorDetails:MentorRegisterRequestDTO):Promise<void>{
-        const newMentor = new mentorDB({userId,...mentorDetails})
+        const newMentor = new mentorModel({userId,...mentorDetails})
         await newMentor.save()
     }
 
     async find(filter:Partial<MentorFindFilterDTO>, skip: number, limit: number):Promise<Omit<Omit<GetAllMentorResponseDTO,"cv"|"experienceCirtificate">,'totalPages'>>{
         const [mentors,totalDocuments] = await Promise.all([
-            mentorDB.aggregate([
+            mentorModel.aggregate([
                 {$match:filter},
                 {$sort:{createdAt:-1}},
                 {$skip:skip},
@@ -72,17 +72,17 @@ export class MentorRepository implements IMentorRepository{
                     workedAt:1
                 }}
             ]),
-            mentorDB.countDocuments(filter)
+            mentorModel.countDocuments(filter)
         ])
             return {mentors,totalDocuments}
     }
 
     async updateOne(filter:Partial<MentorUpdateDTO.filter>,update:Partial<MentorUpdateDTO.update>):Promise<void>{
-        await mentorDB.updateOne(filter,update)
+        await mentorModel.updateOne(filter,update)
     }
 
     async getStatus(userId:string):Promise<IMentorEntity|null>{
-        const user=await mentorDB.findOne({userId})
+        const user=await mentorModel.findOne({userId})
         return user;
     }
 }

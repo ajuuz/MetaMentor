@@ -5,4 +5,4 @@ export interface IOtpModel extends IOtpEntity, Document {
     _id: ObjectId;
 }
 
-export const otpDB = mongoose.model<IOtpModel>('otps',otpSchema);
+export const otpModel = mongoose.model<IOtpModel>('otps',otpSchema);

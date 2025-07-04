@@ -35,14 +35,14 @@ const Header = () => {
 
   return (
     <header className='w-screen fixed top-0 bg-gray-100 p-5'>
-        <div className='container mx-auto flex items-center justify-between'>
-            <div className="text-[#E63946] font-bold text-xl">META MENTOR</div>
+        <div className=' flex items-center justify-between'>
+            <div className="text-[#E63946] font-bold text-xl text-nowrap">META MENTOR</div>
              <div className="flex  items-center">
                 <NavigationMenu className="flex items-center md:space-x-4">
                     <NavigationMenuList>
                       {navItmes.map((item) => (
                           <NavigationMenuItem key={item.itemName}>
-                          <NavigationMenuLink  className="text-black hover:text-[#E63946] transition-colors">
+                          <NavigationMenuLink  className="text-black text-nowrap hover:text-[#E63946] transition-colors">
                             <Link to={`/admin/${item.itemEndPoint}`}>{item.itemName}</Link>
                           </NavigationMenuLink>
                         </NavigationMenuItem>

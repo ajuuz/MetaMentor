@@ -18,5 +18,10 @@ export const domainSchema = new mongoose.Schema<IDomainModel>({
     motive:{
         type:String,
         required:true
+    },
+    isBlocked:{
+       type:Boolean,
+       required:true,
+       default:false
     }
-})
+},{timestamps:true})

@@ -19,7 +19,7 @@ export class CommonRoutes{
 
     configureRoutes():void{
         this._router.post('/images/upload',
-            authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER]),
+            authMiddleware.verifyAuth.bind(authMiddleware),
             authMiddleware.blockChecker.bind(authMiddleware),
             upload.array("image",5),
             (req:Request,res:Response,next:NextFunction) => {commonController.uploadImage(req as MulterRequest,res,next)});

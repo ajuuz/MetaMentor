@@ -1,4 +1,3 @@
-import {IUserEntity} from "entities/modelEntities/user-model.entity";
 import {IUserModel} from "frameworks/database/models/user.model";
 import {SignupRequestDto} from "shared/dto/authDTO"
 import {UserDetailsResponseDTO,UserFindFilterDTO,UserUpdateDTO} from "shared/dto/userDTO";

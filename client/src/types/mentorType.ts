@@ -17,16 +17,6 @@ export type MentorRegistrationErrorType={
     images?:string;
 }
 
-
-// export type MentorRegisterRequestDTO = {
-//     selectedDomains:string[]
-//     description:string,
-//     workedAt:string[],
-//     skills:string[]
-//     cvImage:any
-//     verificationImage:any
-// }
-
 export type MentorDataType={
     _id: string,
     userId:string,

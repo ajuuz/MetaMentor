@@ -9,7 +9,6 @@ export const levelSchema = new mongoose.Schema<ILevelModel>({
     },
     name:{
         type:String,
-        unique:true,
         required:true
     },
     description:{

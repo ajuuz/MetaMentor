@@ -76,7 +76,11 @@ export class AuthMiddleware implements IAuthMiddleware{
         if(!modReq.user) throw new AuthError(HTTP_STATUS.UNAUTHORIZED,ERROR_MESSAGE.UNAUTHORIZED_ACCESS_NOT_LOGIN);
 
         const role=modReq.user.role;
-        const userId=modReq.user.id
+        const userId=modReq.user.id;
+        if(role===ROLES.ADMIN){
+            next()
+            return
+        }
         const status=await this._checkStatus(userId,role as (ROLES.MENTOR|ROLES.USER))
         if(status){
             clearCookies(res)

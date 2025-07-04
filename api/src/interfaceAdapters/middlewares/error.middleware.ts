@@ -8,10 +8,9 @@ import { ValidationError } from "shared/utils/error/validationError";
 
 export class ErrorMiddleware implements IErrorMiddleware{
     public handleError(err:any,req:Request,res:Response,next:NextFunction):void{
-        console.log(err)
+        console.log(err.message)
         let statusCode=HTTP_STATUS.INTERNAL_SERVER_ERROR
         let message=ERROR_MESSAGE.SERVER_ERROR;
-
         if(err instanceof CustomError){
             statusCode = err.statusCode;
             message = err.message

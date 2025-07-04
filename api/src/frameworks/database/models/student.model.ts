@@ -8,4 +8,4 @@ export interface IStudentModel extends IStudentEntity , Document{
 } 
 
 
-export const studentDB = mongoose.model<IStudentModel>("students",studentSchema)
+export const studentModel = mongoose.model<IStudentModel>("students",studentSchema)

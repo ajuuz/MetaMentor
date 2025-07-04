@@ -9,6 +9,7 @@ import { IResendOtpUsecase } from "entities/usecaseInterfaces/auth/resendOtpUsec
 import { ITokenRefreshingUsecase } from "entities/usecaseInterfaces/auth/tokenRefreshing.interface";
 import { IVerifyOtpUsecase } from "entities/usecaseInterfaces/auth/verifyOtpUsecase.interface";
 import { NextFunction, Request, Response } from "express";
+import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 // import { JwtPayload } from "jsonwebtoken";
 import { loginResponseDTO, SignupRequestDto } from "shared/dto/authDTO";
 import { clearCookies, setAccessCookie, setCookie } from "shared/utils/cookeHelper"
@@ -62,7 +63,7 @@ export class AuthController implements IAuthController{
         try{
             const {email,otp} = req.body;
             await this._VerifyOtpUsecase.execute(email,otp)
-            res.status(201).json({success:true,message:"user verified Successfully"})
+            res.status(HTTP_STATUS.CREATED).json({success:true,message:SUCCESS_MESSAGE.AUTH.CREATED})
         }
         catch(error){
             next(error)
@@ -79,7 +80,7 @@ export class AuthController implements IAuthController{
             const {accessToken,refreshToken,...rest} = details
             
             setCookie(res,accessToken,refreshToken);
-            res.status(200).json({success:true,message:"user logged in successfully",data:rest})
+            res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.AUTH.LOGIN,data:rest})
         }catch(error){
             next(error)
         }
@@ -91,7 +92,7 @@ export class AuthController implements IAuthController{
            const details:loginResponseDTO=await this._googleAuthUsecase.execute(idToken);
            const {accessToken,refreshToken,...rest} = details
            setCookie(res,accessToken,refreshToken);
-           res.status(200).json({success:true,message:"user logged in via google",data:rest})
+           res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.AUTH.GOOGLE_LOGIN,data:rest})
 
         }
         catch(error){
@@ -115,21 +116,21 @@ export class AuthController implements IAuthController{
      async resendOtp(req:Request,res:Response,next:NextFunction):Promise<void>{
         const {email} = req.body;
         await this._resendOtpUsecase.execute(email)
-        res.status(200).json({success:true,message:"otp has been resended successfully"})
+        res.status(200).json({success:true,message:SUCCESS_MESSAGE.AUTH.RESEND_OTP})
     }
 
 
     async forgotPasswordSendMail(req:Request,res:Response,next:NextFunction):Promise<void>{
         const {email} = req.body;
         await this._forgotPasswordSendMailUsecase.execute(email)
-        res.status(200).json({success:true,message:"Password reset link has been send to your mail id"})
+        res.status(200).json({success:true,message:SUCCESS_MESSAGE.AUTH.FORGOT_PASSWORD_SEND_MAIL})
     }
 
     async forgotPasswordReset(req:Request,res:Response,next:NextFunction):Promise<void>{
         const {password,token} = req.body;
         console.log("here req comes")
         await this._forgotPasswordResetUsecase.execute(password,token);
-        res.status(200).json({success:true,message:'Password changed successfully'})
+        res.status(200).json({success:true,message:SUCCESS_MESSAGE.AUTH.FORGOT_PASSWORD})
     }
 
 

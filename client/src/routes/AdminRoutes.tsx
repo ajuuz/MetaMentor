@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom"
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute"
 import AdminLayout from "@/layouts/AdminLayout"
 import ManageDomain from "@/pages/admin/domains/ManageDomain"
+import Domains from "@/pages/admin/domains/Domains"
 
 const AdminRoutes = () => {
   return (
@@ -31,9 +32,10 @@ const AdminRoutes = () => {
                                              
             <Route path='/mentors/:mentorId/verify' element={<MentorDetailsManage/>}/>
             <Route path='/students' element={<ManageStudents/>}/>
+            <Route path='/domains' element={<Domains/>}/>
         </Route>
         
-        <Route path="/domain/add" element={<ManageDomain/>}/>
+        <Route path="/domains/add" element={<ManageDomain/>}/>
 
       </Route>
     </Routes>

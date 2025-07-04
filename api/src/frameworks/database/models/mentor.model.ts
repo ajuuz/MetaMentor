@@ -7,4 +7,4 @@ export interface IMentorModel extends IMentorEntity , Document{
 } 
 
 
-export const mentorDB = mongoose.model<IMentorModel>("mentors",mentorSchema)
+export const mentorModel = mongoose.model<IMentorModel>("mentors",mentorSchema)

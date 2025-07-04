@@ -7,4 +7,6 @@ export interface IDomainEntity{
     image:string,
     description:string,
     motive:string,
+    isBlocked:boolean,
+    createdAt:Date
 }

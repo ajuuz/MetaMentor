@@ -1,6 +1,6 @@
 import { IStudentEntity } from "entities/modelEntities/student-model.entity";
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
-import { studentDB } from "frameworks/database/models/student.model";
+import { studentModel } from "frameworks/database/models/student.model";
 import { ObjectId } from "mongoose";
 
 import {GetAllStudentResponseDTO} from 'shared/dto/studentDTO'
@@ -9,13 +9,13 @@ import {GetAllStudentResponseDTO} from 'shared/dto/studentDTO'
 export class StudentRepository implements IStudentRepository{
 
     async createStudent(userId:ObjectId):Promise<void>{
-        const newStudent = new studentDB({userId})
+        const newStudent = new studentModel({userId})
         await newStudent.save()
     }
 
     async find(filter: any, skip: number, limit: number):Promise<Omit<GetAllStudentResponseDTO,'totalPages'>> {
         const [students,totalDocuments] = await Promise.all([
-            studentDB.aggregate([
+            studentModel.aggregate([
                 {$match:filter},
                 {$sort:{createdAt:-1}},
                 {$skip:skip},
@@ -52,23 +52,23 @@ export class StudentRepository implements IStudentRepository{
                     mobileNumber:'$user.mobileNumber'
                 }}
             ]),
-            studentDB.countDocuments(filter)
+            studentModel.countDocuments(filter)
         ])
         return {students,totalDocuments}
     }
 
 
     async updateOne(filter:any,update:any):Promise<void>{
-        await studentDB.updateOne(filter,update)
+        await studentModel.updateOne(filter,update)
     }
 
     async updateStatus(userId: string, status: boolean): Promise<number> {
-        const update=await studentDB.updateOne({userId},{$set:{isBlocked:status}})
+        const update=await studentModel.updateOne({userId},{$set:{isBlocked:status}})
         return update.modifiedCount
     }
 
      async getStatus(userId:string):Promise<IStudentEntity|null>{
-        const user=await studentDB.findOne({userId})
+        const user=await studentModel.findOne({userId})
         return user;
     }
     

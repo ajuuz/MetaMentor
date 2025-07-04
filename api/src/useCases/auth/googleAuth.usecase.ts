@@ -2,7 +2,6 @@ import { IStudentRepository } from "entities/repositoryInterfaces/student-reposi
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { IGoogleAuthUsecase } from "entities/usecaseInterfaces/auth/googleAuthUsecase.interface";
-import { IUserModel } from "frameworks/database/models/user.model";
 import { FirebaseAdminConfig } from "frameworks/firebase/firebaseAdmin";
 import { JwtPayload } from "jsonwebtoken";
 import { loginResponseDTO, SignupRequestDto } from "shared/dto/authDTO";

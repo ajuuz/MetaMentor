@@ -1,10 +1,8 @@
 import { IAdminStudentController } from "entities/controllerInterfaces/admin/adminStudentController.interface";
-import { IStudentEntity } from "entities/modelEntities/student-model.entity";
 import { IGetAllStudentsUsecase } from "entities/usecaseInterfaces/student/getAllStudentsUsecase.interface";
 import { IUpdateStudentStatusUsecase } from "entities/usecaseInterfaces/student/updateStudentStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
-import { ObjectId } from "mongoose";
-import { HTTP_STATUS } from "shared/constants";
+import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { GetAllStudentResponseDTO } from "shared/dto/studentDTO";
 import { inject, injectable } from "tsyringe";
 
@@ -24,7 +22,7 @@ export class AdminStudentController implements IAdminStudentController{
             const currentPage:number=Number(req.query.currentPage ?? "1");
             const limit:number=Number(req.query.limit ?? '10')
             const {students,totalPages}:Omit<GetAllStudentResponseDTO,'totalDocuments'> = await this._getAllStudentsUsecase.execute(currentPage,+limit);
-            res.status(HTTP_STATUS.OK).json({success:true,message:"students fetched successfully",data:{students,totalPages}})
+            res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.STUDENT.FETCH_ALL,data:{students,totalPages}})
         }
         catch(error){
             next(error)
@@ -36,7 +34,7 @@ export class AdminStudentController implements IAdminStudentController{
         const status:boolean=req.body.status;
         try{
             await this._updateStudentStatusUsecase.execute(userId,status)
-            res.status(HTTP_STATUS.OK).json({success:true,message:'student status updated successfully'})
+            res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.STUDENT.STATUS_UPDATE})
         }
         catch(error){
             console.log(error)

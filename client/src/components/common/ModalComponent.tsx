@@ -51,6 +51,7 @@ export function ModalComponent({dialogTriggerer,dialogTitle,dialogDescription,co
             },3000)
             return
         };
+        
         handleApproval(data)
         setOpen(false)
     }
@@ -80,12 +81,14 @@ export function ModalComponent({dialogTriggerer,dialogTitle,dialogDescription,co
                       </div>
                   ))}
                 </div>
+
           <DialogFooter className="mt-5">
             <DialogClose asChild>
               <Button onClick={()=>setOpen(false)} variant="outline">Cancel</Button>
             </DialogClose>
             <Button type="submit">Save changes</Button>
           </DialogFooter>
+
         </form>
         </DialogContent>
     </Dialog>

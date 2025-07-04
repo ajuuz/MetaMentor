@@ -7,7 +7,7 @@ import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/ment
 import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/updateMentorStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import sseClientManager from "frameworks/SSE/sseClientManager";
-import { MENTOR_APPLICATION_STATUS } from "shared/constants";
+import { HTTP_STATUS, MENTOR_APPLICATION_STATUS } from "shared/constants";
 import { MentorDataDTO } from "shared/dto/mentorDTO";
 import { inject, injectable } from "tsyringe";
 
@@ -50,7 +50,7 @@ export class AdminMentorController implements IAdminMentorController{
             }
             try{
                 const {mentors,totalPages} = await repo.execute(currentPage,limit);
-                res.status(200).json({success:true,message:'mentors fetched successfully',data:{mentors,totalPages}})
+                res.status(HTTP_STATUS.OK).json({success:true,message:'mentors fetched successfully',data:{mentors,totalPages}})
             }catch(error){
                 next(error)
             }
@@ -60,7 +60,7 @@ export class AdminMentorController implements IAdminMentorController{
             const mentorId :string=req.params.mentorId;
             try{
                 const mentor:MentorDataDTO=await this._getSpecificMentorUsecase.execute(mentorId)
-                res.status(200).json({success:true,message:'mentor fetched successfully',data:mentor})
+                res.status(HTTP_STATUS.OK).json({success:true,message:'mentor fetched successfully',data:mentor})
             }
             catch(error){
                 next(error)

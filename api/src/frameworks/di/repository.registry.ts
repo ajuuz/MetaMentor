@@ -8,6 +8,10 @@ import { MentorRepository } from "interfaceAdapters/repositories/mentor.reposito
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { IBlackListTokenRepository } from "entities/repositoryInterfaces/blackListTokenRepository.interface";
 import { BlackListTokenRepository } from "interfaceAdapters/repositories/blackListToken.repository";
+import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
+import { LevelRepository } from "interfaceAdapters/repositories/level.repository";
+import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
+import { DomainRepository } from "interfaceAdapters/repositories/domain.repository";
 
 export class RepositoryRegistry{
     static registerRepositories():void{
@@ -30,6 +34,14 @@ export class RepositoryRegistry{
 
         container.register<IMentorRepository>('IMentorRepository',{
             useClass:MentorRepository
+        })
+
+        container.register<IDomainRepository>('IDomainRepository',{
+            useClass:DomainRepository
+        })
+
+        container.register<ILevelRepository>('ILevelRepository',{
+            useClass:LevelRepository
         })
     }
 }

@@ -2,6 +2,7 @@ import { IUserController } from "entities/controllerInterfaces/user/userControll
 import { IGetSpecificUserUsecase } from "entities/usecaseInterfaces/user/getSpecificUserUsecase.interface";
 import { IUpdateUserUsecase } from "entities/usecaseInterfaces/user/updateUserUsecase.interface";
 import { NextFunction, Request, Response } from "express";
+import { HTTP_STATUS } from "shared/constants";
 import { UserDetailsResponseDTO, UserUpdateDTO } from "shared/dto/userDTO";
 import { ModifiedRequest } from "shared/types";
 import { inject, injectable } from "tsyringe";
@@ -21,13 +22,13 @@ export class UserController implements IUserController{
     async getDetails(req:Request,res:Response,next:NextFunction):Promise<void>{
         const userId =  (req as ModifiedRequest).user.id;
         const user:UserDetailsResponseDTO=await this._getSpecificUserUsecase.execute(userId);
-        res.status(200).json({success:true,message:"user details fetched successfully",data:user})
+        res.status(HTTP_STATUS.OK).json({success:true,message:"user details fetched successfully",data:user})
     }
 
     async updateUser(req:Request,res:Response,next:NextFunction):Promise<void>{
         const userId:string = (req as ModifiedRequest).user.id;
         const updateData:Partial<Pick<UserUpdateDTO.update,"name"|"country"|"gender"|"mobileNumber"|"profileImage">>=req.body.updatedData
         await this._updateUserUsecase.execute(userId,updateData)
-        res.status(200).json({success:true,message:"profile updated successfully"})
+        res.status(HTTP_STATUS.OK).json({success:true,message:"profile updated successfully"})
     }
 }
