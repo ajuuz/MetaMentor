@@ -26,6 +26,7 @@ export class AdminRoutes{
         //domain
         this._router.post('/domains',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminDomainController.addDomain.bind(adminDomainController))
         this._router.get('/domains',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminDomainController.getAllDomains.bind(adminDomainController))
+        this._router.patch('/domains/:domainId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminDomainController.updateDomainStatus.bind(adminDomainController))
     }
 
     getRouter():Router{

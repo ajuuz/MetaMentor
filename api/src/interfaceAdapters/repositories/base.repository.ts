@@ -9,7 +9,7 @@ export class BaseRepository<T,D extends Document> implements IBaseRepository<T,D
         await this.model.insertMany(documents)
     }
 
-     create(newDocument:Omit<T,'_id'>):D{
+     create(newDocument:Partial<T>):D{
         const document = new this.model(newDocument);
         console.log(document)
         return document
@@ -31,4 +31,6 @@ export class BaseRepository<T,D extends Document> implements IBaseRepository<T,D
 
         return {items,totalDocuments}
     }
+
+   
 }

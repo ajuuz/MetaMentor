@@ -9,4 +9,8 @@ export class DomainRepository extends BaseRepository<IDomainEntity,IDomainModel>
     constructor(){
         super(domainModel)
     }
+
+     async updateStatus(id:string,status:boolean):Promise<void>{
+        await this.model.updateOne({_id:id},{isBlocked:status})
+    }
 }

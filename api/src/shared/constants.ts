@@ -41,7 +41,8 @@ export const SUCCESS_MESSAGE={
    },
    DOMAINS:{
     CREATED:'Domain created successfully',
-    FETCH_ALL:'Fetched all Domains successfully'
+    FETCH_ALL:'Fetched all Domains successfully',
+    UPDATE_STATUS:'Updated domain status successfully'
    }
 
 }
