@@ -14,7 +14,7 @@ type DomainResponse = Required<ApiResponseType<GetAllDomainType>>;
 const Domains = () => {
     const [domains,setDomains] = useState<TableDetailsType[]>([]);
 
-    const {data:domainsResponse,isLoading,isError,error}=useQuery<DomainResponse>({
+    const {data:domainsResponse,isError,error}=useQuery<DomainResponse>({
         queryKey:['domains'],
         queryFn:()=>getDomains(1,10),
         staleTime: 1000 * 60 * 5,

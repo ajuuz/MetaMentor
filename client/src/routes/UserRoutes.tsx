@@ -12,6 +12,7 @@ import Profile from "@/pages/user/Profile/Profile"
 import UserLayout from "@/layouts/UserLayout"
 import UserProfileLayout from "@/layouts/UserProfileLayout"
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute"
+import Domains from "@/pages/user/domains/Domains"
 
 const UserRoutes = () => {
   return (
@@ -29,6 +30,7 @@ const UserRoutes = () => {
             <Route element={<UserLayout/>}>
               <Route path="/" element={<LandingPage/>}/>
               <Route path="/mentors" element={<MentorListing/>}/>
+              <Route path="/domains" element={<Domains/>}/>
                 <Route element={<ProtectedRoute allowedRoles={['user','mentor']}/>}>
                 {/* user profile layout */}
                   <Route element={<UserProfileLayout/>}>

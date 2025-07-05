@@ -47,6 +47,8 @@ import { IGetAllDomainsUsecase } from "entities/usecaseInterfaces/domain/getDoma
 import { GetAllDomainsUsecase } from "useCases/domain/getAllDomain.usecase";
 import { UpdateDomainStatusUsecase } from "useCases/domain/updateDomainStatus.usecase";
 import { IUpdateDomainStatusUsecase } from "entities/usecaseInterfaces/domain/updateDomainStatusUsecase.interface";
+import { IAddCommunityUsecase } from "entities/usecaseInterfaces/community/addCommunityUsecase.interface";
+import { AddCommunityUsecase } from "useCases/community/addCommunity.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -153,6 +155,11 @@ export class UseCaseRegistory{
         //level usecase
         container.register<IInsertManyLevelUsecase>('IInsertManyLevelUsecase',{
             useClass:InsertManyLevelUsecase
+        })
+
+        //community usecase
+        container.register<IAddCommunityUsecase>('IAddCommunityUsecase',{
+            useClass:AddCommunityUsecase
         })
 
 

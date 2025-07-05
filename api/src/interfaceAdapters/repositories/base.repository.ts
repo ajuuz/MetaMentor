@@ -1,25 +1,32 @@
 import { IBaseRepository } from "entities/repositoryInterfaces/baseRepository.interface";
-import { Document, FilterQuery, Model, ObjectId } from "mongoose";
+import { ClientSession, Document, FilterQuery, InsertManyOptions, Model, ObjectId, QueryOptions } from "mongoose";
 
 export class BaseRepository<T,D extends Document> implements IBaseRepository<T,D>{
 
     constructor(protected model:Model<D>){}
 
-    async insertMany(documents:Omit<T,'_id'>[]):Promise<void>{
-        await this.model.insertMany(documents)
+    async startSession():Promise<ClientSession>{
+        console.log(this.model.db)
+        return this.model.db.startSession();
+    }
+
+    async insertMany(documents:Omit<T,'_id'>[],options?:InsertManyOptions):Promise<void>{
+        if(options)
+            await this.model.insertMany(documents,options)
+        else
+            await this.model.insertMany(documents)
     }
 
      create(newDocument:Partial<T>):D{
         const document = new this.model(newDocument);
-        console.log(document)
         return document
     }
 
-    async save(document:D):Promise<void>{
-        await document.save()
+    async save(document:D,options?:QueryOptions):Promise<void>{
+        await document.save(options)
     }
     
-    async insertOne(newDocument:Omit<T,'_id'>):Promise<void>{
+    async insertOne(newDocument:Partial<Omit<T,'_id'>>,options?:QueryOptions):Promise<void>{
        await this.model.create(newDocument)
     }
 

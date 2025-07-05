@@ -12,6 +12,8 @@ import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.
 import { LevelRepository } from "interfaceAdapters/repositories/level.repository";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { DomainRepository } from "interfaceAdapters/repositories/domain.repository";
+import { ICommunityRepository } from "entities/repositoryInterfaces/communityRepository.interface";
+import { CommunityRepository } from "interfaceAdapters/repositories/community.repository";
 
 export class RepositoryRegistry{
     static registerRepositories():void{
@@ -42,6 +44,10 @@ export class RepositoryRegistry{
 
         container.register<ILevelRepository>('ILevelRepository',{
             useClass:LevelRepository
+        })
+
+        container.register<ICommunityRepository>('ICommunityRepository',{
+            useClass:CommunityRepository
         })
     }
 }
