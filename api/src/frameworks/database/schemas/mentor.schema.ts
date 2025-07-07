@@ -15,7 +15,12 @@ export const mentorSchema = new mongoose.Schema<IMentorModel>({
     required: true,
   },
   domains: {
-    type: [String],
+    type: [
+      {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'domains'
+      }
+    ],
   },
   isBlocked: {
     type: Boolean,

@@ -16,7 +16,7 @@ import type { MentorRegistrationErrorType } from "@/types/mentorType";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { imageUploader } from "@/utils/helperFunctions/imageUploadFunction";
-import { registerForm } from "@/services/mentorService.ts/registrationApi";
+import { getDomainsNameAndId, registerForm } from "@/services/mentorService.ts/registrationApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { acceptMentorApplication, getSpecificMentor } from "@/services/adminService.ts/mentorApi";
 import { MENTOR_APPLICATION_STATUS } from "@/utils/constants";
@@ -25,6 +25,7 @@ import {AnimatePresence, motion} from 'framer-motion'
 import  LoadingSpinnerComponent from "@/components/common/LoadingSpinnerComponent";
 import { getSpecificUser } from "@/services/userService.ts/userApi";
 import type { UserDetailsType } from "@/types/userType";
+import type { DomainType } from "@/types/domainTypes";
 
 
 
@@ -40,8 +41,8 @@ export default function MentorDetailsManage() {
     profileImage:""
   })
 
-  const [domains, setDomains] = useState<string[]>(["mern","mean","go"]);
-  const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
+  const [domains, setDomains] = useState<Pick<DomainType,'_id'|'name'>[]>([]);
+  const [selectedDomains, setSelectedDomains] = useState<Pick<DomainType,'_id'|'name'>[]>([]);
 
   const [companyName,setCompanyName]=useState<string>('')
   const [workedAt,setWorkedAt]=useState<string[]>([])
@@ -90,11 +91,22 @@ export default function MentorDetailsManage() {
     }
   })
 
-  const {mutate:userDetailsFetch} = useMutation({
+  const {mutate:userDetailsFetchMutation} = useMutation({
       mutationFn:getSpecificUser,
       onSuccess:(response)=>{
         const user = response.data
         setUserDetails(user)
+      },
+      onError:(error)=>{
+        toast.error(error.message)
+      }
+  })
+
+  const {mutate:getDomainsNameAndIdMutation} = useMutation({
+      mutationFn:getDomainsNameAndId,
+      onSuccess:(response)=>{
+        const domains=response.data
+        setDomains(domains)
       },
       onError:(error)=>{
         toast.error(error.message)
@@ -130,7 +142,8 @@ export default function MentorDetailsManage() {
       if(purpose.adminVerification && mentorId){
         mentorAplicationDetailsFetchMutation(mentorId)
       }else if(purpose.mentorRegister){
-        userDetailsFetch()
+        userDetailsFetchMutation();
+        getDomainsNameAndIdMutation()
       }
   },[])
 
@@ -186,7 +199,8 @@ export default function MentorDetailsManage() {
         const cv = imageUrls[0].url
         const experienceCirtificate = imageUrls[1].url
 
-        mentorRegisterMutation({domains:selectedDomains,about,workedAt,skills,cv,experienceCirtificate})
+        const domains=selectedDomains.map(domain=>domain._id);
+        mentorRegisterMutation({domains,about,workedAt,skills,cv,experienceCirtificate})
         setLoading(false)
       }catch(error:any){
         setLoading(false)
@@ -253,7 +267,7 @@ export default function MentorDetailsManage() {
                  <Label className="">Domains you know</Label>
                   <div className=" border flex flex-wrap p-5 gap-5 h-full">
                     {domains.map((domain,index)=>(
-                      <div onClick={()=>handleSelectDomain(index)} className="cursor-pointer py-2 px-3  bg-black text-white rounded-lg">{domain}</div>
+                      <div onClick={()=>handleSelectDomain(index)} className="cursor-pointer py-2 px-3  bg-black text-white rounded-lg">{domain.name}</div>
                     ))
                   }
                 </div>
@@ -270,7 +284,7 @@ export default function MentorDetailsManage() {
                                   <Cross className="scale-75 rotate-45"/>
                               </div>
                               }
-                              {domain}
+                              {domain.name}
                           </div>
                       ))
                       }

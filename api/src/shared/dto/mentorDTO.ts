@@ -2,7 +2,7 @@ import { ObjectId } from "mongoose"
 import { GENDER } from "shared/constants"
 
 export type MentorRegisterRequestDTO = {
-    selectedDomains:string[]
+    domains:(string|ObjectId)[]
     description:string,
     workedAt:string[],
     skills:string[]

@@ -1,0 +1,34 @@
+import type { DomainType } from "@/types/domainTypes"
+import { FaCaretRight } from "react-icons/fa"
+
+type Props={
+  domain:Omit<DomainType,'levels'>
+}
+
+const DomainCard = ({domain}:Props) => {
+  console.log(domain)
+  return (
+    <div className="rounded-xl border min-w-[700px] w-[70%] relative">
+
+     <img src={domain.image} className="absolute h-30 shadow-lg w-[20%] max-w-35 left-5 top-20 xl:top-15 rounded" alt={domain.name} />
+
+      <div className="ps-50 py-4 pe-5">
+        <h2 className="text-2xl font-semibold bg-gradient-to-r from-[#850A0A] to-[#06022B] bg-clip-text text-transparent">{domain.name}</h2>
+        <p>{domain.description}</p>
+      </div>
+
+      <div className="flex justify-between items-center ps-50 pe-5 py-2 rounded-b-xl bg-gradient-to-r from-[#06022B] to-[#850A0A] ">
+        <div className="bg-white border-6 p-2 rounded-4xl">
+            <FaCaretRight size={30}/>
+        </div>
+        <div className="flex flex-col gap-4">
+            <p className="font-medium text-xl text-white">{29} Weeks</p>
+            <p className="font-medium text-lg text-white/70">Progress {0}%</p>
+        </div>
+      </div>
+
+    </div>
+  )
+}
+
+export default DomainCard

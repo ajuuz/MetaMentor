@@ -1,7 +1,8 @@
+import type { DomainType } from "@/types/domainTypes";
 import type { MentorRegistrationErrorType } from "@/types/mentorType";
 
 
-export const registrationFormValidation=(selectedDomains:string[],description:string,workedAt:string[],skills:string[],images:(Blob|null)[])=>{
+export const registrationFormValidation=(selectedDomains:Pick<DomainType,'_id'|'name'>[],description:string,workedAt:string[],skills:string[],images:(Blob|null)[])=>{
 
     const errors:MentorRegistrationErrorType={};
 

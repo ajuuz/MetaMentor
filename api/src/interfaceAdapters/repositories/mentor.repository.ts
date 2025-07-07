@@ -1,7 +1,7 @@
 import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { mentorModel } from "frameworks/database/models/mentor.model";
-import { Types } from "mongoose";
+import mongoose, { ObjectId, Types } from "mongoose";
 import { GetAllMentorResponseDTO, MentorDataDTO, MentorFindFilterDTO, MentorRegisterRequestDTO, MentorUpdateDTO } from "shared/dto/mentorDTO";
 import { injectable } from "tsyringe";
 
@@ -19,11 +19,16 @@ export class MentorRepository implements IMentorRepository{
                 foreignField:'_id',
                 as:'userDetails'
             }},
+            {$lookup:{
+                from:'domains',
+                localField:'domains',
+                foreignField:'_id',
+                as:'domains'
+            }},
             {$unwind:'$userDetails'},
             {$project:{
                 userId:1,
                 about:1,
-                domains:1,
                 isBlocked:1,
                 cv:1,
                 experienceCirtificate:1,
@@ -34,14 +39,26 @@ export class MentorRepository implements IMentorRepository{
                 gender:"$userDetails.gender",
                 mobileNumber:'$userDetails.mobileNumber',
                 email:'$userDetails.email',
-                profileImage:'$userDetails.profileImage'
+                profileImage:'$userDetails.profileImage',
+                domains:{
+                    $map:{
+                        input:'$domains',
+                        as:'domain',
+                        in:{
+                            _id:'$$domain._id',
+                            name:'$$domain.name'
+                        }
+                    }
+                }
             }}
         ]);
         return mentor[0]
     }
 
     async register(userId:string,mentorDetails:MentorRegisterRequestDTO):Promise<void>{
-        const newMentor = new mentorModel({userId,...mentorDetails})
+        const selectedDomains = mentorDetails.domains;
+        const domains = selectedDomains.map((id)=>new Types.ObjectId(id as string))
+        const newMentor = new mentorModel({userId,...mentorDetails,domains})
         await newMentor.save()
     }
 

@@ -2,7 +2,7 @@ import { adminAxiosInstance } from "@/config/axiosConfig/adminAxiosConfig"
 import type { DomainType, GetAllDomainType } from "@/types/domainTypes";
 import type { ApiResponseType } from "@/types/responseType";
 
-export const addDomain=async(domainDetails:DomainType)=>{
+export const addDomain=async(domainDetails:Omit<DomainType,'_id'|'isBlocked'>)=>{
     try{
         console.log(domainDetails)
         const response = await adminAxiosInstance.post('/domains',domainDetails)
@@ -16,7 +16,6 @@ export const addDomain=async(domainDetails:DomainType)=>{
 
 export const getDomains=async(currentPage:number,limit:number):Promise<Required<ApiResponseType<GetAllDomainType>>>=>{
     try{
-        console.log("backend call")
         const response = await adminAxiosInstance.get(`/domains?currentPage=${currentPage}&limit=${limit}`)
         return response.data;
     }

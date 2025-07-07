@@ -1,4 +1,5 @@
 import type { GENDER } from "@/utils/constants"
+import type { DomainType } from "./domainTypes"
 
 export type MentorRegistrationFormDataType={
     domains:string[]
@@ -22,7 +23,7 @@ export type MentorDataType={
     userId:string,
     about: string,
     email:string,
-    domains:string[],
+    domains:Pick<DomainType,'_id'|'name'>[],
     isBlocked: boolean,
     cv:string,
     experienceCirtificate:string,

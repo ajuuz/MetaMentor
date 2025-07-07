@@ -14,6 +14,7 @@ export class MentorRoutes{
     
         private configureRoutes():void{
             this._router.post('/register',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER]),authMiddleware.blockChecker.bind(authMiddleware),mentorController.registerForm.bind(mentorController))
+            this._router.get('/domains',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER]),authMiddleware.blockChecker.bind(authMiddleware),mentorController.getDomains.bind(mentorController))
         }
     
         getRouter():Router{

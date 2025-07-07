@@ -18,6 +18,8 @@ import { IUserController } from "entities/controllerInterfaces/user/userControll
 import { UserController } from "interfaceAdapters/controllers/user/userController";
 import { IAdminDomainController } from "entities/controllerInterfaces/admin/adminDomainController.interface";
 import { AdminDomainController } from "interfaceAdapters/controllers/admin/domainController";
+import { IUserDomainController } from "entities/controllerInterfaces/user/userDomainController.interface";
+import { UserDomainController } from "interfaceAdapters/controllers/user/userDomainController";
 
 DependencyInjection.registerAll()
 
@@ -39,6 +41,7 @@ export const mentorController = container.resolve<IMentorController>(MentorContr
 
 //studentController
 export const userController = container.resolve<IUserController>(UserController)
+export const userDomainController = container.resolve<IUserDomainController>(UserDomainController)
 
 
 //middleware

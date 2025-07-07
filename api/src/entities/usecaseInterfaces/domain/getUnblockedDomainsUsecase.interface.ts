@@ -1,7 +1,8 @@
-import { ROLES } from "shared/constants";
 import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
 
 
-export interface IGetAllDomainsUsecase{
+
+export interface IGetUnblockedDomainsUsecase{
+
     execute(currentPage:number,limit:number):Promise<Omit<GetAllDomainsResponseDTO,'totalDocuments'>>
 }

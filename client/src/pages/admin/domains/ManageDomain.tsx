@@ -16,7 +16,7 @@ import { z } from "zod";
 
 
 const ManageDomain = () => {
-    const [domainDetails,setDomainDetails]=useState<DomainType>({
+    const [domainDetails,setDomainDetails]=useState<Omit<DomainType,'_id'|'isBlocked'>>({
         name:'',
         description:"",
         motive:"",
@@ -69,7 +69,7 @@ const ManageDomain = () => {
         if(!result.success){
             const fieldErrors:Partial<Omit<DomainType,'levels'> & {noOfLevel:string}>={}
             result.error.errors.forEach((error)=>{
-                const k = error.path[0] as keyof (Omit<DomainType,'levels'> & {noOfLevel:string});
+                const k = error.path[0] as keyof (Omit<DomainType,'levels'|'_id'|'isBlocked'> & {noOfLevel:string});
                 fieldErrors[k]=error.message
             })
 

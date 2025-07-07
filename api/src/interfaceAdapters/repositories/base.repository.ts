@@ -1,5 +1,5 @@
 import { IBaseRepository } from "entities/repositoryInterfaces/baseRepository.interface";
-import { ClientSession, Document, FilterQuery, InsertManyOptions, Model, ObjectId, QueryOptions } from "mongoose";
+import { ClientSession, Document, FilterQuery, InsertManyOptions, Model, ObjectId, ProjectionType, QueryOptions } from "mongoose";
 
 export class BaseRepository<T,D extends Document> implements IBaseRepository<T,D>{
 
@@ -39,5 +39,8 @@ export class BaseRepository<T,D extends Document> implements IBaseRepository<T,D
         return {items,totalDocuments}
     }
 
+    async findWhole(projection:ProjectionType<T>):Promise<Partial<T>[]>{
+        return this.model.find({},projection)
+    }
    
 }
