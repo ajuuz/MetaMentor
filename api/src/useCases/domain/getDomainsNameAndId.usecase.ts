@@ -13,8 +13,9 @@ export class GetAllDomainsNameAndIdUsecase implements IGetAllDomainsNameAndIdUse
     ){}
 
     async execute():Promise<Pick<IDomainEntity,'_id'|'name'>[]>{
+        const filter={}
         const projection={name:true}
-        const domains=await this._domainRepository.findWhole(projection) as Pick<IDomainEntity,'_id'|'name'>[]
+        const domains=await this._domainRepository.findWhole(filter,projection) as Pick<IDomainEntity,'_id'|'name'>[]
         return domains;
     }
 }

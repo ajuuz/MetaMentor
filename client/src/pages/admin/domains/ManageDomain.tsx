@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
 import { addDomain } from "@/services/adminService.ts/domainApi"
-import type { DomainType } from "@/types/domainTypes"
+import type { DomainCreationType, DomainType } from "@/types/domainTypes"
 import { imageUploader } from "@/utils/helperFunctions/imageUploadFunction"
 import { useMutation } from "@tanstack/react-query"
 import { Image, X } from "lucide-react"
@@ -16,14 +16,14 @@ import { z } from "zod";
 
 
 const ManageDomain = () => {
-    const [domainDetails,setDomainDetails]=useState<Omit<DomainType,'_id'|'isBlocked'>>({
+    const [domainDetails,setDomainDetails]=useState<DomainCreationType>({
         name:'',
         description:"",
         motive:"",
         image:"",
         levels:[]
     })
-    const [errors,setErrors] = useState<Partial<DomainType&{noOfLevel:string}>>({})
+    const [errors,setErrors] = useState<Partial<DomainCreationType&{noOfLevel:string}>>({})
     const [prevImage,setPrevImage]=useState<File|null>(null);
     const navigate = useNavigate()
 

@@ -11,6 +11,7 @@ const Domains = () => {
 
     const [domains,setDomains] = useState<Omit<DomainType,'levels'>[]>()
     const [totalpages,setTotalPages] = useState<number>(0)
+
     const {data:domainsResponse,isError,error}=useQuery<DomainResponse>({
         queryKey:['domains'],
         queryFn:()=>getDomains(1,10),
@@ -33,11 +34,16 @@ const Domains = () => {
     }
     
   return (
-    <div className="flex justify-center pt-10">
-      
+    <div className="flex justify-center pt-10 flex-1">
+      {/* <div className="w-260 border">
+        <div>
+          <h4>Filter</h4>
+        </div>
+      </div> */}
       {domains?.map((domain)=>
         <DomainCard domain={domain}/>
       )}
+      {/* <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalpages}/> */}
     </div>
   )
 }

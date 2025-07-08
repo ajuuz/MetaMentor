@@ -1,14 +1,16 @@
 import type { DomainType } from "@/types/domainTypes"
 import { FaCaretRight } from "react-icons/fa"
+import { useNavigate } from "react-router-dom"
 
 type Props={
   domain:Omit<DomainType,'levels'>
 }
 
 const DomainCard = ({domain}:Props) => {
-  console.log(domain)
+  const navigate = useNavigate()
+
   return (
-    <div className="rounded-xl border min-w-[700px] w-[70%] relative">
+    <div className="rounded-xl shadow-lg border-t-2 border-slate-100 min-w-[700px] w-[70%] h-fit relative">
 
      <img src={domain.image} className="absolute h-30 shadow-lg w-[20%] max-w-35 left-5 top-20 xl:top-15 rounded" alt={domain.name} />
 
@@ -18,7 +20,7 @@ const DomainCard = ({domain}:Props) => {
       </div>
 
       <div className="flex justify-between items-center ps-50 pe-5 py-2 rounded-b-xl bg-gradient-to-r from-[#06022B] to-[#850A0A] ">
-        <div className="bg-white border-6 p-2 rounded-4xl">
+        <div onClick={()=>navigate(`${domain._id}`)} className="bg-white border-6 p-2 rounded-4xl">
             <FaCaretRight size={30}/>
         </div>
         <div className="flex flex-col gap-4">

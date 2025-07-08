@@ -1,8 +1,8 @@
 import { adminAxiosInstance } from "@/config/axiosConfig/adminAxiosConfig"
-import type { DomainType, GetAllDomainType } from "@/types/domainTypes";
+import type { DomainCreationType,GetAllDomainType } from "@/types/domainTypes";
 import type { ApiResponseType } from "@/types/responseType";
 
-export const addDomain=async(domainDetails:Omit<DomainType,'_id'|'isBlocked'>)=>{
+export const addDomain=async(domainDetails:DomainCreationType)=>{
     try{
         console.log(domainDetails)
         const response = await adminAxiosInstance.post('/domains',domainDetails)

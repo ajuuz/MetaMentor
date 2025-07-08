@@ -37,11 +37,12 @@ export const SUCCESS_MESSAGE={
    STUDENT:{
       STATUS_UPDATE:'student status updated successfully',
       FETCH_ALL:"Fetched all students successfully",
-      FETCH_SINGLE:"Fetched student successfully"
+      FETCH_SINGLE:"Student fetched successfully"
    },
    DOMAINS:{
     CREATED:'Domain created successfully',
     FETCH_ALL:'Fetched all Domains successfully',
+    FETCH_SINGLE:'Domain fetched successfully',
     UPDATE_STATUS:'Updated domain status successfully'
    }
 

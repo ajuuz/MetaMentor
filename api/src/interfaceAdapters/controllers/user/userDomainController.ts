@@ -1,4 +1,5 @@
 import { IUserDomainController } from "entities/controllerInterfaces/user/userDomainController.interface";
+import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/getSpecificDomainUsecase.interface";
 import { IGetUnblockedDomainsUsecase } from "entities/usecaseInterfaces/domain/getUnblockedDomainsUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
@@ -11,7 +12,10 @@ export class UserDomainController implements IUserDomainController{
 
     constructor(
         @inject('IGetUnblockedDomainsUsecase')
-        private _getUnblockedDomainsUsecase:IGetUnblockedDomainsUsecase
+        private _getUnblockedDomainsUsecase:IGetUnblockedDomainsUsecase,
+
+        @inject('IGetSpecificDomainUsecase')
+        private _getSpecificDomainUsecase:IGetSpecificDomainUsecase
     ){}
 
      async getAllDomains(req:Request,res:Response,next:NextFunction):Promise<void>{
@@ -20,5 +24,12 @@ export class UserDomainController implements IUserDomainController{
       
       const data:Omit<GetAllDomainsResponseDTO,'totalDocuments'> = await this._getUnblockedDomainsUsecase.execute(currentPage,limit)
       res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.DOMAINS.FETCH_ALL,data})
+    }
+
+    async getSpecificDomain(req:Request,res:Response,next:NextFunction):Promise<void>{
+        const domainId:string = req.params.domainId;
+
+        const domain = await this._getSpecificDomainUsecase.execute(domainId);
+        res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.DOMAINS.FETCH_ALL,data:domain})
     }
 }

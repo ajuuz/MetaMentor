@@ -10,6 +10,16 @@ export class BaseRepository<T,D extends Document> implements IBaseRepository<T,D
         return this.model.db.startSession();
     }
 
+    
+    create(newDocument:Partial<T>):D{
+        const document = new this.model(newDocument);
+        return document
+    }
+    
+    async save(document:D,options?:QueryOptions):Promise<void>{
+        await document.save(options)
+    }
+    
     async insertMany(documents:Omit<T,'_id'>[],options?:InsertManyOptions):Promise<void>{
         if(options)
             await this.model.insertMany(documents,options)
@@ -17,15 +27,6 @@ export class BaseRepository<T,D extends Document> implements IBaseRepository<T,D
             await this.model.insertMany(documents)
     }
 
-     create(newDocument:Partial<T>):D{
-        const document = new this.model(newDocument);
-        return document
-    }
-
-    async save(document:D,options?:QueryOptions):Promise<void>{
-        await document.save(options)
-    }
-    
     async insertOne(newDocument:Partial<Omit<T,'_id'>>,options?:QueryOptions):Promise<void>{
        await this.model.create(newDocument)
     }
@@ -39,8 +40,13 @@ export class BaseRepository<T,D extends Document> implements IBaseRepository<T,D
         return {items,totalDocuments}
     }
 
-    async findWhole(projection:ProjectionType<T>):Promise<Partial<T>[]>{
-        return this.model.find({},projection)
+    async findWhole(filter:FilterQuery<T>,projection?:ProjectionType<T>):Promise<T[]>{
+        return await this.model.find(filter,projection)
+    }
+
+    async findOne(filter:FilterQuery<T>):Promise<T|null>{
+        const data = await this.model.findOne(filter).lean<T>()
+        return data
     }
    
 }
