@@ -1,3 +1,4 @@
+import PaginationComponent from "@/components/common/PaginationComponent";
 import DomainCard from "@/components/user/DomainCard";
 import { getDomains } from "@/services/userService.ts/domainApi";
 import type { DomainType, GetAllDomainType } from "@/types/domainTypes";
@@ -11,10 +12,11 @@ const Domains = () => {
 
     const [domains,setDomains] = useState<Omit<DomainType,'levels'>[]>()
     const [totalpages,setTotalPages] = useState<number>(0)
+    const [currentPage,setCurrentPage] = useState<number>(1);
 
     const {data:domainsResponse,isError,error}=useQuery<DomainResponse>({
         queryKey:['domains'],
-        queryFn:()=>getDomains(1,10),
+        queryFn:()=>getDomains(currentPage,10),
         staleTime: 1000 * 60 * 5,
         refetchOnWindowFocus: false,
         retry:false
@@ -34,16 +36,18 @@ const Domains = () => {
     }
     
   return (
-    <div className="flex justify-center pt-10 flex-1">
+    <div className="flex flex-col gap-10 pt-10 flex-1">
       {/* <div className="w-260 border">
         <div>
           <h4>Filter</h4>
         </div>
       </div> */}
-      {domains?.map((domain)=>
-        <DomainCard domain={domain}/>
-      )}
-      {/* <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalpages}/> */}
+      <div className="flex justify-center">
+        {domains?.map((domain)=>
+          <DomainCard domain={domain}/>
+        )}
+      </div>
+      <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalpages}/>
     </div>
   )
 }

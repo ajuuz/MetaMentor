@@ -55,6 +55,10 @@ import { IGetAllDomainsNameAndIdUsecase } from "entities/usecaseInterfaces/domai
 import { GetAllDomainsNameAndIdUsecase } from "useCases/domain/getDomainsNameAndId.usecase";
 import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/getSpecificDomainUsecase.interface";
 import { GetSpecificDomainUsecase } from "useCases/domain/getSpecificDomain.usecase";
+import { IEnrollDomainUsecase } from "entities/usecaseInterfaces/domain/enrollDomainUsecase.interface";
+import { EnrollDomainUsecase } from "useCases/domain/enrollDomain.usecase";
+import { IGetEnrolledDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainDashboardUsecase.interface";
+import { GetEnrolledDomainsUsecase } from "useCases/domain/getEnrolledDomains.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -165,6 +169,12 @@ export class UseCaseRegistory{
         })
         container.register<IUpdateDomainStatusUsecase>("IUpdateDomainStatusUsecase",{
             useClass:UpdateDomainStatusUsecase
+        })
+        container.register<IEnrollDomainUsecase>("IEnrollDomainUsecase",{
+            useClass:EnrollDomainUsecase
+        })
+        container.register<IGetEnrolledDomainsUsecase>("IGetEnrolledDomainsUsecase",{
+            useClass:GetEnrolledDomainsUsecase
         })
 
         //level usecase

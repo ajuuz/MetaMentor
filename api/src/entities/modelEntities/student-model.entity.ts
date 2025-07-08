@@ -15,6 +15,4 @@ export interface IStudentEntity{
 export interface ISelectedDomain{
     domainId:ObjectId,
     currentLevel:number,
-    isFullCourse:boolean,
-    levels:ObjectId[]
 }

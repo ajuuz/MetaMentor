@@ -14,7 +14,7 @@ export class GetAllStudentsUsecase implements IGetAllStudentsUsecase{
 
     async execute(currentPage:number,limit:number): Promise<Omit<GetAllStudentResponseDTO,'totalDocuments'>>{
         const skip:number = (currentPage-1)*limit
-        const {students,totalDocuments} = await this._studentRepository.find({},skip,limit);
+        const {students,totalDocuments} = await this._studentRepository.findStudents({},skip,limit);
         const totalPages:number = Math.ceil(totalDocuments/limit)
         return {students,totalPages}
     }

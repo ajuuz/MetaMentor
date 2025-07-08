@@ -24,3 +24,25 @@ export const getDomain=async(domainId:string):Promise<Required<ApiResponseType<D
         throw error?.response?.data || error
     }
 }
+
+export const enrollDomain=async (domainId:string):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+     try{
+        console.log(domainId)
+        const response = await userAxiosInstance.post(`/domains/${domainId}`)
+        return response.data;
+    }
+    catch(error:any){
+        throw error?.response?.data || error
+    }
+}
+
+
+export const getEnrolledDomain=async():Promise<Required<ApiResponseType<GetAllDomainType>>>=>{
+     try{
+        const response = await userAxiosInstance.get('/dashboard')
+        return response.data;
+    }
+    catch(error:any){
+        throw error?.response?.data || error
+    }
+}

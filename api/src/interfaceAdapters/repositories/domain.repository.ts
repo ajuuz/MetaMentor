@@ -14,6 +14,4 @@ export class DomainRepository extends BaseRepository<IDomainEntity,IDomainModel>
      async updateStatus(id:string,status:boolean):Promise<void>{
         await this.model.updateOne({_id:id},{isBlocked:status})
     }
-
-   
 }

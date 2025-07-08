@@ -22,7 +22,8 @@ export class UserRoutes{
         //domains
         this._router.get('/domains',userDomainController.getAllDomains.bind(userDomainController))
         this._router.get('/domains/:domainId',userDomainController.getSpecificDomain.bind(userDomainController))
-
+        this._router.post('/domains/:domainId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userDomainController.enrollDomain.bind(userDomainController))
+        this._router.get('/dashboard',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userDomainController.getDomainDashboard.bind(userDomainController))
     }
 
     getRouter():Router{

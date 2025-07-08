@@ -8,5 +8,6 @@ export interface IBaseRepository<T,D>{
     insertOne(newDocument:Partial<Omit<T,'_id'>>,options?:QueryOptions):Promise<void>
     find(filter:FilterQuery<T>,skip:number,limit:number,sort:any):Promise<{items:T[],totalDocuments:number}>
     findWhole(filter:FilterQuery<T>,projection?:ProjectionType<T>):Promise<T[]>
-    findOne(filter:FilterQuery<T>):Promise<T|null>
+    findUsingIn(field:keyof T,items:ObjectId[]):Promise<T[]>
+    findOne(filter:FilterQuery<T>,projection?:ProjectionType<T>):Promise<T|null>
 }

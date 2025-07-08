@@ -41,6 +41,7 @@ export const SUCCESS_MESSAGE={
    },
    DOMAINS:{
     CREATED:'Domain created successfully',
+    ENROLL:'Successfully enrolled in domain',
     FETCH_ALL:'Fetched all Domains successfully',
     FETCH_SINGLE:'Domain fetched successfully',
     UPDATE_STATUS:'Updated domain status successfully'

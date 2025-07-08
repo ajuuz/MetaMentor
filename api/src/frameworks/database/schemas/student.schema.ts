@@ -5,7 +5,6 @@ import { ISelectedDomain } from "entities/modelEntities/student-model.entity";
 
 
 const domainSchema = new mongoose.Schema<ISelectedDomain>({
-
     domainId:{
         type:mongoose.Schema.ObjectId,
         ref:'domains',
@@ -16,16 +15,7 @@ const domainSchema = new mongoose.Schema<ISelectedDomain>({
         required:true,
         default:0
     },
-    isFullCourse:{
-        type:Boolean,
-        default:true
-    },
-    levels:{
-        type:[mongoose.Schema.ObjectId],
-        ref:'levels',
-        required:true
-    }
-})
+},{_id:false})
 
 
 export const studentSchema = new mongoose.Schema<IStudentModel>({

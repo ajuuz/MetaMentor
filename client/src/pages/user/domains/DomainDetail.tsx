@@ -1,13 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { getDomain } from "@/services/userService.ts/domainApi";
+import { enrollDomain, getDomain } from "@/services/userService.ts/domainApi";
 import type { DomainType } from "@/types/domainTypes";
 import type { ApiResponseType } from "@/types/responseType";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import {AnimatePresence,motion} from 'framer-motion'
 import type { LevelType } from "@/types/levelTypes";
 import { X } from "lucide-react";
+import { toast } from "sonner";
+import LoadingSpinnerComponent from "@/components/common/LoadingSpinnerComponent";
 
 const DomainDetail = () => {
     const [domainDetails, setDomainDetails] = useState<Omit<DomainType,'levels'>>()
@@ -28,6 +30,16 @@ const DomainDetail = () => {
         }
     )
 
+    const {mutate:enrollDomainMutation,isPending:enrollPending}=useMutation({
+        mutationFn:enrollDomain,
+        onSuccess:(response)=>{
+            console.log(response)
+        },
+        onError:(error)=>{
+            toast.error(error.message)
+        }
+    })
+
     useEffect(() => {
         if (domainResponse) {
             const domain = domainResponse.data;
@@ -37,6 +49,8 @@ const DomainDetail = () => {
             setDomainDetails(domain)
         }
     }, [domainResponse])
+
+   
 
     if (isLoading) {
         return (
@@ -54,6 +68,10 @@ const DomainDetail = () => {
         )
     }
 
+     const handleEnroll=()=>{
+        if(domainId)
+        enrollDomainMutation(domainId);
+    }
 
     return (
         <div className="font-['Roboto','Arial','sans-serif'] bg-white">
@@ -76,7 +94,7 @@ const DomainDetail = () => {
                         By the end of our course, you won’t just “know” {domainDetails.name} - you'll master it. Build real-world projects, craft responsive designs, and create full-stack applications from scratch.<br />
                         Join today and become the full-stack developer companies are searching for.
                     </p>
-                    <button className="bg-white text-[#222] border-none rounded-xl px-16 py-4 font-bold text-xl cursor-pointer mt-2">Enroll</button>
+                    <button disabled={enrollPending} onClick={handleEnroll} className="bg-white text-[#222] border-none rounded-xl px-16 py-4 font-bold text-xl cursor-pointer mt-2">{enrollPending?<LoadingSpinnerComponent/>:'Enroll'}</button>
                 </div>
             </section>
 

@@ -1,19 +1,22 @@
 import { IStudentEntity } from "entities/modelEntities/student-model.entity";
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
-import { studentModel } from "frameworks/database/models/student.model";
-import { ObjectId } from "mongoose";
-
+import { IStudentModel, studentModel } from "frameworks/database/models/student.model";
+import { ObjectId, ProjectionType, Types } from "mongoose";
 import {GetAllStudentResponseDTO} from 'shared/dto/studentDTO'
+import { BaseRepository } from "./base.repository";
 
+export class StudentRepository extends BaseRepository<IStudentEntity,IStudentModel> implements IStudentRepository{
 
-export class StudentRepository implements IStudentRepository{
+  constructor(){
+    super(studentModel)
+  }
 
     async createStudent(userId:ObjectId):Promise<void>{
         const newStudent = new studentModel({userId})
         await newStudent.save()
     }
 
-    async find(filter: any, skip: number, limit: number):Promise<Omit<GetAllStudentResponseDTO,'totalPages'>> {
+  async findStudents(filter: any, skip: number, limit: number):Promise<Omit<GetAllStudentResponseDTO,'totalPages'>> {
         const [students,totalDocuments] = await Promise.all([
             studentModel.aggregate([
                 {$match:filter},
@@ -71,5 +74,10 @@ export class StudentRepository implements IStudentRepository{
         const user=await studentModel.findOne({userId})
         return user;
     }
-    
+
+
+    async pushDomain(userId:string,domainId:string):Promise<void>{
+      const domainObjectId = new Types.ObjectId(domainId)
+      await studentModel.updateOne({userId},{$addToSet:{domains:{domainId:domainObjectId}}});
+    }
 }

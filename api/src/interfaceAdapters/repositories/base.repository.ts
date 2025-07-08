@@ -44,8 +44,13 @@ export class BaseRepository<T,D extends Document> implements IBaseRepository<T,D
         return await this.model.find(filter,projection)
     }
 
-    async findOne(filter:FilterQuery<T>):Promise<T|null>{
-        const data = await this.model.findOne(filter).lean<T>()
+    async findUsingIn(field:keyof T,items:ObjectId[]):Promise<T[]>{
+        const filter={[field]:{$in:items}} as FilterQuery<T> 
+        return await this.model.find(filter)
+    }
+
+    async findOne(filter:FilterQuery<T>,projection?:ProjectionType<T>):Promise<T|null>{
+        const data = await this.model.findOne(filter,projection).lean<T>()
         return data
     }
    
