@@ -10,7 +10,7 @@ const DomainCard = ({domain}:Props) => {
   const navigate = useNavigate()
 
   return (
-    <div className="rounded-xl shadow-lg border-t-2 border-slate-100 min-w-[700px] w-[70%] h-fit relative">
+    <div className="rounded-xl shadow-lg border-t-2 bg-white border-slate-100 min-w-[700px] w-[70%] h-fit relative">
 
      <img src={domain.image} className="absolute h-30 shadow-lg w-[20%] max-w-35 left-5 top-20 xl:top-15 rounded" alt={domain.name} />
 

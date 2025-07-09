@@ -44,9 +44,14 @@ export class BaseRepository<T,D extends Document> implements IBaseRepository<T,D
         return await this.model.find(filter,projection)
     }
 
-    async findUsingIn(field:keyof T,items:ObjectId[]):Promise<T[]>{
-        const filter={[field]:{$in:items}} as FilterQuery<T> 
-        return await this.model.find(filter)
+    async findUsingIn(field:keyof T,items:ObjectId[],skip:number,limit:number):Promise<{documents:T[],totalDocuments:number}>{
+        const filter={[field]:{$in:items}} as FilterQuery<T>
+        const [documents,totalDocuments]=await Promise.all([
+            this.model.find(filter).skip(skip).limit(limit).lean() as Promise<T[]>,
+            this.model.countDocuments(filter)
+        ])
+
+        return {documents,totalDocuments}
     }
 
     async findOne(filter:FilterQuery<T>,projection?:ProjectionType<T>):Promise<T|null>{

@@ -37,9 +37,9 @@ export const enrollDomain=async (domainId:string):Promise<Omit<ApiResponseType<u
 }
 
 
-export const getEnrolledDomain=async():Promise<Required<ApiResponseType<GetAllDomainType>>>=>{
+export const getEnrolledDomain=async(currentPage:number,limit:number):Promise<Required<ApiResponseType<GetAllDomainType>>>=>{
      try{
-        const response = await userAxiosInstance.get('/dashboard')
+        const response = await userAxiosInstance.get(`/dashboard?currentPage=${currentPage}&limit=${limit}`)
         return response.data;
     }
     catch(error:any){

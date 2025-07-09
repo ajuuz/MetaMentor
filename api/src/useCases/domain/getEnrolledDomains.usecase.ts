@@ -2,6 +2,7 @@ import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
 import { IGetEnrolledDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainDashboardUsecase.interface";
+import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { inject, injectable } from "tsyringe";
 
@@ -17,15 +18,15 @@ export class GetEnrolledDomainsUsecase implements IGetEnrolledDomainsUsecase{
         private _domainRepository:IDomainRepository,
     ){}
 
-    async execute(userId:string):Promise<IDomainEntity[]>{
+    async execute(userId:string,currentPage:number,limit:number):Promise<Omit<GetAllDomainsResponseDTO,'totalDocuments'>>{
         const filter={userId}
-        console.log("dlkfjd;slf")
         const student = await this._studentRepository.findOne(filter)
         if(!student) throw new NotFoundError('User not found');
-        console.log(student)
+
+        const skip = currentPage*limit;
         const domainIds=student.domains.map(domain=>domain.domainId);
-        const domains = await this._domainRepository.findUsingIn('_id',domainIds)
-        
-        return domains
+        const {documents:domains,totalDocuments} = await this._domainRepository.findUsingIn('_id',domainIds,skip,limit);
+        const totalPages = Math.ceil(totalDocuments/limit)
+        return {domains,totalPages}
     }
 }

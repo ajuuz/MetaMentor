@@ -1,3 +1,5 @@
+import PaginationComponent from "@/components/common/PaginationComponent"
+import DomainCard from "@/components/user/DomainCard"
 import { getEnrolledDomain } from "@/services/userService.ts/domainApi"
 import type{ DomainType } from "@/types/domainTypes"
 import { useQuery } from "@tanstack/react-query"
@@ -41,8 +43,8 @@ const Dashboard = () => {
 
     const {data:domainsReponse,isLoading,isError}=useQuery(
         {
-          queryKey: ['domain'],
-          queryFn:getEnrolledDomain,
+          queryKey: ['domain',currentPage,10],
+          queryFn:()=>getEnrolledDomain(currentPage,10),
           staleTime: 1000 * 60 * 5,
           refetchOnWindowFocus: false,
           retry: false
@@ -51,8 +53,9 @@ const Dashboard = () => {
 
     useEffect(()=>{
         if(domainsReponse){
-            const domains = domainsReponse.data;
-            // setDomains(domains)
+            const {domains,totalPages} = domainsReponse.data;
+            setDomains(domains)
+            setTotalPages(totalPages)
         }
     },[domainsReponse])
 
@@ -82,7 +85,7 @@ const Dashboard = () => {
 		<div className="min-h-screen bg-[#f7f7f7]">
 
 			{/* Dashboard Main */}
-			<div className="bg-[#18184a] rounded-2xl max-w-6xl mx-auto mt-8 p-6 md:p-12 relative">
+			<div className="bg-[#18184a] rounded-2xl max-w-6xl mx-auto mt-8 mb-20 p-6 md:p-12 relative">
 				<h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-8 tracking-wide">
 					DASHBOARD
 				</h1>
@@ -111,9 +114,14 @@ const Dashboard = () => {
 						</div>
 					</div>
 				</div>
-
 			</div>
+            <div className="flex justify-center relative -top-30">
+                {
+                    domains?.map(domain=><DomainCard domain={domain}/>)
+                }
+            </div>
 
+            <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}/>
 		</div>
 	)
 }

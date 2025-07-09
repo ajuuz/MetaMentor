@@ -52,9 +52,12 @@ export class UserDomainController implements IUserDomainController{
     }
 
     async getDomainDashboard(req:Request,res:Response,next:NextFunction):Promise<void>{
-        console.log("comes here")
         const userId = (req as ModifiedRequest).user.id;
-        const domains:IDomainEntity[]=await this._getEnrolledDomainsUsecase.execute(userId)
-        res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.DOMAINS.FETCH_ALL,data:domains})
+
+        const currentPage = typeof req.query.currentPage==='string'?parseInt(req.query.currentPage):1;
+        const limit = typeof req.query.limit==='string'?parseInt(req.query.limit):10;
+
+        const data:Omit<GetAllDomainsResponseDTO,'totalDocuments'>=await this._getEnrolledDomainsUsecase.execute(userId,currentPage,limit)
+        res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.DOMAINS.FETCH_ALL,data:data})
     }
 }
