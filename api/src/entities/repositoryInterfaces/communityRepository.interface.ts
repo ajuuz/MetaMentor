@@ -4,5 +4,5 @@ import { ICommunityModel } from "frameworks/database/models/community.model";
 
 
 export interface ICommunityRepository extends IBaseRepository<ICommunityEntity,ICommunityModel>{
-    
+    updateStatus(id:string,status:boolean):Promise<void>
 }

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { adminDomainController, adminMentorController, adminStudentController, authMiddleware } from "frameworks/di/resolver";
+import { adminCommunityController, adminDomainController, adminMentorController, adminStudentController, authMiddleware } from "frameworks/di/resolver";
 import { ROLES } from "shared/constants";
 
 export class AdminRoutes{
@@ -27,6 +27,10 @@ export class AdminRoutes{
         this._router.post('/domains',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminDomainController.addDomain.bind(adminDomainController))
         this._router.get('/domains',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminDomainController.getAllDomains.bind(adminDomainController))
         this._router.patch('/domains/:domainId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminDomainController.updateDomainStatus.bind(adminDomainController))
+
+        //community
+        this._router.get('/communities',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminCommunityController.getCommunities.bind(adminCommunityController))
+        this._router.patch('/communities/:communityId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.ADMIN]),adminCommunityController.updateCommunityStatus.bind(adminCommunityController))
     }
 
     getRouter():Router{

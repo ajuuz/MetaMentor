@@ -8,6 +8,7 @@ import ProtectedRoute from "./protectedRoutes/ProtectedRoute"
 import AdminLayout from "@/layouts/AdminLayout"
 import ManageDomain from "@/pages/admin/domains/ManageDomain"
 import Domains from "@/pages/admin/domains/Domains"
+import Community from "@/pages/admin/community/Community"
 
 const AdminRoutes = () => {
   return (
@@ -33,6 +34,7 @@ const AdminRoutes = () => {
             <Route path='/mentors/:mentorId/verify' element={<MentorDetailsManage/>}/>
             <Route path='/students' element={<ManageStudents/>}/>
             <Route path='/domains' element={<Domains/>}/>
+            <Route path='/communities' element={<Community/>}/>
         </Route>
         
         <Route path="/domains/add" element={<ManageDomain/>}/>

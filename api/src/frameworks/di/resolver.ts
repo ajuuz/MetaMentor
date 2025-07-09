@@ -20,6 +20,8 @@ import { IAdminDomainController } from "entities/controllerInterfaces/admin/admi
 import { AdminDomainController } from "interfaceAdapters/controllers/admin/domainController";
 import { IUserDomainController } from "entities/controllerInterfaces/user/userDomainController.interface";
 import { UserDomainController } from "interfaceAdapters/controllers/user/userDomainController";
+import { IAdminCommunityController } from "entities/controllerInterfaces/admin/communityController.interface";
+import { AdminCommunityController } from "interfaceAdapters/controllers/admin/communityController";
 
 DependencyInjection.registerAll()
 
@@ -31,6 +33,7 @@ export const authController = container.resolve<IAuthController>(AuthController)
 export const adminStudentController = container.resolve<IAdminStudentController>(AdminStudentController)
 export const adminMentorController = container.resolve<IAdminMentorController>(AdminMentorController);
 export const adminDomainController = container.resolve<IAdminDomainController>(AdminDomainController);
+export const adminCommunityController = container.resolve<IAdminCommunityController>(AdminCommunityController);
 
 //commomController
 export const commonController = container.resolve<ICommonController>(CommonController)

@@ -43,7 +43,7 @@ const Dashboard = () => {
 
     const {data:domainsReponse,isLoading,isError}=useQuery(
         {
-          queryKey: ['domain',currentPage,10],
+          queryKey: ['userDashboard',currentPage,10],
           queryFn:()=>getEnrolledDomain(currentPage,10),
           staleTime: 1000 * 60 * 5,
           refetchOnWindowFocus: false,

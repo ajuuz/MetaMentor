@@ -3,9 +3,8 @@ import { IAddDomainUsecase } from "entities/usecaseInterfaces/domain/addDomainUs
 import { IGetAllDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainUsecase.interface";
 import { IUpdateDomainStatusUsecase } from "entities/usecaseInterfaces/domain/updateDomainStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
-import {  HTTP_STATUS, ROLES, SUCCESS_MESSAGE } from "shared/constants";
+import {  HTTP_STATUS,SUCCESS_MESSAGE } from "shared/constants";
 import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
-import { ModifiedRequest } from "shared/types";
 import { inject, injectable } from "tsyringe";
 
 

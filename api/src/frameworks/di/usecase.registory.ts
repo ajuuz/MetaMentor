@@ -59,6 +59,10 @@ import { IEnrollDomainUsecase } from "entities/usecaseInterfaces/domain/enrollDo
 import { EnrollDomainUsecase } from "useCases/domain/enrollDomain.usecase";
 import { IGetEnrolledDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainDashboardUsecase.interface";
 import { GetEnrolledDomainsUsecase } from "useCases/domain/getEnrolledDomains.usecase";
+import { IGetCommunitiesUsecase } from "entities/usecaseInterfaces/community/getCommunitiesUsecase.interface";
+import { GetCommunitiesUsecase } from "useCases/community/getCommunities.usecase";
+import { IUpdateCommunityStatusUsecase } from "entities/usecaseInterfaces/community/updateCommunityUsecase.interface";
+import { UpdateCommunityStatusUsecase } from "useCases/community/updateCommunityStatus.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -185,6 +189,12 @@ export class UseCaseRegistory{
         //community usecase
         container.register<IAddCommunityUsecase>('IAddCommunityUsecase',{
             useClass:AddCommunityUsecase
+        })
+        container.register<IGetCommunitiesUsecase>('IGetCommunitiesUsecase',{
+            useClass:GetCommunitiesUsecase
+        })
+        container.register<IUpdateCommunityStatusUsecase>('IUpdateCommunityStatusUsecase',{
+            useClass:UpdateCommunityStatusUsecase
         })
 
 

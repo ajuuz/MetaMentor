@@ -45,8 +45,12 @@ export const SUCCESS_MESSAGE={
     FETCH_ALL:'Fetched all Domains successfully',
     FETCH_SINGLE:'Domain fetched successfully',
     UPDATE_STATUS:'Updated domain status successfully'
+   },
+   COMMUNITY:{
+    FETCH_ALL:'Fetched all Communities successfully',
+    FETCH_SINGLE:'Community fetched successfully',
+    UPDATE_STATUS:'Updated Community status successfully'
    }
-
 }
 
 export const ERROR_MESSAGE={
