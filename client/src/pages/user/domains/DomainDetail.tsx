@@ -33,7 +33,7 @@ const DomainDetail = () => {
     const {mutate:enrollDomainMutation,isPending:enrollPending}=useMutation({
         mutationFn:enrollDomain,
         onSuccess:(response)=>{
-            console.log(response)
+            toast.success(response.message);
         },
         onError:(error)=>{
             toast.error(error.message)

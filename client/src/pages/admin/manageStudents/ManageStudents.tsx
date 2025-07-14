@@ -65,7 +65,6 @@ const ManageStudents = () => {
 
     useEffect(()=>{
         studentMutate({currentPage:1,limit:5})
-       
     },[])
     
     const handleStatusChange=(userId:string,status:boolean)=>{

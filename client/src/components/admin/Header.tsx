@@ -29,7 +29,8 @@ const Header = () => {
           {itemName:"Mentors",itemEndPoint:"mentors"},
           {itemName:"Students",itemEndPoint:'students'},
           {itemName:"Mentor Application",itemEndPoint:'mentors/application'},
-          {itemName:"Domains",itemEndPoint:'Domains'}
+          {itemName:"Domains",itemEndPoint:'Domains'},
+          {itemName:'Communities',itemEndPoint:'communities'}
         ]
 
 

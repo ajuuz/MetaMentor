@@ -6,7 +6,6 @@ export const uploadImage =async (imageData:FormData)=>{
         const response = await userAxiosInstance.post('/common/images/upload',imageData,{
             headers:{"Content-Type":"multipart/form-data"}
         })
-
         return response.data;
     }
     catch(error:any)
