@@ -9,7 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { useMutation } from '@tanstack/react-query'
 import { addSlot } from '@/services/mentorService.ts/slotApi'
 import { toast } from 'sonner'
-import type { DayOfWeekType, WeekSlotType } from '@/types/slotTypes'
+import type { DayOfWeekType, WeekType } from '@/types/slotTypes'
 
 const daysOfWeek:DayOfWeekType[]= [
   'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
@@ -23,7 +23,7 @@ const defaultSlots={
   Friday:[],
   Saturday:[],
   Sunday:[]
-} as WeekSlotType
+} as WeekType
 
 
 const timePeriods={
@@ -52,7 +52,7 @@ function splitTimeRange(startTime: string,endTime: string,intervalMinutes: numbe
 
 
 const SlotManage = () => {
-  const [slots, setSlots] = useState<WeekSlotType>(defaultSlots)
+  const [slots, setSlots] = useState<WeekType>(defaultSlots)
   const [activeDay, setActiveDay] = useState<DayOfWeekType>(daysOfWeek[0])
   const [timeRanges,setTimeRanges] = useState<Record<string,{startTime:string,endTime:string}|null>>(timePeriods)
   

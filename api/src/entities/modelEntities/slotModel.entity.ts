@@ -1,7 +1,13 @@
+import { ObjectId } from "mongoose";
 
-export type DayOfWeekType ='Monday'|'Tuesday'|'Wednesday'|'Thursday'|'Friday'|'Saturday'|'Sunday';
 
-export type WeekType={
+export interface ISlotEntity{
+    _id:ObjectId,
+    mentorId:ObjectId,
+    week:IWeekEntity
+}
+
+interface IWeekEntity{
     Monday:{start:string,end:string,enabled:boolean}[],
     Tuesday:{start:string,end:string,enabled:boolean}[],
     Wednesday:{start:string,end:string,enabled:boolean}[],
@@ -9,9 +15,4 @@ export type WeekType={
     Friday:{start:string,end:string,enabled:boolean}[],
     Saturday:{start:string,end:string,enabled:boolean}[]
     Sunday:{start:string,end:string,enabled:boolean}[]
-}
-export type SlotType={
-    _id:string,
-    mentorId:string,
-    weekSlots:WeekType
 }

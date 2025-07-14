@@ -1,9 +1,9 @@
 import { mentorInstance } from "@/config/axiosConfig/mentorAxiosConfig"
 import type { ApiResponseType } from "@/types/responseType";
-import type { WeekSlotType } from "@/types/slotTypes";
+import type { WeekType } from "@/types/slotTypes";
 
 
-export const addSlot=async(weekSlots:WeekSlotType):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+export const addSlot=async(weekSlots:WeekType):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
     try{
         console.log(weekSlots)
         const response = await mentorInstance.post('/slots',weekSlots)

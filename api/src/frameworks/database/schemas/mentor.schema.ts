@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import { IUserModel } from "../models/user.model";
-import { GENDER, ROLES } from "shared/constants";
 import { IMentorModel } from "../models/mentor.model";
 
 export const mentorSchema = new mongoose.Schema<IMentorModel>({
