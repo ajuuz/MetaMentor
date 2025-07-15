@@ -1,13 +1,12 @@
 import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { mentorModel } from "frameworks/database/models/mentor.model";
-import mongoose, { ObjectId, Types } from "mongoose";
+import { Types } from "mongoose";
 import { GetAllMentorResponseDTO, MentorDataDTO, MentorFindFilterDTO, MentorRegisterRequestDTO, MentorUpdateDTO } from "shared/dto/mentorDTO";
 import { injectable } from "tsyringe";
 
 @injectable()
 export class MentorRepository implements IMentorRepository{
-
 
     async findById(mentorId:string):Promise<MentorDataDTO|undefined>{
         const mentorObjectId = new Types.ObjectId(mentorId);
@@ -56,9 +55,7 @@ export class MentorRepository implements IMentorRepository{
     }
 
     async register(userId:string,mentorDetails:MentorRegisterRequestDTO):Promise<void>{
-        const selectedDomains = mentorDetails.domains;
-        const domains = selectedDomains.map((id)=>new Types.ObjectId(id as string))
-        const newMentor = new mentorModel({userId,...mentorDetails,domains})
+        const newMentor = new mentorModel({userId,...mentorDetails})
         await newMentor.save()
     }
 

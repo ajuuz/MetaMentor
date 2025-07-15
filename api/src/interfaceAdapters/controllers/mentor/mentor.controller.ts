@@ -5,7 +5,6 @@ import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { MentorRegisterRequestDTO } from "shared/dto/mentorDTO";
 import { ModifiedRequest } from "shared/types";
-import { refreshTokenDecoder } from "shared/utils/token/decodeRefreshToken";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

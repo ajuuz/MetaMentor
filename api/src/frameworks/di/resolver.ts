@@ -4,24 +4,26 @@ import { DependencyInjection } from ".";
 import { IAuthController } from "entities/controllerInterfaces/auth/authController.interface";
 import { ErrorMiddleware } from "interfaceAdapters/middlewares/error.middleware";
 import { IAdminStudentController} from "entities/controllerInterfaces/admin/adminStudentController.interface";
-import { AdminStudentController} from "interfaceAdapters/controllers/admin/studentController";
+import { AdminStudentController} from "interfaceAdapters/controllers/admin/student.controller";
 import { ICommonController } from "entities/controllerInterfaces/common/commonController.interface";
-import { CommonController } from "interfaceAdapters/controllers/common/commonController";
+import { CommonController } from "interfaceAdapters/controllers/common/common.controller";
 import { IMentorController } from "entities/controllerInterfaces/mentor/mentorController.interface";
-import { MentorController } from "interfaceAdapters/controllers/mentor/mentorController";
+import { MentorController } from "interfaceAdapters/controllers/mentor/mentor.controller";
 import { IAdminMentorController } from "entities/controllerInterfaces/admin/adminMentorController.interface";
-import { AdminMentorController } from "interfaceAdapters/controllers/admin/mentorController";
+import { AdminMentorController } from "interfaceAdapters/controllers/admin/mentor.controller";
 import { IErrorMiddleware } from "entities/middlewareInterfaces/error-middleware.interface";
 import { IAuthMiddleware } from "entities/middlewareInterfaces/authMiddleware.interface";
 import { AuthMiddleware } from "interfaceAdapters/middlewares/auth.middleware";
 import { IUserController } from "entities/controllerInterfaces/user/userController.interface";
-import { UserController } from "interfaceAdapters/controllers/user/userController";
+import { UserController } from "interfaceAdapters/controllers/user/user.controller";
 import { IAdminDomainController } from "entities/controllerInterfaces/admin/adminDomainController.interface";
-import { AdminDomainController } from "interfaceAdapters/controllers/admin/domainController";
+import { AdminDomainController } from "interfaceAdapters/controllers/admin/domain.controller";
 import { IUserDomainController } from "entities/controllerInterfaces/user/userDomainController.interface";
-import { UserDomainController } from "interfaceAdapters/controllers/user/userDomainController";
+import { UserDomainController } from "interfaceAdapters/controllers/user/userDomain.controller";
 import { IAdminCommunityController } from "entities/controllerInterfaces/admin/communityController.interface";
-import { AdminCommunityController } from "interfaceAdapters/controllers/admin/communityController";
+import { AdminCommunityController } from "interfaceAdapters/controllers/admin/community.controller";
+import { IMentorSlotController } from "entities/controllerInterfaces/mentor/slotController.inteface";
+import { MentorSlotController } from "interfaceAdapters/controllers/mentor/slot.controller";
 
 DependencyInjection.registerAll()
 
@@ -40,7 +42,7 @@ export const commonController = container.resolve<ICommonController>(CommonContr
 
 //MentorController
 export const mentorController = container.resolve<IMentorController>(MentorController)
-
+export const mentorSlotController = container.resolve<IMentorSlotController>(MentorSlotController)
 
 //studentController
 export const userController = container.resolve<IUserController>(UserController)
@@ -50,3 +52,5 @@ export const userDomainController = container.resolve<IUserDomainController>(Use
 //middleware
 export const errorMiddleware = container.resolve<IErrorMiddleware>(ErrorMiddleware)
 export const authMiddleware = container.resolve<IAuthMiddleware>(AuthMiddleware)
+
+

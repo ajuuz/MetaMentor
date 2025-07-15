@@ -15,7 +15,7 @@ export const mentorSchema = new mongoose.Schema<IMentorModel>({
   domains: {
     type: [
       {
-        type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.ObjectId,
         ref:'domains'
       }
     ],

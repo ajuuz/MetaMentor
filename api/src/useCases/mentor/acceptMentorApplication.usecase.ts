@@ -1,4 +1,5 @@
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
+import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
@@ -19,6 +20,8 @@ export class AcceptMentorApplicationUsecase implements IAcceptMentorApplicationU
         @inject('IUserRepository')
         private _userRepository:IUserRespository,
 
+        @inject('ISlotRepository')
+        private _slotRepository:ISlotRepository,
     ){}
 
     async execute(mentorId: string,email:string): Promise<void> {
@@ -35,11 +38,11 @@ export class AcceptMentorApplicationUsecase implements IAcceptMentorApplicationU
 
         asyncOperations.push(this._mentorRepository.updateOne(mentorFilter,mentorUpdate))
 
+        asyncOperations.push(this._slotRepository.createSlots(mentorId))
+
         await Promise.all(asyncOperations)
 
         const html = mailContentProvider(MAIL_CONTENT_PURPOSE.MENTOR_ACCEPTANCE)
-        
-
         eventBus.emit(EVENT_EMITTER_TYPE.SENDMAIL,email,"Accepted Application",html)
     }
 }

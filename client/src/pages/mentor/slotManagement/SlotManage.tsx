@@ -6,10 +6,10 @@ import  TimePeriod from '@/components/mentor/TimePeriod'
 import { toMinutes } from '@/utils/helperFunctions/convertToMinutes'
 import { toTimeString } from '@/utils/helperFunctions/toTimeString'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { useMutation } from '@tanstack/react-query'
-import { addSlot } from '@/services/mentorService.ts/slotApi'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import {  getSlots, updateSlot } from '@/services/mentorService.ts/slotApi'
 import { toast } from 'sonner'
-import type { DayOfWeekType, WeekType } from '@/types/slotTypes'
+import type { DayOfWeekType, WeekSlotsType } from '@/types/slotTypes'
 
 const daysOfWeek:DayOfWeekType[]= [
   'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
@@ -23,7 +23,7 @@ const defaultSlots={
   Friday:[],
   Saturday:[],
   Sunday:[]
-} as WeekType
+} as WeekSlotsType
 
 
 const timePeriods={
@@ -52,10 +52,30 @@ function splitTimeRange(startTime: string,endTime: string,intervalMinutes: numbe
 
 
 const SlotManage = () => {
-  const [slots, setSlots] = useState<WeekType>(defaultSlots)
+  const [slots, setSlots] = useState<WeekSlotsType>(defaultSlots)
   const [activeDay, setActiveDay] = useState<DayOfWeekType>(daysOfWeek[0])
   const [timeRanges,setTimeRanges] = useState<Record<string,{startTime:string,endTime:string}|null>>(timePeriods)
   
+
+  const {data:slotResponse,isError,error} = useQuery({
+    queryKey:['mentorSlots'],
+    queryFn:getSlots,
+    staleTime:1000*60*5,
+    refetchOnWindowFocus: false,
+    retry:false
+  })
+
+  const {mutate:updateSlotMutation,isPending}=useMutation({
+      mutationFn:updateSlot,
+      onSuccess:(response)=>{
+        toast.success(response.message)
+      },
+      onError:(error)=>{
+        toast.error(error.message)
+      }
+  })
+  
+
   useEffect(()=>{
     if(timeRanges[activeDay]){
       const startTime = timeRanges[activeDay].startTime
@@ -65,15 +85,13 @@ const SlotManage = () => {
     }
   },[timeRanges])
 
-  const {mutate:addSlotMutation,isPending}=useMutation({
-      mutationFn:addSlot,
-      onSuccess:(response)=>{
-        toast.success(response.message)
-      },
-      onError:(error)=>{
-        toast.error(error.message)
-      }
-  })
+  useEffect(()=>{
+    if(slotResponse){
+      const weekSlots = slotResponse.data.weekSlots;
+      setSlots(weekSlots)
+    }
+  },[slotResponse])
+
   
   const handleToggle = (day:DayOfWeekType, idx: number) => {
     setSlots(prev => ({
@@ -82,7 +100,7 @@ const SlotManage = () => {
     }))
   }
   const handleSlotCreation=()=>{
-      addSlotMutation(slots)
+      updateSlotMutation(slots)
   }
 
   return (

@@ -14,6 +14,8 @@ import { IDomainRepository } from "entities/repositoryInterfaces/domainRepositor
 import { DomainRepository } from "interfaceAdapters/repositories/domain.repository";
 import { ICommunityRepository } from "entities/repositoryInterfaces/communityRepository.interface";
 import { CommunityRepository } from "interfaceAdapters/repositories/community.repository";
+import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
+import { SlotRepository } from "interfaceAdapters/repositories/slot.repository";
 
 export class RepositoryRegistry{
     static registerRepositories():void{
@@ -49,5 +51,11 @@ export class RepositoryRegistry{
         container.register<ICommunityRepository>('ICommunityRepository',{
             useClass:CommunityRepository
         })
+
+        container.register<ISlotRepository>('ISlotRepository',{
+            useClass:SlotRepository
+        })
+
+
     }
 }

@@ -3,7 +3,6 @@ import { ICommunityRepository } from "entities/repositoryInterfaces/communityRep
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
 import { IAddDomainUsecase } from "entities/usecaseInterfaces/domain/addDomainUsecase.interface";
-import { IInsertManyLevelUsecase } from "entities/usecaseInterfaces/level/insertManyLevelUsecase.interface";
 import { DomainRequestDTO } from "shared/dto/domainDTO";
 import { inject, injectable } from "tsyringe";
 
@@ -14,9 +13,6 @@ export class AddDomainUsecase implements IAddDomainUsecase{
     constructor(
         @inject('IDomainRepository')
         private _domainRepository:IDomainRepository,
-
-        @inject('IInsertManyLevelUsecase')
-        private _insertManyLevelUsecase:IInsertManyLevelUsecase,
 
         @inject('ILevelRepository')
         private _levelRepository:ILevelRepository,

@@ -63,6 +63,10 @@ import { IGetCommunitiesUsecase } from "entities/usecaseInterfaces/community/get
 import { GetCommunitiesUsecase } from "useCases/community/getCommunities.usecase";
 import { IUpdateCommunityStatusUsecase } from "entities/usecaseInterfaces/community/updateCommunityUsecase.interface";
 import { UpdateCommunityStatusUsecase } from "useCases/community/updateCommunityStatus.usecase";
+import { IUpdateSlotUsecase } from "entities/usecaseInterfaces/slot/updateSlotUsecase.interface";
+import { UpdateSlotUsecase } from "useCases/slot/updateSlot.usecase";
+import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
+import { GetMentorSlotsUsecase } from "useCases/slot/getMentorSlots.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -197,6 +201,13 @@ export class UseCaseRegistory{
             useClass:UpdateCommunityStatusUsecase
         })
 
+        //slots usecase
+        container.register<IUpdateSlotUsecase>('IUpdateSlotUsecase',{
+            useClass:UpdateSlotUsecase
+        })
+        container.register<IGetMentorSlotsUsecase>('IGetMentorSlotsUsecase',{
+            useClass:GetMentorSlotsUsecase
+        })
 
         //common usecase
         container.register<IUploadImageUsecase>('IUploadImageUsecase',{
