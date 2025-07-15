@@ -6,4 +6,5 @@ export interface IUserDomainController{
     getSpecificDomain(req:Request,res:Response,next:NextFunction):Promise<void>
     enrollDomain(req:Request,res:Response,next:NextFunction):Promise<void>
     getDomainDashboard(req:Request,res:Response,next:NextFunction):Promise<void>
+    getDomainInsight(req:Request,res:Response,next:NextFunction):Promise<void>
 }

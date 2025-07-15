@@ -15,6 +15,7 @@ import ProtectedRoute from "./protectedRoutes/ProtectedRoute"
 import Domains from "@/pages/user/domains/Domains"
 import DomainDetail from "@/pages/user/domains/DomainDetail"
 import Dashboard from "@/pages/user/dashboard/Dashboard"
+import DomainInsight from "@/pages/user/dashboard/DomainInsight"
 
 
 const UserRoutes = () => {
@@ -37,6 +38,7 @@ const UserRoutes = () => {
               <Route path='/domains/:domainId' element={<DomainDetail/>}/>
                 <Route element={<ProtectedRoute allowedRoles={['user','mentor']}/>}>
                     <Route path="/dashboard" element={<Dashboard/>}/>
+                    <Route path="/dashboard/:domainId" element={<DomainInsight/>}/>
                     {/* user profile layout */}
                     <Route element={<UserProfileLayout/>}>
                       <Route path="/profile" element={<Profile/>}/>

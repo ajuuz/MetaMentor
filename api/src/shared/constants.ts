@@ -25,6 +25,21 @@ export enum HTTP_STATUS  {
   INTERNAL_SERVER_ERROR= 500,
 };
 
+export enum REVIEW_STATUS{
+  PASS='pass',
+  FAIL='fail',
+  PENDING='pending'
+}
+
+export enum PAYMENT_STATUS{
+  SUCCESS='success',
+  FAILED='failed'
+}
+export enum PAYMENT_METHOD{
+  WALLET='wallet',
+  UPI='upi'
+}
+
 export const SUCCESS_MESSAGE={
    AUTH:{
      CREATED:'User Registered Successfully',

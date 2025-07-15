@@ -16,6 +16,8 @@ import { ICommunityRepository } from "entities/repositoryInterfaces/communityRep
 import { CommunityRepository } from "interfaceAdapters/repositories/community.repository";
 import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
 import { SlotRepository } from "interfaceAdapters/repositories/slot.repository";
+import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
+import { ReviewRepository } from "interfaceAdapters/repositories/review.repository";
 
 export class RepositoryRegistry{
     static registerRepositories():void{
@@ -54,6 +56,10 @@ export class RepositoryRegistry{
 
         container.register<ISlotRepository>('ISlotRepository',{
             useClass:SlotRepository
+        })
+
+        container.register<IReviewRepository>('IReviewRepository',{
+            useClass:ReviewRepository
         })
 
 

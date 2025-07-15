@@ -57,7 +57,7 @@ const SlotManage = () => {
   const [timeRanges,setTimeRanges] = useState<Record<string,{startTime:string,endTime:string}|null>>(timePeriods)
   
 
-  const {data:slotResponse,isError,error} = useQuery({
+  const {data:slotResponse} = useQuery({
     queryKey:['mentorSlots'],
     queryFn:getSlots,
     staleTime:1000*60*5,
@@ -65,7 +65,7 @@ const SlotManage = () => {
     retry:false
   })
 
-  const {mutate:updateSlotMutation,isPending}=useMutation({
+  const {mutate:updateSlotMutation}=useMutation({
       mutationFn:updateSlot,
       onSuccess:(response)=>{
         toast.success(response.message)

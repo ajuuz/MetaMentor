@@ -17,3 +17,5 @@ export type GetAllDomainsResponseDTO={
    totalDocuments:number,
    totalPages:number
 }
+
+

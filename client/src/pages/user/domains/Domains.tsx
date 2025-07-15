@@ -42,7 +42,7 @@ const Domains = () => {
           <h4>Filter</h4>
         </div>
       </div> */}
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center gap-9 justify-center">
         {domains?.map((domain)=>
           <DomainCard domain={domain}/>
         )}

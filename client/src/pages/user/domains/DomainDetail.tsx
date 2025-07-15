@@ -20,7 +20,7 @@ const DomainDetail = () => {
 
     if (!domainId) navigate(-1)
 
-    const { data: domainResponse, isError, error, isLoading } = useQuery<Required<ApiResponseType<DomainType>>>(
+    const { data: domainResponse, isError, isLoading } = useQuery<Required<ApiResponseType<DomainType>>>(
         {
             queryKey: ['domain', domainId],
             queryFn: () => getDomain(domainId as string),
@@ -71,6 +71,7 @@ const DomainDetail = () => {
      const handleEnroll=()=>{
         if(domainId)
         enrollDomainMutation(domainId);
+        navigate('/dashboard')
     }
 
     return (
@@ -123,48 +124,22 @@ const About=({domainDetails}:AboutProp)=>{
                 </div>
             </div>
         </section>
-        {/* What is MERN */}
+
+        {/* What is Domain */}
         <section className="bg-[#eee] py-8">
             <div className="max-w-3xl mx-auto text-center px-6">
                 <h1 className="font-bold text-3xl mb-6">What is {domainDetails.name}?</h1>
                 <p className="font-bold text-lg mb-6">
-                    {domainDetails.description || (
-                        <>
-                            {domainDetails.name} isn’t just a buzzword — it’s the powerhouse behind today’s most dynamic websites and apps. {domainDetails.name} stands for MongoDB, Express.js, React, and Node.js — a full-stack JavaScript framework that helps you build everything from small personal projects to large-scale enterprise-level applications.
-                        </>
-                    )}
+                    {domainDetails.description}
                 </p>
-                <ul className="text-left inline-block text-base font-medium">
-                    <li>MongoDB – The database where your app’s data lives.</li>
-                    <li>Express.js – The backend framework that handles server logic.</li>
-                    <li>React – The front-end library that makes your app interactive and fast.</li>
-                    <li>Node.js – The runtime that lets you use JavaScript on the server side.</li>
-                </ul>
             </div>
         </section>
+
         {/* Why Should You Learn */}
         <section className="bg-[#f7f7f7] py-8">
             <div className="max-w-3xl mx-auto px-6">
                 <h2 className="font-bold text-2xl text-center mb-6">Why Should You Learn {domainDetails.name}?</h2>
-                <ul className="text-base font-medium list-none p-0 m-0">
-                    <li className="mb-4">
-                        🌐 <b>Full-Stack Skills, One Language:</b><br />
-                        {domainDetails.name} enables you to build both the frontend and backend using just JavaScript. No juggling multiple languages — one skillset powers everything.
-                    </li>
-                    <li className="mb-4">
-                        🚀 <b>High Demand = High Salary:</b><br />
-                        Companies are actively hiring {domainDetails.name} developers because of its speed, flexibility, and scalability. Mastering {domainDetails.name} gives you a competitive edge in the job market.
-                    </li>
-                    <li className="mb-4">
-                        🛠️ <b>Build Real Projects:</b><br />
-                        From social media platforms to e-commerce sites, {domainDetails.name} is trusted by top tech companies to deliver high-performance applications.
-                    </li>
-                    <li>
-                        💡 <b>Endless Opportunities:</b><br />
-                        Whether you want to freelance, build your own startup, or land your dream job in tech, {domainDetails.name} skills open doors.
-                    </li>
-                </ul>
-                
+                <p className="text-center">{domainDetails.motive}</p>
             </div>
         </section>
     </div>
@@ -210,7 +185,6 @@ const RoadMap=({levels}:RoadMapProp)=>{
               </div>
           )}
         </div>
-        
      </div>
     )
 }

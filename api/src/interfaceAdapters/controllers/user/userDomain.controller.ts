@@ -2,12 +2,14 @@ import { IUserDomainController } from "entities/controllerInterfaces/user/userDo
 import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
 import { IEnrollDomainUsecase } from "entities/usecaseInterfaces/domain/enrollDomainUsecase.interface";
 import { IGetEnrolledDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainDashboardUsecase.interface";
+import { IGetDomainInsightUsecase } from "entities/usecaseInterfaces/domain/getDomainInsightUsecase.interface";
 import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/getSpecificDomainUsecase.interface";
 import { IGetUnblockedDomainsUsecase } from "entities/usecaseInterfaces/domain/getUnblockedDomainsUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
 import { ModifiedRequest } from "shared/types";
+import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
 
 
@@ -26,6 +28,9 @@ export class UserDomainController implements IUserDomainController{
 
         @inject('IGetEnrolledDomainsUsecase')
         private _getEnrolledDomainsUsecase:IGetEnrolledDomainsUsecase,
+
+        @inject('IGetDomainInsightUsecase')
+        private _getDomainInsightUsecase:IGetDomainInsightUsecase,
 
     ){}
 
@@ -59,5 +64,16 @@ export class UserDomainController implements IUserDomainController{
 
         const data:Omit<GetAllDomainsResponseDTO,'totalDocuments'>=await this._getEnrolledDomainsUsecase.execute(userId,currentPage,limit)
         res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.DOMAINS.FETCH_ALL,data:data})
+    }
+
+    async getDomainInsight(req:Request,res:Response,next:NextFunction):Promise<void>{
+
+        const studentId = (req as ModifiedRequest).user.id
+        const domainId = req.params.domainId
+         
+        if(!studentId || !domainId) throw new ValidationError("Necessary credentails not recieved");
+
+        const domainInsight = await this._getDomainInsightUsecase.execute(studentId,domainId)
+        res.status(200).json({success:true,message:'Domain Insight Fetched Successfully',data:domainInsight})
     }
 }

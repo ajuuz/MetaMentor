@@ -21,3 +21,4 @@ export type GetAllDomainType={
    domains:Omit<DomainType,'levels'>[],
    totalPages:number
 }
+
