@@ -19,8 +19,9 @@ export class MentorRoutes{
             this._router.get('/domains',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER]),authMiddleware.blockChecker.bind(authMiddleware),mentorController.getDomains.bind(mentorController))
             
             //slots
-            this._router.post('/slots',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),mentorSlotController.updateSlot.bind(mentorSlotController))
+            this._router.patch('/slots',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),mentorSlotController.updateSlot.bind(mentorSlotController))
             this._router.get('/slots',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),mentorSlotController.getSlots.bind(mentorSlotController))
+            this._router.patch('/slots/:day/:slotId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),mentorSlotController.updateSlotStatus.bind(mentorSlotController))
 
         }
     

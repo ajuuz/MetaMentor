@@ -8,4 +8,5 @@ import { WeekSlotsDTO } from "shared/dto/slotDTO";
 export interface ISlotRepository extends BaseRepository<ISlotEntity,ISlotModel>{
     updateSlot(mentorId:string,weekSlots:WeekSlotsDTO):Promise<void>
     createSlots(mentorId:string):Promise<void>
+    updateSlotStatus(mentorId:string,day:string,slotId:string,slotStatus:boolean):Promise<void>
 }

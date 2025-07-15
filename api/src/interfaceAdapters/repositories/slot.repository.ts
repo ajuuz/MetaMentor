@@ -19,4 +19,8 @@ export class SlotRepository extends BaseRepository<ISlotEntity,ISlotModel> imple
          const slot = new slotModel({mentorId})
          await slot.save()
     }
+
+    async updateSlotStatus(mentorId:string,day:string,slotId:string,slotStatus:boolean):Promise<void>{
+        await slotModel.updateOne({mentorId,[`weekSlots.${day}._id`]:slotId},{$set:{[`weekSlots.${day}.$.enabled`]:slotStatus}})
+    }
 }

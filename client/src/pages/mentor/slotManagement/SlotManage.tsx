@@ -7,7 +7,7 @@ import { toMinutes } from '@/utils/helperFunctions/convertToMinutes'
 import { toTimeString } from '@/utils/helperFunctions/toTimeString'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import {  getSlots, updateSlot } from '@/services/mentorService.ts/slotApi'
+import {  getSlots, updateSlot, updateSlotStatus } from '@/services/mentorService.ts/slotApi'
 import { toast } from 'sonner'
 import type { DayOfWeekType, WeekSlotsType } from '@/types/slotTypes'
 
@@ -74,6 +74,16 @@ const SlotManage = () => {
         toast.error(error.message)
       }
   })
+
+  const {mutate:updateSlotStatusMutation}=useMutation({
+     mutationFn:updateSlotStatus,
+      onSuccess:(response)=>{
+        toast.success(response.message)
+      },
+      onError:(error)=>{
+        toast.error(error.message)
+      }
+  })
   
 
   useEffect(()=>{
@@ -93,7 +103,10 @@ const SlotManage = () => {
   },[slotResponse])
 
   
-  const handleToggle = (day:DayOfWeekType, idx: number) => {
+  const handleToggle = (day:DayOfWeekType,idx:number,slotId:string,slotStatus:boolean) => {
+    console.log(slotId)
+    updateSlotStatusMutation({day,slotId,slotStatus});
+
     setSlots(prev => ({
       ...prev,
       [day]: prev[day].map((slot, i) => i === idx ? { ...slot, enabled: !slot.enabled } : slot)
@@ -134,7 +147,7 @@ const SlotManage = () => {
                 <div className="flex items-center gap-4">
                   <span className="font-medium text-[#222]">{slot.start} - {slot.end}</span>
                 </div>
-                <Switch checked={slot.enabled} onCheckedChange={() => handleToggle(activeDay, idx)} />
+                <Switch checked={slot.enabled} onCheckedChange={() => handleToggle(activeDay,idx,slot._id,!slot.enabled)} />
               </div>
             ))}
             </ScrollArea>
