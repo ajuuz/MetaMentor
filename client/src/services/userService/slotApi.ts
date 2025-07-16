@@ -15,9 +15,8 @@ export const getDomainSlots=async(domainId:string):Promise<Required<ApiResponseT
 }
 
 
-export const slotValidityChecker=async({mentorId,day,slotId}:{mentorId:string,day:string,slotId:string})=>{
+export const slotValidityChecker=async({mentorId,day,slotId}:{mentorId:string,day:string,slotId:string}):Promise<Required<ApiResponseType<undefined>>>=>{
     try{
-         console.log(mentorId,day,slotId)
          const response = await userAxiosInstance.post(`/slots/${mentorId}/${day}/${slotId}`)
          return response.data;
      }

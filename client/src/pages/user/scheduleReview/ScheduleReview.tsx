@@ -3,29 +3,34 @@
 import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { getDomainSlots, slotValidityChecker } from "@/services/userService.ts/slotApi"
+import { SlotViewCard } from "@/components/user/slotViewCard"
+import { getDomainSlots, slotValidityChecker } from "@/services/userService/slotApi"
 import type { DomainSlotsResponseDTO } from "@/types/slotTypes"
 import { toTimeString } from "@/utils/helperFunctions/toTimeString"
 import { useMutation } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import { toast } from "sonner"
 
 
 export default function ScheduleReview() {
     const [domainsSlots,setDomainsSlots]=useState<DomainSlotsResponseDTO[]>([]);
-    const {domainId} = useParams();
+    const [selectedSlotPopup,setSelectedSlotPopup]=useState<string>('');
 
+    const {domainId} = useParams();
     if(!domainId){
         return <div>some thing wrong</div>
     }
 
     const {mutate:slotValidityCheckerMutation}=useMutation({
         mutationFn:slotValidityChecker,
-        onSuccess:(response)=>{
+        onSuccess:(response,variables)=>{
           console.log(response)
+          console.log(variables)
+          setSelectedSlotPopup(variables.slotId)
         },
         onError:(error)=>{
-          console.log(error)
+          toast.error(error.message)
         }
     })
 
@@ -49,7 +54,7 @@ export default function ScheduleReview() {
     <div>
         {
         domainsSlots.map(content=>(
-        <Card className="max-w-5xl mx-auto p-4 rounded-2xl border shadow-md bg-white">
+        <Card onClick={()=>console.log(selectedSlotPopup)} className="max-w-5xl mx-auto p-4 rounded-2xl border shadow-md bg-white">
             <div className="flex gap-6 items-start">
               {/* Left: Mentor Info */}
               <div className="flex flex-col items-center">
@@ -96,6 +101,9 @@ export default function ScheduleReview() {
                           slots.map((slot, index) => (
                             slot.enabled &&
                           <div onClick={()=>handleSelectSlot(content.mentor._id,day,slot._id)} key={index} className="px-3 py-1 text-sm bg-gray-100 rounded-md">
+                             {selectedSlotPopup===slot._id &&
+                              <SlotViewCard key={slot._id} cost={100} walletBalance={500} mentor={{name:content.mentor.name,title:content.mentor.about,company:content.mentor.workedAt[0],image:content.mentor.profileImage}} slot={{slotId:slot._id,day:day,start:slot.start,end:slot.end}} setSelectedSlotPopup={setSelectedSlotPopup}/>
+                             }
                               {toTimeString(slot.start)} – {toTimeString(slot.end)}
                             </div>
                           ))

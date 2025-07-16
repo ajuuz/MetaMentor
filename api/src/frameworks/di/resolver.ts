@@ -26,6 +26,8 @@ import { IMentorSlotController } from "entities/controllerInterfaces/mentor/slot
 import { MentorSlotController } from "interfaceAdapters/controllers/mentor/slot.controller";
 import { IUserSlotController } from "entities/controllerInterfaces/user/userSlotController.interface";
 import { UserSlotController } from "interfaceAdapters/controllers/user/userSlot.controller";
+import { IPaymentController } from "entities/controllerInterfaces/payment/paymentController";
+import { PaymentController } from "interfaceAdapters/controllers/payment/payment.controller";
 
 DependencyInjection.registerAll()
 
@@ -50,6 +52,9 @@ export const mentorSlotController = container.resolve<IMentorSlotController>(Men
 export const userController = container.resolve<IUserController>(UserController)
 export const userDomainController = container.resolve<IUserDomainController>(UserDomainController)
 export const userSlotController = container.resolve<IUserSlotController>(UserSlotController)
+
+//paymentController
+export const paymentController = container.resolve<IPaymentController>(PaymentController)
 
 
 //middleware

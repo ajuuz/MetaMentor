@@ -1,6 +1,6 @@
 import PaginationComponent from "@/components/common/PaginationComponent";
 import DomainCard from "@/components/user/DomainCard";
-import { getDomains } from "@/services/userService.ts/domainApi";
+import { getDomains } from "@/services/userService/domainApi";
 import type { DomainType, GetAllDomainType } from "@/types/domainTypes";
 import type { ApiResponseType } from "@/types/responseType";
 import { useQuery } from "@tanstack/react-query";

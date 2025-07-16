@@ -18,6 +18,8 @@ import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.in
 import { SlotRepository } from "interfaceAdapters/repositories/slot.repository";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { ReviewRepository } from "interfaceAdapters/repositories/review.repository";
+import { ISlotLockRepository } from "entities/repositoryInterfaces/slotLockRepository.interface";
+import { SlotLockRepository } from "interfaceAdapters/repositories/slotLock.repository";
 
 export class RepositoryRegistry{
     static registerRepositories():void{
@@ -62,6 +64,8 @@ export class RepositoryRegistry{
             useClass:ReviewRepository
         })
 
-
+        container.register<ISlotLockRepository>('ISlotLockRepository',{
+            useClass:SlotLockRepository
+        })
     }
 }

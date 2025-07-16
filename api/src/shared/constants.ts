@@ -23,6 +23,7 @@ export enum HTTP_STATUS  {
   NOT_FOUND= 404,
   CONFLICT= 409,
   GONE= 410,
+  UNPROCESSED_ENTITY=422,
   INTERNAL_SERVER_ERROR= 500,
 };
 
@@ -87,7 +88,9 @@ export const ERROR_MESSAGE={
   BLOCKED_ERROR:"You are blocked by Admin. please contact admin",
 
   SLOT:{
-    GONE:'Slot is not available currently. Try another one'
+    GONE:'The resource you’re trying to access used to exist, but it is permanently gone and will never be available again.',
+    UNPROCESSED_ENTITY:'Slot is not available currently. Try another one',
+    CONFLICT:'Slot already booked. Please select another time.'
   }
 }
 

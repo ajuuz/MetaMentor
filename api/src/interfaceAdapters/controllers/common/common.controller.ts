@@ -43,4 +43,6 @@ export class CommonController implements ICommonController{
             res.end()
         })
    }
+
+   
 }

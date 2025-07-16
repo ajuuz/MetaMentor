@@ -29,6 +29,7 @@ export class UserSlotController implements IUserSlotController{
         const {mentorId,day,slotId} = req.params;
         if(!mentorId || !day ||!slotId) throw new ValidationError();
 
-        const value=await this._slotValidityCheckerUsecase.execute(mentorId,day,slotId)
+        await this._slotValidityCheckerUsecase.execute(mentorId,day,slotId)
+        res.status(200).json({success:true,message:'Slot is Valid'})
     }
 }

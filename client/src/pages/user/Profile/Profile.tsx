@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 
 import type { UserDetailsType } from "@/types/userType";
 
-import { getSpecificUser, updateProfile } from "@/services/userService.ts/userApi";
+import { getSpecificUser, updateProfile } from "@/services/userService/userApi";
 import { imageUploader } from "@/utils/helperFunctions/imageUploadFunction";
 
 import { Edit, Eye, Image } from "lucide-react";

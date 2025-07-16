@@ -75,6 +75,10 @@ import { IGetDomainSlotsUsecase } from "entities/usecaseInterfaces/slot/getDomai
 import { GetDomainSlotsUsecase } from "useCases/slot/getDomainSlots.usecase";
 import { ISlotValidityCheckerUsecase } from "entities/usecaseInterfaces/slot/slotValidityCheckerUsecase.interface";
 import { SlotValidityCheckerUsecase } from "useCases/slot/slotValidityChecker.usecase";
+import { ICreateOrderUsecase } from "entities/usecaseInterfaces/payment/CreateOrderUsecase.interface";
+import { CreateOrderUsecase } from "useCases/payment/createOrder.usecase";
+import { IVerifyPaymentUsecase } from "entities/usecaseInterfaces/payment/verifyPaymentUsecase.interface";
+import { VerifyPaymentUsecase } from "useCases/payment/verifyPayment.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -227,6 +231,14 @@ export class UseCaseRegistory{
         })
         container.register<ISlotValidityCheckerUsecase>('ISlotValidityCheckerUsecase',{
             useClass:SlotValidityCheckerUsecase
+        })
+        
+        //payment usecase
+        container.register<ICreateOrderUsecase>('ICreateOrderUsecase',{
+            useClass:CreateOrderUsecase
+        })
+        container.register<IVerifyPaymentUsecase>('IVerifyPaymentUsecase',{
+            useClass:VerifyPaymentUsecase
         })
 
         //common usecase

@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { CheckCircle, XCircle, Lock, LucideClockFading } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { getDomainInsight } from "@/services/userService.ts/dashboardApi";
+import { getDomainInsight } from "@/services/userService/dashboardApi";
 import { useNavigate, useParams } from "react-router-dom";
 import type { ApiResponseType } from "@/types/responseType";
 import type { ReviewCardData } from "@/types/reviewTypes";

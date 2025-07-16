@@ -74,4 +74,13 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
         return count
     }
 
+    async createAReview():Promise<void>{
+     
+    }
+
+    async checkIsBookedSlot(mentorId:string,day:string,start:number,end:number):Promise<boolean>{
+         const review = await reviewModel.findOne({mentorId,'slot.day':day,'slot.start':{$lt:end},'slot.end':{$gt:start}})
+         return review?true:false
+    }
+
 }

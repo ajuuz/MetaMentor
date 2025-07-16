@@ -40,7 +40,6 @@ export class ForgotPasswordResetUsecase implements IForgotPasswordResetUsecase{
         const tokenExpiry=payload.exp as number
         const currentTime = Math.floor(Date.now() / 1000);
         const remainingTime = tokenExpiry-currentTime
-        console.log(remainingTime)
 
         //checking is user exists
         const user = await this._userRepository.findByEmail(email)

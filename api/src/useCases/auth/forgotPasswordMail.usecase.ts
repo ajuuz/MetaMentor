@@ -1,11 +1,8 @@
-import { IOtpRespository } from "entities/repositoryInterfaces/otp-repository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IEmailService } from "entities/serviceInterfaces/email-service.interface";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { IForgotPasswordSendMailUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordMailUsecase.interface";
-import { config } from "shared/config";
-import { EVENT_EMITTER_TYPE, MAIL_CONTENT_PURPOSE } from "shared/constants";
-import { eventBus } from "shared/eventBus";
+import { MAIL_CONTENT_PURPOSE } from "shared/constants";
 import { mailContentProvider } from "shared/mailContentProvider";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { ValidationError } from "shared/utils/error/validationError";

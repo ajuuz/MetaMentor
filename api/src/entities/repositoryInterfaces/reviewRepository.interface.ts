@@ -8,4 +8,5 @@ export interface IReviewRepository extends BaseRepository<IReviewEntity,IReviewM
     
     findByStudentAndDomain(studentId:string,domainId:string):Promise<GetReviewResponseDTO[]>
     getPassedReviewsCount(studentId:string,domainId:string):Promise<number>
+    checkIsBookedSlot(mentorId:string,day:string,start:number,end:number):Promise<boolean>
 }

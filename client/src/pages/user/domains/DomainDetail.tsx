@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { enrollDomain, getDomain } from "@/services/userService.ts/domainApi";
+import { enrollDomain, getDomain } from "@/services/userService/domainApi";
 import type { DomainType } from "@/types/domainTypes";
 import type { ApiResponseType } from "@/types/responseType";
 import { useMutation, useQuery } from "@tanstack/react-query";
