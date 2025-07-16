@@ -1,7 +1,7 @@
 import { ISlotEntity } from "entities/modelEntities/slotModel.entity";
 import { BaseRepository } from "./base.repository";
 import { ISlotModel, slotModel } from "frameworks/database/models/slot.model";
-import { DomainSlotsResponseDTO, WeekSlotsDTO } from "shared/dto/slotDTO";
+import { DomainSlotsResponseDTO, SlotDTO, WeekSlotsRequestDTO } from "shared/dto/slotDTO";
 import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
 import mongoose from "mongoose";
 
@@ -12,7 +12,7 @@ export class SlotRepository extends BaseRepository<ISlotEntity,ISlotModel> imple
         super(slotModel)
     }
     
-    async updateSlot(mentorId:string,weekSlots:WeekSlotsDTO):Promise<void>{
+    async updateSlots(mentorId:string,weekSlots:WeekSlotsRequestDTO):Promise<void>{
         await this.model.updateOne({mentorId},{weekSlots})
     }
 
@@ -53,7 +53,9 @@ export class SlotRepository extends BaseRepository<ISlotEntity,ISlotModel> imple
             {
                 $project:{
                     weekSlots:1,
+                    mentorId:1,
                     mentor:{
+                        _id:'$mentor.userId',
                         name:'$mentorDetails.name',
                         profileImage:'$mentorDetails.profileImage',
                         country:'$mentorDetails.country',
@@ -64,7 +66,33 @@ export class SlotRepository extends BaseRepository<ISlotEntity,ISlotModel> imple
                 }
             }
         ])
-
         return slots
+    }
+
+    async getSpecificSlot(mentorId:string,day:string,slotId:string):Promise<SlotDTO|null>{
+        const slotObjectId = new mongoose.Types.ObjectId(slotId);
+        const slots = await slotModel.aggregate([
+            {
+                $match:{mentorId:new mongoose.Types.ObjectId(mentorId)}
+            },
+            {
+                $project:{
+                    slot:{
+                        $filter:{
+                            input:`$weekSlots.${day}`,
+                            as:'slot',
+                            cond:{$eq:["$$slot._id",slotObjectId]}
+                        }
+                    }
+                }
+            },
+            {
+                $unwind:'$slot'
+            },
+            {
+                $project:{_id:0}
+            }
+        ])
+        return slots[0]? slots[0].slot : null
     }
 }

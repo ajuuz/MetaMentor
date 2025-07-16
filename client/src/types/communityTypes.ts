@@ -1,5 +1,4 @@
 
-
 type CommunityType={
     _id:string,
     communityId:string,

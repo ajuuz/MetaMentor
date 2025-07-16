@@ -22,6 +22,7 @@ export enum HTTP_STATUS  {
   FORBIDDEN= 403,
   NOT_FOUND= 404,
   CONFLICT= 409,
+  GONE= 410,
   INTERNAL_SERVER_ERROR= 500,
 };
 
@@ -84,6 +85,10 @@ export const ERROR_MESSAGE={
   TOKEN_EXPIRED_REFRESH:"Token time out, Please loggin again",
   SERVER_ERROR:"An error occurred, please try again later.",
   BLOCKED_ERROR:"You are blocked by Admin. please contact admin",
+
+  SLOT:{
+    GONE:'Slot is not available currently. Try another one'
+  }
 }
 
 export enum MENTOR_APPLICATION_STATUS{

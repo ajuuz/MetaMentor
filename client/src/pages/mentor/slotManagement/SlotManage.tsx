@@ -36,14 +36,14 @@ const timePeriods={
   Sunday:null
 }
 
-function splitTimeRange(startTime: string,endTime: string,intervalMinutes: number = 30): {start:string;end:string,enabled:boolean}[] {
+function splitTimeRange(startTime: string,endTime: string,intervalMinutes: number = 30): {start:number;end:number,enabled:boolean}[] {
   const start = toMinutes(startTime);
   const end = toMinutes(endTime);
-  const slots: {start:string;end:string,enabled:boolean}[] = [];
+  const slots: {start:number;end:number,enabled:boolean}[] = [];
   for (let current = start; current + intervalMinutes <= end; current += intervalMinutes) {
     slots.push({
-      start: toTimeString(current),
-      end: toTimeString(current + intervalMinutes),
+      start: current,
+      end: current + intervalMinutes,
       enabled:true
     });
   }
@@ -145,9 +145,9 @@ const SlotManage = () => {
             {slots[activeDay].map((slot, idx) => (
               <div key={idx} className="flex items-center justify-between bg-white rounded-lg shadow px-4 py-3">
                 <div className="flex items-center gap-4">
-                  <span className="font-medium text-[#222]">{slot.start} - {slot.end}</span>
+                  <span className="font-medium text-[#222]">{toTimeString(slot.start)} - {toTimeString(slot.end)}</span>
                 </div>
-                <Switch checked={slot.enabled} onCheckedChange={() => handleToggle(activeDay,idx,slot._id,!slot.enabled)} />
+                <Switch checked={slot.enabled} onCheckedChange={()=>handleToggle(activeDay,idx,slot._id,!slot.enabled)} />
               </div>
             ))}
             </ScrollArea>

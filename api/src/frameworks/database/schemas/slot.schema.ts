@@ -1,11 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 import { ISlotModel } from "../models/slot.model";
 
-const daySlotSchema = {
-  start: { type: String, required: true },
-  end: { type: String, required: true },
+const daySlotSchema =new mongoose.Schema({
+  start: { type: Number, required: true },
+  end: { type: Number, required: true },
   enabled: { type: Boolean, default: true },
-};
+});
 
 const weekSchema = new mongoose.Schema({
   Monday: { type: [daySlotSchema], default: [] },

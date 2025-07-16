@@ -1,19 +1,37 @@
+import { ObjectId } from "mongoose"
 
+export type SlotDTO={
+    _id:ObjectId,
+    start:number,
+    end:number,
+    enabled:boolean
+}
 
-export type WeekSlotsDTO={
-    Monday:{start:string,end:string,enabled:boolean}[],
-    Tuesday:{start:string,end:string,enabled:boolean}[],
-    Wednesday:{start:string,end:string,enabled:boolean}[],
-    Thursday:{start:string,end:string,enabled:boolean}[],
-    Friday:{start:string,end:string,enabled:boolean}[],
-    Saturday:{start:string,end:string,enabled:boolean}[]
-    Sunday:{start:string,end:string,enabled:boolean}[]
+export type WeekSlotsRequestDTO={
+    Monday:Omit<SlotDTO,'_id'>[],
+    Tuesday:Omit<SlotDTO,'_id'>[],
+    Wednesday:Omit<SlotDTO,'_id'>[],
+    Thursday:Omit<SlotDTO,'_id'>[],
+    Friday:Omit<SlotDTO,'_id'>[],
+    Saturday:Omit<SlotDTO,'_id'>[]
+    Sunday:Omit<SlotDTO,'_id'>[]
+}
+
+export type WeekSlotsResponseDTO={
+    Monday:SlotDTO[],
+    Tuesday:SlotDTO[],
+    Wednesday:SlotDTO[],
+    Thursday:SlotDTO[],
+    Friday:SlotDTO[],
+    Saturday:SlotDTO[]
+    Sunday:SlotDTO[]
 }
 
 
 export type DomainSlotsResponseDTO={
-    weekSlots:WeekSlotsDTO,
+    weekSlots:WeekSlotsResponseDTO,
     mentor:{
+        _id:ObjectId,
         name:string,
         profileImage:string,
         country:string|null,

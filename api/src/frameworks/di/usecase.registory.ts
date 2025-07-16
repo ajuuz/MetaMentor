@@ -73,6 +73,8 @@ import { IGetDomainInsightUsecase } from "entities/usecaseInterfaces/domain/getD
 import { GetDomainInsightUsecase } from "useCases/domain/getDomainInsight.usecase";
 import { IGetDomainSlotsUsecase } from "entities/usecaseInterfaces/slot/getDomainSlotsUsecase.interface";
 import { GetDomainSlotsUsecase } from "useCases/slot/getDomainSlots.usecase";
+import { ISlotValidityCheckerUsecase } from "entities/usecaseInterfaces/slot/slotValidityCheckerUsecase.interface";
+import { SlotValidityCheckerUsecase } from "useCases/slot/slotValidityChecker.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -222,6 +224,9 @@ export class UseCaseRegistory{
         })
         container.register<IGetDomainSlotsUsecase>('IGetDomainSlotsUsecase',{
             useClass:GetDomainSlotsUsecase
+        })
+        container.register<ISlotValidityCheckerUsecase>('ISlotValidityCheckerUsecase',{
+            useClass:SlotValidityCheckerUsecase
         })
 
         //common usecase

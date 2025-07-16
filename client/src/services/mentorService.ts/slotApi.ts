@@ -27,6 +27,7 @@ export const getSlots=async():Promise<Required<ApiResponseType<SlotType>>>=>{
 
 export const updateSlotStatus=async({day,slotId,slotStatus}:{day:string,slotId:string,slotStatus:boolean}):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
     try{
+        console.log(day,slotId,slotStatus)
         const response = await mentorInstance.patch(`/slots/${day}/${slotId}`,{slotStatus})
         return response.data;
     }

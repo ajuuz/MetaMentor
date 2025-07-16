@@ -39,6 +39,7 @@ export class MentorSlotController implements IMentorSlotController{
      }
 
      async updateSlotStatus(req:Request,res:Response,next:NextFunction):Promise<void>{
+         
          const mentorId = (req as ModifiedRequest).user.id;
          const slotId = req.params.slotId;
          const day = req.params.day;

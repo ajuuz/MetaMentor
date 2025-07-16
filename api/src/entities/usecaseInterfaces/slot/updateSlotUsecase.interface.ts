@@ -1,6 +1,6 @@
-import { WeekSlotsDTO } from "shared/dto/slotDTO";
+import { WeekSlotsRequestDTO } from "shared/dto/slotDTO";
 
 
 export interface IUpdateSlotUsecase{
-    execute(mentorId:string,weekSlots:WeekSlotsDTO):Promise<void>
+    execute(mentorId:string,weekSlots:WeekSlotsRequestDTO):Promise<void>
 }

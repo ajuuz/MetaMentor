@@ -1,4 +1,3 @@
-
 export type DomainType={
     _id:string,
     name:string,
@@ -9,7 +8,7 @@ export type DomainType={
     levels:{_id:string,name:string,description:string,taskFile:string}[]
 }
 
-export type DomainCreationType= {
+export type DomainCreationType={
     name:string,
     description:string,
     motive:string,
