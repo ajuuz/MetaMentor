@@ -23,7 +23,7 @@ import { MENTOR_APPLICATION_STATUS } from "@/utils/constants";
 import './MentorDetailsManage.css'
 import {AnimatePresence, motion} from 'framer-motion'
 import  LoadingSpinnerComponent from "@/components/common/LoadingSpinnerComponent";
-import { getSpecificUser } from "@/services/userService.ts/userApi";
+import { getSpecificUser } from "@/services/userService/userApi";
 import type { UserDetailsType } from "@/types/userType";
 import type { DomainType } from "@/types/domainTypes";
 
@@ -38,7 +38,7 @@ export default function MentorDetailsManage() {
     country:null,
     gender:null,
     mobileNumber:null,
-    profileImage:""
+    profileImage:"",
   })
 
   const [domains, setDomains] = useState<Pick<DomainType,'_id'|'name'>[]>([]);
@@ -53,6 +53,9 @@ export default function MentorDetailsManage() {
   const [images,setImages]=useState<(Blob|null|string)[]>([null,null])
 
   const [about,setAbout] = useState<string>("");
+  const [fee,setFee] = useState<number>(0);
+  const [feeError,setFeeError]=useState<string>('');
+
   const [errors,setErrors] = useState<MentorRegistrationErrorType>({})
   const [loading,setLoading] = useState<boolean>(false)
 
@@ -192,6 +195,8 @@ export default function MentorDetailsManage() {
         },5000)
         return
       }
+      if(fee<0 && fee>700) return setFeeError('value should inside 0 - 700');
+
       try{
         setLoading(true)
         const imageUrls = await imageUploader(images as Blob[])
@@ -200,7 +205,7 @@ export default function MentorDetailsManage() {
         const experienceCirtificate = imageUrls[1].url
 
         const domains=selectedDomains.map(domain=>domain._id);
-        mentorRegisterMutation({domains,about,workedAt,skills,cv,experienceCirtificate})
+        mentorRegisterMutation({domains,about,workedAt,skills,cv,experienceCirtificate,fee})
         setLoading(false)
       }catch(error:any){
         setLoading(false)
@@ -220,8 +225,11 @@ export default function MentorDetailsManage() {
 
   }
 
- 
-
+  const handleFeeChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
+      const value=Number(e.target.value)
+      setFee(value)
+  }
+  
   
   return (
     <div className="max-w-6xl mx-auto py-12 px-4">
@@ -347,7 +355,13 @@ export default function MentorDetailsManage() {
           </div>
 
           
-
+          <div className="flex flex-col gap-2">
+            <Label>Fee</Label>
+            <div className="flex items-center gap-4">
+            <Input onChange={handleFeeChange} type="number" value={fee} min={0} className="w-20"/> Rs
+            </div>
+            {feeError && <p className="text-red-500">{feeError}</p>}
+          </div>
           
           {purpose.mentorRegister
             ?<InputImageComponent containerDivStyle=" col-span-2  grid grid-cols-1 md:grid-cols-2 gap-6 mt-4" images={images as (Blob|null)[]} setImages={setImages as React.Dispatch<React.SetStateAction<(null|Blob)[]>>} labels={["Add CV","Add Verification Certificate"]}/>

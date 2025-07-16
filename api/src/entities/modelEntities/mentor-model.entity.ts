@@ -10,5 +10,6 @@ export interface IMentorEntity{
     skills:string[],
     workedAt:string[],
     isVerified:boolean,
-    isRejected:boolean
+    isRejected:boolean,
+    fee:number
 }

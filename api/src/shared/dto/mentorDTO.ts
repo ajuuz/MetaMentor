@@ -7,7 +7,8 @@ export type MentorRegisterRequestDTO = {
     workedAt:string[],
     skills:string[]
     cvImage:any
-    verificationImage:any
+    verificationImage:any,
+    fee:number
 }
 
 export type MentorDataDTO={
@@ -24,7 +25,8 @@ export type MentorDataDTO={
     country: string|null,
     gender: GENDER|null,
     mobileNumber: number|null
-    profileImage:string|null
+    profileImage:string|null,
+    fee:number
 }
 
 export type GetAllMentorResponseDTO={

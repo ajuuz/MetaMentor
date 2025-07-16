@@ -45,5 +45,9 @@ export const mentorSchema = new mongoose.Schema<IMentorModel>({
   isRejected:{
     type:Boolean,
     default:false
+  },
+  fee:{
+    type:Number,
+    default:0
   }
 });

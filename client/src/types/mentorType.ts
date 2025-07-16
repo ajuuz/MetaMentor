@@ -7,7 +7,8 @@ export type MentorRegistrationFormDataType={
     workedAt:string[],
     skills:string[]
     cv:string
-    experienceCirtificate:string
+    experienceCirtificate:string,
+    fee:number
 }
 
 export type MentorRegistrationErrorType={
@@ -16,6 +17,7 @@ export type MentorRegistrationErrorType={
     workedAtError?:string,
     skillsError?:string,
     images?:string;
+    
 }
 
 export type MentorDataType={
@@ -33,7 +35,8 @@ export type MentorDataType={
     country: string|null,
     gender: GENDER|null,
     mobileNumber: string|null,
-    profileImage:string|null
+    profileImage:string|null,
+    fee:number
 }
 
 
