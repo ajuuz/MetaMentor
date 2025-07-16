@@ -15,3 +15,16 @@ export type SlotType={
     mentorId:string,
     weekSlots:WeekSlotsType
 }
+
+
+export type DomainSlotsResponseDTO={
+    weekSlots:WeekSlotsType,
+    mentor:{
+        name:string,
+        profileImage:string,
+        country:string|null,
+        about:string,
+        skills:string[],
+        workedAt:string[]
+    }
+}

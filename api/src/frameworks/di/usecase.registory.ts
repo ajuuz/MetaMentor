@@ -71,6 +71,8 @@ import { IUpdateSlotStatusUsecase } from "entities/usecaseInterfaces/slot/update
 import { UpdateSlotStatusUsecase } from "useCases/slot/updateSlotStatus.usecase";
 import { IGetDomainInsightUsecase } from "entities/usecaseInterfaces/domain/getDomainInsightUsecase.interface";
 import { GetDomainInsightUsecase } from "useCases/domain/getDomainInsight.usecase";
+import { IGetDomainSlotsUsecase } from "entities/usecaseInterfaces/slot/getDomainSlotsUsecase.interface";
+import { GetDomainSlotsUsecase } from "useCases/slot/getDomainSlots.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -217,6 +219,9 @@ export class UseCaseRegistory{
         })
         container.register<IUpdateSlotStatusUsecase>('IUpdateSlotStatusUsecase',{
             useClass:UpdateSlotStatusUsecase
+        })
+        container.register<IGetDomainSlotsUsecase>('IGetDomainSlotsUsecase',{
+            useClass:GetDomainSlotsUsecase
         })
 
         //common usecase

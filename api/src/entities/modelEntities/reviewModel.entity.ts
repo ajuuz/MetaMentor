@@ -8,15 +8,17 @@ export interface IReviewEntity{
     mentorId:ObjectId,
     domainId:ObjectId,
     levelId:ObjectId,
+    mentorEarning:number,
+    commissionAmount:number,
+    payment:{
+        method:PAYMENT_METHOD,
+        status:PAYMENT_STATUS
+    },
+    status:REVIEW_STATUS
     slot:{
         day:string,
         start:string,
         end:string
     },
     feedBack:string,
-    payment:{
-        method:PAYMENT_METHOD,
-        status:PAYMENT_STATUS
-    },
-    status:REVIEW_STATUS
 }

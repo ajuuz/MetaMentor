@@ -9,3 +9,16 @@ export type WeekSlotsDTO={
     Saturday:{start:string,end:string,enabled:boolean}[]
     Sunday:{start:string,end:string,enabled:boolean}[]
 }
+
+
+export type DomainSlotsResponseDTO={
+    weekSlots:WeekSlotsDTO,
+    mentor:{
+        name:string,
+        profileImage:string,
+        country:string|null,
+        about:string,
+        skills:string[],
+        workedAt:string[]
+    }
+}

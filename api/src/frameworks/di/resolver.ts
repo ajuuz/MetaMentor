@@ -24,6 +24,8 @@ import { IAdminCommunityController } from "entities/controllerInterfaces/admin/c
 import { AdminCommunityController } from "interfaceAdapters/controllers/admin/community.controller";
 import { IMentorSlotController } from "entities/controllerInterfaces/mentor/slotController.inteface";
 import { MentorSlotController } from "interfaceAdapters/controllers/mentor/slot.controller";
+import { IUserSlotController } from "entities/controllerInterfaces/user/userSlotController.interface";
+import { UserSlotController } from "interfaceAdapters/controllers/user/userSlot.controller";
 
 DependencyInjection.registerAll()
 
@@ -47,6 +49,7 @@ export const mentorSlotController = container.resolve<IMentorSlotController>(Men
 //studentController
 export const userController = container.resolve<IUserController>(UserController)
 export const userDomainController = container.resolve<IUserDomainController>(UserDomainController)
+export const userSlotController = container.resolve<IUserSlotController>(UserSlotController)
 
 
 //middleware

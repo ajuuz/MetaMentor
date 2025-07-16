@@ -28,16 +28,23 @@ export enum HTTP_STATUS  {
 export enum REVIEW_STATUS{
   PASS='pass',
   FAIL='fail',
-  PENDING='pending'
+  PENDING='pending',
+  CANCELLED='cancelled'
 }
 
 export enum PAYMENT_STATUS{
   SUCCESS='success',
   FAILED='failed'
 }
+
 export enum PAYMENT_METHOD{
   WALLET='wallet',
   UPI='upi'
+}
+
+export enum TRANSACTION_TYPE{
+  CREDIT='credit',
+  DEBIT='debit'
 }
 
 export const SUCCESS_MESSAGE={

@@ -15,7 +15,7 @@ const weekSchema = new mongoose.Schema({
   Friday: { type: [daySlotSchema], default: [] },
   Saturday: { type: [daySlotSchema], default: [] },
   Sunday: { type: [daySlotSchema], default: [] },
-});
+},{_id:false});
 
 
 export const slotSchema:Schema<ISlotModel>=new mongoose.Schema<ISlotModel>({

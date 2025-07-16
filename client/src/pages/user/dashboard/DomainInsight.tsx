@@ -5,7 +5,7 @@ import { CheckCircle, XCircle, Lock, LucideClockFading } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { getDomainInsight } from "@/services/userService.ts/dashboardApi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type { ApiResponseType } from "@/types/responseType";
 import type { ReviewCardData } from "@/types/reviewTypes";
 import type { DomainType } from "@/types/domainTypes";
@@ -21,24 +21,37 @@ const DomainInsight = () => {
     const [nextLevels,setNextLevels]=useState<LevelType[]>()
     const {domainId} = useParams()
 
+    const navigate = useNavigate()
+
     if(!domainId){
         return <div>NO Domain ID Recieved</div>
     }
 
-    const {data:domainInsightResoponse}=useQuery<DomainInsigthResponse>({
+    const {data:domainInsightResoponse,isError}=useQuery<DomainInsigthResponse>({
         queryKey:['domainInsight'],
-        queryFn:()=>getDomainInsight(domainId)
+        queryFn:()=>getDomainInsight(domainId),
+        staleTime: 1000 * 60 * 5,
+        refetchOnWindowFocus: false,
+        retry: false
     })
 
     useEffect(()=>{
         if(domainInsightResoponse){
             const {reviews,domain,nextLevels} = domainInsightResoponse.data;
+            console.log(reviews,domain,noOfLevelPassed,nextLevels)
             setReviews(reviews);
             setDomain(domain)
+            setNoOfLevelPassed(noOfLevelPassed)
             setNextLevels(nextLevels)
         }
     },[domainInsightResoponse])
 
+
+    if(isError){
+        return(<div className="flex h-screen justify-center items-center">
+                Some thing happend . Please contact Admin
+                </div>)
+    }
 
   return (
     <div className="min-h-screen bg-[#0c0824] text-white px-6 py-4 space-y-8">
@@ -117,7 +130,7 @@ const DomainInsight = () => {
               <p className="text-sm">{nextLevel.description}</p>
               <p className="text-sm">Reviewer:</p>
               {/* <p className="text-sm">Attempt: {item.attempt}</p> */}
-                <Button>Schedule Review</Button>
+                <Button onClick={()=>navigate(`/review/schedule/${domainId}`)}>Schedule Review</Button>
               <div className="flex gap-2">
                 <Button variant="secondary">Task File</Button>
               </div>
