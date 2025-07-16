@@ -26,6 +26,7 @@ export type DomainSlotsResponseDTO={
         country:string|null,
         about:string,
         skills:string[],
-        workedAt:string[]
+        workedAt:string[],
+        fee:number
     }
 }

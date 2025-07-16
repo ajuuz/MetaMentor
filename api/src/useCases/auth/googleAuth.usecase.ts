@@ -1,5 +1,6 @@
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
+import { IWalletRepository } from "entities/repositoryInterfaces/walletRepository.inteface";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { IGoogleAuthUsecase } from "entities/usecaseInterfaces/auth/googleAuthUsecase.interface";
 import { FirebaseAdminConfig } from "frameworks/firebase/firebaseAdmin";
@@ -23,7 +24,10 @@ export class GoogleAuthUsecase implements IGoogleAuthUsecase{
         private _studentRepository:IStudentRepository,
 
         @inject('ITokenService')
-        private _tokenService:ITokenService
+        private _tokenService:ITokenService,
+
+         @inject("IWalletRepository")
+        private _walletRepository:IWalletRepository,
     ){}
 
 
@@ -42,7 +46,8 @@ export class GoogleAuthUsecase implements IGoogleAuthUsecase{
                 isVerified:true
             }
             user=await this._userRepository.createUser(formData);
-            await this._studentRepository.createStudent(user._id)
+            await this._studentRepository.createStudent(user._id);
+            await this._walletRepository.insertOne({userId:user._id})
         }
 
         if(!user) throw new NotFoundError("user not found . some thing went wrong during google login");

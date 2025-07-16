@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { toTimeString } from "@/utils/helperFunctions/toTimeString";
 import { X } from "lucide-react";
 import RazorPayButton from "../common/RazorPayButton";
@@ -11,14 +10,14 @@ type SlotViewCardProps = {
     company: string;
     image: string;
   };
-  cost: number;
+  fee: number;
   walletBalance: number;
   slot:{slotId:string,day:string,start:number,end:number},
   setSelectedSlotPopup:React.Dispatch<React.SetStateAction<string>>
 };
 
 
-export const SlotViewCard = ({mentor,cost,walletBalance,slot,setSelectedSlotPopup}: SlotViewCardProps) => {
+export const SlotViewCard = ({mentor,fee,walletBalance,slot,setSelectedSlotPopup}: SlotViewCardProps) => {
 
     const handlePayWithRazorPay=()=>{
         
@@ -63,7 +62,7 @@ export const SlotViewCard = ({mentor,cost,walletBalance,slot,setSelectedSlotPopu
 
           <div className="flex-1 rounded-xl  p-4 bg-gray-800">
             <p className="text-sm">Slot booking cost</p>
-            <p className="text-xl font-bold">{cost} points</p>
+            <p className="text-xl font-bold">{fee} Rs</p>
           </div>
           {/* <div className="flex-1 rounded-xl  p-4 bg-gray-800">
             <p className="text-sm">My Wallet Balance</p>
@@ -76,7 +75,7 @@ export const SlotViewCard = ({mentor,cost,walletBalance,slot,setSelectedSlotPopu
         </p>
 
         <div className="space-y-4 text-center">
-          <RazorPayButton slotId={slot.slotId} amount={400}/>
+          <RazorPayButton slotId={slot.slotId} amount={fee}/>
           {/* <div className="text-sm font-medium">or</div>
           <Button
             variant="secondary"

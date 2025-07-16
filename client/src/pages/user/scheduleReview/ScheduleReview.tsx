@@ -38,6 +38,7 @@ export default function ScheduleReview() {
        (async function getDomainSlotFetch(){
            try{
                const response = await getDomainSlots(domainId);
+               console.log(response.data)
                setDomainsSlots(response.data)
            }
            catch(error){
@@ -51,7 +52,7 @@ export default function ScheduleReview() {
     }
 
   return (
-    <div>
+    <div className="p-5">
         {
         domainsSlots.map(content=>(
         <Card onClick={()=>console.log(selectedSlotPopup)} className="max-w-5xl mx-auto p-4 rounded-2xl border shadow-md bg-white">
@@ -87,6 +88,8 @@ export default function ScheduleReview() {
                   </TooltipContent>
                 </Tooltip>
              </TooltipProvider>
+              <p>FEE</p>
+              <p>{content.mentor.fee}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4 w-full">
@@ -102,7 +105,7 @@ export default function ScheduleReview() {
                             slot.enabled &&
                           <div onClick={()=>handleSelectSlot(content.mentor._id,day,slot._id)} key={index} className="px-3 py-1 text-sm bg-gray-100 rounded-md">
                              {selectedSlotPopup===slot._id &&
-                              <SlotViewCard key={slot._id} cost={100} walletBalance={500} mentor={{name:content.mentor.name,title:content.mentor.about,company:content.mentor.workedAt[0],image:content.mentor.profileImage}} slot={{slotId:slot._id,day:day,start:slot.start,end:slot.end}} setSelectedSlotPopup={setSelectedSlotPopup}/>
+                              <SlotViewCard key={slot._id} fee={content.mentor.fee} walletBalance={500} mentor={{name:content.mentor.name,title:content.mentor.about,company:content.mentor.workedAt[0],image:content.mentor.profileImage}} slot={{slotId:slot._id,day:day,start:slot.start,end:slot.end}} setSelectedSlotPopup={setSelectedSlotPopup}/>
                              }
                               {toTimeString(slot.start)} – {toTimeString(slot.end)}
                             </div>

@@ -33,6 +33,7 @@ export class MentorRepository implements IMentorRepository{
                 experienceCirtificate:1,
                 skills:1,
                 workedAt:1,
+                fee:1,
                 name:'$userDetails.name',
                 country:"$userDetails.country",
                 gender:"$userDetails.gender",
@@ -83,7 +84,8 @@ export class MentorRepository implements IMentorRepository{
                     isBlocked:1,
                     domains:1,
                     skills:1,
-                    workedAt:1
+                    workedAt:1,
+                    fee:1
                 }}
             ]),
             mentorModel.countDocuments(filter)

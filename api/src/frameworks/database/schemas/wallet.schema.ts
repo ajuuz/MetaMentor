@@ -13,4 +13,4 @@ export const walletSchema =new mongoose.Schema<IWalletModel>({
         type:Number,
         default:0
     }
-},{_id:false})
+})

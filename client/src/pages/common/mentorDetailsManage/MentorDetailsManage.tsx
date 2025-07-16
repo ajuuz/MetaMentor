@@ -80,9 +80,9 @@ export default function MentorDetailsManage() {
     mutationFn:getSpecificMentor,
     onSuccess:(response)=>{
       const mentor = response.data; 
-      const {about,domains,skills,workedAt,cv,experienceCirtificate,_id,userId,isBlocked,...rest} =mentor 
+      const {about,domains,skills,workedAt,cv,experienceCirtificate,_id,userId,isBlocked,fee,...rest} =mentor 
       setUserDetails(rest);
-
+      setFee(fee)
       setAbout(about);
       setSelectedDomains(domains);
       setSkills(skills)
