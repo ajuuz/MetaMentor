@@ -21,4 +21,5 @@ export interface IReviewEntity{
         end:string
     },
     feedBack:string,
+    bookedAt:Date
 }

@@ -4,6 +4,10 @@ import { X } from "lucide-react";
 import RazorPayButton from "../common/RazorPayButton";
 
 type SlotViewCardProps = {
+  domainId:string,
+  levelId:string,
+  mentorId:string,
+  slotId:string,
   mentor: {
     name: string;
     title: string;
@@ -12,12 +16,12 @@ type SlotViewCardProps = {
   };
   fee: number;
   walletBalance: number;
-  slot:{slotId:string,day:string,start:number,end:number},
+  slot:{day:string,start:number,end:number},
   setSelectedSlotPopup:React.Dispatch<React.SetStateAction<string>>
 };
 
 
-export const SlotViewCard = ({mentor,fee,walletBalance,slot,setSelectedSlotPopup}: SlotViewCardProps) => {
+export const SlotViewCard = ({domainId,levelId,mentorId,slotId,mentor,fee,walletBalance,slot,setSelectedSlotPopup}: SlotViewCardProps) => {
 
     const handlePayWithRazorPay=()=>{
         
@@ -75,7 +79,7 @@ export const SlotViewCard = ({mentor,fee,walletBalance,slot,setSelectedSlotPopup
         </p>
 
         <div className="space-y-4 text-center">
-          <RazorPayButton slotId={slot.slotId} amount={fee}/>
+          <RazorPayButton slotId={slotId} reviewDetails={{domainId,levelId,mentorId,amount:fee,slot}}/>
           {/* <div className="text-sm font-medium">or</div>
           <Button
             variant="secondary"

@@ -40,15 +40,21 @@ export const reviewSchema:Schema<IReviewModel>=new mongoose.Schema<IReviewModel>
     },
     feedBack:{
         type:String,
+        default:''
     },
     payment:{
         type:{
-            method:{type:String,enum:PAYMENT_METHOD},
-            status:{type:String,enum:PAYMENT_STATUS}
+            method:{type:String,enum:PAYMENT_METHOD,default:PAYMENT_METHOD.UPI},
+            status:{type:String,enum:PAYMENT_STATUS,default:PAYMENT_STATUS.FAILED}
         }
     },
     status:{
         type:String,
-        enum:REVIEW_STATUS
+        enum:REVIEW_STATUS,
+        default:REVIEW_STATUS.PENDING
+    },
+    bookedAt:{
+        type:Date,
+        default:new Date()
     }
-},{timestamps:true})
+})

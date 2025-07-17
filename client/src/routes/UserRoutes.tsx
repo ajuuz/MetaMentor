@@ -40,7 +40,7 @@ const UserRoutes = () => {
                 <Route element={<ProtectedRoute allowedRoles={['user','mentor']}/>}>
                     <Route path="/dashboard" element={<Dashboard/>}/>
                     <Route path="/dashboard/:domainId" element={<DomainInsight/>}/>
-                    <Route path="/review/schedule/:domainId" element={<ScheduleReview/>}/>
+                    <Route path="/review/schedule/:domainId/:levelId" element={<ScheduleReview/>}/>
                     {/* user profile layout */}
                     <Route element={<UserProfileLayout/>}>
                       <Route path="/profile" element={<Profile/>}/>

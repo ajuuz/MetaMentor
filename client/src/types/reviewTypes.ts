@@ -9,8 +9,8 @@ export type ReviewEntity={
     levelId:string,
     slot:{
         day:string,
-        start:string,
-        end:string
+        start:number,
+        end:number
     },
     feedBack:string,
     payment:{
@@ -19,6 +19,8 @@ export type ReviewEntity={
     },
     status:REVIEW_STATUS
 }
+
+export type BookReviewDTO=Pick<ReviewEntity,'mentorId'|'domainId'|'levelId'|'slot'>
 
 export type ReviewCardData={
     mentorName:string,
@@ -34,7 +36,7 @@ export type ReviewCardData={
     feedBack:string,
     slot:{
         day:string,
-        start:string,
-        end:string
+        start:number,
+        end:number
     }
 }

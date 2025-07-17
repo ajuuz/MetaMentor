@@ -17,8 +17,9 @@ export default function ScheduleReview() {
     const [domainsSlots,setDomainsSlots]=useState<DomainSlotsResponseDTO[]>([]);
     const [selectedSlotPopup,setSelectedSlotPopup]=useState<string>('');
 
-    const {domainId} = useParams();
-    if(!domainId){
+    const {domainId,levelId} = useParams();
+    console.log(domainId,levelId)
+    if(!domainId || !levelId){
         return <div>some thing wrong</div>
     }
 
@@ -105,7 +106,16 @@ export default function ScheduleReview() {
                             slot.enabled &&
                           <div onClick={()=>handleSelectSlot(content.mentor._id,day,slot._id)} key={index} className="px-3 py-1 text-sm bg-gray-100 rounded-md">
                              {selectedSlotPopup===slot._id &&
-                              <SlotViewCard key={slot._id} fee={content.mentor.fee} walletBalance={500} mentor={{name:content.mentor.name,title:content.mentor.about,company:content.mentor.workedAt[0],image:content.mentor.profileImage}} slot={{slotId:slot._id,day:day,start:slot.start,end:slot.end}} setSelectedSlotPopup={setSelectedSlotPopup}/>
+                              <SlotViewCard key={slot._id}
+                              domainId={domainId}
+                              levelId={levelId}
+                              mentorId={content.mentor._id}
+                              slotId={slot._id}
+                              mentor={{name:content.mentor.name,title:content.mentor.about,company:content.mentor.workedAt[0],image:content.mentor.profileImage}} 
+                              fee={content.mentor.fee} 
+                              walletBalance={500} 
+                               slot={{day:day,start:slot.start,end:slot.end}} 
+                               setSelectedSlotPopup={setSelectedSlotPopup}/>
                              }
                               {toTimeString(slot.start)} – {toTimeString(slot.end)}
                             </div>

@@ -75,10 +75,16 @@ import { IGetDomainSlotsUsecase } from "entities/usecaseInterfaces/slot/getDomai
 import { GetDomainSlotsUsecase } from "useCases/slot/getDomainSlots.usecase";
 import { ISlotValidityCheckerUsecase } from "entities/usecaseInterfaces/slot/slotValidityCheckerUsecase.interface";
 import { SlotValidityCheckerUsecase } from "useCases/slot/slotValidityChecker.usecase";
-import { ICreateOrderUsecase } from "entities/usecaseInterfaces/payment/CreateOrderUsecase.interface";
+import { ICreateOrderUsecase } from "entities/usecaseInterfaces/payment/createOrderUsecase.interface";
 import { CreateOrderUsecase } from "useCases/payment/createOrder.usecase";
 import { IVerifyPaymentUsecase } from "entities/usecaseInterfaces/payment/verifyPaymentUsecase.interface";
 import { VerifyPaymentUsecase } from "useCases/payment/verifyPayment.usecase";
+import { ICreditToAdminWalletUsecase } from "entities/usecaseInterfaces/wallet/creditToAdminWalletUsecase.inteface";
+import { CreditToAdminWalletUsecase } from "useCases/wallet/creditToAdminWallet.usecase";
+import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReviewUsecase.interface";
+import { BookReviewUsecase } from "useCases/review/bookReview.usecase";
+import { ICreateTransactionUsecase } from "entities/usecaseInterfaces/transaction/createTransactionUsecase.interface";
+import { CreateTransactionUsecase } from "useCases/transaction/createTransaction.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -241,11 +247,24 @@ export class UseCaseRegistory{
             useClass:VerifyPaymentUsecase
         })
 
+        //wallet usecase
+        container.register<ICreditToAdminWalletUsecase>('ICreditToAdminWalletUsecase',{
+            useClass:CreditToAdminWalletUsecase
+        })
+        
+        //review usecase
+        container.register<IBookReviewUsecase>('IBookReviewUsecase',{
+            useClass:BookReviewUsecase
+        })
+
+        //transaction usecase
+        container.register<ICreateTransactionUsecase>('ICreateTransactionUsecase',{
+            useClass:CreateTransactionUsecase
+        })
+
         //common usecase
         container.register<IUploadImageUsecase>('IUploadImageUsecase',{
             useClass:UploadImageUsecase
         })
-
-
     }
 }

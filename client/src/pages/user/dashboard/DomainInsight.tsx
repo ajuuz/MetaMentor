@@ -130,7 +130,7 @@ const DomainInsight = () => {
               <p className="text-sm">{nextLevel.description}</p>
               <p className="text-sm">Reviewer:</p>
               {/* <p className="text-sm">Attempt: {item.attempt}</p> */}
-                <Button onClick={()=>navigate(`/review/schedule/${domainId}`)}>Schedule Review</Button>
+                <Button onClick={()=>navigate(`/review/schedule/${domainId}/${nextLevel._id}`)}>Schedule Review</Button>
               <div className="flex gap-2">
                 <Button variant="secondary">Task File</Button>
               </div>

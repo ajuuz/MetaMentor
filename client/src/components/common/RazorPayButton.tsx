@@ -1,4 +1,4 @@
-import { createOrder } from '@/services/paymentService/paymentApi';
+import { createOrder, verifyPayment } from '@/services/paymentService/paymentApi';
 import { useUserStore } from '@/zustand/userStore';
 import {useRazorpay, type RazorpayOrderOptions} from 'react-razorpay'
 import { toast } from 'sonner';
@@ -7,9 +7,9 @@ import { Button } from '../ui/button';
 
 type Props={
     slotId:string,
-    amount:number;
+    reviewDetails:{domainId:string,levelId:string,mentorId:string,amount:number,slot:{day:string,start:number,end:number}}
 }
-const RazorPayButton = ({slotId,amount}:Props) => {
+const RazorPayButton = ({slotId,reviewDetails}:Props) => {
 
     const {Razorpay} = useRazorpay();
     const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
@@ -17,7 +17,7 @@ const RazorPayButton = ({slotId,amount}:Props) => {
 
     const handlePayment=async()=>{
         try{
-            const response = await createOrder(slotId,amount);
+            const response = await createOrder(slotId,reviewDetails.amount);
             console.log(response.data)
             const order = response.data;
             
@@ -36,6 +36,7 @@ const RazorPayButton = ({slotId,amount}:Props) => {
                       razorpay_signature: response.razorpay_signature
                     }
                     console.log(paymentDetails)
+                    await verifyPayment({razorPayDetails:paymentDetails,reviewDetails})
                     } catch (err:any) {
                     toast.error("Payment failed: " + err.message);
                     }

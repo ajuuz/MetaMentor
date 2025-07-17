@@ -38,5 +38,12 @@ export const config={
 
     FIREBASE:{
         SERVICE_ACCOUNT_KEY_JSON:process.env.FIREBASE_SERVICE_ACCOUNT_KEY_JSON || ""
-    }
+    },
+
+    RAZORPAY:{
+        RAZORPAY_KEY_ID:process.env.RAZORPAY_KEY_ID!,
+        RAZORPAY_KEY_SECRET:process.env.RAZORPAY_KEY_SECRET!
+    },
+
+    ADMIN_ID:process.env.ADMIN_OBJECT_ID
 }

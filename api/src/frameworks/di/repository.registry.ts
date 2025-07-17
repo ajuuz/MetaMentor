@@ -22,6 +22,8 @@ import { ISlotLockRepository } from "entities/repositoryInterfaces/slotLockRepos
 import { SlotLockRepository } from "interfaceAdapters/repositories/slotLock.repository";
 import { IWalletRepository } from "entities/repositoryInterfaces/walletRepository.inteface";
 import { WalletRepository } from "interfaceAdapters/repositories/wallet.repository";
+import { ITransactionRepository } from "entities/repositoryInterfaces/transactionRepository.interface";
+import { TransactionRepository } from "interfaceAdapters/repositories/transaction.repository";
 
 export class RepositoryRegistry{
     static registerRepositories():void{
@@ -72,6 +74,10 @@ export class RepositoryRegistry{
 
         container.register<IWalletRepository>('IWalletRepository',{
             useClass:WalletRepository
+        })
+
+        container.register<ITransactionRepository>('ITransactionRepository',{
+            useClass:TransactionRepository
         })
     }
 }

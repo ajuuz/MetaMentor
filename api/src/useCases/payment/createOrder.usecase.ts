@@ -1,5 +1,5 @@
 import { ISlotLockRepository } from "entities/repositoryInterfaces/slotLockRepository.interface";
-import { ICreateOrderUsecase } from "entities/usecaseInterfaces/payment/CreateOrderUsecase.interface";
+import { ICreateOrderUsecase } from "entities/usecaseInterfaces/payment/createOrderUsecase.interface";
 import { razorpay } from "frameworks/razorpay/razorpay";
 import { Orders } from "razorpay/dist/types/orders";
 import { HTTP_STATUS } from "shared/constants";

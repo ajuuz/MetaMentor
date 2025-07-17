@@ -19,6 +19,7 @@ export class PaymentRoutes{
 
     configureRoutes():void{
         this._router.post('/createOrder',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),paymentController.createOrder.bind(paymentController))
+        this._router.post('/verifyPayment',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),paymentController.verifyPayment.bind(paymentController))
     }
 
     getRouter():Router{

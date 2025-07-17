@@ -3,7 +3,8 @@ import { BaseRepository } from "./base.repository";
 import { reviewModel, IReviewModel } from "frameworks/database/models/bookedSlot.model";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { REVIEW_STATUS } from "shared/constants";
-import { GetReviewResponseDTO } from "shared/dto/reviewDTO";
+import { BookReviewDTO, GetReviewResponseDTO } from "shared/dto/reviewDTO";
+import mongoose from "mongoose";
 
 
 export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel> implements IReviewRepository{
@@ -74,8 +75,17 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
         return count
     }
 
-    async createAReview():Promise<void>{
-     
+    async createReview(reviewDetails:BookReviewDTO):Promise<IReviewModel>{
+        const studentId=new mongoose.Types.ObjectId(reviewDetails.studentId)
+        const mentorId=new mongoose.Types.ObjectId(reviewDetails.mentorId)
+        const levelId=new mongoose.Types.ObjectId(reviewDetails.levelId)
+        const domainId=new mongoose.Types.ObjectId(reviewDetails.domainId)
+        const newReview = new reviewModel({...reviewDetails,studentId,mentorId,levelId,domainId})
+        return newReview
+    }
+
+    async saveReview(review:IReviewModel):Promise<void>{
+        await review.save()
     }
 
     async checkIsBookedSlot(mentorId:string,day:string,start:number,end:number):Promise<boolean>{
