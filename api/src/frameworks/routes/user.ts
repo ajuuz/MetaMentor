@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authMiddleware, userController, userDomainController, userSlotController } from "frameworks/di/resolver";
+import { authMiddleware, userController, userDomainController, userReviewController, userSlotController } from "frameworks/di/resolver";
 import { ROLES } from "shared/constants";
 
 
@@ -29,6 +29,9 @@ export class UserRoutes{
         //slots
         this._router.get('/slots/:domainId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userSlotController.getDomainSlots.bind(userSlotController))
         this._router.post('/slots/:mentorId/:day/:slotId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userSlotController.slotValidityChecker.bind(userSlotController))
+
+        //reviews
+        this._router.get('/reviews',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userReviewController.getReviews.bind(userReviewController))
 
     }
 

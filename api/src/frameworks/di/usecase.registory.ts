@@ -85,6 +85,8 @@ import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReview
 import { BookReviewUsecase } from "useCases/review/bookReview.usecase";
 import { ICreateTransactionUsecase } from "entities/usecaseInterfaces/transaction/createTransactionUsecase.interface";
 import { CreateTransactionUsecase } from "useCases/transaction/createTransaction.usecase";
+import { IGetStudentReviewsUsecase } from "entities/usecaseInterfaces/review/getStudentReviewsUsecase.interface";
+import { GetStudentReviewsUsecase } from "useCases/review/getStudentReviews.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -255,6 +257,9 @@ export class UseCaseRegistory{
         //review usecase
         container.register<IBookReviewUsecase>('IBookReviewUsecase',{
             useClass:BookReviewUsecase
+        })
+        container.register<IGetStudentReviewsUsecase>('IGetStudentReviewsUsecase',{
+            useClass:GetStudentReviewsUsecase
         })
 
         //transaction usecase

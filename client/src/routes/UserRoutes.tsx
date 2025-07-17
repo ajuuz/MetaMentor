@@ -17,6 +17,7 @@ import DomainDetail from "@/pages/user/domains/DomainDetail"
 import Dashboard from "@/pages/user/dashboard/Dashboard"
 import DomainInsight from "@/pages/user/dashboard/DomainInsight"
 import ScheduleReview from "@/pages/user/scheduleReview/ScheduleReview"
+import { UpcomingReviews } from "@/pages/user/reviews/Upcoming"
 
 
 const UserRoutes = () => {
@@ -41,6 +42,7 @@ const UserRoutes = () => {
                     <Route path="/dashboard" element={<Dashboard/>}/>
                     <Route path="/dashboard/:domainId" element={<DomainInsight/>}/>
                     <Route path="/review/schedule/:domainId/:levelId" element={<ScheduleReview/>}/>
+                    <Route path="/reviews/upcoming" element={<UpcomingReviews/>}/>
                     {/* user profile layout */}
                     <Route element={<UserProfileLayout/>}>
                       <Route path="/profile" element={<Profile/>}/>

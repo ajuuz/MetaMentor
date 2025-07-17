@@ -40,3 +40,23 @@ export type ReviewCardData={
         end:number
     }
 }
+
+export type GetStudentReviewResponseDTO={
+    mentorName:string,
+    domainName:string
+    level:{
+        name:string,
+        taskFile:string,
+    },
+    status:REVIEW_STATUS,
+    payment:{
+        method:string,
+        status:PAYMENT_STATUS
+    },
+    feedBack:string,
+    slot:{
+        day:string,
+        start:number,
+        end:number
+    }
+}

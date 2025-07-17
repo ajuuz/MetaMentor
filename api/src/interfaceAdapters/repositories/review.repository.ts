@@ -3,7 +3,7 @@ import { BaseRepository } from "./base.repository";
 import { reviewModel, IReviewModel } from "frameworks/database/models/bookedSlot.model";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { REVIEW_STATUS } from "shared/constants";
-import { BookReviewDTO, GetReviewResponseDTO } from "shared/dto/reviewDTO";
+import { BookReviewDTO, GetDomainReviewResponseDTO, GetStudentReviewResponseDTO } from "shared/dto/reviewDTO";
 import mongoose from "mongoose";
 
 
@@ -13,9 +13,9 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
         super(reviewModel)
     }
     
-    async findByStudentAndDomain(studentId:string,domainId:string):Promise<GetReviewResponseDTO[]>{
+    async findByStudentAndDomain(studentId:string,domainId:string):Promise<GetDomainReviewResponseDTO[]>{
 
-            const reviews:GetReviewResponseDTO[]=await reviewModel.aggregate([
+            const reviews:GetDomainReviewResponseDTO[]=await reviewModel.aggregate([
                 {
                     $match:{studentId,domainId}
                 },
@@ -73,6 +73,65 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
     async getPassedReviewsCount(studentId:string,domainId:string):Promise<number>{
         const count=await reviewModel.countDocuments({studentId,domainId,status:REVIEW_STATUS.PASS})
         return count
+    }
+
+    
+
+    async findByStudentId(studentId:string,status:REVIEW_STATUS[]):Promise<GetStudentReviewResponseDTO[]>{
+        const reviews:GetStudentReviewResponseDTO[]= await reviewModel.aggregate([
+            {
+                $match:{studentId:new mongoose.Types.ObjectId(studentId),status:{$in:status}}
+            },
+            {
+                $lookup:{
+                    from:'domains',
+                    localField:'domainId',
+                    foreignField:'_id',
+                    as:'domain'
+                }
+            },
+            {
+                $unwind:'$domain'
+            },
+            {
+                $lookup:{
+                    from:'users',
+                    localField:'mentorId',
+                    foreignField:'_id',
+                    as:'mentor'
+                }
+            },
+            {
+                $unwind:'$mentor'
+            },
+            {
+                $lookup:{
+                    from:'levels',
+                    localField:'levelId',
+                    foreignField:'_id',
+                    as:'level'
+                }
+            },
+            {
+                $unwind:'$level'
+            },
+            {
+                $project:{
+                    status:1,
+                    payment:1,
+                    feedBack: 1,
+                    slot:1,
+                    mentorName:'$mentor.name',
+                    domainName:'$domain.name',
+                    level:{
+                        name:'$level.name',
+                        taskFile:'$level.taskFile'
+                    },
+                }
+            }
+        ])
+
+        return reviews
     }
 
     async createReview(reviewDetails:BookReviewDTO):Promise<IReviewModel>{

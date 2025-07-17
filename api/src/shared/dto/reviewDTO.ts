@@ -26,7 +26,7 @@ export type BookReviewDTO={
     },
 }
 
-export type GetReviewResponseDTO={
+export type GetDomainReviewResponseDTO={
     mentorName:string,
     level:{
         name:string,
@@ -40,3 +40,21 @@ export type GetReviewResponseDTO={
     feedBack:string,
     slot:ReviewSlot
 }
+
+
+export type GetStudentReviewResponseDTO={
+    mentorName:string,
+    domainName:string
+    level:{
+        name:string,
+        taskFile:string,
+    },
+    status:REVIEW_STATUS,
+    payment:{
+        method:string,
+        status:PAYMENT_STATUS
+    },
+    feedBack:string,
+    slot:ReviewSlot
+}
+

@@ -3,6 +3,7 @@ import { useUserStore } from '@/zustand/userStore';
 import {useRazorpay, type RazorpayOrderOptions} from 'react-razorpay'
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
+import { useNavigate } from 'react-router-dom';
 
 
 type Props={
@@ -14,6 +15,7 @@ const RazorPayButton = ({slotId,reviewDetails}:Props) => {
     const {Razorpay} = useRazorpay();
     const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
     const {user} = useUserStore();
+    const navigate= useNavigate()
 
     const handlePayment=async()=>{
         try{
@@ -36,7 +38,8 @@ const RazorPayButton = ({slotId,reviewDetails}:Props) => {
                       razorpay_signature: response.razorpay_signature
                     }
                     console.log(paymentDetails)
-                    await verifyPayment({razorPayDetails:paymentDetails,reviewDetails})
+                    await verifyPayment({razorPayDetails:paymentDetails,reviewDetails});
+                    navigate('/reviews/upcoming')
                     } catch (err:any) {
                     toast.error("Payment failed: " + err.message);
                     }
