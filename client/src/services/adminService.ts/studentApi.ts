@@ -4,7 +4,7 @@ import type { GetAllStudentResponseType } from "@/types/studentTypes";
 
 
 
-export const getAllStudents=async({currentPage,limit}:{currentPage:number,limit:number}):Promise<Required<ApiResponseType<GetAllStudentResponseType>>>=>{
+export const getAllStudents=async(currentPage:number,limit:number):Promise<GetAllStudentResponseType>=>{
         const response = await adminAxiosInstance.get(`/students?currentPage=${currentPage}&limit=${limit}`);
         return response.data;
 }

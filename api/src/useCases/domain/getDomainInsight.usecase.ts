@@ -3,7 +3,7 @@ import {  IReviewRepository } from "entities/repositoryInterfaces/reviewReposito
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
 import { IGetDomainInsightUsecase } from "entities/usecaseInterfaces/domain/getDomainInsightUsecase.interface";
-import {  GetReviewResponseDTO } from "shared/dto/reviewDTO";
+import {  GetStudentReviewResponseDTO } from "shared/dto/reviewDTO";
 import { GetNextLevelResponseDTO } from "shared/dto/levelsDTO";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { inject, injectable } from "tsyringe";
@@ -23,7 +23,7 @@ export class GetDomainInsightUsecase implements IGetDomainInsightUsecase{
         private _reviewRepository:IReviewRepository,
     ){}
 
-    async execute(studentId:string,domainId:string):Promise<{reviews:GetReviewResponseDTO[],domain:IDomainEntity,noOfLevelPassed:number,nextLevels:GetNextLevelResponseDTO[]}>{
+    async execute(studentId:string,domainId:string):Promise<{reviews:GetStudentReviewResponseDTO[],domain:IDomainEntity,noOfLevelPassed:number,nextLevels:GetNextLevelResponseDTO[]}>{
         
         const asyncOperations=[]
         
@@ -34,7 +34,7 @@ export class GetDomainInsightUsecase implements IGetDomainInsightUsecase{
         asyncOperations.push(this._reviewRepository.findByStudentAndDomain(studentId,domainId))
         asyncOperations.push(this._reviewRepository.getPassedReviewsCount(studentId,domainId))
 
-        const [domain,reviews,noOfLevelPassed] = await Promise.all(asyncOperations) as [IDomainEntity|null,GetReviewResponseDTO[]|null,number|null]
+        const [domain,reviews,noOfLevelPassed] = await Promise.all(asyncOperations) as [IDomainEntity|null,GetStudentReviewResponseDTO[]|null,number|null]
 
         if(!domain || !reviews ||(noOfLevelPassed!==0 && !noOfLevelPassed)){
             throw new NotFoundError('Domain Not found')

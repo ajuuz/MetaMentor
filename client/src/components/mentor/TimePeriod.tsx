@@ -5,10 +5,9 @@ import {
   SelectContent,
   SelectItem,
   SelectValue,
-} from "@/components/ui/select"; // assuming shadcn/ui
+} from "@/components/ui/select"; 
 import { toMinutes } from "@/utils/helperFunctions/convertToMinutes";
 
-// Helper: generate 15 min interval time strings
 const generateTimeOptions = () => {
   const times = [];
   for (let mins = 0; mins < 1440; mins += 15) {

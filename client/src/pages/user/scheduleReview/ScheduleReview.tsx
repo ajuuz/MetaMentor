@@ -23,6 +23,19 @@ export default function ScheduleReview() {
         return <div>some thing wrong</div>
     }
 
+    useEffect(()=>{
+       (async function getDomainSlotFetch(){
+           try{
+               const response = await getDomainSlots(domainId);
+               console.log(response.data)
+               setDomainsSlots(response.data)
+              }
+           catch(error){
+               console.log(error)
+           }
+          })()
+        },[])
+        
     const {mutate:slotValidityCheckerMutation}=useMutation({
         mutationFn:slotValidityChecker,
         onSuccess:(response,variables)=>{
@@ -34,19 +47,6 @@ export default function ScheduleReview() {
           toast.error(error.message)
         }
     })
-
-    useEffect(()=>{
-       (async function getDomainSlotFetch(){
-           try{
-               const response = await getDomainSlots(domainId);
-               console.log(response.data)
-               setDomainsSlots(response.data)
-           }
-           catch(error){
-               console.log(error)
-           }
-       })()
-    },[])
 
     const handleSelectSlot=(mentorId:string,day:string,slotId:string)=>{
         slotValidityCheckerMutation({mentorId,day,slotId})

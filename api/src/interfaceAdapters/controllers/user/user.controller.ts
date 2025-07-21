@@ -22,7 +22,7 @@ export class UserController implements IUserController{
     async getDetails(req:Request,res:Response,next:NextFunction):Promise<void>{
         const userId =  (req as ModifiedRequest).user.id;
         const user:UserDetailsResponseDTO=await this._getSpecificUserUsecase.execute(userId);
-        res.status(HTTP_STATUS.OK).json({success:true,message:"user details fetched successfully",data:user})
+        res.status(HTTP_STATUS.OK).json(user)
     }
 
     async updateUser(req:Request,res:Response,next:NextFunction):Promise<void>{

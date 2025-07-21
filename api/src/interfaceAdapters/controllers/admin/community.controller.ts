@@ -17,12 +17,12 @@ export class AdminCommunityController implements IAdminCommunityController{
         private _updateCommunityStatusUsecase:IUpdateCommunityStatusUsecase,
     ){}
 
-    async getCommunities(req:Request,res:Response,next:NextFunction):Promise<void>{
+    async getAllCommunities(req:Request,res:Response,next:NextFunction):Promise<void>{
         const currentPage = typeof req.query.currentPage==='string'?parseInt(req.query.currentPage):1;
         const limit = typeof req.query.limit==='string'?parseInt(req.query.limit):10;
 
         const data = await this._getCommunitiesUsecase.execute(currentPage,limit)
-        res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.COMMUNITY.FETCH_ALL,data})
+        res.status(HTTP_STATUS.OK).json(data)
     }
 
     async updateCommunityStatus(req:Request,res:Response,next:NextFunction):Promise<void>{

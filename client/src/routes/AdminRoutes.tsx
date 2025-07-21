@@ -1,7 +1,7 @@
 import Dashboard from "@/pages/admin/dashboard/Dashboard"
-import ManageMentors from "@/pages/admin/manageMentors/ManageMentors"
-import ManageMentorWrapper from "@/pages/admin/manageMentors/ManageMentorWrapper"
-import ManageStudents from "@/pages/admin/manageStudents/ManageStudents"
+import Mentors from "@/pages/admin/mentors/Mentors"
+import MentorWrapper from "@/pages/admin/mentors/MentorWrapper"
+import ManageStudents from "@/pages/admin/students/ManageStudents"
 import MentorDetailsManage from "@/pages/common/mentorDetailsManage/MentorDetailsManage"
 import { Route, Routes } from "react-router-dom"
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute"
@@ -19,17 +19,17 @@ const AdminRoutes = () => {
         <Route element={<AdminLayout/>}>
             <Route path='/dashboard' element={<Dashboard/>}/>
 
-            <Route path='/mentors/application' element={<ManageMentorWrapper isVerified={false}>
+            <Route path='/mentors/application' element={<MentorWrapper isVerified={false}>
                                                           {(tableHeaders,mentors,currentPage,setCurrentPage, totalPage) => (
-                                                           <ManageMentors  tableHeaders={tableHeaders} mentors={mentors}  currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage}/>
+                                                           <Mentors  tableHeaders={tableHeaders} mentors={mentors}  currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage}/>
                                                           )}
-                                                        </ManageMentorWrapper>}/>
+                                                        </MentorWrapper>}/>
                                                         
-            <Route path='/mentors' element={<ManageMentorWrapper isVerified={true}>
+            <Route path='/mentors' element={<MentorWrapper isVerified={true}>
                                                {(tableHeaders,mentors,currentPage,setCurrentPage, totalPage) => (
-                                                <ManageMentors  tableHeaders={tableHeaders} mentors={mentors}  currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage}/>
+                                                <Mentors  tableHeaders={tableHeaders} mentors={mentors}  currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage}/>
                                                )}
-                                             </ManageMentorWrapper>}/>
+                                             </MentorWrapper>}/>
                                              
             <Route path='/mentors/:mentorId/verify' element={<MentorDetailsManage/>}/>
             <Route path='/students' element={<ManageStudents/>}/>

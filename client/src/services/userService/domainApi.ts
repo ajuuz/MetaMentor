@@ -1,11 +1,11 @@
 import { userAxiosInstance } from "@/config/axiosConfig/userAxiosConfig";
-import type { DomainType, GetAllDomainType } from "@/types/domainTypes";
+import type { DomainWithLevel, GetAllDomains } from "@/types/domainTypes";
 import type { ApiResponseType } from "@/types/responseType";
 
 
 
 
-export const getDomains=async(currentPage:number,limit:number):Promise<Required<ApiResponseType<GetAllDomainType>>>=>{
+export const getAllDomains=async(currentPage:number,limit:number):Promise<GetAllDomains>=>{
     try{
         const response = await userAxiosInstance.get(`/domains?currentPage=${currentPage}&limit=${limit}`)
         return response.data;
@@ -15,7 +15,7 @@ export const getDomains=async(currentPage:number,limit:number):Promise<Required<
     }
 }
 
-export const getDomain=async(domainId:string):Promise<Required<ApiResponseType<DomainType>>>=>{
+export const getSpecificDomain=async(domainId:string):Promise<DomainWithLevel>=>{
     try{
         const response = await userAxiosInstance.get(`/domains/${domainId}`)
         return response.data;
@@ -37,7 +37,7 @@ export const enrollDomain=async (domainId:string):Promise<Omit<ApiResponseType<u
 }
 
 
-export const getEnrolledDomain=async(currentPage:number,limit:number):Promise<Required<ApiResponseType<GetAllDomainType>>>=>{
+export const getEnrolledDomains=async(currentPage:number,limit:number):Promise<GetAllDomains>=>{
      try{
         const response = await userAxiosInstance.get(`/dashboard?currentPage=${currentPage}&limit=${limit}`)
         return response.data;
@@ -45,4 +45,14 @@ export const getEnrolledDomain=async(currentPage:number,limit:number):Promise<Re
     catch(error:any){
         throw error?.response?.data || error
     }
+}
+
+export const getEnrolledDomain=async(domainId:string)=>{
+  try{
+         const response = await userAxiosInstance.get(`/dashboard/${domainId}`)
+         return response.data;
+     }
+     catch(error:any){
+         throw error?.response?.data || error
+     }
 }

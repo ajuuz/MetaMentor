@@ -1,6 +1,6 @@
 import { mentorInstance } from "@/config/axiosConfig/mentorAxiosConfig"
 import type { ApiResponseType } from "@/types/responseType";
-import type { SlotType, WeekSlotsType } from "@/types/slotTypes";
+import type { WeekSlotsType } from "@/types/slotTypes";
 
 
 export const updateSlot=async(weekSlots:WeekSlotsType):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
@@ -14,7 +14,7 @@ export const updateSlot=async(weekSlots:WeekSlotsType):Promise<Omit<ApiResponseT
 }
 
 
-export const getSlots=async():Promise<Required<ApiResponseType<SlotType>>>=>{
+export const getMentorSlots=async():Promise<WeekSlotsType>=>{
       try{
         const response = await mentorInstance.get('/slots')
         return response.data;

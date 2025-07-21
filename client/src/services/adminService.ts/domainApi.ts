@@ -1,5 +1,5 @@
 import { adminAxiosInstance } from "@/config/axiosConfig/adminAxiosConfig"
-import type { DomainCreationType,GetAllDomainType } from "@/types/domainTypes";
+import type { DomainCreationType,GetAllDomains } from "@/types/domainTypes";
 import type { ApiResponseType } from "@/types/responseType";
 
 export const addDomain=async(domainDetails:DomainCreationType)=>{
@@ -14,8 +14,9 @@ export const addDomain=async(domainDetails:DomainCreationType)=>{
 }
 
 
-export const getDomains=async(currentPage:number,limit:number):Promise<Required<ApiResponseType<GetAllDomainType>>>=>{
+export const getAdminAllDomains=async(currentPage:number,limit:number):Promise<GetAllDomains>=>{
     try{
+        console.log(currentPage,limit)
         const response = await adminAxiosInstance.get(`/domains?currentPage=${currentPage}&limit=${limit}`)
         return response.data;
     }

@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 
 import type { UserDetailsType } from "@/types/userType";
 
-import { getSpecificUser, updateProfile } from "@/services/userService/userApi";
+import { updateProfile } from "@/services/userService/userApi";
 import { imageUploader } from "@/utils/helperFunctions/imageUploadFunction";
 
 import { Edit, Eye, Image } from "lucide-react";
@@ -17,6 +17,7 @@ import { Edit, Eye, Image } from "lucide-react";
 import countries from "world-countries";
 
 import { toast } from "sonner";
+import { useProfileQuery } from "@/hooks/profile";
 
 const Profile = () => {
     const [isViewMode,setIsViewMode] = useState(true);
@@ -36,15 +37,7 @@ const Profile = () => {
     const [loading,setLoading] = useState<boolean>(false)
     const countryNames = useMemo(()=>countries.map(c => c.name.common),[]);
 
-    const {mutate:detailsFetchMutation} = useMutation({
-        mutationFn:getSpecificUser,
-        onSuccess:(response)=>{
-            setUserDetails(response.data)
-        },
-        onError:(error)=>{
-            toast.error(error.message)
-        }
-    })
+    const {data:profileData} = useProfileQuery()
 
     const {mutate:updateProfileMutation}=useMutation({
         mutationFn:updateProfile,
@@ -58,15 +51,16 @@ const Profile = () => {
 
 
     useEffect(()=>{
-        detailsFetchMutation()
-    },[])
+        if(profileData){
+            setUserDetails(profileData)
+        }
+    },[profileData])
 
     const handleInputChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
         setUserDetails((prev)=>({...prev,[e.target.name]:e.target.value}))
     }
 
     const handleSelectChange=(key:string,value:string)=>{
-        console.log(key,value)
         setUserDetails((prev)=>({...prev,[key]:value}))
     }
 
@@ -100,7 +94,6 @@ const Profile = () => {
                 const imageUrl = await imageUploader([profileImage])
                 userDetails.profileImage=imageUrl[0].url
             }
-            console.log(userDetails)
             const {email,...updatedData} = userDetails;
             updateProfileMutation(updatedData)
             setLoading(false)

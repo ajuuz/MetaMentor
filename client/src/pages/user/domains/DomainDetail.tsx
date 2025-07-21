@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { enrollDomain, getDomain } from "@/services/userService/domainApi";
-import type { DomainType } from "@/types/domainTypes";
-import type { ApiResponseType } from "@/types/responseType";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { enrollDomain} from "@/services/userService/domainApi";
+import { useMutation} from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import {AnimatePresence,motion} from 'framer-motion'
@@ -10,9 +8,11 @@ import type { LevelType } from "@/types/levelTypes";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 import LoadingSpinnerComponent from "@/components/common/LoadingSpinnerComponent";
+import { useUserGetSpecificDomainQuery } from "@/hooks/domain";
+import type { DomainEntity } from "@/types/domainTypes";
 
 const DomainDetail = () => {
-    const [domainDetails, setDomainDetails] = useState<Omit<DomainType,'levels'>>()
+    const [domainDetails, setDomainDetails] = useState<DomainEntity>()
     const [levels, setLevels] = useState<LevelType[]>()
     const [tab,setTab]=useState<'about'|'roadMap'>('about')
     const navigate = useNavigate()
@@ -20,15 +20,7 @@ const DomainDetail = () => {
 
     if (!domainId) navigate(-1)
 
-    const { data: domainResponse, isError, isLoading } = useQuery<Required<ApiResponseType<DomainType>>>(
-        {
-            queryKey: ['domain', domainId],
-            queryFn: () => getDomain(domainId as string),
-            staleTime: 1000 * 60 * 5,
-            refetchOnWindowFocus: false,
-            retry: false
-        }
-    )
+    const { data: specifcDomain, isError, isLoading } = useUserGetSpecificDomainQuery(domainId as string)
 
     const {mutate:enrollDomainMutation,isPending:enrollPending}=useMutation({
         mutationFn:enrollDomain,
@@ -41,14 +33,13 @@ const DomainDetail = () => {
     })
 
     useEffect(() => {
-        if (domainResponse) {
-            const domain = domainResponse.data;
+        if (specifcDomain) {
+            const domain = specifcDomain;
             const {levels,...rest} = domain;
             setLevels(levels);
             setDomainDetails(rest);
-            setDomainDetails(domain)
         }
-    }, [domainResponse])
+    }, [specifcDomain])
 
    
 
@@ -107,7 +98,7 @@ const DomainDetail = () => {
 export default DomainDetail;
 
 type AboutProp={
-    domainDetails:Omit<DomainType,'levels'>
+    domainDetails:DomainEntity
 }
 const About=({domainDetails}:AboutProp)=>{
     const domainImage = domainDetails.image || "/mern-logo.png";

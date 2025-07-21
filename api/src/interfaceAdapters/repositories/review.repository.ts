@@ -14,10 +14,9 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
     }
     
     async findByStudentAndDomain(studentId:string,domainId:string):Promise<GetDomainReviewResponseDTO[]>{
-
             const reviews:GetDomainReviewResponseDTO[]=await reviewModel.aggregate([
                 {
-                    $match:{studentId,domainId}
+                    $match:{studentId:new mongoose.Types.ObjectId(studentId),domainId:new mongoose.Types.ObjectId(domainId)}
                 },
                 {
                     $sort:{createdAt:1}

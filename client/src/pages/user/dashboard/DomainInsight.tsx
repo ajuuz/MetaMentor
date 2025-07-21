@@ -2,22 +2,19 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle, XCircle, Lock, LucideClockFading } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { getDomainInsight } from "@/services/userService/dashboardApi";
 import { useNavigate, useParams } from "react-router-dom";
-import type { ApiResponseType } from "@/types/responseType";
 import type { ReviewCardData } from "@/types/reviewTypes";
-import type { DomainType } from "@/types/domainTypes";
+import type { DomainEntity } from "@/types/domainTypes";
 import type { LevelType } from "@/types/levelTypes";
+import { useEnrolledDomainQuery } from "@/hooks/domain";
 
 
-type DomainInsigthResponse=Required<ApiResponseType<{reviews:ReviewCardData[],domain:Omit<DomainType,'isBlocked'|'levels'>,noOfLevelPassed:number,nextLevels:LevelType[]}>>
 const DomainInsight = () => {
 
     const [reviews,setReviews]=useState<ReviewCardData[]>([])
     const [noOfLevelPassed,setNoOfLevelPassed]=useState<number>(0)
-    const [domain,setDomain]=useState<Omit<DomainType,'isBlocked'|'levels'>>()
+    const [domain,setDomain]=useState<Omit<DomainEntity,'isBlocked'>>()
     const [nextLevels,setNextLevels]=useState<LevelType[]>()
     const {domainId} = useParams()
 
@@ -27,24 +24,17 @@ const DomainInsight = () => {
         return <div>NO Domain ID Recieved</div>
     }
 
-    const {data:domainInsightResoponse,isError}=useQuery<DomainInsigthResponse>({
-        queryKey:['domainInsight'],
-        queryFn:()=>getDomainInsight(domainId),
-        staleTime: 1000 * 60 * 5,
-        refetchOnWindowFocus: false,
-        retry: false
-    })
+    const {data:enrolledDomain,isError}=useEnrolledDomainQuery(domainId)
 
     useEffect(()=>{
-        if(domainInsightResoponse){
-            const {reviews,domain,nextLevels} = domainInsightResoponse.data;
-            console.log(reviews,domain,noOfLevelPassed,nextLevels)
+        if(enrolledDomain){
+            const {reviews,domain,nextLevels} = enrolledDomain;
             setReviews(reviews);
             setDomain(domain)
             setNoOfLevelPassed(noOfLevelPassed)
             setNextLevels(nextLevels)
         }
-    },[domainInsightResoponse])
+    },[enrolledDomain])
 
 
     if(isError){
@@ -108,11 +98,14 @@ const DomainInsight = () => {
               <p className="text-sm">Reviewer: {item.mentorName}</p>
               {/* <p className="text-sm">Attempt: {item.attempt}</p> */}
               <div className="flex gap-2">
-                <Button variant="secondary">FeedBack</Button>
+                {
+                  ['fail','pass'].includes(item.status) &&
+                  <Button variant="secondary">FeedBack</Button>
+                }
                 <Button variant="secondary">Task File</Button>
               </div>
               <div className="bg-violet-200 text-sm rounded p-1">
-                Remark: Week completed
+                status: {item.status}
               </div>
             </CardContent>
           </Card>

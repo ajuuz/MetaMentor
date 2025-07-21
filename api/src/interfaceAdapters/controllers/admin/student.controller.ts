@@ -21,8 +21,8 @@ export class AdminStudentController implements IAdminStudentController{
         try{
             const currentPage:number=Number(req.query.currentPage ?? "1");
             const limit:number=Number(req.query.limit ?? '10')
-            const {students,totalPages}:Omit<GetAllStudentResponseDTO,'totalDocuments'> = await this._getAllStudentsUsecase.execute(currentPage,+limit);
-            res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.STUDENT.FETCH_ALL,data:{students,totalPages}})
+            const data:Omit<GetAllStudentResponseDTO,'totalDocuments'> = await this._getAllStudentsUsecase.execute(currentPage,+limit);
+            res.status(HTTP_STATUS.OK).json(data)
         }
         catch(error){
             next(error)

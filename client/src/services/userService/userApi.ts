@@ -5,7 +5,7 @@ import type { UserDetailsType } from "@/types/userType"
 
 
 
-export const getSpecificUser=async():Promise<Required<ApiResponseType<Omit<UserDetailsType,"role"|"isVerified"|"_id">>>>=>{
+export const getSpecificUser=async():Promise<Omit<UserDetailsType,"role"|"isVerified"|"_id">>=>{
     try{
         const response = await userAxiosInstance.get('/user')
         return response.data

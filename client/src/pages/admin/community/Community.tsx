@@ -3,35 +3,27 @@ import PaginationComponent from '@/components/common/PaginationComponent';
 import TableComponent from '@/components/common/TableComponent';
 import { Switch } from '@/components/ui/switch';
 import { queryClient } from '@/config/tanstackConfig/tanstackConfig';
-import { getCommunities, updateCommunityStatus } from '@/services/adminService.ts/communityApi';
-import type { GetAllCommunityType } from '@/types/communityTypes';
-import type { ApiResponseType } from '@/types/responseType';
+import { useAdminGetAllCommunitiesQuery } from '@/hooks/communitry';
+import {  updateCommunityStatus } from '@/services/adminService.ts/communityApi';
 import type { TableDetailsType } from '@/types/tableDataTypes';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import  { useEffect, useState } from 'react'
 import { toast } from 'sonner';
 
 
-type CommunityResponseType=Required<ApiResponseType<GetAllCommunityType>>;
 
 const Community = () => {
     const [communities,setCommunities] = useState<TableDetailsType[]>([]);
     const [currentPage,setCurrentPage]=useState<number>(1)
     const [totalPages,setTotalPages]=useState<number>(0);
 
-    const {data:communityResponse,isLoading,isError,error}=useQuery<CommunityResponseType>({
-        queryKey:['communities',currentPage,10],
-        queryFn:()=>getCommunities(currentPage,10),
-        staleTime:1000*60*5,
-        refetchOnWindowFocus: false,
-        retry:false
-    });
+    const {data:communityResponse,isLoading,isError}=useAdminGetAllCommunitiesQuery(currentPage,10)
 
     const {mutate:updateStatusMutation}=useMutation({
         mutationFn:updateCommunityStatus,
         onSuccess:(response)=>{
             toast.success(response.message);
-            queryClient.invalidateQueries({queryKey:['communities']})
+            queryClient.invalidateQueries({queryKey:['adminGetAllCommunities']})
         },
         onError:(error)=>{
             toast.error(error.message);
@@ -42,7 +34,7 @@ const Community = () => {
     useEffect(()=>{
 
         if(communityResponse){
-            const {communities,totalPages} = communityResponse.data;
+            const {communities,totalPages} = communityResponse;
             setTotalPages(totalPages);
 
             const transformedDetails = communities.map((community)=>{

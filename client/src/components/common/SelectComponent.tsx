@@ -10,7 +10,6 @@ type SelectComponentProps = {
 
 
 const SelectComponent = ({selectKey,placeHolder,handleSelectChange,content,disabled}:SelectComponentProps) => {
-  console.log(selectKey)
   return (
     <Select disabled={disabled}  onValueChange={(value)=>handleSelectChange(selectKey,value)}>
         <SelectTrigger  className="w-[180px]">

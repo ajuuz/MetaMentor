@@ -1,5 +1,4 @@
 import TableComponent from "@/components/common/TableComponent"
-import "./manageMentors.css"
 import type { MentorTableDetailsType } from "@/types/tableDataTypes"
 import PaginationComponent from "@/components/common/PaginationComponent"
 
@@ -10,7 +9,7 @@ type Prop={
   setCurrentPage:React.Dispatch<React.SetStateAction<number>>,
   totalPage: number
 }
-const ManageMentors = ({tableHeaders,mentors,currentPage,setCurrentPage,totalPage}:Prop) => {
+const Mentors = ({tableHeaders,mentors,currentPage,setCurrentPage,totalPage}:Prop) => {
 
   return (
     <div className="mx-5">
@@ -20,4 +19,4 @@ const ManageMentors = ({tableHeaders,mentors,currentPage,setCurrentPage,totalPag
   )
 }
 
-export default ManageMentors
+export default Mentors

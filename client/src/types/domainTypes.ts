@@ -1,12 +1,16 @@
-export type DomainType={
+import type { LevelType } from "./levelTypes"
+import type { ReviewCardData } from "./reviewTypes"
+
+export type DomainEntity={
     _id:string,
     name:string,
-    description:string,
     motive:string,
+    description:string,
     image:string,
     isBlocked:boolean,
-    levels:{_id:string,name:string,description:string,taskFile:string}[]
 }
+
+export type DomainWithLevel= DomainEntity & {levels:LevelType[]}
 
 export type DomainCreationType={
     name:string,
@@ -16,8 +20,18 @@ export type DomainCreationType={
     levels:{name:string,description:string,taskFile:string}[]
 }
 
-export type GetAllDomainType={
-   domains:Omit<DomainType,'levels'>[],
+export type GetAllDomains={
+   domains:DomainEntity[],
    totalPages:number
+}
+
+
+
+//enrolled domainType
+export type EnrolledDomain={
+    reviews:ReviewCardData[]
+    domain:Omit<DomainEntity,'isBlocked'>
+    noOfLevelPassed:number
+    nextLevels:LevelType[]
 }
 

@@ -5,7 +5,7 @@ import type { ApiResponseType } from "@/types/responseType";
 
 
 
-export const getCommunities=async(currentPage:number,limit:number):Promise<Required<ApiResponseType<GetAllCommunityType>>>=>{
+export const getAllCommunities=async(currentPage:number,limit:number):Promise<GetAllCommunityType>=>{
     try{
         const response = await adminAxiosInstance.get(`/communities?currentPage=${currentPage}&limit=${limit}`)
         return response.data;

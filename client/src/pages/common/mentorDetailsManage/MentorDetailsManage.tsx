@@ -201,8 +201,8 @@ export default function MentorDetailsManage() {
         setLoading(true)
         const imageUrls = await imageUploader(images as Blob[])
 
-        const cv = imageUrls[0].url
-        const experienceCirtificate = imageUrls[1].url
+        const cv = imageUrls[0].public_id
+        const experienceCirtificate = imageUrls[1].public_id
 
         const domains=selectedDomains.map(domain=>domain._id);
         mentorRegisterMutation({domains,about,workedAt,skills,cv,experienceCirtificate,fee})
@@ -366,8 +366,8 @@ export default function MentorDetailsManage() {
           {purpose.mentorRegister
             ?<InputImageComponent containerDivStyle=" col-span-2  grid grid-cols-1 md:grid-cols-2 gap-6 mt-4" images={images as (Blob|null)[]} setImages={setImages as React.Dispatch<React.SetStateAction<(null|Blob)[]>>} labels={["Add CV","Add Verification Certificate"]}/>
             :<div className="col-span-2 md:flex flex flex-col gap-4 justify-around">
-              <img src={images[0] as string} alt="" className=" border" />
-              <img src={images[1] as string} alt="" className="border"/>
+              <img src={import.meta.env.VITE_CLOUDINARY_BASE_URL+'/'+images[0] as string} alt="" className=" border" />
+              <img src={import.meta.env.VITE_CLOUDINARY_BASE_URL+"/"+images[1] as string} alt="" className="border"/>
             </div>
           }
           <p className="text-red-300">{errors?.images}</p>

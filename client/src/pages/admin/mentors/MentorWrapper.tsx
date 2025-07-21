@@ -20,7 +20,7 @@ type Prop={
     ) => ReactNode
 }
 
-const ManageMentorWrapper = ({isVerified,children}:Prop) => {
+const MentorWrapper = ({isVerified,children}:Prop) => {
      const [mentors,setMentors] = useState<TableDetailsType[]>([])
       const [currentPage,setCurrentPage] = useState<number>(1);
       const [totalPage,setTotalPages] = useState<number>(0)
@@ -87,9 +87,9 @@ const ManageMentorWrapper = ({isVerified,children}:Prop) => {
     }
 
 
-        const tableHeaders=["Mentor Name","Number","Review Count","Country","Domains","Skills",isVerified?"Status":"Verification Status","Action"]
+    const tableHeaders=["Mentor Name","Number","Review Count","Country","Domains","Skills",isVerified?"Status":"Verification Status","Action"]
 
     return <>{children(tableHeaders,mentors,currentPage,setCurrentPage,totalPage)}</>
 }
 
-export default ManageMentorWrapper
+export default MentorWrapper

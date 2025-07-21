@@ -39,14 +39,14 @@ export class UserDomainController implements IUserDomainController{
       const limit = typeof req.query.limit==='string'?parseInt(req.query.limit):10;
       
       const data:Omit<GetAllDomainsResponseDTO,'totalDocuments'> = await this._getUnblockedDomainsUsecase.execute(currentPage,limit)
-      res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.DOMAINS.FETCH_ALL,data})
+      res.status(HTTP_STATUS.OK).json(data)
     }
 
     async getSpecificDomain(req:Request,res:Response,next:NextFunction):Promise<void>{
         const domainId:string = req.params.domainId;
 
         const domain = await this._getSpecificDomainUsecase.execute(domainId);
-        res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.DOMAINS.FETCH_ALL,data:domain})
+        res.status(HTTP_STATUS.OK).json(domain)
     }
 
     async enrollDomain(req:Request,res:Response,next:NextFunction):Promise<void>{
@@ -63,7 +63,7 @@ export class UserDomainController implements IUserDomainController{
         const limit = typeof req.query.limit==='string'?parseInt(req.query.limit):10;
 
         const data:Omit<GetAllDomainsResponseDTO,'totalDocuments'>=await this._getEnrolledDomainsUsecase.execute(userId,currentPage,limit)
-        res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.DOMAINS.FETCH_ALL,data:data})
+        res.status(HTTP_STATUS.OK).json(data)
     }
 
     async getDomainInsight(req:Request,res:Response,next:NextFunction):Promise<void>{
@@ -74,6 +74,6 @@ export class UserDomainController implements IUserDomainController{
         if(!studentId || !domainId) throw new ValidationError("Necessary credentails not recieved");
 
         const domainInsight = await this._getDomainInsightUsecase.execute(studentId,domainId)
-        res.status(200).json({success:true,message:'Domain Insight Fetched Successfully',data:domainInsight})
+        res.status(200).json(domainInsight)
     }
 }

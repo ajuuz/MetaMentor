@@ -1,41 +1,29 @@
 import AlertDialogComponent from "@/components/common/AlertDialogComponent";
+import PaginationComponent from "@/components/common/PaginationComponent";
 import TableComponent from "@/components/common/TableComponent";
 import { Switch } from "@/components/ui/switch";
 import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
-import { getDomains, updateDomainStatus } from "@/services/adminService.ts/domainApi";
-import type { GetAllDomainType } from "@/types/domainTypes";
-import type { ApiResponseType } from "@/types/responseType";
+import { useAdminGetAllDomainsQuery } from "@/hooks/domain";
+import {  updateDomainStatus } from "@/services/adminService.ts/domainApi";
 import type{ TableDetailsType } from "@/types/tableDataTypes"
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useEffect,useState} from "react"
 import { toast } from "sonner";
 
-type DomainResponse = Required<ApiResponseType<GetAllDomainType>>;
 const Domains = () => {
     const [domains,setDomains] = useState<TableDetailsType[]>([]);
+    const [currentPage,setCurrentPage]=useState<number>(1);
+    const [totalPages,setTotalPages]=useState<number>(0);
 
-    const {data:domainsResponse,isError,error}=useQuery<DomainResponse>({
-        queryKey:['domains'],
-        queryFn:()=>getDomains(1,10),
-        staleTime:1000*60*5,
-        refetchOnWindowFocus: false,
-        retry:false
-    });
+    const {data:domainsResponse,isError}=useAdminGetAllDomainsQuery(currentPage,10)
 
-    const {mutate:updateStatusMutation}=useMutation({
-        mutationFn:updateDomainStatus,
-        onSuccess:(response)=>{
-            toast.success(response.message)
-             queryClient.invalidateQueries({queryKey:['domains']})
-        },
-        onError:(error)=>{
-            toast.error(error.message)
-        }
-    })
+     if(isError){
+        <div>Something went Wrong</div>
+    }
 
     useEffect(()=>{
         if(domainsResponse){
-            const transformedDetails=domainsResponse?.data.domains.map(domain=>{
+            const transformedDetails=domainsResponse.domains.map(domain=>{
                 return {
                     id:domain._id,
                     content:[
@@ -51,13 +39,20 @@ const Domains = () => {
                 }
             })
             setDomains(transformedDetails)
+            setTotalPages(domainsResponse.totalPages)
         }
     },[domainsResponse])
 
-    if(isError){
-        toast.error(error.message)
-    }
-
+    const {mutate:updateStatusMutation}=useMutation({
+        mutationFn:updateDomainStatus,
+        onSuccess:(response)=>{
+            toast.success(response.message)
+             queryClient.invalidateQueries({queryKey:['adminGetAllDomains']})
+        },
+        onError:(error)=>{
+            toast.error(error.message)
+        }
+    })
 
     function handleStatusChange(domainId:string,status:boolean){
         updateStatusMutation({domainId,status})
@@ -67,6 +62,7 @@ const Domains = () => {
   return (
     <div className="mx-5">
         <TableComponent tableHeaders={headers} tableBody={domains}/>
+        <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
     </div>
   )
 }

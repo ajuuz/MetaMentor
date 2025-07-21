@@ -1,11 +1,10 @@
 import PaginationComponent from "@/components/common/PaginationComponent"
 import DomainCard from "@/components/user/DomainCard"
-import { getEnrolledDomain } from "@/services/userService/domainApi"
-import type{ DomainType } from "@/types/domainTypes"
-import { useQuery } from "@tanstack/react-query"
+import { useEnrolledDomainsQuery } from "@/hooks/domain"
+import type{ DomainEntity } from "@/types/domainTypes"
 import { useEffect, useState } from "react"
 
-const enrolledDomains = [
+const enrolledDomainss = [
 	{
 		id: 1,
 		name: 'MERNCraft: Full-Stack from Scratch',
@@ -33,31 +32,23 @@ const enrolledDomains = [
 	},
 ]
 
-
-
 const Dashboard = () => {
 
-    const [domains,setDomains]=useState<Omit<DomainType,'levels'>[]>()
+    const [domains,setDomains]=useState<DomainEntity[]>()
     const [totalPages,setTotalPages]=useState<number>(0)
     const [currentPage,setCurrentPage]=useState<number>(0);
 
-    const {data:domainsReponse,isLoading,isError}=useQuery(
-        {
-          queryKey: ['userDashboard',currentPage,10],
-          queryFn:()=>getEnrolledDomain(currentPage,10),
-          staleTime: 1000 * 60 * 5,
-          refetchOnWindowFocus: false,
-          retry: false
-        }
-    )
+
+	const {data:enrolledDomains,isLoading,isError}=useEnrolledDomainsQuery(currentPage,10);
+
 
     useEffect(()=>{
-        if(domainsReponse){
-            const {domains,totalPages} = domainsReponse.data;
+        if(enrolledDomains){
+            const {domains,totalPages} = enrolledDomains;
             setDomains(domains)
             setTotalPages(totalPages)
         }
-    },[domainsReponse])
+    },[enrolledDomains])
 
     if (isLoading) {
         return (
@@ -75,11 +66,11 @@ const Dashboard = () => {
         )
     }
 
-	const completedCount = enrolledDomains.filter((d) => d.completed).length
-	const enrolledCount = enrolledDomains.length
-	const upcoming = enrolledDomains[0].upcomingReview
-	const reviewer = enrolledDomains[0].reviewer
-	const domain = enrolledDomains[0].upcomingReview?.domain
+	const completedCount = enrolledDomainss.filter((d) => d.completed).length
+	const enrolledCount = enrolledDomainss.length
+	const upcoming = enrolledDomainss[0].upcomingReview
+	const reviewer = enrolledDomainss[0].reviewer
+	const domain = enrolledDomainss[0].upcomingReview?.domain
 
 	return (
 		<div className="min-h-screen bg-[#f7f7f7]">

@@ -6,10 +6,11 @@ import  TimePeriod from '@/components/mentor/TimePeriod'
 import { toMinutes } from '@/utils/helperFunctions/convertToMinutes'
 import { toTimeString } from '@/utils/helperFunctions/toTimeString'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import {  getSlots, updateSlot, updateSlotStatus } from '@/services/mentorService.ts/slotApi'
+import { useMutation } from '@tanstack/react-query'
+import {  updateSlot, updateSlotStatus } from '@/services/mentorService.ts/slotApi'
 import { toast } from 'sonner'
 import type { DayOfWeekType, WeekSlotsType } from '@/types/slotTypes'
+import { useMentorGetSlotsQuery } from '@/hooks/slot'
 
 const daysOfWeek:DayOfWeekType[]= [
   'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
@@ -57,13 +58,7 @@ const SlotManage = () => {
   const [timeRanges,setTimeRanges] = useState<Record<string,{startTime:string,endTime:string}|null>>(timePeriods)
   
 
-  const {data:slotResponse} = useQuery({
-    queryKey:['mentorSlots'],
-    queryFn:getSlots,
-    staleTime:1000*60*5,
-    refetchOnWindowFocus: false,
-    retry:false
-  })
+  const {data:weekSlots} = useMentorGetSlotsQuery();
 
   const {mutate:updateSlotMutation}=useMutation({
       mutationFn:updateSlot,
@@ -96,11 +91,10 @@ const SlotManage = () => {
   },[timeRanges])
 
   useEffect(()=>{
-    if(slotResponse){
-      const weekSlots = slotResponse.data.weekSlots;
+    if(weekSlots){
       setSlots(weekSlots)
     }
-  },[slotResponse])
+  },[weekSlots])
 
   
   const handleToggle = (day:DayOfWeekType,idx:number,slotId:string,slotStatus:boolean) => {

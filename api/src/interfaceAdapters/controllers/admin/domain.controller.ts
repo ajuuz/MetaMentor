@@ -31,8 +31,9 @@ export class AdminDomainController implements IAdminDomainController{
     async getAllDomains(req:Request,res:Response,next:NextFunction):Promise<void>{
         const currentPage = typeof req.query.currentPage==='string'?parseInt(req.query.currentPage):1;
         const limit = typeof req.query.limit==='string'?parseInt(req.query.limit):10;
+        console.log(currentPage,limit)
         const data:Omit<GetAllDomainsResponseDTO,'totalDocuments'> = await this._getAllDomainsUsecase.execute(currentPage,limit)
-        res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.DOMAINS.FETCH_ALL,data})
+        res.status(HTTP_STATUS.OK).json(data)
     }
 
 

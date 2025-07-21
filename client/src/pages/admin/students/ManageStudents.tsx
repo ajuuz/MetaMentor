@@ -2,19 +2,17 @@
 import { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 
-
-//types
-// import {type StudentDetailsType } from '@/types/tableDataTypes'
-
 //components
 import TableComponent from '@/components/common/TableComponent'
 import AlertDialogComponent from '@/components/common/AlertDialogComponent';
-import { getAllStudents, updateStudentStatus } from '@/services/adminService.ts/studentApi'
+import { updateStudentStatus } from '@/services/adminService.ts/studentApi'
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch"
 import PaginationComponent from '@/components/common/PaginationComponent';
 import { toast } from 'sonner';
 import type {  TableDetailsType } from '@/types/tableDataTypes';
+import { useAdminGetAllStudentsQuery } from '@/hooks/student';
+import { queryClient } from '@/config/tanstackConfig/tanstackConfig';
 
 
 const ManageStudents = () => {
@@ -24,21 +22,22 @@ const ManageStudents = () => {
     const [totalPages,setTotalPages] = useState<number>(0)
     const [currentPage,setCurrentPage] = useState<number>(1)
 
+    const {data:getAllStudentsResponse} = useAdminGetAllStudentsQuery(currentPage,10)
 
     const {mutate:updateStudentStatusMutate} = useMutation({
         mutationFn:updateStudentStatus,
         onSuccess:(response)=>{
             toast.success(response.message)
+            queryClient.invalidateQueries({queryKey:['adminGetAllStudents']})
         },
         onError:(error)=>{
             toast.error(error.message);
         }
     })
 
-    const {mutate:studentMutate} = useMutation({
-        mutationFn:getAllStudents,
-        onSuccess:(response)=>{
-            const {students,totalPages} = response.data;
+    useEffect(()=>{
+        if(getAllStudentsResponse){
+            const {students,totalPages} = getAllStudentsResponse;
             setTotalPages(totalPages);
 
             const transformedDetails:TableDetailsType[]=students.map((student)=>{
@@ -55,31 +54,11 @@ const ManageStudents = () => {
                 ]}
             })
             setStudents(transformedDetails)
-        },
-        onError:(error)=>{
-            console.log(error.message)
         }
-    })
+    },[getAllStudentsResponse])
 
-
-
-    useEffect(()=>{
-        studentMutate({currentPage:1,limit:5})
-    },[])
-    
     const handleStatusChange=(userId:string,status:boolean)=>{
         updateStudentStatusMutate({userId,status})
-         setStudents((prev)=>{
-            const students=[...prev];
-            const student = students.find(student=>student.id===userId);
-
-            if(!student) return students;
-
-            student.content[4]=<Badge variant={status?'destructive':'outline'}>{status?"Blocked":"Active"}</Badge>
-            student.content[5]=<AlertDialogComponent alertTriggerer={<Switch checked={status}/>} alertDescription="This action cannot be undone. This will permanently delete your
-                    account and remove your data from our servers." handleClick={()=>handleStatusChange(student.id,!status)}/>
-            return students;
-        })
     }
 
     const tableHeaders=["Student Name","Number","Country","Review Count","Status","Action","Point"]

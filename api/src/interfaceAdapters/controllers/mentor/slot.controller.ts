@@ -34,8 +34,9 @@ export class MentorSlotController implements IMentorSlotController{
      async getSlots(req:Request,res:Response,next:NextFunction):Promise<void>{
         const mentorId = (req as ModifiedRequest).user.id;
         
-         const slot = await this._IGetMentorSlotsUsecase.execute(mentorId)
-         res.status(201).json({success:true,message:"Slot fetched Successfully",data:slot})
+         const weekSlots = await this._IGetMentorSlotsUsecase.execute(mentorId)
+         console.log(weekSlots)
+         res.status(201).json(weekSlots)
      }
 
      async updateSlotStatus(req:Request,res:Response,next:NextFunction):Promise<void>{

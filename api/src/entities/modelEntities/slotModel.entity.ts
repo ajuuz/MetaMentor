@@ -8,7 +8,7 @@ export interface ISlotEntity{
     weekSlots:IWeekEntity
 }
 
-interface IWeekEntity{
+export interface IWeekEntity{
     Monday:{_id:ObjectId,start:number,end:number,enabled:boolean}[],
     Tuesday:{_id:ObjectId,start:number,end:number,enabled:boolean}[],
     Wednesday:{_id:ObjectId,start:number,end:number,enabled:boolean}[],

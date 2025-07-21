@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
 import { addDomain } from "@/services/adminService.ts/domainApi"
-import type { DomainCreationType, DomainType } from "@/types/domainTypes"
+import type { DomainCreationType, DomainEntity } from "@/types/domainTypes"
 import { imageUploader } from "@/utils/helperFunctions/imageUploadFunction"
 import { useMutation } from "@tanstack/react-query"
 import { Image, X } from "lucide-react"
@@ -67,9 +67,9 @@ const ManageDomain = () => {
         const {levels,image,...rest}=domainDetails;
         const result = formSchema.safeParse({...rest,image:prevImage,noOfLevel:levels.length});
         if(!result.success){
-            const fieldErrors:Partial<Omit<DomainType,'levels'> & {noOfLevel:string}>={}
+            const fieldErrors:Partial<DomainEntity & {noOfLevel:string}>={}
             result.error.errors.forEach((error)=>{
-                const k = error.path[0] as keyof (Omit<DomainType,'levels'|'_id'|'isBlocked'> & {noOfLevel:string});
+                const k = error.path[0] as keyof (Omit<DomainEntity,'levels'|'_id'|'isBlocked'> & {noOfLevel:string});
                 fieldErrors[k]=error.message
             })
 
