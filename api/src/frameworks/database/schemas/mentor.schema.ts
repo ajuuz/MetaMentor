@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
 import { IMentorModel } from "../models/mentor.model";
 
+
+const ratingSchema = new mongoose.Schema({
+  star:{type:Number,default:0,min:0,max:5},
+  totalStars: { type: Number, default: 0 },
+  noOfRaters: { type: Number, default: 0 },
+}, { _id: false });
+
+
 export const mentorSchema = new mongoose.Schema<IMentorModel>({
   userId: {
     type: mongoose.Schema.ObjectId,
@@ -31,6 +39,10 @@ export const mentorSchema = new mongoose.Schema<IMentorModel>({
   experienceCirtificate: {
     type: String,
     required: true,
+  },
+  rating:{
+    type:ratingSchema,
+    default: () => ({})
   },
   skills: {
     type: [String],

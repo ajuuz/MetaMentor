@@ -9,7 +9,6 @@ import { inject, injectable } from "tsyringe";
 @injectable()
 export class BookReviewUsecase implements IBookReviewUsecase{
 
-
     constructor(
         @inject('IReviewRepository')
         private _reviewRepository:IReviewRepository
@@ -33,8 +32,6 @@ export class BookReviewUsecase implements IBookReviewUsecase{
             mentorEarning,
             payment
         }
-
-
         const review=await this._reviewRepository.createReview(bookingDetails)
         return review
     }

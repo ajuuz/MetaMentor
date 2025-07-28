@@ -1,5 +1,5 @@
 import { adminAxiosInstance } from "@/config/axiosConfig/adminAxiosConfig"
-import type { ApiResponseType } from "@/types/responseType";
+import type { MutationApiResponse } from "@/types/responseType";
 import type { GetAllStudentResponseType } from "@/types/studentTypes";
 
 
@@ -10,7 +10,7 @@ export const getAllStudents=async(currentPage:number,limit:number):Promise<GetAl
 }
 
 
-export const updateStudentStatus=async({userId,status}:{userId:string,status:boolean}):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+export const updateStudentStatus=async({userId,status}:{userId:string,status:boolean}):Promise<MutationApiResponse>=>{
     try{
         const response = await adminAxiosInstance.patch(`/students/${userId}`,{status})
         return response.data;

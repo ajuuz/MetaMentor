@@ -21,6 +21,7 @@ export class GetStudentReviewsUsecase implements IGetStudentReviewsUsecase{
         }else{
             status.push(REVIEW_STATUS.PASS,REVIEW_STATUS.FAIL,REVIEW_STATUS.CANCELLED)
         }
+        
         const reviews = await this._reviewRepository.findByStudentId(studentId,status)
         return reviews
     }

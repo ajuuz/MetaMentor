@@ -39,6 +39,9 @@ export class SlotRepository extends BaseRepository<ISlotEntity,ISlotModel> imple
                 $unwind:'$mentor'
             },
             {
+                $sort:{'mentor.rating.star':-1}
+            },
+            {
                 $match:{$and:[{'mentor.domains':new mongoose.Types.ObjectId(domainId)},{'mentor.isVerified':true},{'mentor.isBlocked':false}]}
             },
             {

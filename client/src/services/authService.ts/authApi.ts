@@ -1,9 +1,9 @@
 import type { AuthFormType } from "@/types/authTypes"
-import type { ApiResponseType } from "@/types/responseType";
+import type { ApiResponseType, MutationApiResponse } from "@/types/responseType";
 import type { UserType } from "@/zustand/userStore";
 import { authAxiosInstance } from "@/config/axiosConfig/authAxiosConfig";
 
-export const signup = async (formData:Omit<AuthFormType , "confirmPwd">):Promise<Omit<ApiResponseType<undefined>,'data'>> => {
+export const signup = async (formData:Omit<AuthFormType , "confirmPwd">):Promise<MutationApiResponse> => {
     try{
         const response = await authAxiosInstance.post('/signup', formData);
         return response.data;
@@ -12,7 +12,7 @@ export const signup = async (formData:Omit<AuthFormType , "confirmPwd">):Promise
     }
 }
 
-export const verifyOtp = async ({email,otp}:{email:string,otp:string}):Promise<Omit<ApiResponseType<undefined>,'data'>> => {
+export const verifyOtp = async ({email,otp}:{email:string,otp:string}):Promise<MutationApiResponse> => {
     try{
         const response = await authAxiosInstance.post('/otp/verify', {email,otp});
         return response.data;
@@ -21,7 +21,7 @@ export const verifyOtp = async ({email,otp}:{email:string,otp:string}):Promise<O
     }
 }
 
-export const resendOtp = async(email:string):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+export const resendOtp = async(email:string):Promise<MutationApiResponse>=>{
      try{
         const response = await authAxiosInstance.post('/otp/resend',{email});
         return response.data;
@@ -51,7 +51,7 @@ export const googleAuth=async(idToken:string):Promise<Required<ApiResponseType<U
 }
 
 
-export const logout =async():Promise<Omit<ApiResponseType<undefined>,"data">>=>{
+export const logout =async():Promise<MutationApiResponse>=>{
     try{
         const response = await authAxiosInstance.post('/logout')
         return response.data
@@ -72,7 +72,7 @@ export const logout =async():Promise<Omit<ApiResponseType<undefined>,"data">>=>{
 // }
 
 
-export const forgotPasswordSendMail=async(email:string):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+export const forgotPasswordSendMail=async(email:string):Promise<MutationApiResponse>=>{
     try{
         const response = await authAxiosInstance.post('/forgotPassword/mail',{email})
         return response.data;
@@ -82,7 +82,7 @@ export const forgotPasswordSendMail=async(email:string):Promise<Omit<ApiResponse
     }
 }
 
-export const resetPassword=async({password,token}:{password:string,token:string}):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+export const resetPassword=async({password,token}:{password:string,token:string}):Promise<MutationApiResponse>=>{
     try{
         const response = await authAxiosInstance.patch('/forgotPassword/reset',{password,token})
         return response.data;

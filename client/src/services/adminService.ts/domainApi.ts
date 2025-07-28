@@ -1,8 +1,8 @@
 import { adminAxiosInstance } from "@/config/axiosConfig/adminAxiosConfig"
 import type { DomainCreationType,GetAllDomains } from "@/types/domainTypes";
-import type { ApiResponseType } from "@/types/responseType";
+import type { MutationApiResponse } from "@/types/responseType";
 
-export const addDomain=async(domainDetails:DomainCreationType)=>{
+export const addDomain=async(domainDetails:DomainCreationType):Promise<MutationApiResponse>=>{
     try{
         console.log(domainDetails)
         const response = await adminAxiosInstance.post('/domains',domainDetails)
@@ -26,7 +26,7 @@ export const getAdminAllDomains=async(currentPage:number,limit:number):Promise<G
 }
 
 
-export const updateDomainStatus=async({domainId,status}:{domainId:string,status:boolean}):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+export const updateDomainStatus=async({domainId,status}:{domainId:string,status:boolean}):Promise<MutationApiResponse>=>{
     try{
         const response = await adminAxiosInstance.patch(`/domains/${domainId}`,{status})
         return response.data;

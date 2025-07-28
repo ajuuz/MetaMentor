@@ -22,7 +22,7 @@ export class UserSlotController implements IUserSlotController{
         const domainId = req.params.domainId;
         if(!domainId) throw new ValidationError()
         const slots = await this._getDomainSlotsUsecase.execute(domainId);
-        res.status(200).json({success:true,message:'slots fetched successfully',data:slots})
+        res.status(200).json(slots)
     }
 
     async slotValidityChecker(req:Request,res:Response,next:NextFunction):Promise<void>{

@@ -1,5 +1,5 @@
 import { userAxiosInstance } from "@/config/axiosConfig/userAxiosConfig"
-import type { ApiResponseType } from "@/types/responseType"
+import type {  MutationApiResponse } from "@/types/responseType"
 import type { UserDetailsType } from "@/types/userType"
 
 
@@ -16,7 +16,7 @@ export const getSpecificUser=async():Promise<Omit<UserDetailsType,"role"|"isVeri
 }
 
 
-export const updateProfile=async(updatedData:Partial<Omit<UserDetailsType,"role"|"_id"|"email"|"isVerified">>):Promise<Omit<ApiResponseType<undefined>,"data">>=>{
+export const updateProfile=async(updatedData:Partial<Omit<UserDetailsType,"role"|"_id"|"email"|"isVerified">>):Promise<MutationApiResponse>=>{
     try{
         const response = await userAxiosInstance.patch('/user',{updatedData})
         return response.data

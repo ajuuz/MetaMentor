@@ -1,4 +1,3 @@
-import { IReviewEntity } from "entities/modelEntities/reviewModel.entity";
 import { PAYMENT_METHOD, PAYMENT_STATUS, REVIEW_STATUS } from "shared/constants";
 
 type ReviewSlot={
@@ -58,3 +57,7 @@ export type GetStudentReviewResponseDTO={
     slot:ReviewSlot
 }
 
+export type DomainReviewSlotResponseDTO={
+    mentorId:string,
+    slots:ReviewSlot
+}

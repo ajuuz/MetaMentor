@@ -1,6 +1,6 @@
 import { adminAxiosInstance } from "@/config/axiosConfig/adminAxiosConfig";
 import type { GetAllMentorResponseType, MentorDataType } from "@/types/mentorType";
-import type { ApiResponseType } from "@/types/responseType";
+import type { ApiResponseType, MutationApiResponse } from "@/types/responseType";
 
 
 type GetAllMentorArgumentType={
@@ -34,7 +34,7 @@ export const getSpecificMentor=async(mentorId:string):Promise<Required<ApiRespon
 
 export const acceptMentorApplication=async(
     {mentorId,email,status,reason}:{mentorId:string,email:string,status:'accepted'|'rejected',reason?:string}
-    ):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+    ):Promise<MutationApiResponse>=>{
     try{
         const response = await adminAxiosInstance.patch(`/mentors/${mentorId}/${status}`,{email,reason});
         return response.data
@@ -45,7 +45,7 @@ export const acceptMentorApplication=async(
 }
 
 
-export const updateMentorStatus=async({mentorId,status}:{mentorId:string,status:boolean}):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+export const updateMentorStatus=async({mentorId,status}:{mentorId:string,status:boolean}):Promise<MutationApiResponse>=>{
     try{
         const response = await adminAxiosInstance.patch(`/mentors/${mentorId}`,{status})
         return response.data;

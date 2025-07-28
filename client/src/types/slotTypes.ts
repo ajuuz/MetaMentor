@@ -1,6 +1,7 @@
 
 export type DayOfWeekType ='Monday'|'Tuesday'|'Wednesday'|'Thursday'|'Friday'|'Saturday'|'Sunday';
 
+
 export type WeekSlotsType={
     Monday:{_id:string,start:number,end:number,enabled:boolean}[],
     Tuesday:{_id:string,start:number,end:number,enabled:boolean}[],
@@ -16,9 +17,18 @@ export type SlotType={
     weekSlots:WeekSlotsType
 }
 
+export type WeekSlotsWithBookingType={
+    Monday:{_id:string,start:number,end:number,enabled:boolean,isBooked:boolean}[],
+    Tuesday:{_id:string,start:number,end:number,enabled:boolean,isBooked:boolean}[],
+    Wednesday:{_id:string,start:number,end:number,enabled:boolean,isBooked:boolean}[],
+    Thursday:{_id:string,start:number,end:number,enabled:boolean,isBooked:boolean}[],
+    Friday:{_id:string,start:number,end:number,enabled:boolean,isBooked:boolean}[],
+    Saturday:{_id:string,start:number,end:number,enabled:boolean,isBooked:boolean}[]
+    Sunday:{_id:string,start:number,end:number,enabled:boolean,isBooked:boolean}[]
+}
 
 export type DomainSlotsResponseDTO={
-    weekSlots:WeekSlotsType,
+    weekSlots:WeekSlotsWithBookingType,
     mentor:{
         _id:string,
         name:string,

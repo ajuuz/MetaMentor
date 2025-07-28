@@ -40,11 +40,24 @@ export class VerifyPaymentUsecase implements IVerifyPaymentUsecase{
 
         const bookedReview = await this._bookReviewUsecase.create(studentId,reviewDetails);
         const asyncOperation = [];
-        const adminTransaction={walletId:this._adminId,reviewId:bookedReview._id,type:TRANSACTION_TYPE.CREDIT,amount:reviewDetails.amount,description:`Amount ${reviewDetails.amount} has been credited for review booked by ${studentId}`}
+
+        const adminTransaction={
+            walletId:this._adminId,
+            reviewId:bookedReview._id,
+            type:TRANSACTION_TYPE.CREDIT,
+            amount:reviewDetails.amount,
+            description:`Amount ${reviewDetails.amount} has been credited for review booked by ${studentId}`
+        }
+        const studentTransaction={
+            walletId:studentId,
+            reviewId:bookedReview._id,
+            type:TRANSACTION_TYPE.DEBIT,
+            amount:reviewDetails.amount,
+            description:`Amount ${reviewDetails.amount} has been debited for review booked by ${studentId}`
+        }
+
         asyncOperation.push(this._createTransactionUsecase.execute(adminTransaction))
-        const studentTransaction={walletId:studentId,reviewId:bookedReview._id,type:TRANSACTION_TYPE.DEBIT,amount:reviewDetails.amount,description:`Amount ${reviewDetails.amount} has been debited for review booked by ${studentId}`}
         asyncOperation.push(this._createTransactionUsecase.execute(studentTransaction))
-        
         asyncOperation.push(this._bookReviewUsecase.save(bookedReview))
         asyncOperation.push(this._creditToAdminWalletUsecase.execute(reviewDetails.amount));
         await Promise.all(asyncOperation)

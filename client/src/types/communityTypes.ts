@@ -6,7 +6,7 @@ type CommunityType={
     isBlocked:boolean
 }
 
-export type GetAllCommunityType={
+export type GetAllCommunity={
    communities:CommunityType[],
    totalPages:number
 }

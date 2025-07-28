@@ -3,7 +3,7 @@ import { BaseRepository } from "./base.repository";
 import { reviewModel, IReviewModel } from "frameworks/database/models/bookedSlot.model";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { REVIEW_STATUS } from "shared/constants";
-import { BookReviewDTO, GetDomainReviewResponseDTO, GetStudentReviewResponseDTO } from "shared/dto/reviewDTO";
+import { BookReviewDTO, GetDomainReviewResponseDTO,DomainReviewSlotResponseDTO, GetStudentReviewResponseDTO } from "shared/dto/reviewDTO";
 import mongoose from "mongoose";
 
 
@@ -61,20 +61,12 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
             ])
 
             return reviews
-            // const bookedSlots:IBookedSlotEntity[]= await reviewModel
-            // .find({studentId,domainId,status:REVIEW_STATUS.PASS})
-            // .sort({createdAt:1})
-            // .populate('mentorId')
-            // .populate('levelId')
-            // return bookedSlots
     }
 
     async getPassedReviewsCount(studentId:string,domainId:string):Promise<number>{
         const count=await reviewModel.countDocuments({studentId,domainId,status:REVIEW_STATUS.PASS})
         return count
     }
-
-    
 
     async findByStudentId(studentId:string,status:REVIEW_STATUS[]):Promise<GetStudentReviewResponseDTO[]>{
         const reviews:GetStudentReviewResponseDTO[]= await reviewModel.aggregate([
@@ -133,6 +125,37 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
         return reviews
     }
 
+    async findByDomain(domainId:string):Promise<DomainReviewSlotResponseDTO[]>{
+        const reviews=await reviewModel.aggregate([
+            {$match:{domainId:new mongoose.Types.ObjectId(domainId)}},
+            {
+                $lookup:{
+                    from:'mentors',
+                    localField:'mentorId',
+                    foreignField:'userId',
+                    as:'mentor'
+                }
+            },
+            {
+                $unwind:'$mentor'
+            },
+            {
+                $group:{_id:'$mentor.userId',mentor:{$first:'$mentor'},slots:{$push:'$slot'}}
+            },
+            {
+                $sort:{'mentor.rating.star':-1}
+            },
+            {
+                $project:{
+                    _id:0,
+                    mentorId:'$mentor.userId',
+                    slots:1
+                }
+            }
+        ])
+        return reviews
+    }
+
     async createReview(reviewDetails:BookReviewDTO):Promise<IReviewModel>{
         const studentId=new mongoose.Types.ObjectId(reviewDetails.studentId)
         const mentorId=new mongoose.Types.ObjectId(reviewDetails.mentorId)
@@ -150,5 +173,4 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
          const review = await reviewModel.findOne({mentorId,'slot.day':day,'slot.start':{$lt:end},'slot.end':{$gt:start}})
          return review?true:false
     }
-
 }

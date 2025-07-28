@@ -1,11 +1,11 @@
 import { adminAxiosInstance } from "@/config/axiosConfig/adminAxiosConfig";
-import type { GetAllCommunityType } from "@/types/communityTypes";
-import type { ApiResponseType } from "@/types/responseType";
+import type { GetAllCommunity } from "@/types/communityTypes";
+import type { MutationApiResponse } from "@/types/responseType";
 
 
 
 
-export const getAllCommunities=async(currentPage:number,limit:number):Promise<GetAllCommunityType>=>{
+export const getAllCommunities=async(currentPage:number,limit:number):Promise<GetAllCommunity>=>{
     try{
         const response = await adminAxiosInstance.get(`/communities?currentPage=${currentPage}&limit=${limit}`)
         return response.data;
@@ -16,7 +16,7 @@ export const getAllCommunities=async(currentPage:number,limit:number):Promise<Ge
 }
 
 
-export const updateCommunityStatus=async({communityId,status}:{communityId:string,status:boolean}):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+export const updateCommunityStatus=async({communityId,status}:{communityId:string,status:boolean}):Promise<MutationApiResponse>=>{
     try{
         const response = await adminAxiosInstance.patch(`/communities/${communityId}`,{status})
         return response.data;

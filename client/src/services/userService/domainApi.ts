@@ -1,6 +1,6 @@
 import { userAxiosInstance } from "@/config/axiosConfig/userAxiosConfig";
 import type { DomainWithLevel, GetAllDomains } from "@/types/domainTypes";
-import type { ApiResponseType } from "@/types/responseType";
+import type { MutationApiResponse } from "@/types/responseType";
 
 
 
@@ -25,7 +25,7 @@ export const getSpecificDomain=async(domainId:string):Promise<DomainWithLevel>=>
     }
 }
 
-export const enrollDomain=async (domainId:string):Promise<Omit<ApiResponseType<undefined>,'data'>>=>{
+export const enrollDomain=async (domainId:string):Promise<MutationApiResponse>=>{
      try{
         console.log(domainId)
         const response = await userAxiosInstance.post(`/domains/${domainId}`)

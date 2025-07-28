@@ -35,7 +35,6 @@ export class MentorSlotController implements IMentorSlotController{
         const mentorId = (req as ModifiedRequest).user.id;
         
          const weekSlots = await this._IGetMentorSlotsUsecase.execute(mentorId)
-         console.log(weekSlots)
          res.status(201).json(weekSlots)
      }
 

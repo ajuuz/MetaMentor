@@ -12,10 +12,14 @@ export class UserReviewController implements IUserReviewController{
         private _getStudentReviewsUsecase:IGetStudentReviewsUsecase
     ){}
 
-    async getReviews(req:Request,res:Response,next:NextFunction):Promise<void>{
+    async getStudentReviews(req:Request,res:Response,next:NextFunction):Promise<void>{
         const type = req.query.type as 'upcoming'|'completed'
         const studentId = (req as ModifiedRequest).user.id;
         const reviews=await this._getStudentReviewsUsecase.execute(studentId,type)
         res.status(200).json(reviews)
+    }
+
+    async getDomainReviews(req:Request,res:Response,next:NextFunction):Promise<void>{
+        // const 
     }
 }

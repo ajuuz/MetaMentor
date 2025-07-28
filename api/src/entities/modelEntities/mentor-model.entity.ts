@@ -7,6 +7,10 @@ export interface IMentorEntity{
     isBlocked:boolean,
     cv:string,
     experienceCirtificate:string,
+    rating:{
+        totalStars:number,
+        noOfRaters:number,
+    },
     skills:string[],
     workedAt:string[],
     isVerified:boolean,

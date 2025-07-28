@@ -1,11 +1,9 @@
-'use client'
-
 import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { SlotViewCard } from "@/components/user/slotViewCard"
 import { getDomainSlots, slotValidityChecker } from "@/services/userService/slotApi"
-import type { DomainSlotsResponseDTO } from "@/types/slotTypes"
+import type { DayOfWeekType, DomainSlotsResponseDTO, WeekSlotsWithBookingType } from "@/types/slotTypes"
 import { toTimeString } from "@/utils/helperFunctions/toTimeString"
 import { useMutation } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
@@ -18,23 +16,64 @@ export default function ScheduleReview() {
     const [selectedSlotPopup,setSelectedSlotPopup]=useState<string>('');
 
     const {domainId,levelId} = useParams();
-    console.log(domainId,levelId)
     if(!domainId || !levelId){
         return <div>some thing wrong</div>
     }
 
-    useEffect(()=>{
-       (async function getDomainSlotFetch(){
-           try{
-               const response = await getDomainSlots(domainId);
-               console.log(response.data)
-               setDomainsSlots(response.data)
-              }
-           catch(error){
-               console.log(error)
-           }
-          })()
-        },[])
+    useEffect(() => {
+  (async function getDomainSlotFetch() {
+    try {
+      const slots = await getDomainSlots(domainId);
+      const domainSlots = slots.domainSlots;
+      const bookedSlots = slots.bookedSlots;
+
+      const bookedMap=new Map();
+      for(let bookedSlot of bookedSlots){
+        const mentorId = bookedSlot.mentorId;
+        const slots = bookedSlot.slots;
+
+        for(let slot of slots){
+          const key = `${mentorId}-${slot.day}`;
+          if(!bookedMap.has(key)) bookedMap.set(key,[]);
+          bookedMap.get(key).push({start:slot.start,end:slot.end});
+        }
+      }
+
+      const isOverlapChecker = (a:{start:number,end:number},b:{start:number,end:number}) => a.start < b.end && b.start < a.end;
+      console.log(domainSlots)
+      const transformed:DomainSlotsResponseDTO[]= domainSlots.map((mentorSlot)=>{
+          const transformedWeekSlots:WeekSlotsWithBookingType={
+            Monday:[],
+            Tuesday:[],
+            Wednesday:[],
+            Thursday:[],
+            Friday:[],
+            Saturday:[],
+            Sunday:[]
+          }
+
+          for(let [day,slots] of Object.entries(mentorSlot.weekSlots)){
+            const key = `${mentorSlot.mentor._id}-${day}`
+            const booked:{start:number,end:number}[]= bookedMap.get(key) || [];
+
+            const transformedSlots = slots.map(slot=>{
+              const overlap = booked.some(b=>isOverlapChecker(slot,b));
+              return {...slot,isBooked:overlap}
+            })
+
+            transformedWeekSlots[day as DayOfWeekType] = transformedSlots;
+          }
+
+          return {...mentorSlot,weekSlots:transformedWeekSlots}
+      })
+      setDomainsSlots(transformed)
+
+    } catch (error) {
+      console.log(error);
+    }
+  })();
+}, []);
+
         
     const {mutate:slotValidityCheckerMutation}=useMutation({
         mutationFn:slotValidityChecker,
@@ -58,7 +97,6 @@ export default function ScheduleReview() {
         domainsSlots.map(content=>(
         <Card onClick={()=>console.log(selectedSlotPopup)} className="max-w-5xl mx-auto p-4 rounded-2xl border shadow-md bg-white">
             <div className="flex gap-6 items-start">
-              {/* Left: Mentor Info */}
               <div className="flex flex-col items-center">
               <TooltipProvider>
                 <Tooltip>
@@ -101,27 +139,46 @@ export default function ScheduleReview() {
                       <h3 className="text-sm font-semibold text-gray-700 mb-1">{day}</h3>
                       <ScrollArea className={`${slots.length>5 && "max-h-[150px]"} rounded-md border p-4`}>
                       <div className="flex flex-wrap gap-2">
-                        {
-                          slots.map((slot, index) => (
-                            slot.enabled &&
-                          <div onClick={()=>handleSelectSlot(content.mentor._id,day,slot._id)} key={index} className="px-3 py-1 text-sm bg-gray-100 rounded-md">
-                             {selectedSlotPopup===slot._id &&
-                              <SlotViewCard key={slot._id}
-                              domainId={domainId}
-                              levelId={levelId}
-                              mentorId={content.mentor._id}
-                              slotId={slot._id}
-                              mentor={{name:content.mentor.name,title:content.mentor.about,company:content.mentor.workedAt[0],image:content.mentor.profileImage}} 
-                              fee={content.mentor.fee} 
-                              walletBalance={500} 
-                               slot={{day:day,start:slot.start,end:slot.end}} 
-                               setSelectedSlotPopup={setSelectedSlotPopup}/>
-                             }
+                        {slots.map((slot) => (
+                          slot.enabled && (
+                            <div
+                              key={slot._id}
+                              onClick={() => !slot.isBooked && handleSelectSlot(content.mentor._id, day, slot._id)}
+                              className={`relative px-3 py-1 text-sm rounded-md min-w-[70px] text-center overflow-hidden
+                                          ${slot.isBooked ? "bg-slate-200 text-gray-400 cursor-not-allowed" : "bg-gray-100 cursor-pointer"}`}
+                            >
+                              {slot.isBooked && (
+                                <div className="absolute -left-10 top-0 w-[140%] rotate-20 bg-red-500/70 text-center pointer-events-none">
+                                  <span className="text-white text-[10px] font-bold uppercase tracking-widest">Booked</span>
+                                </div>
+                              )}
+
+                              {selectedSlotPopup === slot._id && !slot.isBooked && (
+                                <SlotViewCard
+                                  key={slot._id}
+                                  domainId={domainId}
+                                  levelId={levelId}
+                                  mentorId={content.mentor._id}
+                                  slotId={slot._id}
+                                  mentor={{
+                                    name: content.mentor.name,
+                                    title: content.mentor.about,
+                                    company: content.mentor.workedAt[0],
+                                    image: content.mentor.profileImage
+                                  }}
+                                  fee={content.mentor.fee}
+                                  walletBalance={500}
+                                  slot={{ day, start: slot.start, end: slot.end }}
+                                  setSelectedSlotPopup={setSelectedSlotPopup}
+                                />
+                              )}
+
                               {toTimeString(slot.start)} – {toTimeString(slot.end)}
                             </div>
-                          ))
-                        }
+                          )
+                        ))}
                       </div>
+
                       </ScrollArea>
                       </div>
                     

@@ -1,5 +1,10 @@
 import type { PAYMENT_METHOD, PAYMENT_STATUS, REVIEW_STATUS } from "@/utils/constants"
 
+export type ReviewSlot={
+        day:string,
+        start:number,
+        end:number
+}
 
 export type ReviewEntity={
     _id:string,
@@ -7,11 +12,7 @@ export type ReviewEntity={
     mentorId:string,
     domainId:string,
     levelId:string,
-    slot:{
-        day:string,
-        start:number,
-        end:number
-    },
+    slot:ReviewSlot,
     feedBack:string,
     payment:{
         method:PAYMENT_METHOD,
@@ -34,11 +35,7 @@ export type ReviewCardData={
         status:PAYMENT_STATUS
     },
     feedBack:string,
-    slot:{
-        day:string,
-        start:number,
-        end:number
-    }
+    slot:ReviewSlot
 }
 
 export type GetStudentReviewResponseDTO={
@@ -54,9 +51,10 @@ export type GetStudentReviewResponseDTO={
         status:PAYMENT_STATUS
     },
     feedBack:string,
-    slot:{
-        day:string,
-        start:number,
-        end:number
-    }
+    slot:ReviewSlot
+}
+
+export type GetDomainReviewSlotResponseDTO={
+    mentorId:string,
+    slots:ReviewSlot[]
 }

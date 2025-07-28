@@ -4,3 +4,9 @@ export type ApiResponseType<T>={
     message:string,
     data?:T
 }
+
+
+export type MutationApiResponse={
+    success:boolean,
+    message:string
+}
