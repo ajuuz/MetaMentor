@@ -30,9 +30,10 @@ export const resendOtp = async(email:string):Promise<MutationApiResponse>=>{
     }
 }
 
-export const login = async ({email,password}:{email:string,password:string}):Promise<Required<ApiResponseType<UserType>>> => {
+export const login = async ({email,password,fcmToken}:{email:string,password:string,fcmToken:string|null}):Promise<Required<ApiResponseType<UserType>>> => {
     try{
-        const response = await authAxiosInstance.post('/login', {email,password});
+        console.log(fcmToken)
+        const response = await authAxiosInstance.post('/login', {email,password,fcmToken});
         return response.data;
     }catch(error:any) {
         throw error?.response.data || error;

@@ -3,7 +3,6 @@ import { ICommunityModel } from "../models/community.model";
 
 
 export const communitySchema = new mongoose.Schema<ICommunityModel>({
-
     communityId:{
         type:mongoose.Schema.ObjectId,
         ref:'domains',

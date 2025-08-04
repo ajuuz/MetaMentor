@@ -1,14 +1,13 @@
+import { IFcmTokenRepository } from "entities/repositoryInterfaces/fcmTokenRepository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
-import { TokenService } from "interfaceAdapters/services/token.service";
 import { ROLES } from "shared/constants";
 import { loginResponseDTO } from "shared/dto/authDTO";
 import { comparePassword } from "shared/utils/bcryptHelper";
 import { CustomError } from "shared/utils/error/customError";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { ValidationError } from "shared/utils/error/validationError";
-import { successResponseHandler } from "shared/utils/successResponseHandler";
 import { inject, injectable } from "tsyringe";
 
 
@@ -20,10 +19,13 @@ export class LoginUsecase implements ILoginUsecase{
         private _userRepository: IUserRespository,
 
         @inject('ITokenService')
-        private _tokenService:ITokenService
+        private _tokenService:ITokenService,
+
+        @inject('IFcmTokenRepository')
+        private _fcmTokenRepository:IFcmTokenRepository
     ){}
 
-     async execute(email:string,password:string):Promise<loginResponseDTO>{
+     async execute(email:string,password:string,fcmToken:string|null):Promise<loginResponseDTO>{
             
             if(!email || !password){
                 throw new ValidationError("insufficient data");
@@ -43,7 +45,6 @@ export class LoginUsecase implements ILoginUsecase{
             }
 
             if(user.role!==ROLES.ADMIN){
-
                 if(!user.isVerified){
                     throw new CustomError(401,"Verify otp to create account")
                 }
@@ -52,8 +53,6 @@ export class LoginUsecase implements ILoginUsecase{
                 throw new CustomError(403,"Admin has been blocked you. please contact admin")
                 }
             }
-    
-           
     
             const accessToken = this._tokenService.generateAccessToken({id:user._id,email:user.email,role:user.role});
             const refreshToken = this._tokenService.generateRefreshToken({id:user._id,email:user.email,role:user.role});
@@ -65,6 +64,11 @@ export class LoginUsecase implements ILoginUsecase{
                 accessToken,
                 refreshToken
             }
+
+            if(fcmToken){
+                await this._fcmTokenRepository.insertOne({userId:user._id,fcmToken})
+            }
+
             return userDetails;
         }
 }

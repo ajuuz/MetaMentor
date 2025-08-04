@@ -74,9 +74,9 @@ export class AuthController implements IAuthController{
 
     async login(req:Request,res:Response,next:NextFunction):Promise<void>{
 
-        const {email,password}:{email:string,password:string} = req.body;
+        const {email,password,fcmToken}:{email:string,password:string,fcmToken:string|null} = req.body;
         try{
-            const details:loginResponseDTO = await this._LoginUsecase.execute(email,password);
+            const details:loginResponseDTO = await this._LoginUsecase.execute(email,password,fcmToken);
             const {accessToken,refreshToken,...rest} = details
             
             setCookie(res,accessToken,refreshToken);

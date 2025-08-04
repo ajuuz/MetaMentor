@@ -9,6 +9,7 @@ import { toast } from 'sonner'
 import { useUserStore } from '@/zustand/userStore';
 
 import FirebaseAuthComponent from '@/components/auth/FirebaseAuthComponent'
+import { requestForToken } from '@/config/firebaseConfig/firebaseConfig'
 
 const Login = () => {
 
@@ -16,6 +17,8 @@ const Login = () => {
     email:"",
     password:""
   })
+  const [loading,setLoading]=useState(false);
+
   const navigate = useNavigate()
 
   //zustand
@@ -26,9 +29,11 @@ const Login = () => {
     onSuccess:(response)=>{
       toast.success(response.message)
       loginDispatch(response.data)
+      setLoading(false)
       navigate('/')
     },
     onError:(error)=>{
+      setLoading(false)
       toast.error(error.message);
     }
   })
@@ -43,8 +48,17 @@ const Login = () => {
     }));
   }
 
-  const handleSubmit=()=>{
-    mutation.mutate(formData)
+  const handleSubmit=async()=>{
+    try{
+      setLoading(true)
+      const fcmToken = await requestForToken()
+      console.log(fcmToken)
+      mutation.mutate({...formData,fcmToken})
+    }
+    catch(error){
+      setLoading(false)
+      console.log(error)
+    }
   }
 
   return (

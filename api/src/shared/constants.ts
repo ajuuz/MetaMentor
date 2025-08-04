@@ -110,3 +110,19 @@ export enum MAIL_CONTENT_PURPOSE{
   MENTOR_REJECTION='mentorRejection',
   FORGOT_PASSWORD='forgotPassword'
 }
+
+export enum NOTIFICATION_TYPE{
+  MENTOR_ACCEPTANCE='mentorAcceptance',
+  MENTOR_REJECTION='mentorRejection',
+  SLOT_BOOKING='slotBooking',
+  SLOT_CANCEL='slotCancel',
+  SLOT_RESCHEDULE='slotReschedule',
+}
+
+export enum NOTIFICATION_MESSAGE{
+  MENTOR_ACCEPTANCE='Your Mentor Application Accepted Successfully',
+  MENTOR_REJECTION='Your Mentor Application Rejected',
+  SLOT_BOOKING='Slot Booked Successfully',
+  SLOT_CANCEL='slotCancel',
+  SLOT_RESCHEDULE='slotReschedule',
+}
