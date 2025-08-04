@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import Footer from '@/components/user/Footer'
+import { listenForForegroundMessages } from '@/config/firebaseConfig/firebaseConfig'
 
 const UserLayout = () => {
 
@@ -12,17 +13,18 @@ const UserLayout = () => {
 
   useEffect(()=>{
     if(user){
+      listenForForegroundMessages()
       const eventSource = eventSourceProvider(user.email);
       
       eventSource.onmessage=(event)=>{
         const parsedData = JSON.parse(event.data);
         console.log(parsedData.message)
-        const toastId=toast.loading(parsedData.message)
-        setTimeout(()=>{
-          toast.success(parsedData.message,{
-            id:toastId
-          })
-        },400)
+        // const toastId=toast.loading(parsedData.message)
+        // setTimeout(()=>{
+        //   toast.success(parsedData.message,{
+        //     id:toastId
+        //   })
+        // },400)
       }
       
       eventSource.onerror=(err)=>{

@@ -15,7 +15,7 @@ const App = () => {
     <div >
       <Router>
       <SonnerToaster position="bottom-center"  richColors toastOptions={{style: {flex:"flex",justifyContent:"center"}}}/> 
-      <HotToastToaster/>
+      <HotToastToaster position='top-right' reverseOrder={false}/>
       <Suspense fallback={<SuspenseFallback/>}>
         <Routes>
           <Route path='/*' element={<UserRoutes />} />

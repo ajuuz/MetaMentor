@@ -87,6 +87,8 @@ import { ICreateTransactionUsecase } from "entities/usecaseInterfaces/transactio
 import { CreateTransactionUsecase } from "useCases/transaction/createTransaction.usecase";
 import { IGetStudentReviewsUsecase } from "entities/usecaseInterfaces/review/getStudentReviewsUsecase.interface";
 import { GetStudentReviewsUsecase } from "useCases/review/getStudentReviews.usecase";
+import { ICreateNotificationUsecase } from "entities/usecaseInterfaces/notification/createNotificationUsecase.interface";
+import { CreateNotificationUsecase } from "useCases/notification/createNotification.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -265,6 +267,11 @@ export class UseCaseRegistory{
         //transaction usecase
         container.register<ICreateTransactionUsecase>('ICreateTransactionUsecase',{
             useClass:CreateTransactionUsecase
+        })
+
+        //notification usecase
+        container.register<ICreateNotificationUsecase>('ICreateNotificationUsecase',{
+            useClass:CreateNotificationUsecase
         })
 
         //common usecase
