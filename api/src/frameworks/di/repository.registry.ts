@@ -24,6 +24,10 @@ import { IWalletRepository } from "entities/repositoryInterfaces/walletRepositor
 import { WalletRepository } from "interfaceAdapters/repositories/wallet.repository";
 import { ITransactionRepository } from "entities/repositoryInterfaces/transactionRepository.interface";
 import { TransactionRepository } from "interfaceAdapters/repositories/transaction.repository";
+import { IFcmTokenRepository } from "entities/repositoryInterfaces/fcmTokenRepository.interface";
+import { FcmTokenRepository } from "interfaceAdapters/repositories/fcmToken.repository";
+import { INotificationRepository } from "entities/repositoryInterfaces/notificationRepository.interface";
+import { NotificationRepository } from "interfaceAdapters/repositories/notification.repository";
 
 export class RepositoryRegistry{
     static registerRepositories():void{
@@ -38,6 +42,10 @@ export class RepositoryRegistry{
         
         container.register<IUserRespository>('IUserRepository',{
             useClass:UserRepository
+        })
+
+        container.register<IFcmTokenRepository>('IFcmTokenRepository',{
+            useClass:FcmTokenRepository
         })
 
         container.register('IStudentRepository',{
@@ -79,5 +87,12 @@ export class RepositoryRegistry{
         container.register<ITransactionRepository>('ITransactionRepository',{
             useClass:TransactionRepository
         })
+
+        container.register<INotificationRepository>('INotificationRepository',{
+            useClass:NotificationRepository
+        })
+
+
+
     }
 }
