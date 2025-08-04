@@ -14,6 +14,6 @@ export class UpdateDomainStatusUsecase implements IUpdateDomainStatusUsecase{
     ){}
     async execute(domainId:string,status:boolean):Promise<void>{
         if(!domainId || (status!==false && !status)) throw new ValidationError('Required fields are not recieved');
-        this._domainRepository.updateStatus(domainId,status);
+        await this._domainRepository.updateStatus(domainId,status);
     }
 }

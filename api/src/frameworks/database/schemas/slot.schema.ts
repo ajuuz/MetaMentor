@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+
 import { ISlotModel } from "../models/slot.model";
 
 const daySlotSchema =new mongoose.Schema({

@@ -1,11 +1,11 @@
-import { ObjectId } from "mongoose";
-import { ERROR_MESSAGE, HTTP_STATUS, ROLES } from "shared/constants";
-import jwt, { JwtPayload, Secret } from "jsonwebtoken"
-import { config } from "shared/config";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
-import { injectable } from "tsyringe";
+import jwt, { JwtPayload, Secret } from "jsonwebtoken"
+import { ObjectId } from "mongoose";
 import ms from 'ms'
+import { config } from "shared/config";
+import { ERROR_MESSAGE, HTTP_STATUS, ROLES } from "shared/constants";
 import { CustomError } from "shared/utils/error/customError";
+import { injectable } from "tsyringe";
 
 
 @injectable()

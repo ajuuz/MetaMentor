@@ -3,7 +3,6 @@ import { IUploadImageUsecase } from "entities/usecaseInterfaces/common/uploadIma
 import { NextFunction, Request, Response } from "express";
 import sseClientManager from "frameworks/SSE/sseClientManager";
 import { ImageMulterResponseDTO } from "shared/dto/imageMulterDTO";
-import { ModifiedRequest } from "shared/types";
 import { inject, injectable } from "tsyringe";
 
 

@@ -1,4 +1,4 @@
-import { ISlotEntity, IWeekEntity } from "entities/modelEntities/slotModel.entity";
+import { IWeekEntity } from "entities/modelEntities/slotModel.entity";
 import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
 import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
 import { NotFoundError } from "shared/utils/error/notFounError";

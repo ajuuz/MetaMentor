@@ -1,4 +1,3 @@
-import { IStudentEntity } from "entities/modelEntities/student-model.entity";
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface"
 import { IGetAllStudentsUsecase } from "entities/usecaseInterfaces/student/getAllStudentsUsecase.interface"
 import { GetAllStudentResponseDTO } from "shared/dto/studentDTO";

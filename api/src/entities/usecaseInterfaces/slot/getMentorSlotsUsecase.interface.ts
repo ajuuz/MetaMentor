@@ -1,4 +1,4 @@
-import { ISlotEntity, IWeekEntity } from "entities/modelEntities/slotModel.entity";
+import { IWeekEntity } from "entities/modelEntities/slotModel.entity";
 
 
 

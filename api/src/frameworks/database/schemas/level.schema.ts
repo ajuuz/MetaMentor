@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { ILevelModel } from "../models/level.model";
 
 export const levelSchema = new mongoose.Schema<ILevelModel>({

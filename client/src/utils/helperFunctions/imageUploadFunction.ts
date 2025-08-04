@@ -5,11 +5,6 @@ export const imageUploader=async(images:Blob[]|File[])=>{
         images.forEach((image)=>{
             imageData.append('image',image);
         })
-    try{
         const imageUploadResult = await uploadImage(imageData);
         return imageUploadResult.data;
-    }
-    catch(error){
-        throw error;
-    }
 }

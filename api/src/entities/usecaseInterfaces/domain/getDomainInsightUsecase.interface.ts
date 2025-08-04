@@ -1,6 +1,6 @@
 import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
-import { GetReviewResponseDTO } from "shared/dto/reviewDTO";
 import { GetNextLevelResponseDTO } from "shared/dto/levelsDTO";
+import { GetReviewResponseDTO } from "shared/dto/reviewDTO";
 
 
 

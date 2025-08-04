@@ -1,15 +1,15 @@
 import 'reflect-metadata'
-import express, { Application } from 'express';
+import cookieParser from "cookie-parser"
 import cors from 'cors';
-import { AuthRoutes } from 'frameworks/routes/auth';
-import { config } from 'shared/config';
+import express, { Application } from 'express';
 import { errorMiddleware } from 'frameworks/di/resolver';
 import { AdminRoutes } from 'frameworks/routes/admin';
-import { MentorRoutes } from 'frameworks/routes/mentor';
-import cookieParser from "cookie-parser"
+import { AuthRoutes } from 'frameworks/routes/auth';
 import { CommonRoutes } from 'frameworks/routes/common';
-import { UserRoutes } from 'frameworks/routes/user';
+import { MentorRoutes } from 'frameworks/routes/mentor';
 import { PaymentRoutes } from 'frameworks/routes/payment';
+import { UserRoutes } from 'frameworks/routes/user';
+import { config } from 'shared/config';
 export class App{
     private _app:Application;
     

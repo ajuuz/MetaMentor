@@ -1,4 +1,3 @@
-import { ITransactionEntity } from "entities/modelEntities/transactionModel.entity";
 import { createTransactionDTO } from "shared/dto/transactionDTO";
 
 

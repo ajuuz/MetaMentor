@@ -1,10 +1,10 @@
 import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
-import {  IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
+import {  IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { IGetDomainInsightUsecase } from "entities/usecaseInterfaces/domain/getDomainInsightUsecase.interface";
-import {  GetStudentReviewResponseDTO } from "shared/dto/reviewDTO";
 import { GetNextLevelResponseDTO } from "shared/dto/levelsDTO";
+import {  GetStudentReviewResponseDTO } from "shared/dto/reviewDTO";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { inject, injectable } from "tsyringe";
 

@@ -1,6 +1,5 @@
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { IRegisterMentorUsecase } from "entities/usecaseInterfaces/mentor/registerMentorUsecase.interface";
-import { ObjectId } from "mongoose";
 import { HTTP_STATUS } from "shared/constants";
 import { MentorRegisterRequestDTO } from "shared/dto/mentorDTO";
 import { CustomError } from "shared/utils/error/customError";

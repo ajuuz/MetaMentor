@@ -2,8 +2,6 @@ import { ISlotLockRepository } from "entities/repositoryInterfaces/slotLockRepos
 import { ICreateOrderUsecase } from "entities/usecaseInterfaces/payment/createOrderUsecase.interface";
 import { razorpay } from "frameworks/razorpay/razorpay";
 import { Orders } from "razorpay/dist/types/orders";
-import { HTTP_STATUS } from "shared/constants";
-import { CustomError } from "shared/utils/error/customError";
 import { inject, injectable } from "tsyringe";
 
 

@@ -1,4 +1,3 @@
-import { IUserEntity } from "entities/modelEntities/user-model.entity";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IUserModel, userModel } from "frameworks/database/models/user.model";
 import { SignupRequestDto } from "shared/dto/authDTO";

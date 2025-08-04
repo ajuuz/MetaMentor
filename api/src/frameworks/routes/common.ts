@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { upload } from "frameworks/cloudinary/cloudinary";
 import { authMiddleware, commonController } from "frameworks/di/resolver";
-import { ROLES } from "shared/constants";
 
 interface MulterRequest extends Request{
     files: Express.Multer.File[];

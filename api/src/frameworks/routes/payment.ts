@@ -1,6 +1,5 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { upload } from "frameworks/cloudinary/cloudinary";
-import { authMiddleware, commonController, paymentController } from "frameworks/di/resolver";
+import { Request, Router } from "express";
+import { authMiddleware, paymentController } from "frameworks/di/resolver";
 import { ROLES } from "shared/constants";
 
 interface MulterRequest extends Request{

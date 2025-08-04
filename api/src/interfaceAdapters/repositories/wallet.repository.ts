@@ -1,7 +1,9 @@
 import { IWalletEntity } from "entities/modelEntities/walletModel.entity";
-import { BaseRepository } from "./base.repository";
-import { IWalletModel, walletModel } from "frameworks/database/models/wallet.model";
 import { IWalletRepository } from "entities/repositoryInterfaces/walletRepository.inteface";
+import { IWalletModel, walletModel } from "frameworks/database/models/wallet.model";
+
+import { BaseRepository } from "./base.repository";
+
 
 
 

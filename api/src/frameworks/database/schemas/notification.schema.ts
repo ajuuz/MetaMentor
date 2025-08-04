@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
-import { INotificationModel } from "../models/notification.model";
 import { NOTIFICATION_TYPE } from "shared/constants";
+
+import { INotificationModel } from "../models/notification.model";
 
 
 

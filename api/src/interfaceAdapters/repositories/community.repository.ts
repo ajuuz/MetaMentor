@@ -1,7 +1,9 @@
 import { ICommunityEntity } from "entities/modelEntities/communityModel.entity";
-import { BaseRepository } from "./base.repository";
-import { communityModel, ICommunityModel } from "frameworks/database/models/community.model";
 import { ICommunityRepository } from "entities/repositoryInterfaces/communityRepository.interface";
+import { communityModel, ICommunityModel } from "frameworks/database/models/community.model";
+
+import { BaseRepository } from "./base.repository";
+
 
 
 

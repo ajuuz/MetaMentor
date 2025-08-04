@@ -38,7 +38,7 @@ export function ModalComponent({dialogTriggerer,dialogTitle,dialogDescription,co
         ) as Record<string, string>;
 
         let isError=false;
-        for(let i in data){
+        for(const i in data){
             const value = data[i]
             if(typeof value==='string' && !value.trim()){
                 setErrors(prev=>({...prev,[i]:"cannot be empty"}))

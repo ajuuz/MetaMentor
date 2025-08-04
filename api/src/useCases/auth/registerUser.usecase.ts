@@ -1,19 +1,18 @@
-import { inject, injectable } from "tsyringe";
-import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
-import { IOtpRespository } from "entities/repositoryInterfaces/otp-repository.interface";
-import { IEmailService } from "entities/serviceInterfaces/email-service.interface";
-import { SignupRequestDto } from "shared/dto/authDTO";
-import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IUserEntity } from "entities/modelEntities/user-model.entity";
+import { IOtpRespository } from "entities/repositoryInterfaces/otp-repository.interface";
+import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
+import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
+import { EVENT_EMITTER_TYPE, HTTP_STATUS, MAIL_CONTENT_PURPOSE } from "shared/constants";
+import { SignupRequestDto } from "shared/dto/authDTO";
+import { eventBus } from "shared/eventBus";
+import { mailContentProvider } from "shared/mailContentProvider";
+import { hashPassword } from "shared/utils/bcryptHelper";
+import { CustomError } from "shared/utils/error/customError";
 import {
   ISuccessResponseHandler,
   successResponseHandler,
 } from "shared/utils/successResponseHandler";
-import { CustomError } from "shared/utils/error/customError";
-import { EVENT_EMITTER_TYPE, HTTP_STATUS, MAIL_CONTENT_PURPOSE } from "shared/constants";
-import { hashPassword } from "shared/utils/bcryptHelper";
-import { eventBus } from "shared/eventBus";
-import { mailContentProvider } from "shared/mailContentProvider";
+import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class RegisterUserUsecase implements IRegisterUserUsecase {

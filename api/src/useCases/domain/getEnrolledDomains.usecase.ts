@@ -1,4 +1,3 @@
-import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
 import { IGetEnrolledDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainDashboardUsecase.interface";

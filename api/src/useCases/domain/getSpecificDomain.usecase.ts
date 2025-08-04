@@ -1,4 +1,3 @@
-import { ILevelEntity } from "entities/modelEntities/levelModel.entity";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
 import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/getSpecificDomainUsecase.interface";

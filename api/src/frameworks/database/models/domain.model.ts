@@ -1,5 +1,6 @@
 import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
 import mongoose, { Document, ObjectId } from "mongoose";
+
 import { domainSchema } from "../schemas/domain.schema";
 
 

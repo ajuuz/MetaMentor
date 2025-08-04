@@ -2,15 +2,12 @@ import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepositor
 import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IPushNotificationService } from "entities/serviceInterfaces/pushNotificationService.interface";
-
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
 import { ICreateNotificationUsecase } from "entities/usecaseInterfaces/notification/createNotificationUsecase.interface";
-
 import { EVENT_EMITTER_TYPE, MAIL_CONTENT_PURPOSE, ROLES } from "shared/constants";
 import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/mailContentProvider";
 import { ValidationError } from "shared/utils/error/validationError";
-
 import { inject, injectable } from "tsyringe";
 
 @injectable()

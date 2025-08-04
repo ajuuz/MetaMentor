@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { IDomainModel } from "../models/domain.model";
 
 export const domainSchema = new mongoose.Schema<IDomainModel>({

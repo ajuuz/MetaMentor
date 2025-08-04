@@ -1,7 +1,8 @@
-import { ILevelModel } from "frameworks/database/models/level.model";
-import { IBaseRepository } from "./baseRepository.interface";
 import { ILevelEntity } from "entities/modelEntities/levelModel.entity";
+import { ILevelModel } from "frameworks/database/models/level.model";
 import { GetNextLevelResponseDTO } from "shared/dto/levelsDTO";
+
+import { IBaseRepository } from "./baseRepository.interface";
 
 
 

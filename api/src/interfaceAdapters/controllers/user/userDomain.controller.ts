@@ -1,5 +1,4 @@
 import { IUserDomainController } from "entities/controllerInterfaces/user/userDomainController.interface";
-import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
 import { IEnrollDomainUsecase } from "entities/usecaseInterfaces/domain/enrollDomainUsecase.interface";
 import { IGetEnrolledDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainDashboardUsecase.interface";
 import { IGetDomainInsightUsecase } from "entities/usecaseInterfaces/domain/getDomainInsightUsecase.interface";

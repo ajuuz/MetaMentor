@@ -28,11 +28,11 @@ export default function ScheduleReview() {
       const bookedSlots = slots.bookedSlots;
 
       const bookedMap=new Map();
-      for(let bookedSlot of bookedSlots){
+      for(const bookedSlot of bookedSlots){
         const mentorId = bookedSlot.mentorId;
         const slots = bookedSlot.slots;
 
-        for(let slot of slots){
+        for(const slot of slots){
           const key = `${mentorId}-${slot.day}`;
           if(!bookedMap.has(key)) bookedMap.set(key,[]);
           bookedMap.get(key).push({start:slot.start,end:slot.end});
@@ -52,7 +52,7 @@ export default function ScheduleReview() {
             Sunday:[]
           }
 
-          for(let [day,slots] of Object.entries(mentorSlot.weekSlots)){
+          for(const [day,slots] of Object.entries(mentorSlot.weekSlots)){
             const key = `${mentorSlot.mentor._id}-${day}`
             const booked:{start:number,end:number}[]= bookedMap.get(key) || [];
 

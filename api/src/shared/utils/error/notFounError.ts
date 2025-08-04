@@ -1,4 +1,5 @@
 import { HTTP_STATUS } from "shared/constants";
+
 import { CustomError } from "./customError";
 
 export class NotFoundError extends CustomError {

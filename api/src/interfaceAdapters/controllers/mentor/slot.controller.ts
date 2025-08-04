@@ -1,11 +1,11 @@
 import { IMentorSlotController } from "entities/controllerInterfaces/mentor/slotController.inteface";
-import { IUpdateSlotUsecase } from "entities/usecaseInterfaces/slot/updateSlotUsecase.interface";
 import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
+import { IUpdateSlotStatusUsecase } from "entities/usecaseInterfaces/slot/updateSlotStatusUsecase.interface";
+import { IUpdateSlotUsecase } from "entities/usecaseInterfaces/slot/updateSlotUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { ModifiedRequest } from "shared/types";
 import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
-import { IUpdateSlotStatusUsecase } from "entities/usecaseInterfaces/slot/updateSlotStatusUsecase.interface";
 
 
 @injectable()

@@ -1,5 +1,6 @@
-import mongoose, { Document, ObjectId } from "mongoose";
 import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
+import mongoose, { Document, ObjectId } from "mongoose";
+
 import { mentorSchema } from "../schemas/mentor.schema";
 
 export interface IMentorModel extends IMentorEntity , Document{

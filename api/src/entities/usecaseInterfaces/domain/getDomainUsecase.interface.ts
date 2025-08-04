@@ -1,4 +1,3 @@
-import { ROLES } from "shared/constants";
 import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
 
 

@@ -1,8 +1,9 @@
 import { IStudentEntity } from "entities/modelEntities/student-model.entity";
+import { IStudentModel } from "frameworks/database/models/student.model";
 import { ObjectId } from "mongoose";
 import {GetAllStudentResponseDTO} from 'shared/dto/studentDTO'
+
 import { IBaseRepository } from "./baseRepository.interface";
-import { IStudentModel } from "frameworks/database/models/student.model";
 
 export interface IStudentRepository extends IBaseRepository<IStudentEntity,IStudentModel>{
 

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
-import { IUserModel } from "../models/user.model";
 import { GENDER, ROLES } from "shared/constants";
+
+import { IUserModel } from "../models/user.model";
 
 export const userSchema = new mongoose.Schema<IUserModel>({
     name:{

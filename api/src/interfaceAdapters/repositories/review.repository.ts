@@ -1,10 +1,11 @@
 import { IReviewEntity } from "entities/modelEntities/reviewModel.entity";
-import { BaseRepository } from "./base.repository";
-import { reviewModel, IReviewModel } from "frameworks/database/models/bookedSlot.model";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
+import { reviewModel, IReviewModel } from "frameworks/database/models/bookedSlot.model";
+import mongoose from "mongoose";
 import { REVIEW_STATUS } from "shared/constants";
 import { BookReviewDTO, GetDomainReviewResponseDTO,DomainReviewSlotResponseDTO, GetStudentReviewResponseDTO } from "shared/dto/reviewDTO";
-import mongoose from "mongoose";
+
+import { BaseRepository } from "./base.repository";
 
 
 export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel> implements IReviewRepository{

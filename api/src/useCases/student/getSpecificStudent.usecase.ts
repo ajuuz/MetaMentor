@@ -5,7 +5,5 @@ import { injectable } from "tsyringe";
 export class GetSpecificStudent {
 
     constructor(){}
-    async execute(userId:string):Promise<void>{
-
-    }
+    
 }

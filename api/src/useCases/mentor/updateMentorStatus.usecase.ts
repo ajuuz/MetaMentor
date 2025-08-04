@@ -22,7 +22,7 @@ export class UpdateMentorStatusUsecase implements IUpdateMentorStatusUsecase{
 
         const filter:MentorUpdateDTO.filter={userId:mentorId};
         const update:Pick<MentorUpdateDTO.update,"isBlocked">={isBlocked:status}
-        let asyncOperations=[]
+        const asyncOperations=[]
         asyncOperations.push(this._userRepository.updateOne({_id:mentorId},update))
         asyncOperations.push(this._mentorRepository.updateOne(filter,update))
         await Promise.all(asyncOperations)

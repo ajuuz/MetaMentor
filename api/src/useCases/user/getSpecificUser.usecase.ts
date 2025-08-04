@@ -1,4 +1,3 @@
-import { IUserEntity } from "entities/modelEntities/user-model.entity";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IGetSpecificUserUsecase } from "entities/usecaseInterfaces/user/getSpecificUserUsecase.interface";
 import { UserDetailsResponseDTO, UserFindFilterDTO } from "shared/dto/userDTO";

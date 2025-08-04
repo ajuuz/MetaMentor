@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import { IReviewModel } from "../models/bookedSlot.model";
 import { PAYMENT_METHOD, PAYMENT_STATUS, REVIEW_STATUS } from "shared/constants";
+
+import { IReviewModel } from "../models/bookedSlot.model";
 
 export const reviewSchema:Schema<IReviewModel>=new mongoose.Schema<IReviewModel>({
     studentId:{

@@ -1,6 +1,7 @@
-import mongoose from "mongoose";
-import { IStudentModel} from "../models/student.model";
 import { ISelectedDomain } from "entities/modelEntities/student-model.entity";
+import mongoose from "mongoose";
+
+import { IStudentModel} from "../models/student.model";
 
 
 

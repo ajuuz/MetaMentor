@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import { ITransactionModel } from "../models/transaction.model";
 import { TRANSACTION_TYPE } from "shared/constants";
+
+import { ITransactionModel } from "../models/transaction.model";
 
 
 export const transactionSchema:Schema<ITransactionModel> = new mongoose.Schema<ITransactionModel>({

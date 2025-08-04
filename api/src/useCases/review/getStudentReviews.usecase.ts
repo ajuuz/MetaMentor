@@ -15,7 +15,7 @@ export class GetStudentReviewsUsecase implements IGetStudentReviewsUsecase{
 
     async execute(studentId:string,type:'upcoming'|'completed'):Promise<GetStudentReviewResponseDTO[]>{
 
-        let status=[];
+        const status=[];
         if(type==='upcoming'){
             status.push(REVIEW_STATUS.PENDING)
         }else{
