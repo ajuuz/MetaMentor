@@ -31,6 +31,8 @@ import { ErrorMiddleware } from "interfaceAdapters/middlewares/error.middleware"
 import { container } from "tsyringe";
 
 import { DependencyInjection } from ".";
+import { ILoggerMiddleware } from "entities/middlewareInterfaces/loggerMiddleware.interface";
+import { LoggerMiddleware } from "interfaceAdapters/middlewares/logger.middleware";
 
 DependencyInjection.registerAll()
 
@@ -64,5 +66,6 @@ export const paymentController = container.resolve<IPaymentController>(PaymentCo
 //middleware
 export const errorMiddleware = container.resolve<IErrorMiddleware>(ErrorMiddleware)
 export const authMiddleware = container.resolve<IAuthMiddleware>(AuthMiddleware)
+export const loggerMiddleware = container.resolve<ILoggerMiddleware>(LoggerMiddleware)
 
 

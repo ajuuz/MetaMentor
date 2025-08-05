@@ -2,7 +2,7 @@ import 'reflect-metadata'
 import cookieParser from "cookie-parser"
 import cors from 'cors';
 import express, { Application } from 'express';
-import { errorMiddleware } from 'frameworks/di/resolver';
+import { errorMiddleware, loggerMiddleware } from 'frameworks/di/resolver';
 import { AdminRoutes } from 'frameworks/routes/admin';
 import { AuthRoutes } from 'frameworks/routes/auth';
 import { CommonRoutes } from 'frameworks/routes/common';
@@ -34,6 +34,7 @@ export class App{
         origin: config.client.uri, 
         credentials: true     
         }));
+        this._app.use(loggerMiddleware.handle.bind(loggerMiddleware))
         this._app.use(cookieParser())
         this._app.use(express.json());
         this._app.use(express.urlencoded({extended:true}));
