@@ -34,6 +34,7 @@ export const reviewSchema:Schema<IReviewModel>=new mongoose.Schema<IReviewModel>
     },
     slot:{
         type:{
+            isoTime:Date,
             day:String,
             start:String,
             end:String

@@ -16,6 +16,7 @@ export interface IReviewEntity{
     },
     status:REVIEW_STATUS
     slot:{
+        isoTime:Date,
         day:string,
         start:string,
         end:string

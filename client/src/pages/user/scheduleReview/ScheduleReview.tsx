@@ -10,7 +10,15 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { toast } from "sonner"
 
-
+const daysInNumber={
+  Sunday:0,
+  Monday:1,
+  Tuesday:2,
+  Wednesday:3,
+  Thursday:4,
+  Friday:5,
+  Saturday:6
+}
 export default function ScheduleReview() {
     const [domainsSlots,setDomainsSlots]=useState<DomainSlotsResponseDTO[]>([]);
     const [selectedSlotPopup,setSelectedSlotPopup]=useState<string>('');
@@ -86,6 +94,28 @@ export default function ScheduleReview() {
           toast.error(error.message)
         }
     })
+
+    const isoTimeCreator=(day:DayOfWeekType,startTime:number)=>{
+        const currentDate = new Date();
+        const today = currentDate.getDay();
+        const bookingDay = daysInNumber[day];
+
+        let dayOffSet:number;
+
+        if(today<=bookingDay){
+          dayOffSet=bookingDay-today;
+        }else{
+          dayOffSet = 7-today+bookingDay
+        }
+
+        const slotDate = new Date(currentDate);
+        slotDate.setDate(currentDate.getDate()+dayOffSet)
+        const h = Math.floor(startTime / 60);
+        const m = startTime % 60;
+        slotDate.setHours(h,m,0,0)
+
+        return slotDate
+    }
 
     const handleSelectSlot=(mentorId:string,day:string,slotId:string)=>{
         slotValidityCheckerMutation({mentorId,day,slotId})
@@ -168,7 +198,7 @@ export default function ScheduleReview() {
                                   }}
                                   fee={content.mentor.fee}
                                   walletBalance={500}
-                                  slot={{ day, start: slot.start, end: slot.end }}
+                                  slot={{ isoTime:isoTimeCreator(day as DayOfWeekType,slot.start),day, start: slot.start, end: slot.end }}
                                   setSelectedSlotPopup={setSelectedSlotPopup}
                                 />
                               )}

@@ -16,16 +16,12 @@ type SlotViewCardProps = {
   };
   fee: number;
   walletBalance: number;
-  slot:{day:string,start:number,end:number},
+  slot:{isoTime:Date,day:string,start:number,end:number},
   setSelectedSlotPopup:React.Dispatch<React.SetStateAction<string>>
 };
 
 
 export const SlotViewCard = ({domainId,levelId,mentorId,slotId,mentor,fee,walletBalance,slot,setSelectedSlotPopup}: SlotViewCardProps) => {
-
-    const handlePayWithRazorPay=()=>{
-        
-    }
 
     const handleClose=(e: React.MouseEvent)=>{
         e.stopPropagation()
