@@ -31,6 +31,7 @@ const DomainInsight = () => {
             const {reviews,domain,nextLevels} = enrolledDomain;
             setReviews(reviews);
             setDomain(domain)
+            console.log(reviews,noOfLevelPassed,nextLevels)
             setNoOfLevelPassed(noOfLevelPassed)
             setNextLevels(nextLevels)
         }
@@ -75,8 +76,8 @@ const DomainInsight = () => {
         </div>
         <div className="text-right">
           <p className="text-lg">Next Level</p>
-          <p className="text-4xl font-bold">{reviews.length+2}</p>
-          <p className="text-sm">{nextLevels?.[1]?.name}</p>
+          <p className="text-4xl font-bold">{noOfLevelPassed+2}</p>
+          <p className="text-sm">{nextLevels?.[0]?.name}</p>
         </div>
       </div>
 
