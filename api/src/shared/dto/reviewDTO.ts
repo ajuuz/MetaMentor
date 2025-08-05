@@ -19,6 +19,7 @@ export type BookReviewDTO={
         status:PAYMENT_STATUS
     },
     slot:{
+        isoTime:Date,
         day:string,
         start:string,
         end:string
