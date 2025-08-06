@@ -158,7 +158,8 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
     }
 
     async findByMentor(filter:any,skip:number,limit:number):Promise<Omit<GetMentorReviewsResponseDTO,'totalPages'>>{
-        const mongoFilter:FilterQuery<IReviewEntity>={};
+        const mentorObjectId=new mongoose.Types.ObjectId(filter.mentorId)
+        const mongoFilter:FilterQuery<IReviewEntity>={mentorId:mentorObjectId};
 
         if(filter.status){
             mongoFilter.status={$in:filter.status}
@@ -167,8 +168,7 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
         if(filter.dateRange){
             mongoFilter['slot.isoStartTime']={$gte:filter.dateRange.start,$lte:filter.dateRange.end}
         }
-
-        if(filter.pendingReviewState){
+        if(filter.pendingReviewState!=='undefined'){
             const currentDate = new Date();
             if(filter.pendingReviewState===PENDING_REVIEW_STATE.NOTOVER){
                  mongoFilter['slot.isoStartTime']={$gt:currentDate}
@@ -211,6 +211,7 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
                 {$unwind:'$student'},
                 {
                     $project:{
+                        mentorId:1,
                         student:{
                             name:'$student.name',
                             profileImage:'$student.profileImage'
@@ -229,7 +230,6 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
             ]),
             reviewModel.countDocuments(mongoFilter)
         ])
-
         return {reviews,totalDocuments}
     }
 

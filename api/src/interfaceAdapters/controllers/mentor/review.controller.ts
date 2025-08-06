@@ -16,6 +16,7 @@ export class MentorReviewController implements IMentorReviewController{
 
     async getAllReviews(req:Request,res:Response,next:NextFunction):Promise<void>{
          const mentorId = (req as ModifiedRequest).user.id;
+         console.log((req as ModifiedRequest).user)
          const status=req.query.status as REVIEW_FILTER_STATUS;
          const pendingReviewState=req.query.pendingReviewState as (PENDING_REVIEW_STATE | undefined);
          const dateRange = req.query.dateRange as string;

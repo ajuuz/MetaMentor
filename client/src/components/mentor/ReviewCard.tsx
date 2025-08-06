@@ -12,7 +12,12 @@ type Props={
 }
 
 const formattedDate =(date:Date)=>new Date(date).toLocaleDateString("en-US", {year: "numeric",month: "long",day: "numeric"});
-
+const statusColorMap: Record<string, string> = {
+  pass: 'bg-green-500 text-white',
+  fail: 'bg-red-500 text-white',
+  cancelled: 'bg-gray-500 text-white',
+  pending: 'bg-yellow-500 text-black',
+};
 const ReviewCard = ({review}:Props) => {
 
     const navigate = useNavigate()
@@ -64,6 +69,10 @@ const ReviewCard = ({review}:Props) => {
                       Feedback
                     </Button>
                     }
+                </div>
+
+                <div>
+                    <Badge className={`p-2 px-5 ${statusColorMap[review.status]}`}>{review.status}</Badge>
                 </div>
             </div>
 
