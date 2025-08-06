@@ -95,7 +95,7 @@ export default function ScheduleReview() {
         }
     })
 
-    const isoTimeCreator=(day:DayOfWeekType,startTime:number)=>{
+    const isoTimeCreator=(day:DayOfWeekType,time:number)=>{
         const currentDate = new Date();
         const today = currentDate.getDay();
         const bookingDay = daysInNumber[day];
@@ -110,8 +110,8 @@ export default function ScheduleReview() {
 
         const slotDate = new Date(currentDate);
         slotDate.setDate(currentDate.getDate()+dayOffSet)
-        const h = Math.floor(startTime / 60);
-        const m = startTime % 60;
+        const h = Math.floor(time / 60);
+        const m = time % 60;
         slotDate.setHours(h,m,0,0)
 
         return slotDate
@@ -198,7 +198,10 @@ export default function ScheduleReview() {
                                   }}
                                   fee={content.mentor.fee}
                                   walletBalance={500}
-                                  slot={{ isoTime:isoTimeCreator(day as DayOfWeekType,slot.start),day, start: slot.start, end: slot.end }}
+                                  slot={{ isoStartTime:isoTimeCreator(day as DayOfWeekType,slot.start),
+                                    isoEndTime:isoTimeCreator(day as DayOfWeekType,slot.start),
+                                    day,
+                                     start: slot.start, end: slot.end }}
                                   setSelectedSlotPopup={setSelectedSlotPopup}
                                 />
                               )}

@@ -16,7 +16,7 @@ type SlotViewCardProps = {
   };
   fee: number;
   walletBalance: number;
-  slot:{isoTime:Date,day:string,start:number,end:number},
+  slot:{isoStartTime:Date,isoEndTime:Date,day:string,start:number,end:number},
   setSelectedSlotPopup:React.Dispatch<React.SetStateAction<string>>
 };
 

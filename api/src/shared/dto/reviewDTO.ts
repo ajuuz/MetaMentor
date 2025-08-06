@@ -19,7 +19,8 @@ export type BookReviewDTO={
         status:PAYMENT_STATUS
     },
     slot:{
-        isoTime:Date,
+        isoStartTime:Date,
+        isoEndTime:Date,
         day:string,
         start:string,
         end:string
@@ -56,6 +57,31 @@ export type GetStudentReviewResponseDTO={
     },
     feedBack:string,
     slot:ReviewSlot
+}
+
+export type MentorReviewCard={
+    student:{
+        name:string,
+        profileImage:string
+    },
+    domainName:string,
+    level:{
+        name:string,
+        taskFile:string,
+    },
+    status:REVIEW_STATUS,
+    payment:{
+        method:string,
+        status:PAYMENT_STATUS
+    },
+    feedBack:string,
+    slot:ReviewSlot
+}
+
+export type GetMentorReviewsResponseDTO={
+    reviews:MentorReviewCard[]
+    totalDocuments:number
+    totalPages:number
 }
 
 export type DomainReviewSlotResponseDTO={

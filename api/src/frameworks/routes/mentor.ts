@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authMiddleware, mentorController, mentorSlotController } from "frameworks/di/resolver";
+import { authMiddleware, mentorController, mentorReviewController, mentorSlotController } from "frameworks/di/resolver";
 import { ROLES } from "shared/constants";
 
 export class MentorRoutes{
@@ -23,6 +23,8 @@ export class MentorRoutes{
             this._router.get('/slots',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),mentorSlotController.getSlots.bind(mentorSlotController))
             this._router.patch('/slots/:day/:slotId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),mentorSlotController.updateSlotStatus.bind(mentorSlotController))
 
+            //reviews
+            this._router.get('/reviews',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),mentorReviewController.getAllReviews.bind(mentorReviewController))
         }
     
         getRouter():Router{

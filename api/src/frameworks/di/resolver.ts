@@ -33,6 +33,8 @@ import { container } from "tsyringe";
 import { DependencyInjection } from ".";
 import { ILoggerMiddleware } from "entities/middlewareInterfaces/loggerMiddleware.interface";
 import { LoggerMiddleware } from "interfaceAdapters/middlewares/logger.middleware";
+import { IMentorReviewController } from "entities/controllerInterfaces/mentor/reviewController.interface";
+import { MentorReviewController } from "interfaceAdapters/controllers/mentor/review.controller";
 
 DependencyInjection.registerAll()
 
@@ -52,6 +54,7 @@ export const commonController = container.resolve<ICommonController>(CommonContr
 //MentorController
 export const mentorController = container.resolve<IMentorController>(MentorController)
 export const mentorSlotController = container.resolve<IMentorSlotController>(MentorSlotController)
+export const mentorReviewController = container.resolve<IMentorReviewController>(MentorReviewController)
 
 //studentController
 export const userController = container.resolve<IUserController>(UserController)
