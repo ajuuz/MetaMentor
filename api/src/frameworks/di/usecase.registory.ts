@@ -32,6 +32,7 @@ import { ICreateOrderUsecase } from "entities/usecaseInterfaces/payment/createOr
 import { IVerifyPaymentUsecase } from "entities/usecaseInterfaces/payment/verifyPaymentUsecase.interface";
 import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReviewUsecase.interface";
 import { IGetMentorReviewsUsecase } from "entities/usecaseInterfaces/review/getMentorReviewsUsecase.interface";
+import { IGetReviewForMentorUsecase } from "entities/usecaseInterfaces/review/getReviewForMentorUsecase.interface";
 import { IGetStudentReviewsUsecase } from "entities/usecaseInterfaces/review/getStudentReviewsUsecase.interface";
 import { IGetDomainSlotsUsecase } from "entities/usecaseInterfaces/slot/getDomainSlotsUsecase.interface";
 import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
@@ -79,6 +80,7 @@ import { CreateOrderUsecase } from "useCases/payment/createOrder.usecase";
 import { VerifyPaymentUsecase } from "useCases/payment/verifyPayment.usecase";
 import { BookReviewUsecase } from "useCases/review/bookReview.usecase";
 import { GetMentorReviewsUsecase } from "useCases/review/getMentorReviews.usecase";
+import { GetReviewForMentorUsecase } from "useCases/review/getReviewForMentor.usecase";
 import { GetStudentReviewsUsecase } from "useCases/review/getStudentReviews.usecase";
 import { GetDomainSlotsUsecase } from "useCases/slot/getDomainSlots.usecase";
 import { GetMentorSlotsUsecase } from "useCases/slot/getMentorSlots.usecase";
@@ -267,6 +269,9 @@ export class UseCaseRegistory{
         })
         container.register<IGetMentorReviewsUsecase>('IGetMentorReviewsUsecase',{
             useClass:GetMentorReviewsUsecase
+        })
+        container.register<IGetReviewForMentorUsecase>('IGetReviewForMentorUsecase',{
+            useClass:GetReviewForMentorUsecase
         })
 
         //transaction usecase

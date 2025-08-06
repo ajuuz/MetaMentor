@@ -25,6 +25,7 @@ export class MentorRoutes{
 
             //reviews
             this._router.get('/reviews',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),mentorReviewController.getAllReviews.bind(mentorReviewController))
+            this._router.get('/reviews/:reviewId',mentorReviewController.getReview.bind(mentorReviewController))
         }
     
         getRouter():Router{
