@@ -23,7 +23,7 @@ export type ReviewEntity={
 
 export type BookReviewDTO=Pick<ReviewEntity,'mentorId'|'domainId'|'levelId'|'slot'>
 
-export type ReviewCardData={
+export type StudentReviewCard={
     mentorName:string,
     level:{
         name:string,
@@ -37,6 +37,33 @@ export type ReviewCardData={
     feedBack:string,
     slot:ReviewSlot
 }
+
+export type MentorReviewCard={
+    _id:string,
+    student:{
+        name:string,
+        profileImage:string
+    },
+    domainName:string,
+    level:{
+        name:string,
+        taskFile:string,
+    },
+    status:REVIEW_STATUS,
+    payment:{
+        method:string,
+        status:PAYMENT_STATUS
+    },
+    feedBack:string,
+    slot:ReviewSlot  & {isoStartTime:Date,isoEndTime:Date}
+}
+
+export type GetMentorReviewsResponse={
+    reviews:MentorReviewCard[],
+    totalPages:number
+}
+
+
 
 export type GetStudentReviewResponseDTO={
     mentorName:string,

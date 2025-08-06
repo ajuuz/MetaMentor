@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { CheckCircle, XCircle, Lock, LucideClockFading } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import type { ReviewCardData } from "@/types/reviewTypes";
+import type { StudentReviewCard } from "@/types/reviewTypes";
 import type { DomainEntity } from "@/types/domainTypes";
 import type { LevelType } from "@/types/levelTypes";
 import { useEnrolledDomainQuery } from "@/hooks/domain";
@@ -12,7 +12,7 @@ import { useEnrolledDomainQuery } from "@/hooks/domain";
 
 const DomainInsight = () => {
 
-    const [reviews,setReviews]=useState<ReviewCardData[]>([])
+    const [reviews,setReviews]=useState<StudentReviewCard[]>([])
     const [noOfLevelPassed,setNoOfLevelPassed]=useState<number>(0)
     const [domain,setDomain]=useState<Omit<DomainEntity,'isBlocked'>>()
     const [nextLevels,setNextLevels]=useState<LevelType[]>()
@@ -31,6 +31,7 @@ const DomainInsight = () => {
             const {reviews,domain,nextLevels} = enrolledDomain;
             setReviews(reviews);
             setDomain(domain)
+            console.log(reviews,noOfLevelPassed,nextLevels)
             setNoOfLevelPassed(noOfLevelPassed)
             setNextLevels(nextLevels)
         }
@@ -75,8 +76,8 @@ const DomainInsight = () => {
         </div>
         <div className="text-right">
           <p className="text-lg">Next Level</p>
-          <p className="text-4xl font-bold">{reviews.length+2}</p>
-          <p className="text-sm">{nextLevels?.[1]?.name}</p>
+          <p className="text-4xl font-bold">{noOfLevelPassed+2}</p>
+          <p className="text-sm">{nextLevels?.[0]?.name}</p>
         </div>
       </div>
 

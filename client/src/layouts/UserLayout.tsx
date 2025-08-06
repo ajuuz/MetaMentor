@@ -3,7 +3,6 @@ import { eventSourceProvider } from '@/services/commonApi'
 import { useUserStore } from '@/zustand/userStore'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
-import { toast } from 'react-hot-toast'
 import Footer from '@/components/user/Footer'
 import { listenForForegroundMessages } from '@/config/firebaseConfig/firebaseConfig'
 

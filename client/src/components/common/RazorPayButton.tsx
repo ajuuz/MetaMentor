@@ -8,8 +8,20 @@ import { useNavigate } from 'react-router-dom';
 
 type Props={
     slotId:string,
-    reviewDetails:{domainId:string,levelId:string,mentorId:string,amount:number,slot:{isoTime:Date,day:string,start:number,end:number}}
+    reviewDetails:{
+      domainId:string,
+      levelId:string,
+      mentorId:string,
+      amount:number,
+      slot:{
+        isoStartTime:Date,
+        isoEndTime:Date,
+        day:string,
+        start:number,
+        end:number
+      }}
 }
+
 const RazorPayButton = ({slotId,reviewDetails}:Props) => {
 
     const {Razorpay} = useRazorpay();

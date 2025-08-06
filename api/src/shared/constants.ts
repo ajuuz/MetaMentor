@@ -33,6 +33,18 @@ export enum REVIEW_STATUS{
   PENDING='pending',
   CANCELLED='cancelled'
 }
+export enum REVIEW_FILTER_STATUS{
+  PASS='pass',
+  FAIL='fail',
+  PENDING='pending',
+  CANCELLED='cancelled',
+  COMPLETED='completed'
+}
+
+export enum PENDING_REVIEW_STATE{
+  OVER='over',
+  NOTOVER='notOver'
+}
 
 export enum PAYMENT_STATUS{
   SUCCESS='success',

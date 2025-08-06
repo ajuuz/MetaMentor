@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 const SideBar = () => {
     const navigate=useNavigate()
     const location = useLocation()
-    const pathname = useMemo(()=>location.pathname,[])
+    const pathname = useMemo(()=>location.pathname,[location])
   return (
     <div className='fixed bg-white h-full'>
         <aside className="hidden md:flex flex-col w-56 bg-transparent px-4">

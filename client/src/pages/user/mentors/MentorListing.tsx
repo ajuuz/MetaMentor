@@ -1,4 +1,3 @@
-import Navbar from '@/components/user/Navbar';
 import { getAllMentors } from '@/services/adminService.ts/mentorApi';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
