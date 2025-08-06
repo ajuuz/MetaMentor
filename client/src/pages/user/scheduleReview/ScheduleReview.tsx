@@ -199,7 +199,7 @@ export default function ScheduleReview() {
                                   fee={content.mentor.fee}
                                   walletBalance={500}
                                   slot={{ isoStartTime:isoTimeCreator(day as DayOfWeekType,slot.start),
-                                    isoEndTime:isoTimeCreator(day as DayOfWeekType,slot.start),
+                                    isoEndTime:isoTimeCreator(day as DayOfWeekType,slot.end),
                                     day,
                                      start: slot.start, end: slot.end }}
                                   setSelectedSlotPopup={setSelectedSlotPopup}

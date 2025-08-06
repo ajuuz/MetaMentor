@@ -6,6 +6,7 @@ import SlotManage from "@/pages/mentor/slotManagement/SlotManage"
 import MentorLayout from "@/layouts/MentorLayout"
 import CompletedReviews from "@/pages/mentor/Reviews/Completed"
 import UpcomingReviews from "@/pages/mentor/Reviews/Upcoming"
+import ReviewPage from "@/pages/mentor/Review/Review"
 
 const MentorRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const MentorRoutes = () => {
             <Route path='/reviews/completed' element={<CompletedReviews/>}/>
             <Route path='/slots' element={<SlotManage/>}/>
          </Route>
+         <Route path='/reviews/:reviewId' element={<ReviewPage/>}/>
       </Route>
 
    </Routes>

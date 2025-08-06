@@ -234,9 +234,11 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
     }
 
     async findReviewForMentor(mentorId:string,reviewId:string):Promise<ReviewDataForMentorResponseDTO|null>{
+        const mentorObjectId=new mongoose.Types.ObjectId(mentorId)
+        const reviewObjectId=new mongoose.Types.ObjectId(reviewId)
          const reviews=await reviewModel.aggregate([
             {
-                $match:{mentorId,reviewId}
+                $match:{_id:reviewObjectId,mentorId:mentorObjectId}
             },
             {
                 $limit:1

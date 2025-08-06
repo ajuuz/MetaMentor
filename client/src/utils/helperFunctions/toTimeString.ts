@@ -7,3 +7,10 @@ export const toTimeString = (minutes: number): string => {
       .toString()
       .padStart(2, "0")} ${suffix}`;
   };
+
+
+export const formattedIsoDate=(date:Date)=>new Date(date).toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long", 
+  day: "numeric"
+});

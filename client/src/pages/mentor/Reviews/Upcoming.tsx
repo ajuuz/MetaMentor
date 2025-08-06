@@ -3,7 +3,7 @@ import SelectComponent from "@/components/common/SelectComponent"
 import ReviewCard from "@/components/mentor/ReviewCard"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { useMentorGetReviewsQuery } from "@/hooks/tanstack/review"
+import { useGetReviewsForMentorQuery } from "@/hooks/tanstack/review"
 import type { MentorReviewCard } from "@/types/reviewTypes"
 import { type DATE_RANGE, type PENDING_REVIEW_STATE} from "@/utils/constants"
 import { useEffect, useState } from "react"
@@ -14,7 +14,7 @@ const UpcomingReviews = () => {
     const [dateRange,setDateRange]=useState<DATE_RANGE>('all')
     const [pendingReviewState,setPendingReviewState]=useState<PENDING_REVIEW_STATE>('notOver')
     const [reviews,setReviews]=useState<MentorReviewCard[]>([])
-    const {data:reviewResponse} = useMentorGetReviewsQuery('pending',dateRange,currentPage,10,pendingReviewState)
+    const {data:reviewResponse} = useGetReviewsForMentorQuery('pending',dateRange,currentPage,10,pendingReviewState)
 
     useEffect(()=>{
         if(reviewResponse){
@@ -24,6 +24,7 @@ const UpcomingReviews = () => {
     },[reviewResponse])
 
     const handleSelectChange=(selectKey:string,value:string)=>{
+        if(selectKey)
         setDateRange(value as DATE_RANGE)
     }
 
