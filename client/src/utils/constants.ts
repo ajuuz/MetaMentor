@@ -19,7 +19,7 @@ export const MENTOR_APPLICATION_STATUS={
 } as const;
 export type MentorApplicationStatus = typeof MENTOR_APPLICATION_STATUS[keyof typeof MENTOR_APPLICATION_STATUS];
 
-export const  REVIEW_STATUS={
+export const REVIEW_STATUS={
     PASS:'pass',
     FAIL:'fail',
     PENDING:'pending',

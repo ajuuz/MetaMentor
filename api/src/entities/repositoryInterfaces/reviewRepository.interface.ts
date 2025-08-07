@@ -16,4 +16,5 @@ export interface IReviewRepository extends BaseRepository<IReviewEntity,IReviewM
     createReview(reviewDetails:Omit<BookReviewDTO,'amount'>):Promise<IReviewModel>
     saveReview(review:IReviewModel):Promise<void>
     checkIsBookedSlot(mentorId:string,day:string,start:number,end:number):Promise<boolean>
+    updateReview(filter:Record<string,string>,update:Record<string,string>):Promise<IReviewEntity|null>
 }

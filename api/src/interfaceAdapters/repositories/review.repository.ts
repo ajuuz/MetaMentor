@@ -1,7 +1,7 @@
 import { IReviewEntity } from "entities/modelEntities/reviewModel.entity";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { reviewModel, IReviewModel } from "frameworks/database/models/bookedSlot.model";
-import mongoose, { FilterQuery } from "mongoose";
+import mongoose, { FilterQuery, UpdateQuery } from "mongoose";
 import { PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
 import { BookReviewDTO, GetDomainReviewResponseDTO,DomainReviewSlotResponseDTO, GetStudentReviewResponseDTO, ReviewsDataForMentorResponseDTO, ReviewDataForMentorResponseDTO } from "shared/dto/reviewDTO";
 
@@ -308,5 +308,24 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
     async checkIsBookedSlot(mentorId:string,day:string,start:number,end:number):Promise<boolean>{
          const review = await reviewModel.findOne({mentorId,'slot.day':day,'slot.start':{$lt:end},'slot.end':{$gt:start}})
          return review?true:false
+    }
+
+    async updateReview(filter:Record<string,string>,update:Record<string,string>):Promise<IReviewEntity|null>{
+        let mongoFilter:FilterQuery<IReviewEntity>={};
+        const mongoUpdate:UpdateQuery<IReviewEntity>={};
+        const {reviewId,...restFilter}=filter
+        mongoFilter={_id:reviewId,...restFilter}
+
+        if(update.status){
+            mongoUpdate.status=update.status
+        }
+        if(update.feedBack){
+            mongoUpdate.feedBack=update.feedBack
+        }
+        if(update.paymentStatus){
+            mongoUpdate.payment.status = update.paymentStatus
+        }
+        const updatedReview = await reviewModel.findOneAndUpdate(mongoFilter,mongoUpdate)
+        return updatedReview
     }
 }

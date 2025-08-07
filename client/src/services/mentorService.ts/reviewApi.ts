@@ -24,9 +24,18 @@ export const getReviewForMentor=async(reviewId:string):Promise<MentorReviewCard>
     }
 }
 
-export const updateReviewStatus=async({reviewId,status}:{reviewId:string,status:ReviewStatus}):Promise<MutationApiResponse>=>{
+export const cancelReviewByMentor=async({reviewId,status}:{reviewId:string,status:Extract<ReviewStatus,'cancelled'>}):Promise<MutationApiResponse>=>{
       try{
         const response = await mentorInstance.patch(`/reviews/${reviewId}`,{status})
+        return response.data;
+    }
+    catch(error:any){
+        throw error?.response?.data || error
+    }
+}
+export const submitReviewFeedBack=async({reviewId,status,feedBack}:{reviewId:string,status:ReviewStatus,feedBack:string}):Promise<MutationApiResponse>=>{
+      try{
+        const response = await mentorInstance.patch(`/reviews/${reviewId}`,{status,feedBack})
         return response.data;
     }
     catch(error:any){

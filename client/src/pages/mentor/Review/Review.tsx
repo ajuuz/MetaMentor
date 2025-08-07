@@ -17,7 +17,6 @@ const ReviewPage = () => {
 
 
   const {data:review,error,isLoading:loading}=useGetReviewForMentorQuery(reviewId!)
-  console.log(review)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -65,7 +64,6 @@ const ReviewPage = () => {
   const startTime = new Date(review.slot.isoStartTime)
   const endTime = new Date(review.slot.isoEndTime)
   const now = currentTime
-  console.log(startTime.getTime()-endTime.getTime())
 
   const getReviewStatus = () => {
     if (review.status === 'cancelled' || review.status === 'pass' || review.status === 'fail') {

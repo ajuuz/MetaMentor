@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import { IVerifyPaymentUsecase } from "entities/usecaseInterfaces/payment/verifyPaymentUsecase.interface";
 import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReviewUsecase.interface";
 import { ICreateTransactionUsecase } from "entities/usecaseInterfaces/transaction/createTransactionUsecase.interface";
-import { ICreditToAdminWalletUsecase } from "entities/usecaseInterfaces/wallet/creditToAdminWalletUsecase.inteface";
+import { ICreditWalletUsecase } from "entities/usecaseInterfaces/wallet/creditWalletUsecase.inteface";
 import { config } from "shared/config";
 import { HTTP_STATUS, TRANSACTION_TYPE } from "shared/constants";
 import { VerifyPaymentDTO } from "shared/dto/paymentDTO";
@@ -21,8 +21,8 @@ export class VerifyPaymentUsecase implements IVerifyPaymentUsecase{
         @inject('ICreateTransactionUsecase')
         private _createTransactionUsecase:ICreateTransactionUsecase,
 
-        @inject('ICreditToAdminWalletUsecase')
-        private _creditToAdminWalletUsecase:ICreditToAdminWalletUsecase,
+        @inject('ICreditWalletUsecase')
+        private _creditWalletUsecase:ICreditWalletUsecase,
     ){
         this._adminId=config.ADMIN_ID!
     }
@@ -60,7 +60,7 @@ export class VerifyPaymentUsecase implements IVerifyPaymentUsecase{
         asyncOperation.push(this._createTransactionUsecase.execute(adminTransaction))
         asyncOperation.push(this._createTransactionUsecase.execute(studentTransaction))
         asyncOperation.push(this._bookReviewUsecase.save(bookedReview))
-        asyncOperation.push(this._creditToAdminWalletUsecase.execute(reviewDetails.amount));
+        asyncOperation.push(this._creditWalletUsecase.execute(this._adminId,reviewDetails.amount));
         await Promise.all(asyncOperation)
     }
 }

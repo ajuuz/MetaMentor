@@ -12,7 +12,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { REVIEW_STATUS, type ReviewStatus } from '@/utils/constants'
 import LoadingSpinnerComponent from '@/components/common/LoadingSpinnerComponent'
 import { useMutation } from '@tanstack/react-query'
-import { updateReviewStatus } from '@/services/mentorService.ts/reviewApi'
+import { submitReviewFeedBack } from '@/services/mentorService.ts/reviewApi'
 import { toast } from 'sonner'
 
 type Props={
@@ -28,7 +28,7 @@ const Completed = ({review,startTime,endTime}:Props) => {
 
 
     const {mutate:submitFeedBackMutation,isPending:isLoading}=useMutation({
-        mutationFn:updateReviewStatus,
+        mutationFn:submitReviewFeedBack,
         onSuccess:(response)=>{
             toast.success(response.message)
         },
@@ -97,7 +97,7 @@ const Completed = ({review,startTime,endTime}:Props) => {
           setFeedBackError("Reason should have more than 5 alphabets");
           return
         };
-        submitFeedBackMutation({reviewId:review._id,status})
+        submitFeedBackMutation({reviewId:review._id,status,feedBack})
     }
 
   return (
@@ -113,11 +113,16 @@ const Completed = ({review,startTime,endTime}:Props) => {
                     <div className="w-[70%] p-5 flex flex-col gap-4 items-center">
                       <X onClick={()=>setFeedBackPopupToggle(false)} strokeWidth={3} className="absolute right-2 top-2 bg-black text-white rounded-3xl p-1 "/>
                       <Label className="text-center font-bold text-white">FEED BACK</Label>
-                      <Textarea onChange={(e)=>setFeedBack(e.target.value)} className="border-2 bg-white min-h-50" placeholder="Enter your feedback here..."/>
+                      <Textarea disabled={review.status!==REVIEW_STATUS.PENDING} onChange={(e)=>setFeedBack(e.target.value)} className="border-2 bg-white min-h-50" placeholder="Enter your feedback here..." value={review.status!==REVIEW_STATUS.PENDING?review.feedBack:feedBack}/>
                       <p className="text-red-300">{feedBackError}</p>
                       <div className='flex justify-center gap-5'>
+                        {
+                        review.status===REVIEW_STATUS.PENDING &&
+                        <>
                         <Button disabled={isLoading} className="w-full bg-green-500 hover:bg-gradient-to-r from-green-500 to-green-700 cursor-pointer" onClick={()=>handleSubmitFeedBack(REVIEW_STATUS.PASS)}>{isLoading?<LoadingSpinnerComponent/>:"PASS"}</Button>
                         <Button disabled={isLoading} className="w-full bg-red-500 hover:bg-gradient-to-r from-red-500 to-red-700 cursor-pointer" onClick={()=>handleSubmitFeedBack(REVIEW_STATUS.FAIL)}>{isLoading?<LoadingSpinnerComponent/>:"FAIL"}</Button>
+                        </>
+                        }
                       </div>
                     </div>
                   </motion.div>
@@ -161,7 +166,7 @@ const Completed = ({review,startTime,endTime}:Props) => {
                     <FileText className="w-5 h-5" />
                     Add Feedback
                   </Button>
-                  :<Button variant="outline" className="gap-2">
+                  :<Button onClick={()=>setFeedBackPopupToggle(true)} variant="outline" className="gap-2">
                     <FileText className="w-5 h-5" />
                     View Feedback
                   </Button>

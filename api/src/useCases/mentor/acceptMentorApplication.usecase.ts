@@ -4,7 +4,7 @@ import { IUserRespository } from "entities/repositoryInterfaces/user-repository.
 import { IPushNotificationService } from "entities/serviceInterfaces/pushNotificationService.interface";
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
 import { ICreateNotificationUsecase } from "entities/usecaseInterfaces/notification/createNotificationUsecase.interface";
-import { EVENT_EMITTER_TYPE, MAIL_CONTENT_PURPOSE, ROLES } from "shared/constants";
+import { EVENT_EMITTER_TYPE, MAIL_CONTENT_PURPOSE, NOTIFICATION_MESSAGE, NOTIFICATION_TITLE, ROLES } from "shared/constants";
 import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/mailContentProvider";
 import { ValidationError } from "shared/utils/error/validationError";
@@ -43,7 +43,7 @@ export class AcceptMentorApplicationUsecase implements IAcceptMentorApplicationU
 
         asyncOperations.push(this._mentorRepository.updateOne(mentorFilter,mentorUpdate))
         asyncOperations.push(this._slotRepository.createSlots(mentorId))
-        asyncOperations.push(this._pushNotificationService.sendNotification(mentorId,'APPLICATION ACCEPTED','Your Application for mentor has been accepted by the Admin'))
+        asyncOperations.push(this._pushNotificationService.sendNotification(mentorId,NOTIFICATION_TITLE.MENTOR_ACCEPTANCE,NOTIFICATION_MESSAGE.MENTOR_ACCEPTANCE))
         await Promise.all(asyncOperations)
 
         const html = mailContentProvider(MAIL_CONTENT_PURPOSE.MENTOR_ACCEPTANCE)
