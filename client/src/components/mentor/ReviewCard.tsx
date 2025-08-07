@@ -29,8 +29,6 @@ const ReviewCard = ({review,isNotOver}:Props) => {
 
   const navigate = useNavigate()
 
-
-
   const {mutate:cancelReviewMutation,isPending:isLoading}=useMutation({
     mutationFn:cancelReviewByMentor,
     onSuccess:(response)=>{
@@ -50,14 +48,15 @@ const ReviewCard = ({review,isNotOver}:Props) => {
 
    let isCancelAvailable;
    if(isNotOver){
-     isCancelAvailable= useMemo(() => {
+     const isCancelAvailableChecker= () => {
        if (!isNotOver || !review.slot?.isoStartTime) return false;
        const currentDate = new Date();
        const startTime = new Date(review.slot.isoStartTime); // assuming isoStartTime is ISO string
        const diffInMs = startTime.getTime() - currentDate.getTime(); // milliseconds
        const diffInHours = diffInMs / (1000 * 60 * 60); // convert to hours
        return diffInHours >= 2;
-      }, [isNotOver, review.slot?.isoStartTime]);
+      }
+      isCancelAvailable=isCancelAvailableChecker()
     }
 
   return (

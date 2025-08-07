@@ -42,7 +42,7 @@ const UpcomingReviews = () => {
         </div>
 
         <div onClick={()=>console.log(pendingReviewState)} className="h-full">
-            {reviews.map(review=><ReviewCard review={review} isNotOver={pendingReviewState==='notOver'}/>)}
+            {reviews.map(review=><ReviewCard key={review._id} review={review} isNotOver={pendingReviewState==='notOver'}/>)}
         </div>
         <div className="mt-10">
         <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}/>

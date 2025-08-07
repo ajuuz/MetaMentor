@@ -43,7 +43,7 @@ const CompletedReviews = () => {
         </div>
 
         <div className="h-full">
-            {reviews.map(review=><ReviewCard review={review}/>)}
+            {reviews.map(review=><ReviewCard key={review._id} review={review}/>)}
         </div>
         <div className="mt-10">
         <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}/>
