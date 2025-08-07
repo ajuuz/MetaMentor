@@ -12,4 +12,7 @@ export class FcmTokenRepository extends BaseRepository<IFcmTokenEntity,IFcmToken
         super(fcmTokenModel)
     }
 
+    async delete(userId:string):Promise<void>{
+        await fcmTokenModel.deleteOne({userId})
+    }
 }

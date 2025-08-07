@@ -1,3 +1,4 @@
+import { IFcmTokenRepository } from "entities/repositoryInterfaces/fcmTokenRepository.interface";
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IWalletRepository } from "entities/repositoryInterfaces/walletRepository.inteface";
@@ -28,10 +29,13 @@ export class GoogleAuthUsecase implements IGoogleAuthUsecase{
 
          @inject("IWalletRepository")
         private _walletRepository:IWalletRepository,
+
+         @inject('IFcmTokenRepository')
+        private _fcmTokenRepository:IFcmTokenRepository
     ){}
 
 
-    async execute(idToken:string):Promise<loginResponseDTO>{
+    async execute(idToken:string,fcmToken:string):Promise<loginResponseDTO>{
         const admin = FirebaseAdminConfig.getInstance();
         const decode:JwtPayload=await admin.auth().verifyIdToken(idToken);
         const email:string=decode.email;
@@ -55,6 +59,11 @@ export class GoogleAuthUsecase implements IGoogleAuthUsecase{
         if(user.isBlocked) throw new CustomError(403,"User is blocked please contact admin")
 
         if(decode.user_id!==user.googleId) throw new AuthError(401,'Your google id is not matched')
+
+        
+         if(fcmToken){
+             await this._fcmTokenRepository.insertOne({userId:user._id,fcmToken})
+        }
 
         const accessToken = this._tokenService.generateAccessToken({id:user._id,email:user.email,role:user.role});
         const refreshToken = this._tokenService.generateRefreshToken({id:user._id,email:user.email,role:user.role});

@@ -6,5 +6,5 @@ import { IBaseRepository } from "./baseRepository.interface";
 
 
 export interface IFcmTokenRepository extends IBaseRepository<IFcmTokenEntity,IFcmTokenModel>{
-
+    delete(userId:string):Promise<void>
 }

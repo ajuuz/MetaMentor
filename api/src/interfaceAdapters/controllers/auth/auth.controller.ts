@@ -4,6 +4,7 @@ import { IForgotPasswordResetUsecase } from "entities/usecaseInterfaces/auth/for
 import { IGoogleAuthUsecase } from "entities/usecaseInterfaces/auth/googleAuthUsecase.interface";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
+import { ILogoutUsecase } from "entities/usecaseInterfaces/auth/logoutUsecase.interface";
 import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
 import { IResendOtpUsecase } from "entities/usecaseInterfaces/auth/resendOtpUsecase.interface";
 import { ITokenRefreshingUsecase } from "entities/usecaseInterfaces/auth/tokenRefreshing.interface";
@@ -12,6 +13,7 @@ import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 // import { JwtPayload } from "jsonwebtoken";
 import { loginResponseDTO, SignupRequestDto } from "shared/dto/authDTO";
+import { ModifiedRequest } from "shared/types";
 import { clearCookies, setAccessCookie, setCookie } from "shared/utils/cookeHelper"
 import { ISuccessResponseHandler } from "shared/utils/successResponseHandler";
 import { inject, injectable } from "tsyringe";
@@ -32,6 +34,9 @@ export class AuthController implements IAuthController{
 
         @inject('IGoogleAuthUsecase')
         private _googleAuthUsecase:IGoogleAuthUsecase,
+
+        @inject('ILogoutUsecase')
+        private _logoutUsecase:ILogoutUsecase,
 
         // @inject('IGetLoggedInUserUsecase')
         // private _getLoggedInUserUsecase:IGetLoggedInUserUsecase,
@@ -87,9 +92,9 @@ export class AuthController implements IAuthController{
     }
 
     async googleAuth(req:Request,res:Response,next:NextFunction):Promise<void>{
-        const {idToken} = req.body;
+        const {idToken,fcmToken} = req.body;
         try{
-           const details:loginResponseDTO=await this._googleAuthUsecase.execute(idToken);
+           const details:loginResponseDTO=await this._googleAuthUsecase.execute(idToken,fcmToken);
            const {accessToken,refreshToken,...rest} = details
            setCookie(res,accessToken,refreshToken);
            res.status(HTTP_STATUS.OK).json({success:true,message:SUCCESS_MESSAGE.AUTH.GOOGLE_LOGIN,data:rest})
@@ -143,7 +148,9 @@ export class AuthController implements IAuthController{
 
 
     async logout(req:Request,res:Response,next:NextFunction):Promise<void>{
+        const userId:string=(req as ModifiedRequest).user.id
         clearCookies(res)
+        await this._logoutUsecase.execute(userId);
         res.status(200).json({success:true,message:'you have been logged out successfully'})
     }
     

@@ -1,6 +1,6 @@
 import { FcGoogle } from "react-icons/fc";
 import { signInWithPopup } from 'firebase/auth'
-import { auth, googleAuthProvider } from '@/config/firebaseConfig/firebaseConfig'
+import { auth, googleAuthProvider, requestForToken } from '@/config/firebaseConfig/firebaseConfig'
 import { useMutation } from "@tanstack/react-query";
 import { googleAuth } from "@/services/authService.ts/authApi";
 import { toast } from "sonner";
@@ -26,7 +26,9 @@ const FirebaseAuthComponent = () => {
       const result = await signInWithPopup(auth, googleAuthProvider);
       const user = result.user;
       const idToken = await user.getIdToken()
-      mutation.mutate(idToken)
+      const fcmToken = await requestForToken()
+      console.log(fcmToken)
+      mutation.mutate({idToken,fcmToken})
     }
     catch(error){
       console.log(error)

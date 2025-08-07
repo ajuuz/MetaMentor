@@ -14,6 +14,7 @@ import LoadingSpinnerComponent from '@/components/common/LoadingSpinnerComponent
 import { useMutation } from '@tanstack/react-query'
 import { submitReviewFeedBack } from '@/services/mentorService.ts/reviewApi'
 import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
 
 type Props={
     review:MentorReviewCard,
@@ -25,12 +26,13 @@ const Completed = ({review,startTime,endTime}:Props) => {
     const [feedBackPopupToggle,setFeedBackPopupToggle]=useState<boolean>(false)
     const [feedBack,setFeedBack]=useState<string>('');
     const [feedBackError,setFeedBackError]=useState<string>('');
-
+    const navigate = useNavigate();
 
     const {mutate:submitFeedBackMutation,isPending:isLoading}=useMutation({
         mutationFn:submitReviewFeedBack,
         onSuccess:(response)=>{
             toast.success(response.message)
+            navigate('/mentor/reviews/upcoming')
         },
         onError:(error)=>{
             toast.error(error.message)

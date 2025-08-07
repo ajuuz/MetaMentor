@@ -41,9 +41,9 @@ export const login = async ({email,password,fcmToken}:{email:string,password:str
 }
 
 
-export const googleAuth=async(idToken:string):Promise<Required<ApiResponseType<UserType>>>=>{
+export const googleAuth=async({idToken,fcmToken}:{idToken:string,fcmToken:string|null}):Promise<Required<ApiResponseType<UserType>>>=>{
     try{
-        const response = await authAxiosInstance.post('/googleAuth',{idToken})
+        const response = await authAxiosInstance.post('/googleAuth',{idToken,fcmToken})
         return response.data
     }
     catch(error:any){

@@ -99,6 +99,8 @@ import { UpdateUserUsecase } from "useCases/user/updateUser.usecase";
 import { CreditWalletUsecase } from "useCases/wallet/creditWallet.usecase";
 import { IDebitWalletUsecase } from "entities/usecaseInterfaces/wallet/debitWalletUsecase.interface";
 import { DebitWalletUsecase } from "useCases/wallet/debitWallet.usecase";
+import { ILogoutUsecase } from "entities/usecaseInterfaces/auth/logoutUsecase.interface";
+import { LogoutUsecase } from "useCases/auth/logout.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -124,6 +126,10 @@ export class UseCaseRegistory{
 
         container.register<IGoogleAuthUsecase>('IGoogleAuthUsecase',{
             useClass:GoogleAuthUsecase
+        })
+
+        container.register<ILogoutUsecase>('ILogoutUsecase',{
+            useClass:LogoutUsecase
         })
 
         container.register<IForgotPasswordSendMailUsecase>('IForgotPasswordSendMailUsecase',{
