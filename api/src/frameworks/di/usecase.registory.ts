@@ -32,7 +32,10 @@ import { ICreateOrderUsecase } from "entities/usecaseInterfaces/payment/createOr
 import { IVerifyPaymentUsecase } from "entities/usecaseInterfaces/payment/verifyPaymentUsecase.interface";
 import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReviewUsecase.interface";
 import { IGetMentorReviewsUsecase } from "entities/usecaseInterfaces/review/getMentorReviewsUsecase.interface";
+import { IGetReviewForMentorUsecase } from "entities/usecaseInterfaces/review/getReviewForMentorUsecase.interface";
 import { IGetStudentReviewsUsecase } from "entities/usecaseInterfaces/review/getStudentReviewsUsecase.interface";
+import { ISubmitReviewFeedBackUsecase } from "entities/usecaseInterfaces/review/submitReviewFeedBackUsecase.interface";
+import { ICancelReviewByMentorUsecase } from "entities/usecaseInterfaces/review/updateStatusByMentorUsecase.interface";
 import { IGetDomainSlotsUsecase } from "entities/usecaseInterfaces/slot/getDomainSlotsUsecase.interface";
 import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
 import { ISlotValidityCheckerUsecase } from "entities/usecaseInterfaces/slot/slotValidityCheckerUsecase.interface";
@@ -43,7 +46,7 @@ import { IUpdateStudentStatusUsecase } from "entities/usecaseInterfaces/student/
 import { ICreateTransactionUsecase } from "entities/usecaseInterfaces/transaction/createTransactionUsecase.interface";
 import { IGetSpecificUserUsecase } from "entities/usecaseInterfaces/user/getSpecificUserUsecase.interface";
 import { IUpdateUserUsecase } from "entities/usecaseInterfaces/user/updateUserUsecase.interface";
-import { ICreditToAdminWalletUsecase } from "entities/usecaseInterfaces/wallet/creditToAdminWalletUsecase.inteface";
+import { ICreditWalletUsecase } from "entities/usecaseInterfaces/wallet/creditWalletUsecase.inteface";
 import { container } from "tsyringe";
 import { ForgotPasswordSendMailUsecase } from "useCases/auth/forgotPasswordMail.usecase";
 import { ForgotPasswordResetUsecase } from "useCases/auth/forgotPasswordReset.usecase";
@@ -79,7 +82,10 @@ import { CreateOrderUsecase } from "useCases/payment/createOrder.usecase";
 import { VerifyPaymentUsecase } from "useCases/payment/verifyPayment.usecase";
 import { BookReviewUsecase } from "useCases/review/bookReview.usecase";
 import { GetMentorReviewsUsecase } from "useCases/review/getMentorReviews.usecase";
+import { GetReviewForMentorUsecase } from "useCases/review/getReviewForMentor.usecase";
 import { GetStudentReviewsUsecase } from "useCases/review/getStudentReviews.usecase";
+import { SubmitReviewFeedBackUsecase } from "useCases/review/submitReviewFeedback.usecase";
+import { CancelReviewByMentorUsecase } from "useCases/review/cancelReviewByMentor.usecase";
 import { GetDomainSlotsUsecase } from "useCases/slot/getDomainSlots.usecase";
 import { GetMentorSlotsUsecase } from "useCases/slot/getMentorSlots.usecase";
 import { SlotValidityCheckerUsecase } from "useCases/slot/slotValidityChecker.usecase";
@@ -90,7 +96,11 @@ import { UpdateStudentStatusUsecase } from "useCases/student/updateStudentStatus
 import { CreateTransactionUsecase } from "useCases/transaction/createTransaction.usecase";
 import { GetSpecificUserUsecase } from "useCases/user/getSpecificUser.usecase";
 import { UpdateUserUsecase } from "useCases/user/updateUser.usecase";
-import { CreditToAdminWalletUsecase } from "useCases/wallet/creditToAdminWallet.usecase";
+import { CreditWalletUsecase } from "useCases/wallet/creditWallet.usecase";
+import { IDebitWalletUsecase } from "entities/usecaseInterfaces/wallet/debitWalletUsecase.interface";
+import { DebitWalletUsecase } from "useCases/wallet/debitWallet.usecase";
+import { ILogoutUsecase } from "entities/usecaseInterfaces/auth/logoutUsecase.interface";
+import { LogoutUsecase } from "useCases/auth/logout.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -116,6 +126,10 @@ export class UseCaseRegistory{
 
         container.register<IGoogleAuthUsecase>('IGoogleAuthUsecase',{
             useClass:GoogleAuthUsecase
+        })
+
+        container.register<ILogoutUsecase>('ILogoutUsecase',{
+            useClass:LogoutUsecase
         })
 
         container.register<IForgotPasswordSendMailUsecase>('IForgotPasswordSendMailUsecase',{
@@ -254,8 +268,11 @@ export class UseCaseRegistory{
         })
 
         //wallet usecase
-        container.register<ICreditToAdminWalletUsecase>('ICreditToAdminWalletUsecase',{
-            useClass:CreditToAdminWalletUsecase
+        container.register<ICreditWalletUsecase>('ICreditWalletUsecase',{
+            useClass:CreditWalletUsecase
+        })
+        container.register<IDebitWalletUsecase>('IDebitWalletUsecase',{
+            useClass:DebitWalletUsecase
         })
         
         //review usecase
@@ -267,6 +284,15 @@ export class UseCaseRegistory{
         })
         container.register<IGetMentorReviewsUsecase>('IGetMentorReviewsUsecase',{
             useClass:GetMentorReviewsUsecase
+        })
+        container.register<IGetReviewForMentorUsecase>('IGetReviewForMentorUsecase',{
+            useClass:GetReviewForMentorUsecase
+        })
+        container.register<ISubmitReviewFeedBackUsecase>('ISubmitReviewFeedBackUsecase',{
+            useClass:SubmitReviewFeedBackUsecase
+        })
+        container.register<ICancelReviewByMentorUsecase>('ICancelReviewByMentorUsecase',{
+            useClass:CancelReviewByMentorUsecase
         })
 
         //transaction usecase

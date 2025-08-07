@@ -1,9 +1,9 @@
 import { IReviewEntity } from "entities/modelEntities/reviewModel.entity";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { reviewModel, IReviewModel } from "frameworks/database/models/bookedSlot.model";
-import mongoose, { FilterQuery } from "mongoose";
+import mongoose, { FilterQuery, UpdateQuery } from "mongoose";
 import { PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
-import { BookReviewDTO, GetDomainReviewResponseDTO,DomainReviewSlotResponseDTO, GetStudentReviewResponseDTO, GetMentorReviewsResponseDTO } from "shared/dto/reviewDTO";
+import { BookReviewDTO, GetDomainReviewResponseDTO,DomainReviewSlotResponseDTO, GetStudentReviewResponseDTO, ReviewsDataForMentorResponseDTO, ReviewDataForMentorResponseDTO } from "shared/dto/reviewDTO";
 
 import { BaseRepository } from "./base.repository";
 
@@ -157,7 +157,7 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
         return reviews
     }
 
-    async findByMentor(filter:any,skip:number,limit:number):Promise<Omit<GetMentorReviewsResponseDTO,'totalPages'>>{
+    async findReviewsForMentor(filter:any,skip:number,limit:number):Promise<Omit<ReviewsDataForMentorResponseDTO,'totalPages'>>{
         const mentorObjectId=new mongoose.Types.ObjectId(filter.mentorId)
         const mongoFilter:FilterQuery<IReviewEntity>={mentorId:mentorObjectId};
 
@@ -233,6 +233,65 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
         return {reviews,totalDocuments}
     }
 
+    async findReviewForMentor(mentorId:string,reviewId:string):Promise<ReviewDataForMentorResponseDTO|null>{
+        const mentorObjectId=new mongoose.Types.ObjectId(mentorId)
+        const reviewObjectId=new mongoose.Types.ObjectId(reviewId)
+         const reviews=await reviewModel.aggregate([
+            {
+                $match:{_id:reviewObjectId,mentorId:mentorObjectId}
+            },
+            {
+                $limit:1
+            },
+            {
+                $lookup:{
+                    from:'domains',
+                    localField:'domainId',
+                    foreignField:'_id',
+                    as:'domain'
+                }
+            },
+            {$unwind:'$domain'},
+            {
+                $lookup:{
+                    from:'levels',
+                    localField:'levelId',
+                    foreignField:'_id',
+                    as:'level'
+                }
+            },
+            {$unwind:'$level'},
+            {
+                $lookup:{
+                    from:'users',
+                    localField:'studentId',
+                    foreignField:'_id',
+                    as:'student'
+                }
+            },
+            {$unwind:'$student'},
+            {
+                $project:{
+                    mentorId:1,
+                    student:{
+                        name:'$student.name',
+                        profileImage:'$student.profileImage'
+                    },
+                    domainName:'$domain.name',
+                    level:{
+                        name:'$level.name',
+                        taskFile:'$level.taskFile'
+                    },
+                    status:1,
+                    payment:{method:'$payment.method',status:'payment.status'},
+                    feedBack:1,
+                    slot:1
+                }
+            }
+         ])
+         return reviews[0]
+    }
+
     async createReview(reviewDetails:BookReviewDTO):Promise<IReviewModel>{
         const studentId=new mongoose.Types.ObjectId(reviewDetails.studentId)
         const mentorId=new mongoose.Types.ObjectId(reviewDetails.mentorId)
@@ -249,5 +308,24 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
     async checkIsBookedSlot(mentorId:string,day:string,start:number,end:number):Promise<boolean>{
          const review = await reviewModel.findOne({mentorId,'slot.day':day,'slot.start':{$lt:end},'slot.end':{$gt:start}})
          return review?true:false
+    }
+
+    async updateReview(filter:Record<string,string>,update:Record<string,string>):Promise<IReviewEntity|null>{
+        let mongoFilter:FilterQuery<IReviewEntity>={};
+        const mongoUpdate:UpdateQuery<IReviewEntity>={};
+        const {reviewId,...restFilter}=filter
+        mongoFilter={_id:reviewId,...restFilter}
+
+        if(update.status){
+            mongoUpdate.status=update.status
+        }
+        if(update.feedBack){
+            mongoUpdate.feedBack=update.feedBack
+        }
+        if(update.paymentStatus){
+            mongoUpdate.payment.status = update.paymentStatus
+        }
+        const updatedReview = await reviewModel.findOneAndUpdate(mongoFilter,mongoUpdate)
+        return updatedReview
     }
 }

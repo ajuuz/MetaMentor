@@ -43,8 +43,11 @@ const Navbar = () => {
           <div className='flex gap-4 items-center'>
               {!user ? <Button onClick={()=>navigate('/signup')} className="bg-[#E63946] text-white hover:bg-[#dc2f3c]">
                 Sign Up
-              </Button>:
+              </Button>
+              :
               <div className='flex gap-4 items-center'>
+                {user.role==='mentor' && <Button onClick={()=>navigate('mentor/reviews/upcoming')}>Switch to mentor</Button>}
+                {user.role==='admin' && <Button onClick={()=>navigate('admin/dashboard')}>Switch to admin</Button>}
                 <FaUserCircle onClick={()=>navigate('/profile')} className='cursor-pointer scale-[1.2]'/>
                 <FaPaperPlane />
               </div>

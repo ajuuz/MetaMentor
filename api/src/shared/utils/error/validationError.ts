@@ -1,9 +1,9 @@
-import { HTTP_STATUS } from "shared/constants";
+import { ERROR_MESSAGE, HTTP_STATUS } from "shared/constants";
 
 import { CustomError } from "./customError";
 
 export class ValidationError extends CustomError {
-  constructor(message:string='Necessary Credential Not recieved') {
+  constructor(message:string=ERROR_MESSAGE.VALIDATION) {
     super(HTTP_STATUS.BAD_REQUEST,message);
     this.name = "ValidationError";
   }

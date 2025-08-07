@@ -59,7 +59,7 @@ export type GetStudentReviewResponseDTO={
     slot:ReviewSlot
 }
 
-export type MentorReviewCard={
+export type ReviewDataForMentorResponseDTO={
     student:{
         name:string,
         profileImage:string
@@ -78,8 +78,8 @@ export type MentorReviewCard={
     slot:ReviewSlot
 }
 
-export type GetMentorReviewsResponseDTO={
-    reviews:MentorReviewCard[]
+export type ReviewsDataForMentorResponseDTO={
+    reviews:ReviewDataForMentorResponseDTO[]
     totalDocuments:number
     totalPages:number
 }

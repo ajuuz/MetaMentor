@@ -2,7 +2,7 @@ import PaginationComponent from "@/components/common/PaginationComponent"
 import SelectComponent from "@/components/common/SelectComponent"
 import ReviewCard from "@/components/mentor/ReviewCard"
 import { Label } from "@/components/ui/label"
-import { useMentorGetReviewsQuery } from "@/hooks/tanstack/review"
+import { useGetReviewsForMentorQuery } from "@/hooks/tanstack/review"
 import type { MentorReviewCard } from "@/types/reviewTypes"
 import { type DATE_RANGE, type REVIEW_FILTER_STATUS} from "@/utils/constants"
 import { useEffect, useState } from "react"
@@ -13,7 +13,7 @@ const CompletedReviews = () => {
     const [dateRange,setDateRange]=useState<DATE_RANGE>('all')
     const [status,setStatus]=useState<REVIEW_FILTER_STATUS>('completed')
     const [reviews,setReviews]=useState<MentorReviewCard[]>([])
-    const {data:reviewResponse} = useMentorGetReviewsQuery(status,dateRange,currentPage,10)
+    const {data:reviewResponse} = useGetReviewsForMentorQuery(status,dateRange,currentPage,10)
 
     useEffect(()=>{
         if(reviewResponse){
@@ -43,7 +43,7 @@ const CompletedReviews = () => {
         </div>
 
         <div className="h-full">
-            {reviews.map(review=><ReviewCard review={review}/>)}
+            {reviews.map(review=><ReviewCard key={review._id} review={review}/>)}
         </div>
         <div className="mt-10">
         <PaginationComponent currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages}/>

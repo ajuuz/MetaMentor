@@ -2,7 +2,7 @@ import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepositor
 import { ILoggerService } from "entities/serviceInterfaces/loggerService.interface";
 import { IGetMentorReviewsUsecase } from "entities/usecaseInterfaces/review/getMentorReviewsUsecase.interface";
 import { PENDING_REVIEW_STATE, REVIEW_FILTER_STATUS, REVIEW_STATUS } from "shared/constants";
-import { GetMentorReviewsResponseDTO } from "shared/dto/reviewDTO";
+import { ReviewsDataForMentorResponseDTO } from "shared/dto/reviewDTO";
 import { dateRangeCalculator } from "shared/utils/dateRangeCalculator";
 import { inject, injectable } from "tsyringe";
 
@@ -18,7 +18,7 @@ export class GetMentorReviewsUsecase implements IGetMentorReviewsUsecase{
         private _logger:ILoggerService
     ){}
 
-    async execute(mentorId:string,status:REVIEW_FILTER_STATUS,dateRange:string,currentPage:number,limit:number,pendingReviewState?:PENDING_REVIEW_STATE|undefined):Promise<Omit<GetMentorReviewsResponseDTO,'totalDocuments'>>{
+    async execute(mentorId:string,status:REVIEW_FILTER_STATUS,dateRange:string,currentPage:number,limit:number,pendingReviewState?:PENDING_REVIEW_STATE|undefined):Promise<Omit<ReviewsDataForMentorResponseDTO,'totalDocuments'>>{
         const skip:number=(currentPage-1)*limit;
         let filter:any={mentorId};
         switch(status){
@@ -52,7 +52,7 @@ export class GetMentorReviewsUsecase implements IGetMentorReviewsUsecase{
             filter.pendingReviewState=pendingReviewState
         }
 
-        const {reviews,totalDocuments} = await this._reviewRepository.findByMentor(filter,skip,limit)
+        const {reviews,totalDocuments} = await this._reviewRepository.findReviewsForMentor(filter,skip,limit)
         const totalPages = Math.ceil(totalDocuments/limit);
         return {reviews,totalPages}
         // this._logger.debug('',reviews)

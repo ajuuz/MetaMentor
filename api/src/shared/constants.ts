@@ -86,6 +86,9 @@ export const SUCCESS_MESSAGE={
     FETCH_ALL:'Fetched all Communities successfully',
     FETCH_SINGLE:'Community fetched successfully',
     UPDATE_STATUS:'Updated Community status successfully'
+   },
+   REVIEWS:{
+    UPDATE_STATUS:'Updated Review status successfully'
    }
 }
 
@@ -98,11 +101,16 @@ export const ERROR_MESSAGE={
   TOKEN_EXPIRED_REFRESH:"Token time out, Please loggin again",
   SERVER_ERROR:"An error occurred, please try again later.",
   BLOCKED_ERROR:"You are blocked by Admin. please contact admin",
-
+  NOT_FOUND:'Resource not found',
+  VALIDATION:'Necessary Credential Not recieved',
   SLOT:{
     GONE:'The resource you’re trying to access used to exist, but it is permanently gone and will never be available again.',
     UNPROCESSED_ENTITY:'Slot is not available currently. Try another one',
     CONFLICT:'Slot already booked. Please select another time.'
+  },
+  REVIEW:{
+    INVALID_STATUS:'Invalid Status',
+    CANCEL_ERROR:'Cannot update within 2 hours of the review slot'
   }
 }
 
@@ -131,10 +139,19 @@ export enum NOTIFICATION_TYPE{
   SLOT_RESCHEDULE='slotReschedule',
 }
 
+export enum NOTIFICATION_TITLE{
+  MENTOR_ACCEPTANCE='APPLICATION ACCEPTED',
+  MENTOR_REJECTION='APPLICATION REJECTED',
+  REVIEW_BOOKED='REVIEW BOOKED',
+  REVIEW_CANCEL='REVIEW CANCEL',
+  REVIEW_RESCHEDULE='REVIEW RESCHEDULE',
+  REVIEW_FEEDBACK_UPDATED='REVIEW FEEDBACK UPDATED'
+}
 export enum NOTIFICATION_MESSAGE{
   MENTOR_ACCEPTANCE='Your Mentor Application Accepted Successfully',
   MENTOR_REJECTION='Your Mentor Application Rejected',
-  SLOT_BOOKING='Slot Booked Successfully',
-  SLOT_CANCEL='slotCancel',
-  SLOT_RESCHEDULE='slotReschedule',
+  REVIEW_BOOKED='Review Booked Successfully',
+  REVIEW_CANCEL_MENTOR='Your Review has been cancelled! Review amount has been credited to your wallet',
+  REVIEW_RECHEDULE='Your Review slot has been reschedule',
+  REVIEW_FEEDBACK_UPDATED="Your Review's feedback has been updated. Please check it"
 }

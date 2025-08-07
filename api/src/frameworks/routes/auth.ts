@@ -1,5 +1,5 @@
 import {NextFunction, Request,Response,Router } from 'express';
-import { authController } from 'frameworks/di/resolver';
+import { authController, authMiddleware } from 'frameworks/di/resolver';
 
 
 export class AuthRoutes {
@@ -31,7 +31,7 @@ export class AuthRoutes {
 
         this._router.post('/refresh',authController.tokenRefreshing.bind(authController))
 
-        this._router.post('/logout',authController.logout.bind(authController))
+        this._router.post('/logout',authMiddleware.verifyAuth.bind(authMiddleware),authController.logout.bind(authController))
     }
 
     public getRouter(): Router {

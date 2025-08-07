@@ -19,13 +19,13 @@ import { imageUploader } from "@/utils/helperFunctions/imageUploadFunction";
 import { getDomainsNameAndId, registerForm } from "@/services/mentorService.ts/registrationApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { acceptMentorApplication, getSpecificMentor } from "@/services/adminService.ts/mentorApi";
-import { MENTOR_APPLICATION_STATUS } from "@/utils/constants";
+import { MENTOR_APPLICATION_STATUS, type MentorApplicationStatus } from "@/utils/constants";
 import './MentorDetailsManage.css'
 import {AnimatePresence, motion} from 'framer-motion'
 import  LoadingSpinnerComponent from "@/components/common/LoadingSpinnerComponent";
 import { getSpecificUser } from "@/services/userService/userApi";
 import type { UserDetailsType } from "@/types/userType";
-import type { DomainType } from "@/types/domainTypes";
+import type { DomainEntity } from "@/types/domainTypes";
 
 
 
@@ -41,8 +41,8 @@ export default function MentorDetailsManage() {
     profileImage:"",
   })
 
-  const [domains, setDomains] = useState<Pick<DomainType,'_id'|'name'>[]>([]);
-  const [selectedDomains, setSelectedDomains] = useState<Pick<DomainType,'_id'|'name'>[]>([]);
+  const [domains, setDomains] = useState<Pick<DomainEntity,'_id'|'name'>[]>([]);
+  const [selectedDomains, setSelectedDomains] = useState<Pick<DomainEntity,'_id'|'name'>[]>([]);
 
   const [companyName,setCompanyName]=useState<string>('')
   const [workedAt,setWorkedAt]=useState<string[]>([])
@@ -96,8 +96,7 @@ export default function MentorDetailsManage() {
 
   const {mutate:userDetailsFetchMutation} = useMutation({
       mutationFn:getSpecificUser,
-      onSuccess:(response)=>{
-        const user = response.data
+      onSuccess:(user)=>{
         setUserDetails(user)
       },
       onError:(error)=>{
@@ -213,7 +212,7 @@ export default function MentorDetailsManage() {
       }
   }
 
-  const handleVerify=(status:(typeof MENTOR_APPLICATION_STATUS)[keyof typeof MENTOR_APPLICATION_STATUS])=>{
+  const handleVerify=(status:MentorApplicationStatus)=>{
     if(mentorId){
       const isValid=/^(?=.*[a-zA-Z])[a-zA-Z0-9 ]{6,}$/.test(rejectionReason)
       if(status===MENTOR_APPLICATION_STATUS.REJECTED  && !isValid) {
@@ -222,7 +221,6 @@ export default function MentorDetailsManage() {
       };
       mentorRegisterVerifyMutation({mentorId,email:userDetails?.email,status,reason:rejectionReason})
     }
-
   }
 
   const handleFeeChange=(e:React.ChangeEvent<HTMLInputElement>)=>{

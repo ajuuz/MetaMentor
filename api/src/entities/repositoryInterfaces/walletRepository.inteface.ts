@@ -6,4 +6,5 @@ import { IBaseRepository } from "./baseRepository.interface";
 
 export interface IWalletRepository extends IBaseRepository<IWalletEntity,IWalletModel>{
     creditAmount(userId:string,amount:number):Promise<void>
+    debitAmount(userId:string,amount:number):Promise<void>
 }

@@ -1,4 +1,4 @@
-import type { PAYMENT_METHOD, PAYMENT_STATUS, REVIEW_STATUS } from "@/utils/constants"
+import type { PAYMENT_METHOD, PAYMENT_STATUS, ReviewStatus } from "@/utils/constants"
 
 export type ReviewSlot={
         day:string,
@@ -18,7 +18,7 @@ export type ReviewEntity={
         method:PAYMENT_METHOD,
         status:PAYMENT_STATUS
     },
-    status:REVIEW_STATUS
+    status:ReviewStatus
 }
 
 export type BookReviewDTO=Pick<ReviewEntity,'mentorId'|'domainId'|'levelId'|'slot'>
@@ -29,7 +29,7 @@ export type StudentReviewCard={
         name:string,
         taskFile:string,
     },
-    status:REVIEW_STATUS,
+    status:ReviewStatus,
     payment:{
         method:string,
         status:PAYMENT_STATUS
@@ -49,7 +49,7 @@ export type MentorReviewCard={
         name:string,
         taskFile:string,
     },
-    status:REVIEW_STATUS,
+    status:ReviewStatus,
     payment:{
         method:string,
         status:PAYMENT_STATUS
@@ -72,7 +72,7 @@ export type GetStudentReviewResponseDTO={
         name:string,
         taskFile:string,
     },
-    status:REVIEW_STATUS,
+    status:ReviewStatus,
     payment:{
         method:string,
         status:PAYMENT_STATUS
