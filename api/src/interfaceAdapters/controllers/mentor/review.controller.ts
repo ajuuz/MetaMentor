@@ -2,7 +2,7 @@ import { IMentorReviewController } from "entities/controllerInterfaces/mentor/re
 import { IGetMentorReviewsUsecase } from "entities/usecaseInterfaces/review/getMentorReviewsUsecase.interface";
 import { IGetReviewForMentorUsecase } from "entities/usecaseInterfaces/review/getReviewForMentorUsecase.interface";
 import { ISubmitReviewFeedBackUsecase } from "entities/usecaseInterfaces/review/submitReviewFeedBackUsecase.interface";
-import { ICancelReviewByMentorUsecase } from "entities/usecaseInterfaces/review/updateStatusByMentorUsecase.interface";
+import { ICancelReviewByMentorUsecase } from "entities/usecaseInterfaces/review/cancelReviewByMentorUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, PENDING_REVIEW_STATE, REVIEW_FILTER_STATUS, REVIEW_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { ModifiedRequest } from "shared/types";

@@ -32,6 +32,7 @@ export class UserRoutes{
 
         //reviews
         this._router.get('/reviews',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userReviewController.getAllReviews.bind(userReviewController))
+        this._router.patch('/reviews/:reviewId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userReviewController.cancelReview.bind(userReviewController))
 
     }
 

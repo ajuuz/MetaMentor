@@ -1,6 +1,6 @@
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { IPushNotificationService } from "entities/serviceInterfaces/pushNotificationService.interface";
-import { ICancelReviewByMentorUsecase } from "entities/usecaseInterfaces/review/cancelReviewByMentorUsecase.interface";
+import { ICancelReviewByStudentUsecase } from "entities/usecaseInterfaces/review/cancelReviewByStudentUsecase.interface";
 import { ICreateTransactionUsecase } from "entities/usecaseInterfaces/transaction/createTransactionUsecase.interface";
 import { ICreditWalletUsecase } from "entities/usecaseInterfaces/wallet/creditWalletUsecase.inteface";
 import { IDebitWalletUsecase } from "entities/usecaseInterfaces/wallet/debitWalletUsecase.interface";
@@ -8,12 +8,11 @@ import { config } from "shared/config";
 import { ERROR_MESSAGE, HTTP_STATUS, NOTIFICATION_MESSAGE, NOTIFICATION_TITLE, REVIEW_STATUS, TRANSACTION_TYPE } from "shared/constants";
 import { CustomError } from "shared/utils/error/customError";
 import { NotFoundError } from "shared/utils/error/notFounError";
-import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
 
 
 @injectable()
-export class CancelReviewByMentorUsecase implements ICancelReviewByMentorUsecase{
+export class CancelReviewByStudentUsecase implements ICancelReviewByStudentUsecase{
 
     private _adminId:string;
     constructor(
@@ -35,11 +34,7 @@ export class CancelReviewByMentorUsecase implements ICancelReviewByMentorUsecase
         this._adminId=config.ADMIN_ID!
     }
 
-    async execute(mentorId:string,reviewId:string,status:Extract<REVIEW_STATUS,REVIEW_STATUS.CANCELLED>):Promise<void>{
-
-        if(status!==REVIEW_STATUS.CANCELLED){
-            throw new ValidationError(ERROR_MESSAGE.REVIEW.INVALID_STATUS)
-        }
+    async execute(studentId:string,reviewId:string):Promise<void>{
 
         const fetchFilter={_id:reviewId,status:REVIEW_STATUS.PENDING}
         const review = await this._reviewRepository.findOne(fetchFilter)
@@ -57,17 +52,17 @@ export class CancelReviewByMentorUsecase implements ICancelReviewByMentorUsecase
              throw new CustomError(HTTP_STATUS.BAD_REQUEST,ERROR_MESSAGE.REVIEW.CANCEL_ERROR)
         }
 
-        const filter={mentorId,reviewId}
+        const filter={studentId,reviewId}
         const update={status:REVIEW_STATUS.CANCELLED}
         const cancelledReview = await this._reviewRepository.updateReview(filter,update)
         if(!cancelledReview){
             throw new NotFoundError();
         }
-        const userId=cancelledReview.studentId.toString()
+        const mentorId=cancelledReview.mentorId.toString()
         const asyncOperations=[]
-        asyncOperations.push(this._pushNotificationService.sendNotification(userId,NOTIFICATION_TITLE.REVIEW_CANCEL,NOTIFICATION_MESSAGE.REVIEW_CANCEL_MENTOR))
+        asyncOperations.push(this._pushNotificationService.sendNotification(mentorId,NOTIFICATION_TITLE.REVIEW_CANCEL,NOTIFICATION_MESSAGE.REVIEW_CANCEL_STUDENT))
 
-        const transactionAmount=cancelledReview.commissionAmount+cancelledReview.mentorEarning;
+        const transactionAmount=cancelledReview.mentorEarning;
          const adminTransaction={
             walletId:this._adminId,
             reviewId:cancelledReview._id,

@@ -35,7 +35,7 @@ import { IGetMentorReviewsUsecase } from "entities/usecaseInterfaces/review/getM
 import { IGetReviewForMentorUsecase } from "entities/usecaseInterfaces/review/getReviewForMentorUsecase.interface";
 import { IGetStudentReviewsUsecase } from "entities/usecaseInterfaces/review/getStudentReviewsUsecase.interface";
 import { ISubmitReviewFeedBackUsecase } from "entities/usecaseInterfaces/review/submitReviewFeedBackUsecase.interface";
-import { ICancelReviewByMentorUsecase } from "entities/usecaseInterfaces/review/updateStatusByMentorUsecase.interface";
+import { ICancelReviewByMentorUsecase } from "entities/usecaseInterfaces/review/cancelReviewByMentorUsecase.interface";
 import { IGetDomainSlotsUsecase } from "entities/usecaseInterfaces/slot/getDomainSlotsUsecase.interface";
 import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
 import { ISlotValidityCheckerUsecase } from "entities/usecaseInterfaces/slot/slotValidityCheckerUsecase.interface";
@@ -104,6 +104,8 @@ import { LogoutUsecase } from "useCases/auth/logout.usecase";
 import { IGetReviewsForStudentUsecase } from "entities/usecaseInterfaces/review/getReviewsForStudentUsecase.interface";
 import { GetReviewsForStudentUsecase } from "useCases/review/getReviewsForStudent.usecase";
 import { SubmitReviewFeedBackUsecase } from "useCases/review/submitReviewFeedBack.usecase";
+import { ICancelReviewByStudentUsecase } from "entities/usecaseInterfaces/review/cancelReviewByStudentUsecase.interface";
+import { CancelReviewByStudentUsecase } from "useCases/review/cancelReviewByStudent.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -299,6 +301,9 @@ export class UseCaseRegistory{
         })
         container.register<IGetReviewsForStudentUsecase>('IGetReviewsForStudentUsecase',{
             useClass:GetReviewsForStudentUsecase
+        })
+        container.register<ICancelReviewByStudentUsecase>('ICancelReviewByStudentUsecase',{
+            useClass:CancelReviewByStudentUsecase
         })
 
         //transaction usecase

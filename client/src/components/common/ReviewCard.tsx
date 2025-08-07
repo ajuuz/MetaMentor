@@ -6,7 +6,10 @@ import type { GetStudentReviewResponseDTO } from "@/types/reviewTypes"
 import { toTimeString } from "@/utils/helperFunctions/toTimeString"
 import { useNavigate } from "react-router-dom"
 import AlertDialogComponent from "../common/AlertDialogComponent"
-// import { cancelReviewByStudent } from "@/services/studentService/reviewApi"
+import { cancelReviewByStudent } from '@/services/userService/reviewApi'
+import { toast } from 'sonner'
+import { queryClient } from '@/config/tanstackConfig/tanstackConfig'
+import { useMutation } from '@tanstack/react-query'
 
 type Props = {
   review: GetStudentReviewResponseDTO,
@@ -30,21 +33,20 @@ const StudentReviewCard = ({ review, isNotOver }: Props) => {
   console.log(review)
   const navigate = useNavigate()
   
-  // const { mutate: cancelReviewMutation, isPending: isLoading } = useMutation({
-  //   mutationFn: cancelReviewByStudent,
-  //   onSuccess: (response) => {
-  //     toast.success(response.message)
-  //     queryClient.invalidateQueries({ queryKey: ['getReviewsForStudent'] })
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error.message)
-  //   }
-  // })
+  const { mutate: cancelReviewMutation, isPending: isLoading } = useMutation({
+    mutationFn: cancelReviewByStudent,
+    onSuccess: (response) => {
+      toast.success(response.message)
+      queryClient.invalidateQueries({ queryKey: ['getReviewsForStudent'] })
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
+  })
 
   const handleCancelReview = () => {
     const reviewId = review._id
-    const status = 'cancelled'
-    // cancelReviewMutation({ reviewId, status })
+    cancelReviewMutation(reviewId)
   }
 
   let isCancelAvailable;
@@ -127,7 +129,7 @@ const StudentReviewCard = ({ review, isNotOver }: Props) => {
               <AlertDialogComponent 
                 alertTriggerer={
                   <Button 
-                    // disabled={isLoading} 
+                    disabled={isLoading} 
                     variant="destructive" 
                     size="sm"
                   >
