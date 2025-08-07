@@ -5,10 +5,17 @@ import { Button } from "../ui/button"
 import type { MentorReviewCard } from "@/types/reviewTypes"
 import { toTimeString } from "@/utils/helperFunctions/toTimeString"
 import { useNavigate } from "react-router-dom"
+import { useMemo } from "react"
+import AlertDialogComponent from "../common/AlertDialogComponent"
+import { useMutation } from "@tanstack/react-query"
+import { cancelReviewByMentor } from "@/services/mentorService.ts/reviewApi"
+import { toast } from "sonner"
+import { queryClient } from "@/config/tanstackConfig/tanstackConfig"
 
 
 type Props={
-    review:MentorReviewCard
+    review:MentorReviewCard,
+    isNotOver?:boolean
 }
 
 const formattedDate =(date:Date)=>new Date(date).toLocaleDateString("en-US", {year: "numeric",month: "long",day: "numeric"});
@@ -18,9 +25,41 @@ const statusColorMap: Record<string, string> = {
   cancelled: 'bg-gray-500 text-white',
   pending: 'bg-yellow-500 text-black',
 };
-const ReviewCard = ({review}:Props) => {
+const ReviewCard = ({review,isNotOver}:Props) => {
 
-    const navigate = useNavigate()
+  const navigate = useNavigate()
+
+
+
+  const {mutate:cancelReviewMutation,isPending:isLoading}=useMutation({
+    mutationFn:cancelReviewByMentor,
+    onSuccess:(response)=>{
+      toast.success(response.message)
+       queryClient.invalidateQueries({queryKey:['getReviewsForMentor']})
+    },
+    onError:(error)=>{
+      toast.error(error.message)
+    }
+  })
+  const handleCancelReview=()=>{
+    const reviewId=review._id
+    const status='cancelled'
+    cancelReviewMutation({reviewId,status})
+  }
+
+
+   let isCancelAvailable;
+   if(isNotOver){
+     isCancelAvailable= useMemo(() => {
+       if (!isNotOver || !review.slot?.isoStartTime) return false;
+       const currentDate = new Date();
+       const startTime = new Date(review.slot.isoStartTime); // assuming isoStartTime is ISO string
+       const diffInMs = startTime.getTime() - currentDate.getTime(); // milliseconds
+       const diffInHours = diffInMs / (1000 * 60 * 60); // convert to hours
+       return diffInHours >= 2;
+      }, [isNotOver, review.slot?.isoStartTime]);
+    }
+
   return (
      <div className=" max-w-6xl border rounded-lg bg-white shadow flex gap-2 ">
             <div className="flex flex-col justify-center items-center gap-4 py-3 flex-1 rounded-l-md bg-gradient-to-br from-slate-900 to-slate-800">
@@ -71,8 +110,9 @@ const ReviewCard = ({review}:Props) => {
                     }
                 </div>
 
-                <div>
+                <div className="flex gap-3">
                     <Badge className={`p-2 px-5 ${statusColorMap[review.status]}`}>{review.status}</Badge>
+                    {isCancelAvailable && <AlertDialogComponent alertTriggerer={<Button disabled={isLoading}>Cancel</Button>} alertDescription="Are you sure you are going to cancel the reivew" handleClick={handleCancelReview}/>}
                 </div>
             </div>
 

@@ -41,7 +41,7 @@ export class CancelReviewByMentorUsecase implements ICancelReviewByMentorUsecase
             throw new ValidationError(ERROR_MESSAGE.REVIEW.INVALID_STATUS)
         }
 
-        const fetchFilter={reviewId,status:REVIEW_STATUS.PENDING}
+        const fetchFilter={_id:reviewId,status:REVIEW_STATUS.PENDING}
         const review = await this._reviewRepository.findOne(fetchFilter)
         if(!review){
             throw new NotFoundError()

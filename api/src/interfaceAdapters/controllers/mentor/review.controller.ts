@@ -53,7 +53,6 @@ export class MentorReviewController implements IMentorReviewController{
         const reviewId:string=req.params.reviewId 
         const mentorId:string=(req as ModifiedRequest)?.user?.id;
         const feedBack:string=req.body.feedBack;
-        console.log("dsjlkf")
         if(!status || !reviewId||!mentorId) throw new ValidationError();
 
         if(status===REVIEW_STATUS.CANCELLED){

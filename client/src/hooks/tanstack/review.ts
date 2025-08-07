@@ -7,14 +7,14 @@ import { useQuery } from "@tanstack/react-query"
 
 export const useGetReviewsForMentorQuery=(status:REVIEW_FILTER_STATUS,dateRange:DATE_RANGE,currentPage:number,limit:number,pendingReviewState?:PENDING_REVIEW_STATE)=>{
     return useQuery<GetMentorReviewsResponse>({
-        queryKey:['mentorGetReviews',status,dateRange,currentPage,limit,pendingReviewState],
+        queryKey:['getReviewsForMentor',status,dateRange,currentPage,limit,pendingReviewState],
         queryFn:()=> getReviewsForMentor(status,dateRange,currentPage,limit,pendingReviewState)
     })
 }
 
 export const useGetReviewForMentorQuery=(reviewId:string)=>{
     return useQuery<MentorReviewCard>({
-        queryKey:['mentorGetReviews',reviewId],
+        queryKey:['getReviewForMentor',reviewId],
         queryFn:()=> getReviewForMentor(reviewId)
     })
 }
