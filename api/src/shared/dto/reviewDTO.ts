@@ -83,6 +83,11 @@ export type ReviewsDataForMentorResponseDTO={
     totalDocuments:number
     totalPages:number
 }
+export type ReviewsDataForStudentResponseDTO={
+    reviews:GetStudentReviewResponseDTO[]
+    totalDocuments:number
+    totalPages:number
+}
 
 export type DomainReviewSlotResponseDTO={
     mentorId:string,

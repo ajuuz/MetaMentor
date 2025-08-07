@@ -84,7 +84,7 @@ import { BookReviewUsecase } from "useCases/review/bookReview.usecase";
 import { GetMentorReviewsUsecase } from "useCases/review/getMentorReviews.usecase";
 import { GetReviewForMentorUsecase } from "useCases/review/getReviewForMentor.usecase";
 import { GetStudentReviewsUsecase } from "useCases/review/getStudentReviews.usecase";
-import { SubmitReviewFeedBackUsecase } from "useCases/review/submitReviewFeedback.usecase";
+
 import { CancelReviewByMentorUsecase } from "useCases/review/cancelReviewByMentor.usecase";
 import { GetDomainSlotsUsecase } from "useCases/slot/getDomainSlots.usecase";
 import { GetMentorSlotsUsecase } from "useCases/slot/getMentorSlots.usecase";
@@ -101,6 +101,9 @@ import { IDebitWalletUsecase } from "entities/usecaseInterfaces/wallet/debitWall
 import { DebitWalletUsecase } from "useCases/wallet/debitWallet.usecase";
 import { ILogoutUsecase } from "entities/usecaseInterfaces/auth/logoutUsecase.interface";
 import { LogoutUsecase } from "useCases/auth/logout.usecase";
+import { IGetReviewsForStudentUsecase } from "entities/usecaseInterfaces/review/getReviewsForStudentUsecase.interface";
+import { GetReviewsForStudentUsecase } from "useCases/review/getReviewsForStudent.usecase";
+import { SubmitReviewFeedBackUsecase } from "useCases/review/submitReviewFeedBack.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -293,6 +296,9 @@ export class UseCaseRegistory{
         })
         container.register<ICancelReviewByMentorUsecase>('ICancelReviewByMentorUsecase',{
             useClass:CancelReviewByMentorUsecase
+        })
+        container.register<IGetReviewsForStudentUsecase>('IGetReviewsForStudentUsecase',{
+            useClass:GetReviewsForStudentUsecase
         })
 
         //transaction usecase

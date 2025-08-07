@@ -3,7 +3,7 @@ import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepositor
 import { reviewModel, IReviewModel } from "frameworks/database/models/bookedSlot.model";
 import mongoose, { FilterQuery, UpdateQuery } from "mongoose";
 import { PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
-import { BookReviewDTO, GetDomainReviewResponseDTO,DomainReviewSlotResponseDTO, GetStudentReviewResponseDTO, ReviewsDataForMentorResponseDTO, ReviewDataForMentorResponseDTO } from "shared/dto/reviewDTO";
+import { BookReviewDTO, GetDomainReviewResponseDTO,DomainReviewSlotResponseDTO, GetStudentReviewResponseDTO, ReviewsDataForMentorResponseDTO, ReviewDataForMentorResponseDTO, ReviewsDataForStudentResponseDTO } from "shared/dto/reviewDTO";
 
 import { BaseRepository } from "./base.repository";
 
@@ -155,6 +155,81 @@ export class ReviewRepository extends BaseRepository<IReviewEntity,IReviewModel>
             }
         ])
         return reviews
+    }
+
+    async findReviewsForStudent(filter:any,skip:number,limit:number):Promise<Omit<ReviewsDataForStudentResponseDTO,'totalPages'>>{
+        const studentIdObjectId=new mongoose.Types.ObjectId(filter.studentId)
+        const mongoFilter:FilterQuery<IReviewEntity>={studentId:studentIdObjectId};
+
+        if(filter.status){
+            mongoFilter.status={$in:filter.status}
+        }
+
+        if(filter.dateRange){
+            mongoFilter['slot.isoStartTime']={$gte:filter.dateRange.start,$lte:filter.dateRange.end}
+        }
+        if(filter.pendingReviewState!=='undefined'){
+            const currentDate = new Date();
+            if(filter.pendingReviewState===PENDING_REVIEW_STATE.NOTOVER){
+                 mongoFilter['slot.isoStartTime']={$gt:currentDate}
+                }else{
+                mongoFilter['slot.isoEndTime']={$lt:currentDate}
+            }
+        }
+
+        const [reviews,totalDocuments] = await Promise.all([
+            reviewModel.aggregate([
+                {$match:mongoFilter},
+                {$skip:skip},
+                {$limit:limit},
+                {
+                    $lookup:{
+                        from:'domains',
+                        localField:'domainId',
+                        foreignField:'_id',
+                        as:'domain'
+                    }
+                },
+                {$unwind:'$domain'},
+                {
+                    $lookup:{
+                        from:'levels',
+                        localField:'levelId',
+                        foreignField:'_id',
+                        as:'level'
+                    }
+                },
+                {$unwind:'$level'},
+                {
+                    $lookup:{
+                        from:'users',
+                        localField:'mentorId',
+                        foreignField:'_id',
+                        as:'mentor'
+                    }
+                },
+                {$unwind:'$mentor'},
+                {
+                    $project:{
+                        mentor:{
+                            name:'$mentor.name',
+                            profileImage:'$mentor.profileImage'
+                        },
+                        domainName:'$domain.name',
+                        level:{
+                            name:'$level.name',
+                            taskFile:'$level.taskFile'
+                        },
+                        status:1,
+                        payment:{method:'$payment.method',status:'payment.status'},
+                        feedBack:1,
+                        slot:1
+                    }
+                }
+            ]),
+            reviewModel.countDocuments(mongoFilter)
+        ])
+        return {reviews,totalDocuments}
     }
 
     async findReviewsForMentor(filter:any,skip:number,limit:number):Promise<Omit<ReviewsDataForMentorResponseDTO,'totalPages'>>{
