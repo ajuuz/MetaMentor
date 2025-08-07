@@ -31,7 +31,8 @@ export class UserRoutes{
         this._router.post('/slots/:mentorId/:day/:slotId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userSlotController.slotValidityChecker.bind(userSlotController))
 
         //reviews
-        this._router.get('/reviews',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userReviewController.getStudentReviews.bind(userReviewController))
+        this._router.get('/reviews',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userReviewController.getAllReviews.bind(userReviewController))
+        this._router.patch('/reviews/:reviewId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userReviewController.cancelReview.bind(userReviewController))
 
     }
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {Outlet} from 'react-router-dom';
+import {Outlet, useNavigate} from 'react-router-dom';
 import { FaHamburger } from "react-icons/fa";
 import './layoutStyle.css';
 import { X } from 'lucide-react';
@@ -12,9 +12,16 @@ const UserProfileLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [active,setActive] = useState(0)
   const logoutDispatch = useUserStore(state=>state.logout)
+  const navigate=useNavigate()
 
-  const handleClick=(index:number)=>{
+  const navigationPathMap={
+    Profile:'/profile',
+    "Upcoming Reviews":'/reviews/upcoming',
+    "Completed Reviews":'/reviews/completed'
+  }
+  const handleClick=(element:keyof typeof navigationPathMap,index:number)=>{
      setActive(index);
+     navigate(navigationPathMap[element])
   }
 
   const {mutate:logoutMutation}=useMutation({
@@ -35,8 +42,8 @@ const UserProfileLayout = () => {
             <div onClick={()=>setSidebarOpen(prev=>!prev)} className={`absolute z-3 sm:hidden transition-all duration-300 ${sidebarOpen?"top-5 translate-x-43 p-1":"top-5 translate-x-2 p-2"}  bg-black text-white  rounded-4xl`}>{!sidebarOpen?<FaHamburger/>:<X/>}</div>
             <div className={`h-7/8 sm:h-full bg-white fixed shadow-lg sm:relative z-2 flex flex-col gap-6 px-2  justify-center transition-all duration-300  -translate-x-full sm:translate-x-0 ${sidebarOpen && "translate-x-0"}`}>
                 {
-                ["Profile","Settings"].map((element,index)=>(
-                    <div onClick={()=>handleClick(index)} className={`font-medium ${active===index?"bg-red-200 text-white":"text-black"}  px-20 py-2 rounded-md`}>{element}</div>
+                ["Profile",'Upcoming Reviews','Completed Reviews',"Settings"].map((element,index)=>(
+                    <div onClick={()=>handleClick(element as keyof typeof navigationPathMap,index)} className={`font-medium ${active===index?"bg-red-200 text-white":"text-black"}  px-20 py-2 rounded-md`}>{element}</div>
                 ))
                 }
              <div onClick={()=>logoutMutation()} className={`cursor-pointer font-medium bg-black text-white  px-20 py-2 rounded-md`}>Logout</div>

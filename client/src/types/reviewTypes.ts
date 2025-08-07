@@ -58,15 +58,20 @@ export type MentorReviewCard={
     slot:ReviewSlot  & {isoStartTime:Date,isoEndTime:Date}
 }
 
-export type GetMentorReviewsResponse={
+export type GetReviewsForMentorResponse={
     reviews:MentorReviewCard[],
     totalPages:number
 }
 
 
 
+
 export type GetStudentReviewResponseDTO={
-    mentorName:string,
+    _id:string,
+    mentor:{
+        name:string,
+        profileImage:string,
+    },
     domainName:string
     level:{
         name:string,
@@ -78,7 +83,12 @@ export type GetStudentReviewResponseDTO={
         status:PAYMENT_STATUS
     },
     feedBack:string,
-    slot:ReviewSlot
+    slot:ReviewSlot & {isoStartTime:Date,isoEndTime:Date}
+}
+
+export type GetReviewsForStudentResponse={
+    reviews:GetStudentReviewResponseDTO[],
+    totalPages:number
 }
 
 export type GetDomainReviewSlotResponseDTO={

@@ -88,7 +88,8 @@ export const SUCCESS_MESSAGE={
     UPDATE_STATUS:'Updated Community status successfully'
    },
    REVIEWS:{
-    UPDATE_STATUS:'Updated Review status successfully'
+    UPDATE_STATUS:'Updated Review status successfully',
+    STUDENT_CANCEL_REVIEW:'Platform fee has been debited from your amount. Balance is credited to your wallet'
    }
 }
 
@@ -152,6 +153,7 @@ export enum NOTIFICATION_MESSAGE{
   MENTOR_REJECTION='Your Mentor Application Rejected',
   REVIEW_BOOKED='Review Booked Successfully',
   REVIEW_CANCEL_MENTOR='Your Review has been cancelled! Review amount has been credited to your wallet',
+  REVIEW_CANCEL_STUDENT='Your Review has been cancelled by the student',
   REVIEW_RECHEDULE='Your Review slot has been reschedule',
   REVIEW_FEEDBACK_UPDATED="Your Review's feedback has been updated. Please check it"
 }
