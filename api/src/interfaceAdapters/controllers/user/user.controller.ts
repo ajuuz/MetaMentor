@@ -33,3 +33,4 @@ export class UserController implements IUserController{
         res.status(HTTP_STATUS.OK).json({success:true,message:"profile updated successfully"})
     }
 }
+
