@@ -1,4 +1,6 @@
 import { IBlackListTokenRepository } from "entities/repositoryInterfaces/blackListTokenRepository.interface";
+import { ICommentRepository } from "entities/repositoryInterfaces/commentRepository.interface";
+import { ICommunityPostRepository } from "entities/repositoryInterfaces/communityPostRepository.interface";
 import { ICommunityRepository } from "entities/repositoryInterfaces/communityRepository.interface";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { IFcmTokenRepository } from "entities/repositoryInterfaces/fcmTokenRepository.interface";
@@ -13,7 +15,9 @@ import { ITransactionRepository } from "entities/repositoryInterfaces/transactio
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IWalletRepository } from "entities/repositoryInterfaces/walletRepository.inteface";
 import { BlackListTokenRepository } from "interfaceAdapters/repositories/blackListToken.repository";
+import { CommentRepository } from "interfaceAdapters/repositories/comment.repository";
 import { CommunityRepository } from "interfaceAdapters/repositories/community.repository";
+import { CommunityPostRepository } from "interfaceAdapters/repositories/communityPost.repository";
 import { DomainRepository } from "interfaceAdapters/repositories/domain.repository";
 import { FcmTokenRepository } from "interfaceAdapters/repositories/fcmToken.repository";
 import { LevelRepository } from "interfaceAdapters/repositories/level.repository";
@@ -90,6 +94,13 @@ export class RepositoryRegistry{
 
         container.register<INotificationRepository>('INotificationRepository',{
             useClass:NotificationRepository
+        })
+
+        container.register<ICommunityPostRepository>('ICommunityPostRepository',{
+            useClass:CommunityPostRepository
+        })
+        container.register<ICommentRepository>('ICommentRepository',{
+            useClass:CommentRepository
         })
 
 

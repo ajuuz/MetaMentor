@@ -19,6 +19,8 @@ import DomainInsight from "@/pages/user/dashboard/DomainInsight"
 import ScheduleReview from "@/pages/user/scheduleReview/ScheduleReview"
 import { UpcomingReviews } from "@/pages/user/reviews/Upcoming"
 import Completed from "@/pages/user/reviews/Completed"
+import CommunityPost from "@/pages/user/community/CommunityThread"
+import Communities from "@/pages/user/community/Communities"
 
 
 const UserRoutes = () => {
@@ -43,6 +45,8 @@ const UserRoutes = () => {
                     <Route path="/dashboard" element={<Dashboard/>}/>
                     <Route path="/dashboard/:domainId" element={<DomainInsight/>}/>
                     <Route path="/review/schedule/:domainId/:levelId" element={<ScheduleReview/>}/>
+                    <Route path="/communities" element={<Communities/>}/>
+                    <Route path="/communities/:communityId" element={<CommunityPost/>}/>
                     {/* user profile layout */}
                     <Route element={<UserProfileLayout/>}>
                       <Route path="/profile" element={<Profile/>}/>
