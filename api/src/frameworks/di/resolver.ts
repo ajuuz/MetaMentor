@@ -35,6 +35,8 @@ import { ILoggerMiddleware } from "entities/middlewareInterfaces/loggerMiddlewar
 import { LoggerMiddleware } from "interfaceAdapters/middlewares/logger.middleware";
 import { IMentorReviewController } from "entities/controllerInterfaces/mentor/reviewController.interface";
 import { MentorReviewController } from "interfaceAdapters/controllers/mentor/review.controller";
+import { IUserCommunityController } from "entities/controllerInterfaces/user/communityController.interface";
+import { UserCommunityController } from "interfaceAdapters/controllers/user/community.controller";
 
 DependencyInjection.registerAll()
 
@@ -61,6 +63,7 @@ export const userController = container.resolve<IUserController>(UserController)
 export const userDomainController = container.resolve<IUserDomainController>(UserDomainController)
 export const userSlotController = container.resolve<IUserSlotController>(UserSlotController)
 export const userReviewController = container.resolve<IUserReviewController>(UserReviewController)
+export const userCommunityController = container.resolve<IUserCommunityController>(UserCommunityController)
 
 //paymentController
 export const paymentController = container.resolve<IPaymentController>(PaymentController)

@@ -29,7 +29,7 @@ const Navbar = () => {
             <div className="hidden md:flex items-center ">
                 <NavigationMenu className="flex items-center space-x-4">
                     <NavigationMenuList className="flex gap-5">
-                      {["Domains", "Mentors", "About", "Network", "Rooms", "Highlights", "Dashboard"].map((item) => (
+                      {["Communities","Domains", "Mentors", "About", "Network", "Rooms", "Highlights", "Dashboard"].map((item) => (
                         <NavigationMenuItem key={item} >
                           <Link className="text-black hover:text-[#E63946] transition-colors" to={`/${item.toLowerCase()}`}>
                             {item}
@@ -64,7 +64,7 @@ const Navbar = () => {
                    <div className="flex flex-col gap-3 mt-6 px-6 py-4  rounded-2xl">
                    <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-2">Explore</h2>
 
-                    {["Community","Mentors","About","Network","Rooms","Highlights","Dashboard",].map((item, index) => (
+                    {["Communities","Mentors","About","Network","Rooms","Highlights","Dashboard",].map((item, index) => (
                       <Link  key={index}  to={`/${item.toLowerCase()}`}  className="text-[16px] font-medium text-gray-700 hover:text-[#E63946] hover:pl-2 transition-all duration-200 ease-in-out px-2 py-1 rounded-md hover:bg-[#E63946]/10">
                         {item}
                       </Link>

@@ -17,5 +17,10 @@ export type GetAllDomainsResponseDTO={
    totalDocuments:number,
    totalPages:number
 }
+export type GetAllCommunitiesResponseDTO={
+   communities:IDomainEntity[],
+   totalDocuments:number,
+   totalPages:number
+}
 
 

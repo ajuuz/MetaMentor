@@ -22,7 +22,7 @@ const ManageStudents = () => {
     const [totalPages,setTotalPages] = useState<number>(0)
     const [currentPage,setCurrentPage] = useState<number>(1)
 
-    const {data:getAllStudentsResponse} = useAdminGetAllStudentsQuery(currentPage,10)
+    const {data:getAllStudentsResponse} = useAdminGetAllStudentsQuery(currentPage,2)
 
     const {mutate:updateStudentStatusMutate} = useMutation({
         mutationFn:updateStudentStatus,

@@ -21,6 +21,7 @@ export class UserController implements IUserController{
 
     async getDetails(req:Request,res:Response,next:NextFunction):Promise<void>{
         const userId =  (req as ModifiedRequest).user.id;
+        console.log('body',req.body,req.params,req.query)
         const user:UserDetailsResponseDTO=await this._getSpecificUserUsecase.execute(userId);
         res.status(HTTP_STATUS.OK).json(user)
     }

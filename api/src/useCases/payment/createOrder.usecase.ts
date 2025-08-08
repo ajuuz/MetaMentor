@@ -2,6 +2,8 @@ import { ISlotLockRepository } from "entities/repositoryInterfaces/slotLockRepos
 import { ICreateOrderUsecase } from "entities/usecaseInterfaces/payment/createOrderUsecase.interface";
 import { razorpay } from "frameworks/razorpay/razorpay";
 import { Orders } from "razorpay/dist/types/orders";
+import { HTTP_STATUS } from "shared/constants";
+import { CustomError } from "shared/utils/error/customError";
 import { inject, injectable } from "tsyringe";
 
 
@@ -15,10 +17,10 @@ export class CreateOrderUsecase implements ICreateOrderUsecase{
     ){}
 
     async execute(slotId:string,amount:number):Promise<Orders.RazorpayOrder>{
-        // const isLocked = await this._slotLockRepository.isSlotLocked(slotId)
-        // if(isLocked){
-        //     throw new CustomError(HTTP_STATUS.CONFLICT,"Slot is already locked, Please try another")
-        // }
+        const isLocked = await this._slotLockRepository.isSlotLocked(slotId)
+        if(isLocked){
+            throw new CustomError(HTTP_STATUS.CONFLICT,"Slot is already locked, Please try another")
+        }
 
         const options={
         amount:amount*100,
@@ -27,7 +29,7 @@ export class CreateOrderUsecase implements ICreateOrderUsecase{
         }
 
         const order = await razorpay.orders.create(options);
-        // await this._slotLockRepository.lockSlot(slotId);
+        await this._slotLockRepository.lockSlot(slotId);
         return order;
     }
 }

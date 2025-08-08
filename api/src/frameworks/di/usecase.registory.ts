@@ -106,6 +106,8 @@ import { GetReviewsForStudentUsecase } from "useCases/review/getReviewsForStuden
 import { SubmitReviewFeedBackUsecase } from "useCases/review/submitReviewFeedBack.usecase";
 import { ICancelReviewByStudentUsecase } from "entities/usecaseInterfaces/review/cancelReviewByStudentUsecase.interface";
 import { CancelReviewByStudentUsecase } from "useCases/review/cancelReviewByStudent.usecase";
+import { IGetEnrolledCommunitiesUsecase } from "entities/usecaseInterfaces/community/getEnrolledCommunitiesUsecase.interface";
+import { GetEnrolledCommunitiesUsecase } from "useCases/community/getEnrolledCommunities.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -245,6 +247,9 @@ export class UseCaseRegistory{
         })
         container.register<IUpdateCommunityStatusUsecase>('IUpdateCommunityStatusUsecase',{
             useClass:UpdateCommunityStatusUsecase
+        })
+        container.register<IGetEnrolledCommunitiesUsecase>('IGetEnrolledCommunitiesUsecase',{
+            useClass:GetEnrolledCommunitiesUsecase
         })
 
         //slots usecase
