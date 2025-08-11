@@ -1,18 +1,30 @@
 import { IFcmTokenEntity } from "entities/modelEntities/fcmTokenModel.entity";
 import { IFcmTokenRepository } from "entities/repositoryInterfaces/fcmTokenRepository.interface";
-import { fcmTokenModel, IFcmTokenModel } from "frameworks/database/models/fcmToken.model";
+import {
+  fcmTokenModel,
+  IFcmTokenModel,
+} from "frameworks/database/models/fcmToken.model";
 
 import { BaseRepository } from "./base.repository";
+import { injectable } from "tsyringe";
 
 
+@injectable()
+export class FcmTokenRepository
+  extends BaseRepository<IFcmTokenEntity, IFcmTokenModel>
+  implements IFcmTokenRepository
+{
+  constructor() {
+    super(fcmTokenModel);
+  }
 
-export class FcmTokenRepository extends BaseRepository<IFcmTokenEntity,IFcmTokenModel> implements IFcmTokenRepository{
+  async createFcmToken(userId: string, fcmToken: string): Promise<void> {
+    //  const newFcmToken=new this.model({userId,fcmToken});
+    //  await newFcmToken.save()
+     await this.model.updateOne({userId},{$set:{fcmToken}},{upsert:true})
+  }
 
-    constructor(){
-        super(fcmTokenModel)
-    }
-
-    async delete(userId:string):Promise<void>{
-        await fcmTokenModel.deleteOne({userId})
-    }
+  async delete(userId: string): Promise<void> {
+    await fcmTokenModel.deleteOne({ userId });
+  }
 }

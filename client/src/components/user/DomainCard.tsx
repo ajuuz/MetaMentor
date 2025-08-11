@@ -1,9 +1,9 @@
-import type { DomainType } from "@/types/domainTypes"
+import type { DomainEntity } from "@/types/domainTypes"
 import { FaCaretRight } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 
 type Props={
-  domain:Omit<DomainType,'levels'>
+  domain:Omit<DomainEntity,'levels'>
 }
 
 const DomainCard = ({domain}:Props) => {

@@ -24,3 +24,8 @@ export const eventSourceProvider=(email:string):EventSource=>{
     const eventSource = new EventSource(`${baseUri}/common/eventSource/${email}`)
     return eventSource
 }
+
+
+export const saveFcmToken=async(fcmToken:string)=>{
+    await userAxiosInstance.post('/common/fcmTokens',{fcmToken})
+}

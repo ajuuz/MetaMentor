@@ -3,7 +3,6 @@ import { useUserStore } from "@/zustand/userStore"
 import { Navigate, Outlet } from "react-router-dom";
 
 
-
 const ProtectedRoute = ({allowedRoles,navitageTo='/'}:{allowedRoles:ROLES[],navitageTo?:string}) => {
 
     const {user} = useUserStore();

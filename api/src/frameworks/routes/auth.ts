@@ -1,5 +1,7 @@
 import {NextFunction, Request,Response,Router } from 'express';
 import { authController, authMiddleware } from 'frameworks/di/resolver';
+import { validationMiddleware } from 'interfaceAdapters/middlewares/validation.middleware';
+import { UserRegisterDTO } from 'shared/dto/request/auth.dto';
 
 
 export class AuthRoutes {
@@ -11,7 +13,9 @@ export class AuthRoutes {
     }
 
     private configureRoutes(): void {
-        this._router.post('/signup', (req: Request, res: Response,next:NextFunction) => {
+        this._router.post('/signup',
+            validationMiddleware(UserRegisterDTO),
+            (req: Request, res: Response,next:NextFunction) => {
             authController.signup(req,res,next)
         });
 
@@ -21,17 +25,23 @@ export class AuthRoutes {
 
         this._router.post('/login',authController.login.bind(authController))
 
-        this._router.post('/googleAuth',authController.googleAuth.bind(authController))
+        this._router.post('/googleAuth',
+            authController.googleAuth.bind(authController))
 
-        this._router.post('/otp/resend',authController.resendOtp.bind(authController))
+        this._router.post('/otp/resend',
+            authController.resendOtp.bind(authController))
 
-        this._router.post('/forgotPassword/mail',authController.forgotPasswordSendMail.bind(authController))
+        this._router.post('/forgotPassword/mail',
+            authController.forgotPasswordSendMail.bind(authController))
 
-        this._router.patch('/forgotPassword/reset',authController.forgotPasswordReset.bind(authController))
+        this._router.patch('/forgotPassword/reset',
+            authController.forgotPasswordReset.bind(authController))
 
-        this._router.post('/refresh',authController.tokenRefreshing.bind(authController))
+        this._router.post('/refresh',
+            authController.tokenRefreshing.bind(authController))
 
-        this._router.post('/logout',authMiddleware.verifyAuth.bind(authMiddleware),authController.logout.bind(authController))
+        this._router.post('/logout',authMiddleware.verifyAuth.bind(authMiddleware),
+            authController.logout.bind(authController))
     }
 
     public getRouter(): Router {

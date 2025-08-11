@@ -68,15 +68,15 @@ const Signup = () => {
   const handleSubmit = async() => {
 
       const {country,gender,...rest} = formData;
-      const validationErrors = formDataValidation(rest);
+      // const validationErrors = formDataValidation(rest);
 
-      if (Object.keys(validationErrors).length > 0) {
-        setErrors(validationErrors);
-          setTimeout(()=>{
-            setErrors({});
-          },2000)
-          return;
-      }
+      // if (Object.keys(validationErrors).length > 0) {
+      //   setErrors(validationErrors);
+      //     setTimeout(()=>{
+      //       setErrors({});
+      //     },2000)
+      //     return;
+      // }
 
       const {confirmPwd,...userData} = formData;
       mutation.mutate(userData)

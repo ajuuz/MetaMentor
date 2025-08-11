@@ -1,4 +1,3 @@
-// eslint.config.js
 import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -6,7 +5,6 @@ import { defineConfig } from 'eslint/config';
 import importPlugin from 'eslint-plugin-import';
 import unusedImports from 'eslint-plugin-unused-imports';
 export default defineConfig([
-  // JS files
   {
     files: ['**/*.{js,mjs,cjs}'],
     languageOptions: {
@@ -20,7 +18,6 @@ export default defineConfig([
     },
   },
 
-  // TS files
   ...tseslint.configs.recommended,
   {
     files: ['**/*.{ts,mts,cts}'],
@@ -40,7 +37,6 @@ export default defineConfig([
       '@typescript-eslint/no-floating-promises': 'error',
       'no-debugger': 'error',
       'no-duplicate-imports': 'error',
-      // Import order
       'import/order': [
         'warn',
         {
@@ -49,7 +45,6 @@ export default defineConfig([
           'alphabetize': { order: 'asc', caseInsensitive: true },
         },
       ],
-      // Remove unused imports
       'unused-imports/no-unused-imports': 'warn',
       'unused-imports/no-unused-vars': [
         'warn',

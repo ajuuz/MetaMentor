@@ -13,6 +13,8 @@ export type SignupRequestDto = {
 }
 
 
+
+
 export type loginResponseDTO = {
     name:string,
     email:string,

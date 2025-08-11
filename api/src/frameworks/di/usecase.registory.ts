@@ -108,6 +108,8 @@ import { ICancelReviewByStudentUsecase } from "entities/usecaseInterfaces/review
 import { CancelReviewByStudentUsecase } from "useCases/review/cancelReviewByStudent.usecase";
 import { IGetEnrolledCommunitiesUsecase } from "entities/usecaseInterfaces/community/getEnrolledCommunitiesUsecase.interface";
 import { GetEnrolledCommunitiesUsecase } from "useCases/community/getEnrolledCommunities.usecase";
+import { ISaveFcmTokenUsecase } from "entities/usecaseInterfaces/fcmToken/saveFcmTokenUsecase.interface";
+import { SaveFcmTokenUsecase } from "useCases/fcmToken/saveFcmToken.usecase";
 // import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
 // import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
@@ -320,6 +322,12 @@ export class UseCaseRegistory{
         container.register<ICreateNotificationUsecase>('ICreateNotificationUsecase',{
             useClass:CreateNotificationUsecase
         })
+        
+        //fcmToken usecase
+        container.register<ISaveFcmTokenUsecase>('ISaveFcmTokenUsecase',{
+            useClass:SaveFcmTokenUsecase
+        })
+
 
         //common usecase
         container.register<IUploadImageUsecase>('IUploadImageUsecase',{

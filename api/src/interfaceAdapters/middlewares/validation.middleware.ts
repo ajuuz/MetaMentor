@@ -28,13 +28,15 @@ export const validationMiddleware=(dtoClass:any)=>{
         if(errors.length>0){
             const constraints=errors[0].constraints
             console.log(constraints)
-            return res.status(HTTP_STATUS.BAD_REQUEST).json({
+             res.status(HTTP_STATUS.BAD_REQUEST).json({
                message: 'Validation failed',
                errors: errors.map(err => ({
                  property: err.property,
                  constraints: err.constraints,
                })),
              });
+             
+             return;
         }
 
         req.body=dtoObj;
