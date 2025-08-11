@@ -4,7 +4,7 @@ import { IUserRespository } from "entities/repositoryInterfaces/user-repository.
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
 import { ROLES } from "shared/constants";
-import { LoginDTO } from "shared/dto/response/auth.dto";
+import { LoginResDTO } from "shared/dto/response/auth.dto";
 import { comparePassword } from "shared/utils/bcryptHelper";
 import { CustomError } from "shared/utils/error/customError";
 import { NotFoundError } from "shared/utils/error/notFounError";
@@ -26,12 +26,12 @@ export class LoginUsecase implements ILoginUsecase {
     email: string,
     password: string,
   ): Promise<{
-    userData: LoginDTO;
+    userData: LoginResDTO;
     accessToken: string;
     refreshToken: string;
   }> {
     if (!email || !password) {
-      throw new ValidationError("insufficient data");
+      throw new ValidationError();
     }
     const user = await this._userRepository.findByEmail(email);
     if (!user) {
@@ -70,7 +70,7 @@ export class LoginUsecase implements ILoginUsecase {
       role: user.role,
     });
 
-    const userData = plainToInstance(LoginDTO, user, {
+    const userData = plainToInstance(LoginResDTO, user, {
       excludeExtraneousValues: true,
     });
 

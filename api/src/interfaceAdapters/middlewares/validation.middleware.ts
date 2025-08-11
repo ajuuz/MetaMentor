@@ -21,13 +21,9 @@ export const validationMiddleware=(dtoClass:any)=>{
         if(query && Object.keys(query).length>0){
             data={...data,...query}
         }
-
         const dtoObj = plainToInstance(dtoClass,data);
-
         const errors = await validate(dtoObj);
         if(errors.length>0){
-            const constraints=errors[0].constraints
-            console.log(constraints)
              res.status(HTTP_STATUS.BAD_REQUEST).json({
                message: 'Validation failed',
                errors: errors.map(err => ({
@@ -35,7 +31,6 @@ export const validationMiddleware=(dtoClass:any)=>{
                  constraints: err.constraints,
                })),
              });
-             
              return;
         }
 

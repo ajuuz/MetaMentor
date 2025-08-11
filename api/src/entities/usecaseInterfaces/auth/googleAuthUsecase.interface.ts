@@ -1,7 +1,9 @@
-import { loginResponseDTO } from "shared/dto/authDTO";
+import { LoginResDTO } from "shared/dto/response/auth.dto";
 
-
-
-export interface IGoogleAuthUsecase{
-    execute(idToken:string):Promise<loginResponseDTO>
+export interface IGoogleAuthUsecase {
+  execute(idToken: string): Promise<{
+    userData: LoginResDTO;
+    accessToken: string;
+    refreshToken: string;
+  }>;
 }

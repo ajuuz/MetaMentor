@@ -10,9 +10,17 @@ import { useUserStore } from "@/zustand/userStore";
 
 import FirebaseAuthComponent from "@/components/auth/FirebaseAuthComponent";
 import LoadingSpinnerComponent from "@/components/common/LoadingSpinnerComponent";
+import type { AuthFormErrorsType } from "@/types/authTypes";
 
 const Login = () => {
   const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState<
+    Pick<AuthFormErrorsType, "email" | "password">
+  >({
     email: "",
     password: "",
   });
@@ -22,7 +30,6 @@ const Login = () => {
   //zustand
   const loginDispatch = useUserStore((state) => state.login);
 
-
   const { mutate: loginMutation, isPending } = useMutation({
     mutationFn: login,
     onSuccess: async (response) => {
@@ -31,6 +38,20 @@ const Login = () => {
       navigate("/");
     },
     onError: (error) => {
+      if ("errors" in error && Array.isArray(error.errors)) {
+        const errArray: {
+          property: keyof Pick<AuthFormErrorsType, "email" | "password">;
+          constraints: string;
+        }[] = error.errors;
+        const errors: Pick<AuthFormErrorsType, "email" | "password"> = {};
+        for (let er of errArray) {
+          const property = er.property;
+          const constraint = er.constraints;
+          const errorMessage = Object.values(constraint)[0];
+          errors[property] = errorMessage;
+        }
+        setErrors(errors);
+      }
       toast.error(error.message);
     },
   });
@@ -57,6 +78,7 @@ const Login = () => {
           <div className="flex flex-col gap-2">
             <Label htmlFor="email">Email</Label>
             <Input onChange={handleChange} className="w-full" name="email" />
+            <p className="text-red-400 text-xs">{errors.email}</p>
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="password">Password</Label>
@@ -66,6 +88,7 @@ const Login = () => {
               className="w-full"
               name="password"
             />
+            <p className="text-red-400 text-xs">{errors.password}</p>
             <p
               onClick={() => navigate("/forgotPassword/sendMail")}
               className="text-muted-foreground text-xs font-medium hover:underline cursor-pointer"

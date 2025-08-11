@@ -3,10 +3,13 @@ import mongoose, { Document, ObjectId } from "mongoose";
 
 import { fcmTokenSchema } from "../schemas/fcmToken.schema";
 
-
-
-export interface IFcmTokenModel extends IFcmTokenEntity , Document{
-    _id:ObjectId
+export interface IFcmTokenModel
+  extends Omit<IFcmTokenEntity, "userId">,
+    Document<ObjectId>{
+  userId: ObjectId;
 }
 
-export const fcmTokenModel = mongoose.model<IFcmTokenModel>('fcmTokens',fcmTokenSchema)
+export const fcmTokenModel = mongoose.model<IFcmTokenModel>(
+  "fcmTokens",
+  fcmTokenSchema
+);

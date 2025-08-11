@@ -1,8 +1,8 @@
-import { Exclude, Expose, Type } from "class-transformer";
+import { Exclude, Expose } from "class-transformer";
 import { ROLES } from "shared/constants";
 
 @Exclude()
-export class LoginDTO {
+export class LoginResDTO {
 
   @Expose()
   name!: string;

@@ -1,6 +1,6 @@
-import { IuserRegisterData } from "entities/modelEntities/user-model.entity";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IUserModel, userModel } from "frameworks/database/models/user.model";
+import { IuserRegisterData } from "shared/dto/request/auth.dto";
 import { UserDetailsResponseDTO, UserFindFilterDTO, UserUpdateDTO } from "shared/dto/userDTO";
 import { injectable } from "tsyringe";
 

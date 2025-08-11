@@ -14,5 +14,3 @@ export interface IUserEntity{
     isBlocked:boolean,
     isVerified:boolean
 }
-
-export interface IuserRegisterData extends Partial<Omit<IUserEntity,'createdAt'|'role'|'isBlocked'|'isVerified'>>{}

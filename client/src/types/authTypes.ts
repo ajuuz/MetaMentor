@@ -17,4 +17,6 @@ export type AuthFormErrorsType = {
     mobileNumber?: string;
     password?: string;
     confirmPwd?: string;
+    country?:string,
+    gender?:string
 };

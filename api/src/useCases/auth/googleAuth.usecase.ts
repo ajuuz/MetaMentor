@@ -5,11 +5,14 @@ import { ITokenService } from "entities/serviceInterfaces/tokenService.interface
 import { IGoogleAuthUsecase } from "entities/usecaseInterfaces/auth/googleAuthUsecase.interface";
 import { FirebaseAdminConfig } from "frameworks/firebase/firebaseAdmin";
 import { JwtPayload } from "jsonwebtoken";
-import { loginResponseDTO, SignupRequestDto } from "shared/dto/authDTO";
+import { inject, injectable } from "tsyringe";
 import { AuthError } from "shared/utils/error/authError";
 import { CustomError } from "shared/utils/error/customError";
 import { NotFoundError } from "shared/utils/error/notFounError";
-import { inject, injectable } from "tsyringe";
+import { IGoogleRegisterData } from "shared/dto/request/auth.dto";
+import { HTTP_STATUS } from "shared/constants";
+import { plainToInstance } from "class-transformer";
+import { LoginResDTO } from "shared/dto/response/auth.dto";
 
 @injectable()
 export class GoogleAuthUsecase implements IGoogleAuthUsecase {
@@ -24,21 +27,23 @@ export class GoogleAuthUsecase implements IGoogleAuthUsecase {
     private _tokenService: ITokenService,
 
     @inject("IWalletRepository")
-    private _walletRepository: IWalletRepository,
-
+    private _walletRepository: IWalletRepository
   ) {}
 
-  async execute(idToken: string): Promise<loginResponseDTO> {
+  async execute(
+    idToken: string
+  ): Promise<{
+    userData: LoginResDTO;
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const admin = FirebaseAdminConfig.getInstance();
     const decode: JwtPayload = await admin.auth().verifyIdToken(idToken);
     const email: string = decode.email;
 
     let user = await this._userRepository.findByEmail(email);
     if (!user) {
-      const formData: Pick<
-        SignupRequestDto,
-        "name" | "googleId" | "email" | "profileImage" | "isVerified"
-      > = {
+      const formData: IGoogleRegisterData = {
         name: decode.name,
         profileImage: decode.picture,
         googleId: decode.user_id,
@@ -52,14 +57,20 @@ export class GoogleAuthUsecase implements IGoogleAuthUsecase {
 
     if (!user)
       throw new NotFoundError(
-        "user not found . some thing went wrong during google login"
+        "user not found. Some thing went wrong during google login"
       );
 
     if (user.isBlocked)
-      throw new CustomError(403, "User is blocked please contact admin");
+      throw new CustomError(
+        HTTP_STATUS.FORBIDDEN,
+        "User is blocked please contact admin"
+      );
 
     if (decode.user_id !== user.googleId)
-      throw new AuthError(401, "Your google id is not matched");
+      throw new AuthError(
+        HTTP_STATUS.UNAUTHORIZED,
+        "Your google id is not matched"
+      );
 
     const accessToken = this._tokenService.generateAccessToken({
       id: user._id,
@@ -72,10 +83,12 @@ export class GoogleAuthUsecase implements IGoogleAuthUsecase {
       role: user.role,
     });
 
-    const userDetails: loginResponseDTO = {
-      name: user.name,
-      email: user.email,
-      role: user.role,
+    const userData = plainToInstance(LoginResDTO, user, {
+      excludeExtraneousValues: true,
+    });
+
+    const userDetails = {
+      userData,
       accessToken,
       refreshToken,
     };

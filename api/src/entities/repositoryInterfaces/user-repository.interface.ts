@@ -1,5 +1,5 @@
-import { IuserRegisterData } from "entities/modelEntities/user-model.entity";
 import {IUserModel} from "frameworks/database/models/user.model";
+import { IuserRegisterData } from "shared/dto/request/auth.dto";
 import {UserDetailsResponseDTO,UserFindFilterDTO,UserUpdateDTO} from "shared/dto/userDTO";
 
 export interface IUserRespository{

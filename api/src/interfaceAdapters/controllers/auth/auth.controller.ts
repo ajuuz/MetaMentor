@@ -10,14 +10,22 @@ import { ITokenRefreshingUsecase } from "entities/usecaseInterfaces/auth/tokenRe
 import { IVerifyOtpUsecase } from "entities/usecaseInterfaces/auth/verifyOtpUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
-import { loginResponseDTO } from "shared/dto/authDTO";
-import { UserRegisterDTO } from "shared/dto/request/auth.dto";
+import {
+  ForgotPasswordResetReqDTO,
+  ForgotPasswordSendMailReqDTO,
+  GoogleRegisterDTO,
+  LoginReqDTO,
+  OtpReqDTO,
+  ResendOtpReqDTO,
+  UserRegisterDTO,
+} from "shared/dto/request/auth.dto";
 import { ModifiedRequest } from "shared/types";
 import {
   clearCookies,
   setAccessCookie,
   setCookie,
 } from "shared/utils/cookeHelper";
+import { ValidationError } from "shared/utils/error/validationError";
 import { ISuccessResponseHandler } from "shared/utils/successResponseHandler";
 import { inject, injectable } from "tsyringe";
 
@@ -72,7 +80,7 @@ export class AuthController implements IAuthController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { email, otp } = req.body;
+      const { email, otp }: OtpReqDTO = req.body;
       await this._VerifyOtpUsecase.execute(email, otp);
       res
         .status(HTTP_STATUS.CREATED)
@@ -83,21 +91,15 @@ export class AuthController implements IAuthController {
   }
 
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { email, password }: { email: string; password: string } = req.body;
-    try {
-      const details = await this._LoginUsecase.execute(email, password);
-      const { userData, accessToken, refreshToken } = details;
-      setCookie(res, accessToken, refreshToken);
-      res
-        .status(HTTP_STATUS.OK)
-        .json({
-          success: true,
-          message: SUCCESS_MESSAGE.AUTH.LOGIN,
-          data: userData,
-        });
-    } catch (error) {
-      next(error);
-    }
+    const { email, password }: LoginReqDTO = req.body;
+    const details = await this._LoginUsecase.execute(email, password);
+    const { userData, accessToken, refreshToken } = details;
+    setCookie(res, accessToken, refreshToken);
+    res.status(HTTP_STATUS.OK).json({
+      success: true,
+      message: SUCCESS_MESSAGE.AUTH.LOGIN,
+      data: userData,
+    });
   }
 
   async googleAuth(
@@ -105,22 +107,25 @@ export class AuthController implements IAuthController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { idToken } = req.body;
+    const { idToken }: GoogleRegisterDTO = req.body;
     try {
-      const details: loginResponseDTO = await this._googleAuthUsecase.execute(
-        idToken,
-      );
+      const details = await this._googleAuthUsecase.execute(idToken);
       const { accessToken, refreshToken, ...rest } = details;
       setCookie(res, accessToken, refreshToken);
-      res
-        .status(HTTP_STATUS.OK)
-        .json({
-          success: true,
-          message: SUCCESS_MESSAGE.AUTH.GOOGLE_LOGIN,
-          data: rest,
-        });
-    } catch (error) {
-      console.log(error);
+      res.status(HTTP_STATUS.OK).json({
+        success: true,
+        message: SUCCESS_MESSAGE.AUTH.GOOGLE_LOGIN,
+        data: rest,
+      });
+    } catch (error: unknown) {
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "code" in error &&
+        (error as { code: string }).code === "auth/argument-error"
+      ) {
+        next(new ValidationError("Invalid googleId token"));
+      }
       next(error);
     }
   }
@@ -134,7 +139,6 @@ export class AuthController implements IAuthController {
   //     catch(error){
   //         console.log(error)
   //     }
-
   // }
 
   async resendOtp(
@@ -142,7 +146,7 @@ export class AuthController implements IAuthController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { email } = req.body;
+    const { email }: ResendOtpReqDTO = req.body;
     await this._resendOtpUsecase.execute(email);
     res
       .status(200)
@@ -154,14 +158,12 @@ export class AuthController implements IAuthController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { email } = req.body;
+    const { email }: ForgotPasswordSendMailReqDTO = req.body;
     await this._forgotPasswordSendMailUsecase.execute(email);
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: SUCCESS_MESSAGE.AUTH.FORGOT_PASSWORD_SEND_MAIL,
-      });
+    res.status(200).json({
+      success: true,
+      message: SUCCESS_MESSAGE.AUTH.FORGOT_PASSWORD_SEND_MAIL,
+    });
   }
 
   async forgotPasswordReset(
@@ -169,7 +171,7 @@ export class AuthController implements IAuthController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { password, token } = req.body;
+    const { password, token }: ForgotPasswordResetReqDTO = req.body;
     await this._forgotPasswordResetUsecase.execute(password, token);
     res
       .status(200)
@@ -193,11 +195,9 @@ export class AuthController implements IAuthController {
     const userId: string = (req as ModifiedRequest).user.id;
     clearCookies(res);
     await this._logoutUsecase.execute(userId);
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "you have been logged out successfully",
-      });
+    res.status(200).json({
+      success: true,
+      message: "you have been logged out successfully",
+    });
   }
 }
