@@ -20,7 +20,6 @@ export class ErrorMiddleware implements IErrorMiddleware {
     res: Response,
     next: NextFunction
   ): void {
-    console.log(err);
     let statusCode = HTTP_STATUS.INTERNAL_SERVER_ERROR;
     let message = ERROR_MESSAGE.SERVER_ERROR;
     if (err instanceof CustomError) {

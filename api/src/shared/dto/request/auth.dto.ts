@@ -1,4 +1,4 @@
-import { Transform } from "class-transformer";
+import { Expose, Transform } from "class-transformer";
 import {
   IsEmail,
   IsNotEmpty,
@@ -37,6 +37,7 @@ export class UserRegisterDTO {
     }
     return Number(str);
   })
+
   @IsNumber({}, { message: "Mobile number must be numeric" })
   mobileNumber!: number;
 

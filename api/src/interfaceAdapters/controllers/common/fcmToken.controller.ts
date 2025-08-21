@@ -2,22 +2,26 @@ import { IFcmTokenController } from "entities/controllerInterfaces/common/fcmTok
 import { ISaveFcmTokenUsecase } from "entities/usecaseInterfaces/fcmToken/saveFcmTokenUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
-import { ModifiedRequest } from "shared/types";
 import { inject, injectable } from "tsyringe";
-
+import { ModifiedRequest } from "type/types";
 
 @injectable()
-export class FcmTokenController implements IFcmTokenController{
+export class FcmTokenController implements IFcmTokenController {
+  constructor(
+    @inject("ISaveFcmTokenUsecase")
+    private _saveFcmTokenUsecase: ISaveFcmTokenUsecase
+  ) {}
+  async saveFcmToken(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const userId: string = (req as ModifiedRequest).user.id;
+    const fcmToken: string = req.body.fcmToken;
 
-    constructor(
-        @inject('ISaveFcmTokenUsecase')
-        private _saveFcmTokenUsecase:ISaveFcmTokenUsecase
-    ){}
-    async saveFcmToken(req:Request,res:Response,next:NextFunction):Promise<void>{
-        const userId:string=(req as ModifiedRequest).user.id;
-        const fcmToken:string=req.body.fcmToken;
-
-        await this._saveFcmTokenUsecase.execute(userId,fcmToken);
-        res.status(HTTP_STATUS.CREATED).json({success:true,message:'fcm token saved successfully'})
-    }
+    await this._saveFcmTokenUsecase.execute(userId, fcmToken);
+    res
+      .status(HTTP_STATUS.CREATED)
+      .json({ success: true, message: "fcm token saved successfully" });
+  }
 }

@@ -3,53 +3,71 @@ import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMento
 import { IUpdateSlotStatusUsecase } from "entities/usecaseInterfaces/slot/updateSlotStatusUsecase.interface";
 import { IUpdateSlotUsecase } from "entities/usecaseInterfaces/slot/updateSlotUsecase.interface";
 import { NextFunction, Request, Response } from "express";
-import { ModifiedRequest } from "shared/types";
 import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
-
+import { ModifiedRequest } from "type/types";
 
 @injectable()
-export class MentorSlotController implements IMentorSlotController{
+export class MentorSlotController implements IMentorSlotController {
+  constructor(
+    @inject("IUpdateSlotUsecase")
+    private _updateSlotUsecase: IUpdateSlotUsecase,
 
-   constructor(
-      @inject('IUpdateSlotUsecase')
-      private _updateSlotUsecase:IUpdateSlotUsecase,
+    @inject("IGetMentorSlotsUsecase")
+    private _IGetMentorSlotsUsecase: IGetMentorSlotsUsecase,
 
-      @inject('IGetMentorSlotsUsecase')
-      private _IGetMentorSlotsUsecase:IGetMentorSlotsUsecase,
+    @inject("IUpdateSlotStatusUsecase")
+    private _updateSlotStatusUsecase: IUpdateSlotStatusUsecase
+  ) {}
 
-      @inject('IUpdateSlotStatusUsecase')
-      private _updateSlotStatusUsecase:IUpdateSlotStatusUsecase,
-   ){}
-     
-     async updateSlot(req:Request,res:Response,next:NextFunction):Promise<void>{
-        const weekSlots = req.body.weekSlots;
-        const mentorId = (req as ModifiedRequest).user.id;
-        if(!weekSlots) throw new ValidationError("Slots havent recieved")
-        
-         await this._updateSlotUsecase.execute(mentorId,weekSlots)
-         res.status(201).json({success:true,message:"Slot updated Successfully"})
-     }
+  async updateSlot(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const weekSlots = req.body.weekSlots;
+    const mentorId = (req as ModifiedRequest).user.id;
+    if (!weekSlots) throw new ValidationError("Slots havent recieved");
 
-     async getSlots(req:Request,res:Response,next:NextFunction):Promise<void>{
-        const mentorId = (req as ModifiedRequest).user.id;
-        
-         const weekSlots = await this._IGetMentorSlotsUsecase.execute(mentorId)
-         res.status(201).json(weekSlots)
-     }
+    await this._updateSlotUsecase.execute(mentorId, weekSlots);
+    res
+      .status(201)
+      .json({ success: true, message: "Slot updated Successfully" });
+  }
 
-     async updateSlotStatus(req:Request,res:Response,next:NextFunction):Promise<void>{
-         
-         const mentorId = (req as ModifiedRequest).user.id;
-         const slotId = req.params.slotId;
-         const day = req.params.day;
-         const slotStatus = req.body.slotStatus;
+  async getSlots(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const mentorId = (req as ModifiedRequest).user.id;
 
-         if(!mentorId || !day || !slotId || (slotStatus!==false && !slotStatus)){
-             throw new ValidationError('Necessary Credential not recieved');
-         }
+    const weekSlots = await this._IGetMentorSlotsUsecase.execute(mentorId);
+    res.status(201).json(weekSlots);
+  }
 
-        await this._updateSlotStatusUsecase.execute(mentorId,day,slotId,slotStatus)
-        res.status(200).json({success:true,message:"slot status updated successfully"})
-     }
+  async updateSlotStatus(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const mentorId = (req as ModifiedRequest).user.id;
+    const slotId = req.params.slotId;
+    const day = req.params.day;
+    const slotStatus = req.body.slotStatus;
+
+    if (!mentorId || !day || !slotId || (slotStatus !== false && !slotStatus)) {
+      throw new ValidationError("Necessary Credential not recieved");
+    }
+
+    await this._updateSlotStatusUsecase.execute(
+      mentorId,
+      day,
+      slotId,
+      slotStatus
+    );
+    res
+      .status(200)
+      .json({ success: true, message: "slot status updated successfully" });
+  }
 }
