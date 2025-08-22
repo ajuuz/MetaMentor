@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import {Request, Response } from "express";
 
 
 
 export interface IAdminDomainController{
-    addDomain(req:Request,res:Response,next:NextFunction):Promise<void>
-    getAllDomains(req:Request,res:Response,next:NextFunction):Promise<void>
-    updateDomainStatus(req:Request,res:Response,next:NextFunction):Promise<void>
+    addDomain(req:Request,res:Response):Promise<void>
+    getAllDomains(req:Request,res:Response):Promise<void>
+    updateDomainStatus(req:Request,res:Response):Promise<void>
 }

@@ -3,6 +3,7 @@ import { IGetAllStudentsUsecase } from "entities/usecaseInterfaces/student/getAl
 import { IUpdateStudentStatusUsecase } from "entities/usecaseInterfaces/student/updateStudentStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
+import { GetAllStudentReqDTO, UpdateStudentStatusReqDTO } from "shared/dto/request/student.dto";
 import { GetAllStudentResponseDTO } from "shared/dto/studentDTO";
 import { inject, injectable } from "tsyringe";
 
@@ -15,15 +16,14 @@ export class AdminStudentController implements IAdminStudentController {
     @inject("IUpdateStudentStatusUsecase")
     private _updateStudentStatusUsecase: IUpdateStudentStatusUsecase
   ) {}
-  
+
   async getAllStudents(
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     try {
-      const currentPage: number = Number(req.query.currentPage ?? "1");
-      const limit: number = Number(req.query.limit ?? "10");
+      const { currentPage, limit }: GetAllStudentReqDTO = req.verifiedData;
       const data: Omit<GetAllStudentResponseDTO, "totalDocuments"> =
         await this._getAllStudentsUsecase.execute(currentPage, +limit);
       res.status(HTTP_STATUS.OK).json(data);
@@ -37,16 +37,13 @@ export class AdminStudentController implements IAdminStudentController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const userId = req.params.userId as string;
-    const status: boolean = req.body.status;
+    const {userId,status}:UpdateStudentStatusReqDTO=req.verifiedData;
     try {
       await this._updateStudentStatusUsecase.execute(userId, status);
-      res
-        .status(HTTP_STATUS.OK)
-        .json({
-          success: true,
-          message: SUCCESS_MESSAGE.STUDENT.STATUS_UPDATE,
-        });
+      res.status(HTTP_STATUS.OK).json({
+        success: true,
+        message: SUCCESS_MESSAGE.STUDENT.STATUS_UPDATE,
+      });
     } catch (error) {
       console.log(error);
       next(error);
