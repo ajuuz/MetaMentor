@@ -34,7 +34,7 @@ import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReview
 import { IGetMentorReviewsUsecase } from "entities/usecaseInterfaces/review/getMentorReviewsUsecase.interface";
 import { IGetReviewForMentorUsecase } from "entities/usecaseInterfaces/review/getReviewForMentorUsecase.interface";
 import { IGetStudentReviewsUsecase } from "entities/usecaseInterfaces/review/getStudentReviewsUsecase.interface";
-import { ISubmitReviewFeedBackUsecase } from "entities/usecaseInterfaces/review/submitReviewFeedBackUsecase.interface";
+import {  ISubmitReviewResultUsecase } from "entities/usecaseInterfaces/review/submitReviewFeedBackUsecase.interface";
 import { ICancelReviewByMentorUsecase } from "entities/usecaseInterfaces/review/cancelReviewByMentorUsecase.interface";
 import { IGetDomainSlotsUsecase } from "entities/usecaseInterfaces/slot/getDomainSlotsUsecase.interface";
 import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
@@ -103,7 +103,7 @@ import { ILogoutUsecase } from "entities/usecaseInterfaces/auth/logoutUsecase.in
 import { LogoutUsecase } from "useCases/auth/logout.usecase";
 import { IGetReviewsForStudentUsecase } from "entities/usecaseInterfaces/review/getReviewsForStudentUsecase.interface";
 import { GetReviewsForStudentUsecase } from "useCases/review/getReviewsForStudent.usecase";
-import { SubmitReviewFeedBackUsecase } from "useCases/review/submitReviewFeedBack.usecase";
+import { SubmitReviewResultUsecase } from "useCases/review/submitReviewResult.usecase";
 import { ICancelReviewByStudentUsecase } from "entities/usecaseInterfaces/review/cancelReviewByStudentUsecase.interface";
 import { CancelReviewByStudentUsecase } from "useCases/review/cancelReviewByStudent.usecase";
 import { IGetEnrolledCommunitiesUsecase } from "entities/usecaseInterfaces/community/getEnrolledCommunitiesUsecase.interface";
@@ -300,8 +300,8 @@ export class UseCaseRegistory{
         container.register<IGetReviewForMentorUsecase>('IGetReviewForMentorUsecase',{
             useClass:GetReviewForMentorUsecase
         })
-        container.register<ISubmitReviewFeedBackUsecase>('ISubmitReviewFeedBackUsecase',{
-            useClass:SubmitReviewFeedBackUsecase
+        container.register<ISubmitReviewResultUsecase>('ISubmitReviewResultUsecase',{
+            useClass:SubmitReviewResultUsecase
         })
         container.register<ICancelReviewByMentorUsecase>('ICancelReviewByMentorUsecase',{
             useClass:CancelReviewByMentorUsecase

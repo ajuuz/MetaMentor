@@ -200,8 +200,8 @@ export default function MentorDetailsManage() {
         setLoading(true)
         const imageUrls = await imageUploader(images as Blob[])
 
-        const cv = imageUrls[0].public_id
-        const experienceCirtificate = imageUrls[1].public_id
+        const cv = imageUrls?.[0]?.public_id
+        const experienceCirtificate = imageUrls?.[1]?.public_id
 
         const domains=selectedDomains.map(domain=>domain._id);
         mentorRegisterMutation({domains,about,workedAt,skills,cv,experienceCirtificate,fee})

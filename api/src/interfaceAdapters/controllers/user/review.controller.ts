@@ -5,8 +5,6 @@ import { IGetStudentReviewsUsecase } from "entities/usecaseInterfaces/review/get
 import { Request, Response } from "express";
 import {
   HTTP_STATUS,
-  PENDING_REVIEW_STATE,
-  REVIEW_FILTER_STATUS,
   SUCCESS_MESSAGE,
 } from "shared/constants";
 import { ModifiedRequest } from "type/types";
@@ -70,7 +68,7 @@ export class UserReviewController implements IUserReviewController {
     await this._cancelReviewByStudentUsecase.execute(studentId, reviewId);
     res.status(HTTP_STATUS.OK).json({
       success: true,
-      message: SUCCESS_MESSAGE.REVIEWS.STUDENT_CANCEL_REVIEW,
+      message: SUCCESS_MESSAGE.REVIEWS.CANCEL_REVIEW_BY_STUDENT,
     });
   }
 

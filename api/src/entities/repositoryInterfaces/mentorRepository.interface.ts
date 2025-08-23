@@ -3,7 +3,7 @@ import { GetAllMentorResponseDTO, MentorDataDTO, MentorFindFilterDTO, MentorRegi
 
 export interface IMentorRepository {
   findById(userId: string): Promise<MentorDataDTO|undefined>;
-  register(userId:string,mentorDetails:MentorRegisterRequestDTO):Promise<void>
+  register(userId:string,mentorDetails:Partial<IMentorEntity>):Promise<void>
   find(filter: Partial<MentorFindFilterDTO>, skip: number, limit: number):Promise<Omit<Omit<GetAllMentorResponseDTO,"cv"|"experienceCirtificate">,'totalPages'>>
   updateOne(filter:Partial<MentorUpdateDTO.filter>,update:Partial<MentorUpdateDTO.update>):Promise<void>
   getStatus(userId:string):Promise<IMentorEntity|null>

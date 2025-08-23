@@ -1,6 +1,8 @@
-import { REVIEW_STATUS } from "shared/constants";
+import { SubmitReviewResultReqDTO } from "shared/dto/request/review.dto";
 
-
-export interface ISubmitReviewFeedBackUsecase{
-    execute(mentorId:string,reviewId:string,status:Exclude<REVIEW_STATUS,REVIEW_STATUS.CANCELLED|REVIEW_STATUS.PENDING>,feedBack:string):Promise<void>
+export interface ISubmitReviewResultUsecase {
+  execute(
+    mentorId: string,
+    reviewResultDetails:SubmitReviewResultReqDTO
+  ): Promise<void>;
 }

@@ -2,7 +2,7 @@ import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { mentorModel } from "frameworks/database/models/mentor.model";
 import { Types } from "mongoose";
-import { GetAllMentorResponseDTO, MentorDataDTO, MentorFindFilterDTO, MentorRegisterRequestDTO, MentorUpdateDTO } from "shared/dto/mentorDTO";
+import { GetAllMentorResponseDTO, MentorDataDTO, MentorFindFilterDTO, MentorUpdateDTO } from "shared/dto/mentorDTO";
 import { injectable } from "tsyringe";
 
 @injectable()
@@ -55,7 +55,7 @@ export class MentorRepository implements IMentorRepository{
         return mentor[0]
     }
 
-    async register(userId:string,mentorDetails:MentorRegisterRequestDTO):Promise<void>{
+    async register(userId:string,mentorDetails:Partial<IMentorEntity>):Promise<void>{
         const newMentor = new mentorModel({userId,...mentorDetails})
         await newMentor.save()
     }
@@ -98,7 +98,7 @@ export class MentorRepository implements IMentorRepository{
     }
 
     async getStatus(userId:string):Promise<IMentorEntity|null>{
-        const user=await mentorModel.findOne({userId})
+        const user=await mentorModel.findOne({userId}).lean<IMentorEntity>()
         return user;
     }
 }

@@ -1,7 +1,7 @@
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { IRegisterMentorUsecase } from "entities/usecaseInterfaces/mentor/registerMentorUsecase.interface";
 import { HTTP_STATUS } from "shared/constants";
-import { MentorRegisterRequestDTO } from "shared/dto/mentorDTO";
+import { ApplyForMentorReqDTO } from "shared/dto/request/mentor.dto";
 import { CustomError } from "shared/utils/error/customError";
 import { inject, injectable } from "tsyringe";
 
@@ -12,7 +12,7 @@ export class RegisterMentorUsecase implements IRegisterMentorUsecase{
         private _mentorRepository:IMentorRepository
     ){}
 
-   async execute(userId:string,mentorDetails:MentorRegisterRequestDTO):Promise<void>{
+   async execute(userId:string,mentorDetails:ApplyForMentorReqDTO):Promise<void>{
         const isMentorExists = await this._mentorRepository.findById(userId);
         if(isMentorExists){
             throw new CustomError(HTTP_STATUS.CONFLICT,"mentor already exists");

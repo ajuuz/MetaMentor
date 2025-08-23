@@ -1,19 +1,22 @@
-import { ObjectId } from "mongoose";
-
-
-
 export interface ISlotEntity{
-    _id:ObjectId,
-    mentorId:ObjectId,
+    _id:string,
+    mentorId:string,
     weekSlots:IWeekEntity
 }
 
 export interface IWeekEntity{
-    Monday:{_id:ObjectId,start:number,end:number,enabled:boolean}[],
-    Tuesday:{_id:ObjectId,start:number,end:number,enabled:boolean}[],
-    Wednesday:{_id:ObjectId,start:number,end:number,enabled:boolean}[],
-    Thursday:{_id:ObjectId,start:number,end:number,enabled:boolean}[],
-    Friday:{_id:ObjectId,start:number,end:number,enabled:boolean}[],
-    Saturday:{_id:ObjectId,start:number,end:number,enabled:boolean}[]
-    Sunday:{_id:ObjectId,start:number,end:number,enabled:boolean}[]
+    Monday:ISlotTime[],
+    Tuesday:ISlotTime[],
+    Wednesday:ISlotTime[],
+    Thursday:ISlotTime[],
+    Friday:ISlotTime[],
+    Saturday:ISlotTime[]
+    Sunday:ISlotTime[]
+}
+
+export interface ISlotTime{
+    _id:string,
+    start:number;
+    end:number;
+    enabled:boolean
 }

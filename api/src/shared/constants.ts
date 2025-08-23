@@ -105,8 +105,9 @@ export const SUCCESS_MESSAGE={
     UPDATE_STATUS:'Updated Community status successfully'
    },
    REVIEWS:{
+    CANCEL_REVIEW_BY_MENTOR:'Review cancelled successfully',
     UPDATE_STATUS:'Updated Review status successfully',
-    STUDENT_CANCEL_REVIEW:'Platform fee has been debited from your amount. Balance is credited to your wallet'
+    CANCEL_REVIEW_BY_STUDENT:'Platform fee has been debited from your amount. Balance is credited to your wallet'
    }
 }
 

@@ -1,9 +1,9 @@
 import { IMentorController } from "entities/controllerInterfaces/mentor/mentorController.interface";
 import { IGetAllDomainsNameAndIdUsecase } from "entities/usecaseInterfaces/domain/getDomainsNameAndIdUsecase.interface";
 import { IRegisterMentorUsecase } from "entities/usecaseInterfaces/mentor/registerMentorUsecase.interface";
-import { NextFunction, Request, Response } from "express";
+import {  Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
-import { MentorRegisterRequestDTO } from "shared/dto/mentorDTO";
+import { ApplyForMentorReqDTO } from "shared/dto/request/mentor.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 
@@ -19,33 +19,24 @@ export class MentorController implements IMentorController {
   async registerForm(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
-    const mentorDetails: MentorRegisterRequestDTO = req.body;
+    const mentorDetails: ApplyForMentorReqDTO = req.verifiedData;
     const userId = (req as ModifiedRequest).user.id;
-    try {
-      await this._registerMentorUsecase.execute(userId, mentorDetails);
-      res
-        .status(HTTP_STATUS.CREATED)
-        .json({ success: true, message: "mentor registered successfully" });
-    } catch (error) {
-      console.log(error);
-      next(error);
-    }
+    await this._registerMentorUsecase.execute(userId, mentorDetails);
+    res
+      .status(HTTP_STATUS.CREATED)
+      .json({ success: true, message: "mentor registered successfully" });
   }
 
   async getDomains(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
     const domains = await this._getAllDomainsNameAndIdUsecase.execute();
-    res
-      .status(HTTP_STATUS.OK)
-      .json({
-        success: true,
-        message: SUCCESS_MESSAGE.DOMAINS.FETCH_ALL,
-        data: domains,
-      });
+    res.status(HTTP_STATUS.OK).json({
+      success: true,
+      message: SUCCESS_MESSAGE.DOMAINS.FETCH_ALL,
+      data: domains,
+    });
   }
 }

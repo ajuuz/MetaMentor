@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
-
-export interface IMentorController{
-    registerForm(req:Request,res:Response,next:NextFunction):Promise<void>
-    getDomains(req:Request,res:Response,next:NextFunction):Promise<void>
+export interface IMentorController {
+  registerForm(req: Request, res: Response): Promise<void>;
+  getDomains(req: Request, res: Response): Promise<void>;
 }

@@ -2,8 +2,11 @@ import { IMentorSlotController } from "entities/controllerInterfaces/mentor/slot
 import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
 import { IUpdateSlotStatusUsecase } from "entities/usecaseInterfaces/slot/updateSlotStatusUsecase.interface";
 import { IUpdateSlotUsecase } from "entities/usecaseInterfaces/slot/updateSlotUsecase.interface";
-import { NextFunction, Request, Response } from "express";
-import { ValidationError } from "shared/utils/error/validationError";
+import { Request, Response } from "express";
+import {
+  UpdateSlotReqDTO,
+  UpdateSlotStatusReqDTO,
+} from "shared/dto/request/slot.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 
@@ -20,14 +23,9 @@ export class MentorSlotController implements IMentorSlotController {
     private _updateSlotStatusUsecase: IUpdateSlotStatusUsecase
   ) {}
 
-  async updateSlot(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
-    const weekSlots = req.body.weekSlots;
+  async updateSlot(req: Request, res: Response): Promise<void> {
+    const weekSlots: UpdateSlotReqDTO = req.verifiedData;
     const mentorId = (req as ModifiedRequest).user.id;
-    if (!weekSlots) throw new ValidationError("Slots havent recieved");
 
     await this._updateSlotUsecase.execute(mentorId, weekSlots);
     res
@@ -35,36 +33,20 @@ export class MentorSlotController implements IMentorSlotController {
       .json({ success: true, message: "Slot updated Successfully" });
   }
 
-  async getSlots(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  async getSlots(req: Request, res: Response): Promise<void> {
     const mentorId = (req as ModifiedRequest).user.id;
 
     const weekSlots = await this._IGetMentorSlotsUsecase.execute(mentorId);
     res.status(201).json(weekSlots);
   }
 
-  async updateSlotStatus(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  async updateSlotStatus(req: Request, res: Response): Promise<void> {
+    const slotStatusUpdationDetails: UpdateSlotStatusReqDTO = req.verifiedData;
     const mentorId = (req as ModifiedRequest).user.id;
-    const slotId = req.params.slotId;
-    const day = req.params.day;
-    const slotStatus = req.body.slotStatus;
-
-    if (!mentorId || !day || !slotId || (slotStatus !== false && !slotStatus)) {
-      throw new ValidationError("Necessary Credential not recieved");
-    }
 
     await this._updateSlotStatusUsecase.execute(
       mentorId,
-      day,
-      slotId,
-      slotStatus
+      slotStatusUpdationDetails
     );
     res
       .status(200)

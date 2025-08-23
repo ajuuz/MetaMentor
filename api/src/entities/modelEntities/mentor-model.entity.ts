@@ -1,9 +1,7 @@
-import { ObjectId } from "mongoose";
-
 export interface IMentorEntity{
-    userId:ObjectId,
+    userId:string,
     about:string,
-    domains:ObjectId[],
+    domains:string[],
     isBlocked:boolean,
     cv:string,
     experienceCirtificate:string,
