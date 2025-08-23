@@ -41,6 +41,13 @@ export enum REVIEW_FILTER_STATUS{
   COMPLETED='completed'
 }
 
+export enum DATE_RANGE{
+  TODAY='today',
+  WEEK='week',
+  MONTH='month',
+  ALL='all'
+}
+
 export enum PENDING_REVIEW_STATE{
   OVER='over',
   NOTOVER='notOver'
@@ -59,6 +66,16 @@ export enum PAYMENT_METHOD{
 export enum TRANSACTION_TYPE{
   CREDIT='credit',
   DEBIT='debit'
+}
+
+export enum DAYS{
+  MONDAY='Monday',
+  TUESDAY='Tuesday',
+  WEDNESDAY='Wednesday',
+  THURSDAY='Thursday',
+  FRIDAY='Friday',
+  SATURDAY='Saturday',
+  SUNDAY='Sunday'
 }
 
 export const SUCCESS_MESSAGE={

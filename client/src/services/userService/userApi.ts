@@ -16,9 +16,9 @@ export const getSpecificUser=async():Promise<Omit<UserDetailsType,"role"|"isVeri
 }
 
 
-export const updateProfile=async(updatedData:Partial<Omit<UserDetailsType,"role"|"_id"|"email"|"isVerified">>):Promise<MutationApiResponse>=>{
+export const updateProfile=async(updationDetails:Partial<Omit<UserDetailsType,"role"|"_id"|"email"|"isVerified">>):Promise<MutationApiResponse>=>{
     try{
-        const response = await userAxiosInstance.patch('/user',{updatedData})
+        const response = await userAxiosInstance.patch('/user',updationDetails)
         return response.data
     }
     catch(error:any){

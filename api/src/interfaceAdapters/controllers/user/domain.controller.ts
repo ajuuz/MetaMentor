@@ -4,12 +4,18 @@ import { IGetEnrolledDomainsUsecase } from "entities/usecaseInterfaces/domain/ge
 import { IGetDomainInsightUsecase } from "entities/usecaseInterfaces/domain/getDomainInsightUsecase.interface";
 import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/getSpecificDomainUsecase.interface";
 import { IGetUnblockedDomainsUsecase } from "entities/usecaseInterfaces/domain/getUnblockedDomainsUsecase.interface";
-import { NextFunction, Request, Response } from "express";
+import {  Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
 import { ModifiedRequest } from "type/types";
-import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
+import {
+  EnrollDomainReqDTO,
+  GetAllDomainsForStudReqDTO,
+  GetDomainDashboardForStudReqDTO,
+  GetDomainInsightReqDTO,
+  GetSpecificDomainForStudReqDTO,
+} from "shared/dto/request/domain.dto";
 
 @injectable()
 export class UserDomainController implements IUserDomainController {
@@ -33,15 +39,8 @@ export class UserDomainController implements IUserDomainController {
   async getAllDomains(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
-    const currentPage =
-      typeof req.query.currentPage === "string"
-        ? parseInt(req.query.currentPage)
-        : 1;
-    const limit =
-      typeof req.query.limit === "string" ? parseInt(req.query.limit) : 10;
-
+    const { currentPage, limit }: GetAllDomainsForStudReqDTO = req.verifiedData;
     const data: Omit<GetAllDomainsResponseDTO, "totalDocuments"> =
       await this._getUnblockedDomainsUsecase.execute(currentPage, limit);
     res.status(HTTP_STATUS.OK).json(data);
@@ -50,10 +49,9 @@ export class UserDomainController implements IUserDomainController {
   async getSpecificDomain(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
-    const domainId: string = req.params.domainId;
-
+    console.log(req.verifiedData);
+    const { domainId }: GetSpecificDomainForStudReqDTO = req.verifiedData;
     const domain = await this._getSpecificDomainUsecase.execute(domainId);
     res.status(HTTP_STATUS.OK).json(domain);
   }
@@ -61,10 +59,10 @@ export class UserDomainController implements IUserDomainController {
   async enrollDomain(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
+    console.log(req.verifiedData);
+    const { domainId }: EnrollDomainReqDTO = req.verifiedData;
     const userId = (req as ModifiedRequest).user.id;
-    const domainId: string = req.params.domainId;
     await this._enrollDomainUsecase.execute(userId, domainId);
     res
       .status(HTTP_STATUS.OK)
@@ -74,16 +72,10 @@ export class UserDomainController implements IUserDomainController {
   async getDomainDashboard(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
+    const { currentPage, limit }: GetDomainDashboardForStudReqDTO =
+      req.verifiedData;
     const userId = (req as ModifiedRequest).user.id;
-
-    const currentPage =
-      typeof req.query.currentPage === "string"
-        ? parseInt(req.query.currentPage)
-        : 1;
-    const limit =
-      typeof req.query.limit === "string" ? parseInt(req.query.limit) : 10;
 
     const data: Omit<GetAllDomainsResponseDTO, "totalDocuments"> =
       await this._getEnrolledDomainsUsecase.execute(userId, currentPage, limit);
@@ -93,13 +85,9 @@ export class UserDomainController implements IUserDomainController {
   async getDomainInsight(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
+    const { domainId }: GetDomainInsightReqDTO = req.verifiedData;
     const studentId = (req as ModifiedRequest).user.id;
-    const domainId = req.params.domainId;
-
-    if (!studentId || !domainId)
-      throw new ValidationError("Necessary credentails not recieved");
 
     const domainInsight = await this._getDomainInsightUsecase.execute(
       studentId,

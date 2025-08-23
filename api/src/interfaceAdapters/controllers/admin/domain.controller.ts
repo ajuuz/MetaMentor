@@ -5,7 +5,7 @@ import { IUpdateDomainStatusUsecase } from "entities/usecaseInterfaces/domain/up
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
-import { GetAllDomainForAdminReqDTO, UpdateDomainStatusDTO } from "shared/dto/request/domain.dto";
+import { GetAllDomainsForAdminReqDTO, UpdateDomainStatusDTO } from "shared/dto/request/domain.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -36,7 +36,7 @@ export class AdminDomainController implements IAdminDomainController {
     req: Request,
     res: Response,
   ): Promise<void> {
-    const {currentPage,limit}:GetAllDomainForAdminReqDTO=req.verifiedData
+    const {currentPage,limit}:GetAllDomainsForAdminReqDTO=req.verifiedData
     const data: Omit<GetAllDomainsResponseDTO, "totalDocuments"> =
       await this._getAllDomainsUsecase.execute(currentPage, limit);
     res.status(HTTP_STATUS.OK).json(data);

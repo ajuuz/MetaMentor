@@ -1,6 +1,7 @@
 import { Transform } from "class-transformer";
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -37,7 +38,6 @@ export class UserRegisterDTO {
     }
     return Number(str);
   })
-
   @IsNumber({}, { message: "Mobile number must be numeric" })
   mobileNumber!: number;
 
@@ -52,8 +52,7 @@ export class UserRegisterDTO {
   @IsNotEmpty()
   country!: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsEnum(GENDER)
   gender!: GENDER;
 }
 export class GoogleRegisterDTO {

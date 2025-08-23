@@ -78,7 +78,7 @@ export class AuthController implements IAuthController {
   ): Promise<void> {
     try {
       const { email, otp }: OtpReqDTO = req.verifiedData;
-       
+
       await this._VerifyOtpUsecase.execute(email, otp);
       res
         .status(HTTP_STATUS.CREATED)
@@ -91,12 +91,12 @@ export class AuthController implements IAuthController {
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { email, password }: LoginReqDTO = req.verifiedData;
     const details = await this._LoginUsecase.execute(email, password);
-    const { userData, accessToken, refreshToken } = details;
+    const { userData:user , accessToken, refreshToken } = details;
     setCookie(res, accessToken, refreshToken);
     res.status(HTTP_STATUS.OK).json({
       success: true,
       message: SUCCESS_MESSAGE.AUTH.LOGIN,
-      data: userData,
+      data: user,
     });
   }
 
@@ -106,15 +106,16 @@ export class AuthController implements IAuthController {
     next: NextFunction
   ): Promise<void> {
     const { idToken }: GoogleRegisterDTO = req.verifiedData;
-     
+
     try {
       const details = await this._googleAuthUsecase.execute(idToken);
-      const { accessToken, refreshToken, ...rest } = details;
+      const { userData:user,accessToken, refreshToken } = details;
+      console.log(user)
       setCookie(res, accessToken, refreshToken);
       res.status(HTTP_STATUS.OK).json({
         success: true,
         message: SUCCESS_MESSAGE.AUTH.GOOGLE_LOGIN,
-        data: rest,
+        data: user,
       });
     } catch (error: unknown) {
       if (
@@ -135,7 +136,7 @@ export class AuthController implements IAuthController {
     next: NextFunction
   ): Promise<void> {
     const { email }: ResendOtpReqDTO = req.verifiedData;
-     
+
     await this._resendOtpUsecase.execute(email);
     res
       .status(200)
@@ -148,7 +149,7 @@ export class AuthController implements IAuthController {
     next: NextFunction
   ): Promise<void> {
     const { email }: ForgotPasswordSendMailReqDTO = req.body;
-     
+
     await this._forgotPasswordSendMailUsecase.execute(email);
     res.status(200).json({
       success: true,

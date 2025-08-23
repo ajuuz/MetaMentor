@@ -23,9 +23,9 @@ import { MentorController } from "interfaceAdapters/controllers/mentor/mentor.co
 import { MentorSlotController } from "interfaceAdapters/controllers/mentor/slot.controller";
 import { PaymentController } from "interfaceAdapters/controllers/payment/payment.controller";
 import { UserController } from "interfaceAdapters/controllers/user/user.controller";
-import { UserDomainController } from "interfaceAdapters/controllers/user/userDomain.controller";
-import { UserReviewController } from "interfaceAdapters/controllers/user/userReview.controller";
-import { UserSlotController } from "interfaceAdapters/controllers/user/userSlot.controller";
+import { UserDomainController } from "interfaceAdapters/controllers/user/domain.controller";
+import { UserReviewController } from "interfaceAdapters/controllers/user/review.controller";
+import { UserSlotController } from "interfaceAdapters/controllers/user/slot.controller";
 import { AuthMiddleware } from "interfaceAdapters/middlewares/auth.middleware";
 import { ErrorMiddleware } from "interfaceAdapters/middlewares/error.middleware";
 import { container } from "tsyringe";

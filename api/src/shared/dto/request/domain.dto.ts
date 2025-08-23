@@ -34,7 +34,7 @@ export class CreateDomainReqDTO {
   levels!: LevelReqDTO[];
 }
 
-export class GetAllDomainForAdminReqDTO extends PaginationReqDTO {}
+export class GetAllDomainsForAdminReqDTO extends PaginationReqDTO {}
 
 export class UpdateDomainStatusDTO {
   @IsString()
@@ -43,4 +43,27 @@ export class UpdateDomainStatusDTO {
 
   @IsBoolean()
   status!: boolean;
+}
+
+//students
+export class GetAllDomainsForStudReqDTO extends PaginationReqDTO {}
+
+export class GetSpecificDomainForStudReqDTO {
+  @IsString()
+  @IsNotEmpty()
+  domainId!: string;
+}
+
+export class EnrollDomainReqDTO {
+  @IsString()
+  @IsNotEmpty()
+  domainId!: string;
+}
+
+export class GetDomainDashboardForStudReqDTO extends PaginationReqDTO {}
+
+export class GetDomainInsightReqDTO {
+  @IsString()
+  @IsNotEmpty()
+  domainId!: string;
 }

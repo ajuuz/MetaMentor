@@ -1,5 +1,7 @@
+import { IUserEntity } from "entities/modelEntities/user-model.entity";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IUserModel, userModel } from "frameworks/database/models/user.model";
+import { FilterQuery } from "mongoose";
 import { IuserRegisterData } from "shared/dto/request/auth.dto";
 import { UserDetailsResponseDTO, UserFindFilterDTO, UserUpdateDTO } from "shared/dto/userDTO";
 import { injectable } from "tsyringe";
@@ -28,7 +30,7 @@ export class UserRepository implements IUserRespository{
         return newUser
     }
 
-    async updateOne(filter:Partial<UserUpdateDTO.filter>,update:Partial<UserUpdateDTO.update>):Promise<void>{
+    async updateOne(filter:FilterQuery<IUserEntity>,update:Partial<IUserEntity>):Promise<void>{
         await userModel.updateOne(filter,update);
     }
 

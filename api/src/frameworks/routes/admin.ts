@@ -9,7 +9,7 @@ import {
 import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
 import { ROLES } from "shared/constants";
 import { GetAllCommunityForAdminReqDTO, UpdateCommunityStatusDTO } from "shared/dto/request/community.dto";
-import { CreateDomainReqDTO, GetAllDomainForAdminReqDTO, UpdateDomainStatusDTO } from "shared/dto/request/domain.dto";
+import { CreateDomainReqDTO, GetAllDomainsForAdminReqDTO, UpdateDomainStatusDTO } from "shared/dto/request/domain.dto";
 import { GetAllMentorsReqDTO, GetSpecificMentorReqDTO, MentorApplicationVerificationReqDTO, UpdateMentorStatusReqDTO } from "shared/dto/request/mentor.dto";
 import { GetAllStudentReqDTO, UpdateStudentStatusReqDTO } from "shared/dto/request/student.dto";
 
@@ -82,7 +82,7 @@ export class AdminRoutes {
       "/domains",
       authMiddleware.verifyAuth.bind(authMiddleware),
       authMiddleware.verifyAuthRole([ROLES.ADMIN]),
-      validationMiddleware(GetAllDomainForAdminReqDTO),
+      validationMiddleware(GetAllDomainsForAdminReqDTO),
       adminDomainController.getAllDomains.bind(adminDomainController)
     );
     this._router.patch(

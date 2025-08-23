@@ -1,46 +1,126 @@
 import { Router } from "express";
-import { authMiddleware, userCommunityController, userController, userDomainController, userReviewController, userSlotController } from "frameworks/di/resolver";
+import {
+  authMiddleware,
+  userCommunityController,
+  userController,
+  userDomainController,
+  userReviewController,
+  userSlotController,
+} from "frameworks/di/resolver";
+import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
 import { ROLES } from "shared/constants";
+import { GetAllCommunityForStudReqDTO } from "shared/dto/request/community.dto";
+import {
+  EnrollDomainReqDTO,
+  GetAllDomainsForStudReqDTO,
+  GetDomainDashboardForStudReqDTO,
+  GetDomainInsightReqDTO,
+  GetSpecificDomainForStudReqDTO,
+} from "shared/dto/request/domain.dto";
+import {
+  CancelReviewByStudReqDTO,
+  GetAllReviewsForStudReqDTO,
+} from "shared/dto/request/review.dto";
+import { GetDomainSlotsForStudReqDTO, SlotValidityCheckReqDTO } from "shared/dto/request/slot.dto";
+import { UpdateUserDetailsReqDTO } from "shared/dto/request/user.dto";
 
+export class UserRoutes {
+  private _router: Router;
 
+  constructor() {
+    this._router = Router();
+    this.configureRoutes();
+  }
 
-export class UserRoutes{
+  private configureRoutes(): void {
+    // -------- Public Routes (no auth) --------
 
-    private _router:Router
+    //domains
+    this._router.get(
+      "/domains",
+      validationMiddleware(GetAllDomainsForStudReqDTO),
+      userDomainController.getAllDomains.bind(userDomainController)
+    );
+    this._router.get(
+      "/domains/:domainId",
+      validationMiddleware(GetSpecificDomainForStudReqDTO),
+      userDomainController.getSpecificDomain.bind(userDomainController)
+    );
 
-    constructor(){
-        this._router = Router();
-        this.configureRoutes();
-    }
+    // -------- Protected Routes (auth required) --------
+    //application level middleware
+    this._router.use(
+      authMiddleware.verifyAuth.bind(authMiddleware),
+      authMiddleware.verifyAuthRole([ROLES.USER, ROLES.MENTOR]),
+      authMiddleware.blockChecker.bind(authMiddleware)
+    );
 
-    private configureRoutes():void{
+    //user
+    this._router.get(
+      "/user",
+      userController.getDetails.bind(userController)
+    );
+    this._router.patch(
+      "/user",
+      validationMiddleware(UpdateUserDetailsReqDTO),
+      userController.updateUser.bind(userController)
+    );
 
-        //user
-        this._router.get('/user',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userController.getDetails.bind(userController))
-        this._router.patch('/user',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userController.updateUser.bind(userController))
-        
-        //domains
-        this._router.get('/domains',userDomainController.getAllDomains.bind(userDomainController))
-        this._router.get('/domains/:domainId',userDomainController.getSpecificDomain.bind(userDomainController))
-        this._router.post('/domains/:domainId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userDomainController.enrollDomain.bind(userDomainController))
-        this._router.get('/dashboard',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userDomainController.getDomainDashboard.bind(userDomainController))
-        this._router.get('/dashboard/:domainId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userDomainController.getDomainInsight.bind(userDomainController))
-        
-        //slots
-        this._router.get('/slots/:domainId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userSlotController.getDomainSlots.bind(userSlotController))
-        this._router.post('/slots/:mentorId/:day/:slotId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userSlotController.slotValidityChecker.bind(userSlotController))
-        
-        //reviews
-        this._router.get('/reviews',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userReviewController.getAllReviews.bind(userReviewController))
-        this._router.patch('/reviews/:reviewId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userReviewController.cancelReview.bind(userReviewController))
-        
-        //community
-        this._router.get('/communities',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userDomainController.getDomainDashboard.bind(userDomainController))
-        this._router.get('/dashboard/:domainId',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),userCommunityController.getAllCommunities.bind(userDomainController))
+    //domains
 
-    }
+    this._router.post(
+      "/domains/:domainId",
+      validationMiddleware(EnrollDomainReqDTO),
+      userDomainController.enrollDomain.bind(userDomainController)
+    );
+    this._router.get(
+      "/dashboard",
+      validationMiddleware(GetDomainDashboardForStudReqDTO),
+      userDomainController.getDomainDashboard.bind(userDomainController)
+    );
+    this._router.get(
+      "/dashboard/:domainId",
+      validationMiddleware(GetDomainInsightReqDTO),
+      userDomainController.getDomainInsight.bind(userDomainController)
+    );
 
-    getRouter():Router{
-        return this._router;
-    }
+    //slots
+    this._router.get(
+      "/slots/:domainId",
+      validationMiddleware(GetDomainSlotsForStudReqDTO),
+      userSlotController.getDomainSlots.bind(userSlotController)
+    );
+    this._router.post(
+      "/slots/:mentorId/:day/:slotId",
+      validationMiddleware(SlotValidityCheckReqDTO),
+      userSlotController.slotValidityChecker.bind(userSlotController)
+    );
+
+    //reviews
+    this._router.get(
+      "/reviews",
+      validationMiddleware(GetAllReviewsForStudReqDTO),
+      userReviewController.getAllReviews.bind(userReviewController)
+    );
+    this._router.patch(
+      "/reviews/:reviewId",
+      validationMiddleware(CancelReviewByStudReqDTO),
+      userReviewController.cancelReview.bind(userReviewController)
+    );
+
+    //community
+    this._router.get(
+      "/communities",
+      validationMiddleware(GetAllCommunityForStudReqDTO),
+      userDomainController.getDomainDashboard.bind(userDomainController)
+    );
+    this._router.get(
+      "/dashboard/:domainId",
+      userCommunityController.getAllCommunities.bind(userDomainController)
+    );
+  }
+
+  getRouter(): Router {
+    return this._router;
+  }
 }

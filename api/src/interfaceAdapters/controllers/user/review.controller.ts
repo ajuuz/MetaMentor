@@ -2,7 +2,7 @@ import { IUserReviewController } from "entities/controllerInterfaces/user/userRe
 import { ICancelReviewByStudentUsecase } from "entities/usecaseInterfaces/review/cancelReviewByStudentUsecase.interface";
 import { IGetReviewsForStudentUsecase } from "entities/usecaseInterfaces/review/getReviewsForStudentUsecase.interface";
 import { IGetStudentReviewsUsecase } from "entities/usecaseInterfaces/review/getStudentReviewsUsecase.interface";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import {
   HTTP_STATUS,
   PENDING_REVIEW_STATE,
@@ -11,6 +11,7 @@ import {
 } from "shared/constants";
 import { ModifiedRequest } from "type/types";
 import { inject, injectable } from "tsyringe";
+import { CancelReviewByStudReqDTO, GetAllReviewsForStudReqDTO } from "shared/dto/request/review.dto";
 
 @injectable()
 export class UserReviewController implements IUserReviewController {
@@ -25,33 +26,32 @@ export class UserReviewController implements IUserReviewController {
     private _cancelReviewByStudentUsecase: ICancelReviewByStudentUsecase
   ) {}
 
-  async getStudentReviews(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
-    const type = req.query.type as "upcoming" | "completed";
-    const studentId = (req as ModifiedRequest).user.id;
-    const reviews = await this._getStudentReviewsUsecase.execute(
-      studentId,
-      type
-    );
-    res.status(200).json(reviews);
-  }
+  // async getStudentReviews(
+  //   req: Request,
+  //   res: Response,
+  // ): Promise<void> {
+  //   console.log(req.verifiedData)
+  //   const type = req.query.type as "upcoming" | "completed";
+  //   const studentId = (req as ModifiedRequest).user.id;
+  //   const reviews = await this._getStudentReviewsUsecase.execute(
+  //     studentId,
+  //     type
+  //   );
+  //   res.status(200).json(reviews);
+  // }
 
-  async getAllReviews(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  async getAllReviews(req: Request, res: Response): Promise<void> {
+
+    const {
+      status,
+      pendingReviewState,
+      dateRange,
+      currentPage,
+      limit,
+    }: GetAllReviewsForStudReqDTO = req.verifiedData;
+
     const studentId = (req as ModifiedRequest).user.id;
-    const status = req.query.status as REVIEW_FILTER_STATUS;
-    const pendingReviewState = req.query.pendingReviewState as
-      | PENDING_REVIEW_STATE
-      | undefined;
-    const dateRange = req.query.dateRange as string;
-    const currentPage: number = Number(req.query.currentPage ?? "1");
-    const limit: number = Number(req.query.limit ?? "10");
+
     const data = await this._getReviewsForStudentUsecase.execute(
       studentId,
       status,
@@ -63,28 +63,18 @@ export class UserReviewController implements IUserReviewController {
     res.status(HTTP_STATUS.OK).json(data);
   }
 
-  async cancelReview(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
-    const reviewId: string = req.params.reviewId;
+  async cancelReview(req: Request, res: Response): Promise<void> {
+    const {reviewId}: CancelReviewByStudReqDTO = req.verifiedData;
     const studentId: string = (req as ModifiedRequest)?.user?.id;
 
     await this._cancelReviewByStudentUsecase.execute(studentId, reviewId);
-    res
-      .status(HTTP_STATUS.OK)
-      .json({
-        success: true,
-        message: SUCCESS_MESSAGE.REVIEWS.STUDENT_CANCEL_REVIEW,
-      });
+    res.status(HTTP_STATUS.OK).json({
+      success: true,
+      message: SUCCESS_MESSAGE.REVIEWS.STUDENT_CANCEL_REVIEW,
+    });
   }
 
-  async getDomainReviews(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  async getDomainReviews(req: Request, res: Response): Promise<void> {
     // const
   }
 }
