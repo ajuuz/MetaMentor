@@ -1,9 +1,9 @@
+import { IReviewEntity } from "entities/modelEntities/reviewModel.entity";
 import { IReviewModel } from "frameworks/database/models/bookedSlot.model";
-import { BookReviewDTO } from "shared/dto/reviewDTO";
 
 
 
 export interface IBookReviewUsecase{
-    create(studentId:string,reviewDetails:BookReviewDTO):Promise<IReviewModel>
+    create(studentId:string,reviewDetails:Partial<IReviewEntity>):Promise<IReviewModel>
     save(review:IReviewModel):Promise<void>
 }

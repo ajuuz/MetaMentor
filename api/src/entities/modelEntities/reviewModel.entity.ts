@@ -1,13 +1,12 @@
-import { ObjectId } from "mongoose";
 import { PAYMENT_METHOD, PAYMENT_STATUS, REVIEW_STATUS } from "shared/constants";
 
 
 export interface IReviewEntity{
-    _id:ObjectId,
-    studentId:ObjectId,
-    mentorId:ObjectId,
-    domainId:ObjectId,
-    levelId:ObjectId,
+    _id:string,
+    studentId:string,
+    mentorId:string,
+    domainId:string,
+    levelId:string,
     mentorEarning:number,
     commissionAmount:number,
     payment:{
@@ -19,8 +18,8 @@ export interface IReviewEntity{
         isoStartTime:Date,
         isoEndTime:Date,
         day:string,
-        start:string,
-        end:string
+        start:number,
+        end:number
     },
     feedBack:string,
     bookedAt:Date

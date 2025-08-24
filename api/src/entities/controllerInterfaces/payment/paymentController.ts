@@ -1,8 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
-
-
-export interface IPaymentController{
-    createOrder(req:Request,res:Response,next:NextFunction):Promise<void>
-    verifyPayment(req:Request,res:Response,next:NextFunction):Promise<void>
+export interface IPaymentController {
+  createOrder(req: Request, res: Response): Promise<void>;
+  verifyPayment(req: Request, res: Response): Promise<void>;
 }
