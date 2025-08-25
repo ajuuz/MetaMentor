@@ -91,7 +91,7 @@ export class AuthController implements IAuthController {
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { email, password }: LoginReqDTO = req.verifiedData;
     const details = await this._LoginUsecase.execute(email, password);
-    const { userData:user , accessToken, refreshToken } = details;
+    const { userData: user, accessToken, refreshToken } = details;
     setCookie(res, accessToken, refreshToken);
     res.status(HTTP_STATUS.OK).json({
       success: true,
@@ -109,8 +109,8 @@ export class AuthController implements IAuthController {
 
     try {
       const details = await this._googleAuthUsecase.execute(idToken);
-      const { userData:user,accessToken, refreshToken } = details;
-      console.log(user)
+      const { userData: user, accessToken, refreshToken } = details;
+      console.log(user);
       setCookie(res, accessToken, refreshToken);
       res.status(HTTP_STATUS.OK).json({
         success: true,

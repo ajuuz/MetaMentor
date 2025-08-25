@@ -3,7 +3,6 @@ import { ROLES } from "shared/constants";
 
 @Exclude()
 export class LoginResDTO {
-
   @Expose()
   name!: string;
 

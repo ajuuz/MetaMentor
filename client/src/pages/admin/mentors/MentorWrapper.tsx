@@ -50,7 +50,6 @@ const MentorWrapper = ({isVerified,children}:Prop) => {
                     mentor.mobileNumber,
                     0,
                     mentor.country,
-                    mentor.domains.join(' , ').length<17?`${mentor.domains.join(' , ').slice(0,17)}+...`:mentor.domains.join(' , '),
                     mentor.skills.join(' , '),
                     isVerified
                     ?<Badge className={!mentor.isBlocked?"bg-green-700 text-white":"bg-red-700 text-white"}>{mentor.isBlocked?"BLOCKED":"ACTIVE"}</Badge>

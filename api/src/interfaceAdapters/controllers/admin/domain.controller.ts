@@ -2,10 +2,13 @@ import { IAdminDomainController } from "entities/controllerInterfaces/admin/admi
 import { IAddDomainUsecase } from "entities/usecaseInterfaces/domain/addDomainUsecase.interface";
 import { IGetAllDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainUsecase.interface";
 import { IUpdateDomainStatusUsecase } from "entities/usecaseInterfaces/domain/updateDomainStatusUsecase.interface";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
-import { GetAllDomainsForAdminReqDTO, UpdateDomainStatusDTO } from "shared/dto/request/domain.dto";
+import {
+  GetAllDomainsForAdminReqDTO,
+  UpdateDomainStatusDTO,
+} from "shared/dto/request/domain.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -21,32 +24,23 @@ export class AdminDomainController implements IAdminDomainController {
     private _updateDomainStatusUsecase: IUpdateDomainStatusUsecase
   ) {}
 
-  async addDomain(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
-      const domainDetails = req.verifiedData;
-      await this._addDomainUsecase.execute(domainDetails);
-      res
-        .status(HTTP_STATUS.CREATED)
-        .json({ success: true, message: SUCCESS_MESSAGE.DOMAINS.CREATED });
+  async addDomain(req: Request, res: Response): Promise<void> {
+    const domainDetails = req.verifiedData;
+    await this._addDomainUsecase.execute(domainDetails);
+    res
+      .status(HTTP_STATUS.CREATED)
+      .json({ success: true, message: SUCCESS_MESSAGE.DOMAINS.CREATED });
   }
 
-  async getAllDomains(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
-    const {currentPage,limit}:GetAllDomainsForAdminReqDTO=req.verifiedData
-    const data: Omit<GetAllDomainsResponseDTO, "totalDocuments"> =
-      await this._getAllDomainsUsecase.execute(currentPage, limit);
+  async getAllDomains(req: Request, res: Response): Promise<void> {
+    const { currentPage, limit }: GetAllDomainsForAdminReqDTO =
+      req.verifiedData;
+    const data = await this._getAllDomainsUsecase.execute(currentPage, limit);
     res.status(HTTP_STATUS.OK).json(data);
   }
 
-  async updateDomainStatus(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
-    const {domainId,status}:UpdateDomainStatusDTO=req.verifiedData
+  async updateDomainStatus(req: Request, res: Response): Promise<void> {
+    const { domainId, status }: UpdateDomainStatusDTO = req.verifiedData;
     await this._updateDomainStatusUsecase.execute(domainId, status);
     res
       .status(200)

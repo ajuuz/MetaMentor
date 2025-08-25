@@ -3,8 +3,10 @@ import { IGetAllStudentsUsecase } from "entities/usecaseInterfaces/student/getAl
 import { IUpdateStudentStatusUsecase } from "entities/usecaseInterfaces/student/updateStudentStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
-import { GetAllStudentReqDTO, UpdateStudentStatusReqDTO } from "shared/dto/request/student.dto";
-import { GetAllStudentResponseDTO } from "shared/dto/studentDTO";
+import {
+  GetAllStudentReqDTO,
+  UpdateStudentStatusReqDTO,
+} from "shared/dto/request/student.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -24,8 +26,10 @@ export class AdminStudentController implements IAdminStudentController {
   ): Promise<void> {
     try {
       const { currentPage, limit }: GetAllStudentReqDTO = req.verifiedData;
-      const data: Omit<GetAllStudentResponseDTO, "totalDocuments"> =
-        await this._getAllStudentsUsecase.execute(currentPage, +limit);
+      const data = await this._getAllStudentsUsecase.execute(
+        currentPage,
+        limit
+      );
       res.status(HTTP_STATUS.OK).json(data);
     } catch (error) {
       next(error);
@@ -37,7 +41,7 @@ export class AdminStudentController implements IAdminStudentController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const {userId,status}:UpdateStudentStatusReqDTO=req.verifiedData;
+    const { userId, status }: UpdateStudentStatusReqDTO = req.verifiedData;
     try {
       await this._updateStudentStatusUsecase.execute(userId, status);
       res.status(HTTP_STATUS.OK).json({
@@ -45,7 +49,6 @@ export class AdminStudentController implements IAdminStudentController {
         message: SUCCESS_MESSAGE.STUDENT.STATUS_UPDATE,
       });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   }

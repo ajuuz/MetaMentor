@@ -1,6 +1,6 @@
-import { GetAllStudentResponseDTO } from "shared/dto/studentDTO";
+import { GetStudentsForAdminResDTO } from "shared/dto/response/student.dto";
 
 
 export interface IGetAllStudentsUsecase{
-    execute(currentPage:number,limit:number):Promise<Omit<GetAllStudentResponseDTO,'totalDocuments'>>
+    execute(currentPage:number,limit:number):Promise<{students:GetStudentsForAdminResDTO[],totalPages:number}>
 }

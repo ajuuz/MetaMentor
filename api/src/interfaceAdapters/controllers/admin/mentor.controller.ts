@@ -8,7 +8,6 @@ import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/up
 import { NextFunction, Request, Response } from "express";
 import sseClientManager from "frameworks/SSE/sseClientManager";
 import { HTTP_STATUS, MENTOR_APPLICATION_STATUS } from "shared/constants";
-import { MentorDataDTO } from "shared/dto/mentorDTO";
 import {
   GetAllMentorsReqDTO,
   GetSpecificMentorReqDTO,
@@ -72,8 +71,7 @@ export class AdminMentorController implements IAdminMentorController {
   ): Promise<void> {
     const { mentorId }: GetSpecificMentorReqDTO = req.verifiedData;
     try {
-      const mentor: MentorDataDTO =
-        await this._getSpecificMentorUsecase.execute(mentorId);
+      const mentor = await this._getSpecificMentorUsecase.execute(mentorId);
       res.status(HTTP_STATUS.OK).json({
         success: true,
         message: "mentor fetched successfully",
@@ -87,7 +85,6 @@ export class AdminMentorController implements IAdminMentorController {
   async mentorApplicationVerification(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
     const {
       mentorId,
@@ -122,7 +119,6 @@ export class AdminMentorController implements IAdminMentorController {
   async updateMentorStatus(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
     const { mentorId, status }: UpdateMentorStatusReqDTO = req.verifiedData;
     await this._updateMentorStatusUsecase.execute(mentorId, status);

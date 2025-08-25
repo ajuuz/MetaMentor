@@ -1,5 +1,4 @@
 import { plainToInstance } from "class-transformer";
-import { IFcmTokenRepository } from "entities/repositoryInterfaces/fcmTokenRepository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";

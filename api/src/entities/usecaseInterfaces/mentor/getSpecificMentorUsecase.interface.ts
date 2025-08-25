@@ -1,6 +1,6 @@
-import { MentorDataDTO } from "shared/dto/mentorDTO";
+import { GetMentorForAdminResDTO } from "shared/dto/response/mentor.dto";
 
 
 export interface IGetSpecificMentorUsecase{
-    execute(mentorId:string):Promise<MentorDataDTO>
+    execute(mentorId:string):Promise<GetMentorForAdminResDTO>
 }
