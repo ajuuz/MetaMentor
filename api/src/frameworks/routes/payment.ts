@@ -1,27 +1,37 @@
-import { Request, Router } from "express";
+import { Router } from "express";
 import { authMiddleware, paymentController } from "frameworks/di/resolver";
+import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
 import { ROLES } from "shared/constants";
+import { RazorPayCreateOrderReqDTO, VerifyPaymentReqDTO } from "shared/dto/request/payment.dto";
 
-interface MulterRequest extends Request{
-    files: Express.Multer.File[];
-}
+export class PaymentRoutes {
+  private _router: Router;
 
+  constructor() {
+    this._router = Router();
+    this.configureRoutes();
+  }
 
-export class PaymentRoutes{
+  configureRoutes(): void {
+    this._router.use(
+      authMiddleware.verifyAuth.bind(authMiddleware),
+      authMiddleware.verifyAuthRole([ROLES.USER, ROLES.MENTOR]),
+      authMiddleware.blockChecker.bind(authMiddleware)
+    );
 
-    private _router:Router;
+    this._router.post(
+      "/createOrder",
+      validationMiddleware(RazorPayCreateOrderReqDTO),
+      paymentController.createOrder.bind(paymentController)
+    );
+    this._router.post(
+      "/verifyPayment",
+      validationMiddleware(VerifyPaymentReqDTO),
+      paymentController.verifyPayment.bind(paymentController)
+    );
+  }
 
-    constructor(){
-        this._router = Router();
-        this.configureRoutes()
-    }
-
-    configureRoutes():void{
-        this._router.post('/createOrder',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),paymentController.createOrder.bind(paymentController))
-        this._router.post('/verifyPayment',authMiddleware.verifyAuth.bind(authMiddleware),authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),authMiddleware.blockChecker.bind(authMiddleware),paymentController.verifyPayment.bind(paymentController))
-    }
-
-    getRouter():Router{
-        return this._router;
-    }
+  getRouter(): Router {
+    return this._router;
+  }
 }

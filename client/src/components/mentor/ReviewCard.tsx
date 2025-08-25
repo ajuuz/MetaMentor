@@ -40,8 +40,7 @@ const ReviewCard = ({review,isNotOver}:Props) => {
   })
   const handleCancelReview=()=>{
     const reviewId=review._id
-    const status='cancelled'
-    cancelReviewMutation({reviewId,status})
+    cancelReviewMutation(reviewId)
   }
 
 

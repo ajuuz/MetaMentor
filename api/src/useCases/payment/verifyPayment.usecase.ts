@@ -6,7 +6,7 @@ import { ICreateTransactionUsecase } from "entities/usecaseInterfaces/transactio
 import { ICreditWalletUsecase } from "entities/usecaseInterfaces/wallet/creditWalletUsecase.inteface";
 import { config } from "shared/config";
 import { HTTP_STATUS, TRANSACTION_TYPE } from "shared/constants";
-import { VerifyPaymentDTO } from "shared/dto/paymentDTO";
+import { VerifyPaymentReqDTO } from 'shared/dto/request/payment.dto';
 import { CustomError } from "shared/utils/error/customError";
 import { inject, injectable } from "tsyringe";
 
@@ -26,8 +26,9 @@ export class VerifyPaymentUsecase implements IVerifyPaymentUsecase{
     ){
         this._adminId=config.ADMIN_ID!
     }
-    async execute(studentId:string,{razorPayDetails,reviewDetails}:VerifyPaymentDTO):Promise<void>{
+    async execute(studentId:string,paymentAndReviewDetails:VerifyPaymentReqDTO):Promise<void>{
         
+        const {razorPayDetails,reviewDetails}=paymentAndReviewDetails
         const {razorpay_order_id,razorpay_payment_id,razorpay_signature} = razorPayDetails;
         const sign = razorpay_order_id + '|' + razorpay_payment_id;
         const expectedSign = crypto

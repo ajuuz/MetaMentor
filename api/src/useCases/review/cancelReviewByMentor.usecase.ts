@@ -8,7 +8,6 @@ import { config } from "shared/config";
 import { ERROR_MESSAGE, HTTP_STATUS, NOTIFICATION_MESSAGE, NOTIFICATION_TITLE, REVIEW_STATUS, TRANSACTION_TYPE } from "shared/constants";
 import { CustomError } from "shared/utils/error/customError";
 import { NotFoundError } from "shared/utils/error/notFounError";
-import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
 
 
@@ -35,11 +34,7 @@ export class CancelReviewByMentorUsecase implements ICancelReviewByMentorUsecase
         this._adminId=config.ADMIN_ID!
     }
 
-    async execute(mentorId:string,reviewId:string,status:Extract<REVIEW_STATUS,REVIEW_STATUS.CANCELLED>):Promise<void>{
-
-        if(status!==REVIEW_STATUS.CANCELLED){
-            throw new ValidationError(ERROR_MESSAGE.REVIEW.INVALID_STATUS)
-        }
+    async execute(mentorId:string,reviewId:string):Promise<void>{
 
         const fetchFilter={_id:reviewId,status:REVIEW_STATUS.PENDING}
         const review = await this._reviewRepository.findOne(fetchFilter)

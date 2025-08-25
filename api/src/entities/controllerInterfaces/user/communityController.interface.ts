@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
 
 export interface IUserCommunityController{
-    getAllCommunities(req:Request,res:Response,next:NextFunction):Promise<void>
+    getAllCommunities(req:Request,res:Response):Promise<void>
 }

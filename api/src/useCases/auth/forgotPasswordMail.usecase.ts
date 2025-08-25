@@ -8,32 +8,34 @@ import { NotFoundError } from "shared/utils/error/notFounError";
 import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
 
-
-
 @injectable()
-export class ForgotPasswordSendMailUsecase implements IForgotPasswordSendMailUsecase{
+export class ForgotPasswordSendMailUsecase
+  implements IForgotPasswordSendMailUsecase
+{
+  constructor(
+    @inject("IUserRepository")
+    private _userRepository: IUserRespository,
 
-    constructor(
-        @inject('IUserRepository')
-        private _userRepository:IUserRespository,
+    @inject("ITokenService")
+    private _tokenService: ITokenService,
 
-        @inject("ITokenService")
-        private _tokenService:ITokenService,
+    @inject("IEmailService")
+    private _emailService: IEmailService
+  ) {}
 
-        @inject('IEmailService')
-        private _emailService:IEmailService
-    ){}
+  async execute(email: string): Promise<void> {
+    if (!email) throw new ValidationError("Email is required");
 
-   async execute(email:string):Promise<void>{
-        if(!email) throw new ValidationError("Email is required")
+    const user = await this._userRepository.findByEmail(email);
 
-        const user = await this._userRepository.findByEmail(email)
+    if (!user || !user.isVerified) throw new NotFoundError("User not found");
 
-        if(!user || !user.isVerified) throw new NotFoundError("User not found");
+    const token = this._tokenService.generateForgotPasswordToken(email);
+    const html = mailContentProvider(
+      MAIL_CONTENT_PURPOSE.FORGOT_PASSWORD,
+      token
+    );
 
-        const token = this._tokenService.generateForgotPasswordToken(email)
-         const html=mailContentProvider(MAIL_CONTENT_PURPOSE.FORGOT_PASSWORD,token)
-        
-        await this._emailService.sendMail(email,"Password Reset Request",html)
-   }
+    await this._emailService.sendMail(email, "Password Reset Request", html);
+  }
 }

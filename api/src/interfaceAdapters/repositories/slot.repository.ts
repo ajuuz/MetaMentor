@@ -59,7 +59,6 @@ export class SlotRepository extends BaseRepository<ISlotEntity,ISlotModel> imple
                     weekSlots:1,
                     mentorId:1,
                     mentor:{
-                        _id:'$mentor.userId',
                         fee:'$mentor.fee',
                         name:'$mentorDetails.name',
                         profileImage:'$mentorDetails.profileImage',

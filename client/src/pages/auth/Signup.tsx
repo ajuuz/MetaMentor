@@ -46,6 +46,18 @@ const Signup = () => {
       navigate('/otp',{state:{email:formData.email}})
     },
     onError:(error)=>{
+      if('errors' in error && Array.isArray(error.errors)){
+        const errArray:{property:keyof AuthFormErrorsType,
+          constraints:string}[]=error.errors;
+        const errors:AuthFormErrorsType={}
+        for(let er of errArray){
+           const property=er.property;
+           const constraint=er.constraints;
+           const errorMessage=Object.values(constraint)[0];
+           errors[property]=errorMessage
+          }
+          setErrors(errors)
+      }
       toast.error(error?.message || "Login failed. Please try again.");
     }
   })
@@ -67,8 +79,7 @@ const Signup = () => {
 
   const handleSubmit = async() => {
 
-      const {country,gender,...rest} = formData;
-      const validationErrors = formDataValidation(rest);
+      const validationErrors = formDataValidation(formData);
 
       if (Object.keys(validationErrors).length > 0) {
         setErrors(validationErrors);
@@ -88,10 +99,9 @@ const Signup = () => {
 
         <div className='p-8 rounded-lg flex flex-col gap-10 '>
           <h1 className='text-3xl font-semibold text-center text-[#E63946]'>Signup</h1>
-          <form  className='flex flex-col gap-3'>
-
+          <form  className='grid grid-cols-1 gap-3'>
             <div className=''>
-              <div className='flex flex-col'>
+              <div className='flex flex-col gap-2'>
                 <Label htmlFor="name">Full Name</Label>
                 <Input onChange={handleChange} className='w-full' name='name'/>
               </div>
@@ -134,10 +144,12 @@ const Signup = () => {
               <div className='flex flex-col gap-2'>
                 <Label htmlFor="country">Country</Label>
                 <SelectComponent disabled={false} selectKey='country' placeHolder='Country' handleSelectChange={handleSelectChange} content={countryNames}/>
+                <p className='text-red-400 text-xs'>{errors.country}</p>
               </div>
               <div className='flex flex-col gap-2'>
                 <Label htmlFor="gender">Gender</Label>
                 <SelectComponent disabled={false} selectKey='gender' placeHolder='Gender' handleSelectChange={handleSelectChange} content={["male","female","other"]} />
+                <p className='text-red-400 text-xs'>{errors.gender}</p>
               </div>
             </div>
           </form>

@@ -1,8 +1,8 @@
-import { SignupRequestDto } from "shared/dto/authDTO";
+import { UserRegisterDTO } from "shared/dto/request/auth.dto";
 import { ISuccessResponseHandler} from "shared/utils/successResponseHandler";
 
 
 
 export interface IRegisterUserUsecase {
-    execute(formData:Omit<SignupRequestDto,"googleId"|"isVerified"|"profileImage">):Promise<ISuccessResponseHandler>;
+    execute(formData:UserRegisterDTO):Promise<ISuccessResponseHandler>;
 }

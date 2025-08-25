@@ -1,8 +1,11 @@
-import { DomainReviewSlotResponseDTO } from "shared/dto/reviewDTO";
-import { DomainSlotsResponseDTO } from "shared/dto/slotDTO";
+import { GetBookedReviewSlotsResDTO } from "shared/dto/response/review.dto";
+import { GetSlotsForStudResDTO } from "shared/dto/response/slot.dto";
 
-
-
-export interface IGetDomainSlotsUsecase{
-    execute(domainId:string):Promise<{domainSlots:DomainSlotsResponseDTO[],bookedSlots:DomainReviewSlotResponseDTO[]}>
+export interface IGetDomainSlotsUsecase {
+  execute(
+    domainId: string
+  ): Promise<{
+    domainSlots: GetSlotsForStudResDTO[];
+    bookedSlots: GetBookedReviewSlotsResDTO[];
+  }>;
 }

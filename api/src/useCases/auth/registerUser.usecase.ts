@@ -2,8 +2,12 @@ import { IUserEntity } from "entities/modelEntities/user-model.entity";
 import { IOtpRespository } from "entities/repositoryInterfaces/otp-repository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
-import { EVENT_EMITTER_TYPE, HTTP_STATUS, MAIL_CONTENT_PURPOSE } from "shared/constants";
-import { SignupRequestDto } from "shared/dto/authDTO";
+import {
+  EVENT_EMITTER_TYPE,
+  HTTP_STATUS,
+  MAIL_CONTENT_PURPOSE,
+} from "shared/constants";
+import { UserRegisterDTO } from "shared/dto/request/auth.dto";
 import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/mailContentProvider";
 import { hashPassword } from "shared/utils/bcryptHelper";
@@ -21,11 +25,10 @@ export class RegisterUserUsecase implements IRegisterUserUsecase {
     private _userRepository: IUserRespository,
 
     @inject("IOtpRepository")
-    private _otpRepository: IOtpRespository,
+    private _otpRepository: IOtpRespository
   ) {}
 
-  async execute(formData: Omit<SignupRequestDto,"googleId"|"isVerified"|"profileImage">): Promise<ISuccessResponseHandler> {
-    
+  async execute(formData: UserRegisterDTO): Promise<ISuccessResponseHandler> {
     const userExists: IUserEntity | null =
       await this._userRepository.findByEmail(formData.email);
 
@@ -46,22 +49,26 @@ export class RegisterUserUsecase implements IRegisterUserUsecase {
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log(otp)
+    console.log(otp);
     const asyncOperations = [];
 
     asyncOperations.push(this._otpRepository.saveOtp(formData.email, otp));
 
-    const html=mailContentProvider(MAIL_CONTENT_PURPOSE.OTP,otp)
-
+    const html = mailContentProvider(MAIL_CONTENT_PURPOSE.OTP, otp);
 
     if (!userExists) {
       const password = formData.password;
       const hashedPassword = await hashPassword(password);
-      formData.password=hashedPassword
+      formData.password = hashedPassword;
       asyncOperations.push(this._userRepository.createUser(formData));
     }
     await Promise.all(asyncOperations);
-    eventBus.emit(EVENT_EMITTER_TYPE.SENDMAIL,formData.email,"Account creation",html)
+    eventBus.emit(
+      EVENT_EMITTER_TYPE.SENDMAIL,
+      formData.email,
+      "Account creation",
+      html
+    );
 
     return userExists
       ? successResponseHandler(

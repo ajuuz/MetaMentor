@@ -1,7 +1,11 @@
-import { NextFunction, Request, Response } from "express";
+import {  Request, Response } from "express";
 
-export interface IMentorReviewController{
-    getAllReviews(req:Request,res:Response,next:NextFunction):Promise<void>
-    getReview(req:Request,res:Response,next:NextFunction):Promise<void>
-    updateReviewStatus(req:Request,res:Response,next:NextFunction):Promise<void>
+export interface IMentorReviewController {
+  getAllReviews(req: Request, res: Response): Promise<void>;
+  getReview(req: Request, res: Response): Promise<void>;
+  cancelReview(req: Request, res: Response): Promise<void>
+  submitReviewResult(
+    req: Request,
+    res: Response,
+  ): Promise<void>;
 }

@@ -1,9 +1,15 @@
-import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
-import { GetNextLevelResponseDTO } from "shared/dto/levelsDTO";
-import { GetReviewResponseDTO } from "shared/dto/reviewDTO";
+import { GetDomainResDTO } from "shared/dto/response/domain.dto";
+import { LevelResDTO } from "shared/dto/response/level.dto";
+import { GetReviewsForStudAndDomainResDTO } from "shared/dto/response/review.dto";
 
-
-
-export interface IGetDomainInsightUsecase{
-    execute(studentId:string,domainId:string):Promise<{reviews:GetReviewResponseDTO[],domain:IDomainEntity,noOfLevelPassed:number,nextLevels:GetNextLevelResponseDTO[]}>
+export interface IGetDomainInsightUsecase {
+  execute(
+    studentId: string,
+    domainId: string
+  ): Promise<{
+    reviews: GetReviewsForStudAndDomainResDTO[];
+    domain: GetDomainResDTO;
+    noOfLevelPassed: number;
+    nextLevels: LevelResDTO[];
+  }>;
 }

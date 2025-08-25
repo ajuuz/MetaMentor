@@ -1,6 +1,7 @@
+import { plainToInstance } from "class-transformer";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IGetSpecificUserUsecase } from "entities/usecaseInterfaces/user/getSpecificUserUsecase.interface";
-import { UserDetailsResponseDTO, UserFindFilterDTO } from "shared/dto/userDTO";
+import { GetUserDetailsResDTO } from "shared/dto/response/user.dto";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
@@ -15,12 +16,15 @@ export class GetSpecificUserUsecase implements IGetSpecificUserUsecase{
         private _userRepository:IUserRespository
     ){}
 
-    async execute(userId:string):Promise<UserDetailsResponseDTO>{
+    async execute(userId:string):Promise<GetUserDetailsResDTO>{
         if(!userId) throw new ValidationError("invalid credentials")
 
-        const filter:Pick<UserFindFilterDTO,"_id">={_id:userId}
-        const user:UserDetailsResponseDTO|null=await this._userRepository.findOne(filter)
-        if(!user) throw new NotFoundError("user not found");
+        const filter={_id:userId}
+        const userData=await this._userRepository.findOne(filter)
+        if(!userData) throw new NotFoundError("user not found");
+        const user = plainToInstance(GetUserDetailsResDTO,userData,{
+            excludeExtraneousValues:true
+        })
         return user
     }
 }

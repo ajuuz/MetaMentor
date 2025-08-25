@@ -1,4 +1,4 @@
-import { ClientSession,FilterQuery,InsertManyOptions, ObjectId, ProjectionType, QueryOptions } from "mongoose"
+import { ClientSession,FilterQuery,InsertManyOptions, ProjectionType, QueryOptions } from "mongoose"
 
 export interface IBaseRepository<T,D>{
     startSession():Promise<ClientSession>

@@ -3,10 +3,10 @@ import { useUserStore } from "@/zustand/userStore"
 import { Navigate, Outlet } from "react-router-dom";
 
 
-
 const ProtectedRoute = ({allowedRoles,navitageTo='/'}:{allowedRoles:ROLES[],navitageTo?:string}) => {
 
     const {user} = useUserStore();
+    console.log(user)
     if(!user) return <Navigate to="/" replace/>
 
     if(!allowedRoles.includes(user.role)){

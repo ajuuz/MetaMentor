@@ -1,7 +1,7 @@
 import type { AuthFormType,AuthFormErrorsType } from "@/types/authTypes";
 
 
-export const formDataValidation = (formData:Partial<Omit<AuthFormType,'country'|'gender'>>):AuthFormErrorsType => {
+export const formDataValidation = (formData:Partial<AuthFormType>):AuthFormErrorsType => {
 
     const errors:AuthFormErrorsType={}
     for(const i in formData) {
@@ -36,6 +36,14 @@ export const formDataValidation = (formData:Partial<Omit<AuthFormType,'country'|
               errors[key] =  `${key} is required`
         } else if(key==='confirmPwd' && value !== formData.password){
               errors[key] =  "Confirm password must match the password"
+        }
+
+        if (key==='country' && (value==="" || value===null)) {
+                errors[key] = `${key} is required`
+        }
+
+        if (key==='gender' && (value==="" || value===null)) {
+                errors[key] = `${key} is required`
         }
     }
 

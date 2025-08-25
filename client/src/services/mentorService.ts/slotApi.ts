@@ -5,7 +5,7 @@ import type { WeekSlotsType } from "@/types/slotTypes";
 
 export const updateSlot=async(weekSlots:WeekSlotsType):Promise<MutationApiResponse>=>{
     try{
-        const response = await mentorInstance.patch('/slots',{weekSlots})
+        const response = await mentorInstance.patch('/slots',weekSlots)
         return response.data;
     }
     catch(error:any){

@@ -13,23 +13,23 @@ const UserLayout = () => {
   useEffect(()=>{
     if(user){
       listenForForegroundMessages()
-      const eventSource = eventSourceProvider(user.email);
+      // const eventSource = eventSourceProvider(user.email);
       
-      eventSource.onmessage=(event)=>{
-        const parsedData = JSON.parse(event.data);
-        console.log(parsedData.message)
-        // const toastId=toast.loading(parsedData.message)
-        // setTimeout(()=>{
-        //   toast.success(parsedData.message,{
-        //     id:toastId
-        //   })
-        // },400)
-      }
+      // eventSource.onmessage=(event)=>{
+      //   const parsedData = JSON.parse(event.data);
+      //   console.log(parsedData.message)
+      //   // const toastId=toast.loading(parsedData.message)
+      //   // setTimeout(()=>{
+      //   //   toast.success(parsedData.message,{
+      //   //     id:toastId
+      //   //   })
+      //   // },400)
+      // }
       
-      eventSource.onerror=(err)=>{
-        console.log("eventsource failed",err)
-        eventSource.close();
-      }
+      // eventSource.onerror=(err)=>{
+      //   console.log("eventsource failed",err)
+      //   eventSource.close();
+      // }
     }
   },[])
 

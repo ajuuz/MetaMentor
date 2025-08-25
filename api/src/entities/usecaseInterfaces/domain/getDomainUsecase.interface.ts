@@ -1,6 +1,8 @@
-import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
+import { GetDomainsForAdminResDTO } from "shared/dto/response/domain.dto";
 
-
-export interface IGetAllDomainsUsecase{
-    execute(currentPage:number,limit:number):Promise<Omit<GetAllDomainsResponseDTO,'totalDocuments'>>
+export interface IGetAllDomainsUsecase {
+  execute(
+    currentPage: number,
+    limit: number
+  ): Promise<{ domains: GetDomainsForAdminResDTO[]; totalPages: number }>;
 }

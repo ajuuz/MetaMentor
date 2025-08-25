@@ -23,9 +23,9 @@ import { MentorController } from "interfaceAdapters/controllers/mentor/mentor.co
 import { MentorSlotController } from "interfaceAdapters/controllers/mentor/slot.controller";
 import { PaymentController } from "interfaceAdapters/controllers/payment/payment.controller";
 import { UserController } from "interfaceAdapters/controllers/user/user.controller";
-import { UserDomainController } from "interfaceAdapters/controllers/user/userDomain.controller";
-import { UserReviewController } from "interfaceAdapters/controllers/user/userReview.controller";
-import { UserSlotController } from "interfaceAdapters/controllers/user/userSlot.controller";
+import { UserDomainController } from "interfaceAdapters/controllers/user/domain.controller";
+import { UserReviewController } from "interfaceAdapters/controllers/user/review.controller";
+import { UserSlotController } from "interfaceAdapters/controllers/user/slot.controller";
 import { AuthMiddleware } from "interfaceAdapters/middlewares/auth.middleware";
 import { ErrorMiddleware } from "interfaceAdapters/middlewares/error.middleware";
 import { container } from "tsyringe";
@@ -37,6 +37,8 @@ import { IMentorReviewController } from "entities/controllerInterfaces/mentor/re
 import { MentorReviewController } from "interfaceAdapters/controllers/mentor/review.controller";
 import { IUserCommunityController } from "entities/controllerInterfaces/user/communityController.interface";
 import { UserCommunityController } from "interfaceAdapters/controllers/user/community.controller";
+import { IFcmTokenController } from "entities/controllerInterfaces/common/fcmTokenController.interface";
+import { FcmTokenController } from "interfaceAdapters/controllers/common/fcmToken.controller";
 
 DependencyInjection.registerAll()
 
@@ -50,8 +52,6 @@ export const adminMentorController = container.resolve<IAdminMentorController>(A
 export const adminDomainController = container.resolve<IAdminDomainController>(AdminDomainController);
 export const adminCommunityController = container.resolve<IAdminCommunityController>(AdminCommunityController);
 
-//commomController
-export const commonController = container.resolve<ICommonController>(CommonController)
 
 //MentorController
 export const mentorController = container.resolve<IMentorController>(MentorController)
@@ -68,6 +68,9 @@ export const userCommunityController = container.resolve<IUserCommunityControlle
 //paymentController
 export const paymentController = container.resolve<IPaymentController>(PaymentController)
 
+//commomController
+export const commonController = container.resolve<ICommonController>(CommonController)
+export const fcmTokenController = container.resolve<IFcmTokenController>(FcmTokenController)
 
 //middleware
 export const errorMiddleware = container.resolve<IErrorMiddleware>(ErrorMiddleware)

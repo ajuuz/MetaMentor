@@ -1,10 +1,18 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
-
-export interface IUserDomainController{
-    getAllDomains(req:Request,res:Response,next:NextFunction):Promise<void>
-    getSpecificDomain(req:Request,res:Response,next:NextFunction):Promise<void>
-    enrollDomain(req:Request,res:Response,next:NextFunction):Promise<void>
-    getDomainDashboard(req:Request,res:Response,next:NextFunction):Promise<void>
-    getDomainInsight(req:Request,res:Response,next:NextFunction):Promise<void>
+export interface IUserDomainController {
+  getAllDomains(req: Request, res: Response): Promise<void>;
+  getSpecificDomain(
+    req: Request,
+    res: Response,
+  ): Promise<void>;
+  enrollDomain(req: Request, res: Response): Promise<void>;
+  getDomainDashboard(
+    req: Request,
+    res: Response,
+  ): Promise<void>;
+  getDomainInsight(
+    req: Request,
+    res: Response,
+  ): Promise<void>;
 }

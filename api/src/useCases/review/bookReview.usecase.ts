@@ -1,8 +1,8 @@
+import { IReviewEntity } from "entities/modelEntities/reviewModel.entity";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReviewUsecase.interface";
 import { IReviewModel } from "frameworks/database/models/bookedSlot.model";
 import { PAYMENT_METHOD, PAYMENT_STATUS } from "shared/constants";
-import { BookReviewDTO } from "shared/dto/reviewDTO";
 import { inject, injectable } from "tsyringe";
 
 
@@ -14,7 +14,7 @@ export class BookReviewUsecase implements IBookReviewUsecase{
         private _reviewRepository:IReviewRepository
     ){}
 
-    async create(studentId:string,reviewDetails:BookReviewDTO):Promise<IReviewModel>{
+    async create(studentId:string,reviewDetails:Partial<IReviewEntity> & {amount:number}):Promise<IReviewModel>{
         const amount=reviewDetails.amount!
         const commissionAmount = (amount*10)/100;
         const mentorEarning = amount-commissionAmount;
@@ -22,7 +22,7 @@ export class BookReviewUsecase implements IBookReviewUsecase{
             method:PAYMENT_METHOD.UPI,
             status:PAYMENT_STATUS.SUCCESS
         }
-        const bookingDetails:Omit<BookReviewDTO,'amount'>={
+        const bookingDetails={
             domainId:reviewDetails.domainId,
             levelId:reviewDetails.levelId,
             mentorId:reviewDetails.mentorId,

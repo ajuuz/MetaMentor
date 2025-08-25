@@ -1,14 +1,14 @@
-import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
+import { IGetMentorForAdmin, IGetMentorsForAdmin, IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { mentorModel } from "frameworks/database/models/mentor.model";
 import { Types } from "mongoose";
-import { GetAllMentorResponseDTO, MentorDataDTO, MentorFindFilterDTO, MentorRegisterRequestDTO, MentorUpdateDTO } from "shared/dto/mentorDTO";
+import {  MentorFindFilterDTO, MentorUpdateDTO } from "shared/dto/mentorDTO";
 import { injectable } from "tsyringe";
 
 @injectable()
 export class MentorRepository implements IMentorRepository{
 
-    async findById(mentorId:string):Promise<MentorDataDTO|undefined>{
+    async findById(mentorId:string):Promise<IGetMentorForAdmin|null>{
         const mentorObjectId = new Types.ObjectId(mentorId);
         const mentor = await mentorModel.aggregate([
             {$match:{userId:mentorObjectId}},
@@ -26,9 +26,7 @@ export class MentorRepository implements IMentorRepository{
             }},
             {$unwind:'$userDetails'},
             {$project:{
-                userId:1,
                 about:1,
-                isBlocked:1,
                 cv:1,
                 experienceCirtificate:1,
                 skills:1,
@@ -52,16 +50,16 @@ export class MentorRepository implements IMentorRepository{
                 }
             }}
         ]);
-        return mentor[0]
+        return mentor?.[0]?mentor[0]:null
     }
 
-    async register(userId:string,mentorDetails:MentorRegisterRequestDTO):Promise<void>{
+    async register(userId:string,mentorDetails:Partial<IMentorEntity>):Promise<void>{
         const newMentor = new mentorModel({userId,...mentorDetails})
         await newMentor.save()
     }
 
-    async find(filter:Partial<MentorFindFilterDTO>, skip: number, limit: number):Promise<Omit<Omit<GetAllMentorResponseDTO,"cv"|"experienceCirtificate">,'totalPages'>>{
-        const [mentors,totalDocuments] = await Promise.all([
+    async find(filter:Partial<MentorFindFilterDTO>, skip: number, limit: number):Promise<{data:IGetMentorsForAdmin[],totalDocuments:number}>{
+        const [data,totalDocuments] = await Promise.all([
             mentorModel.aggregate([
                 {$match:filter},
                 {$sort:{createdAt:-1}},
@@ -74,23 +72,34 @@ export class MentorRepository implements IMentorRepository{
                     as:'user'
                 }},
                 {$unwind:'$user'},
+                {$lookup:{
+                    from:'domains',
+                    localField:'domains',
+                    foreignField:'_id',
+                    as:'domains'
+                }},
                 {$project:{
+                    _id:0,
                     name:'$user.name',
                     country:'$user.country',
-                    gender:'$user.gender',
                     mobileNumber:'$user.mobileNumber',
                     userId:1,
-                    about:1,
-                    isBlocked:1,
-                    domains:1,
+                    domains:{
+                        $map:{
+                            input:'$domains',
+                            as:'d',
+                            in:'$$d.name'
+                        }
+                    },
                     skills:1,
                     workedAt:1,
-                    fee:1
+                    fee:1,
+                    isBlocked:1,
                 }}
             ]),
             mentorModel.countDocuments(filter)
         ])
-            return {mentors,totalDocuments}
+            return {data,totalDocuments}
     }
 
     async updateOne(filter:Partial<MentorUpdateDTO.filter>,update:Partial<MentorUpdateDTO.update>):Promise<void>{
@@ -98,7 +107,7 @@ export class MentorRepository implements IMentorRepository{
     }
 
     async getStatus(userId:string):Promise<IMentorEntity|null>{
-        const user=await mentorModel.findOne({userId})
+        const user=await mentorModel.findOne({userId}).lean<IMentorEntity>()
         return user;
     }
 }

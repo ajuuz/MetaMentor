@@ -28,6 +28,7 @@ export type WeekSlotsWithBookingType={
 }
 
 export type DomainSlotsResponseDTO={
+    mentorId:string,
     weekSlots:WeekSlotsWithBookingType,
     mentor:{
         _id:string,

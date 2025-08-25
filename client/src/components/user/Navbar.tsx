@@ -13,11 +13,54 @@ import { useUserStore, type UserType } from '@/zustand/userStore'
 
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from "../ui/button";
+import { useCallback, useEffect } from "react";
+import { listenForForegroundMessages, requestForToken } from "@/config/firebaseConfig/firebaseConfig";
+import { saveFcmToken } from "@/services/commonApi";
+import { useMutation } from "@tanstack/react-query";
 
 const Navbar = () => {
   
   const user:UserType|null= useUserStore((state)=>state.user);
   const navigate = useNavigate();
+
+
+   const { mutate: saveFcmTokenMutation } = useMutation({
+    mutationFn: saveFcmToken,
+      onSuccess: (response,token) => {
+        console.log(response)
+        console.log(token)
+        localStorage.setItem("fcmToken",token);
+      },
+      onError: (err) => {
+        console.error("Failed to save token:", err);
+      },
+    });
+
+    const setupFCM = useCallback(async () => {
+    if (!user) return;
+    if (user.role==='admin') return;
+    try {
+      if (Notification.permission === 'denied') {
+        console.log('Notifications are blocked by user');
+        return;
+      }
+  
+      const cachedToken = localStorage.getItem("fcmToken");
+      const token = await requestForToken();
+  
+      if (token && token !== cachedToken) {
+        saveFcmTokenMutation(token);
+      }
+  
+      listenForForegroundMessages();
+    } catch (error) {
+      console.error('FCM setup error:', error);
+    }
+  }, [user, saveFcmTokenMutation]);
+
+   useEffect(() => {
+    setupFCM();
+  }, [setupFCM]);
 
   return (
       <header className="fixed top-0 w-full bg-white shadow-sm z-2">
