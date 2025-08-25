@@ -1,22 +1,24 @@
-import { IWeekEntity } from "entities/modelEntities/slotModel.entity";
+import { plainToInstance } from "class-transformer";
 import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
 import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
+import { WeekSlotDTO } from "shared/dto/response/slot.dto";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
-export class GetMentorSlotsUsecase implements IGetMentorSlotsUsecase{
+export class GetMentorSlotsUsecase implements IGetMentorSlotsUsecase {
+  constructor(
+    @inject("ISlotRepository")
+    private _slotRepository: ISlotRepository
+  ) {}
 
-    constructor(
-        @inject('ISlotRepository')
-        private _slotRepository:ISlotRepository
-    ){}
-
-    async execute(mentorId:string):Promise<IWeekEntity>{
-        const fitler={mentorId}
-        const project={weekSlots:true,_id:false} as any
-        const slot = await this._slotRepository.findOne(fitler,project)
-        if(!slot) throw new NotFoundError("slots not found")
-        return slot.weekSlots
-    }
+  async execute(mentorId: string): Promise<WeekSlotDTO> {
+    const fitler = { mentorId };
+    const slot = await this._slotRepository.findOne(fitler);
+    if (!slot) throw new NotFoundError("slots not found");
+    const weekSlots = plainToInstance(WeekSlotDTO, slot.weekSlots, {
+        excludeExtraneousValues:true
+    });
+    return weekSlots
+  }
 }

@@ -33,7 +33,6 @@ import { IVerifyPaymentUsecase } from "entities/usecaseInterfaces/payment/verify
 import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReviewUsecase.interface";
 import { IGetMentorReviewsUsecase } from "entities/usecaseInterfaces/review/getMentorReviewsUsecase.interface";
 import { IGetReviewForMentorUsecase } from "entities/usecaseInterfaces/review/getReviewForMentorUsecase.interface";
-import { IGetStudentReviewsUsecase } from "entities/usecaseInterfaces/review/getStudentReviewsUsecase.interface";
 import {  ISubmitReviewResultUsecase } from "entities/usecaseInterfaces/review/submitReviewFeedBackUsecase.interface";
 import { ICancelReviewByMentorUsecase } from "entities/usecaseInterfaces/review/cancelReviewByMentorUsecase.interface";
 import { IGetDomainSlotsUsecase } from "entities/usecaseInterfaces/slot/getDomainSlotsUsecase.interface";
@@ -83,8 +82,6 @@ import { VerifyPaymentUsecase } from "useCases/payment/verifyPayment.usecase";
 import { BookReviewUsecase } from "useCases/review/bookReview.usecase";
 import { GetMentorReviewsUsecase } from "useCases/review/getMentorReviews.usecase";
 import { GetReviewForMentorUsecase } from "useCases/review/getReviewForMentor.usecase";
-import { GetStudentReviewsUsecase } from "useCases/review/getStudentReviews.usecase";
-
 import { CancelReviewByMentorUsecase } from "useCases/review/cancelReviewByMentor.usecase";
 import { GetDomainSlotsUsecase } from "useCases/slot/getDomainSlots.usecase";
 import { GetMentorSlotsUsecase } from "useCases/slot/getMentorSlots.usecase";
@@ -110,8 +107,6 @@ import { IGetEnrolledCommunitiesUsecase } from "entities/usecaseInterfaces/commu
 import { GetEnrolledCommunitiesUsecase } from "useCases/community/getEnrolledCommunities.usecase";
 import { ISaveFcmTokenUsecase } from "entities/usecaseInterfaces/fcmToken/saveFcmTokenUsecase.interface";
 import { SaveFcmTokenUsecase } from "useCases/fcmToken/saveFcmToken.usecase";
-// import { IGetLoggedInUserUsecase } from "entities/usecaseInterfaces/auth/getLoggedInUserUsecase.interface";
-// import { GetLoggedInUserUsecase } from "useCases/auth/getLoggedInUser.usecase";
 
 export class UseCaseRegistory{
     static registerUsecases():void{
@@ -152,10 +147,6 @@ export class UseCaseRegistory{
         container.register<ITokenRefreshingUsecase>('ITokenRefreshingUsecase',{
             useClass:TokenRefreshingUsecase
         })
-
-        // container.register<IGetLoggedInUserUsecase>('IGetLoggedInUserUsecase',{
-        //     useClass:GetLoggedInUserUsecase
-        // })
 
 
         //user usecases
@@ -290,9 +281,6 @@ export class UseCaseRegistory{
         //review usecase
         container.register<IBookReviewUsecase>('IBookReviewUsecase',{
             useClass:BookReviewUsecase
-        })
-        container.register<IGetStudentReviewsUsecase>('IGetStudentReviewsUsecase',{
-            useClass:GetStudentReviewsUsecase
         })
         container.register<IGetMentorReviewsUsecase>('IGetMentorReviewsUsecase',{
             useClass:GetMentorReviewsUsecase

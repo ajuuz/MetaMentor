@@ -1,8 +1,8 @@
-import { ReviewDataForMentorResponseDTO } from "shared/dto/reviewDTO";
+import { GetReviewForMentResDTO } from "shared/dto/response/review.dto";
 
 
 
 export interface IGetReviewForMentorUsecase{
 
-    execute(mentorId:string,reviewId:string):Promise<ReviewDataForMentorResponseDTO>
+    execute(mentorId:string,reviewId:string):Promise<GetReviewForMentResDTO>
 }

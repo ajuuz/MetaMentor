@@ -1,5 +1,5 @@
 import { PENDING_REVIEW_STATE, REVIEW_FILTER_STATUS } from "shared/constants";
-import { ReviewsDataForMentorResponseDTO } from "shared/dto/reviewDTO";
+import { GetReviewsForMentResDTO } from "shared/dto/response/review.dto";
 
 export interface IGetMentorReviewsUsecase {
   execute(
@@ -9,5 +9,5 @@ export interface IGetMentorReviewsUsecase {
     currentPage: number,
     limit: number,
     pendingReviewState?: PENDING_REVIEW_STATE | undefined
-  ): Promise<Omit<ReviewsDataForMentorResponseDTO, "totalDocuments">>;
+  ): Promise<{reviews:GetReviewsForMentResDTO[],totalPages:number}>;
 }

@@ -1,33 +1,21 @@
 import {
-    IGetBookedSlotsForStud,
+  IGetBookedSlotsForStud,
+  IGetReviewForMent,
   IGetReviewsForStud,
+  IGetReviewsForStudAndDomain,
   IReviewEntity,
 } from "entities/modelEntities/reviewModel.entity";
 import { IReviewModel } from "frameworks/database/models/bookedSlot.model";
 import { BaseRepository } from "interfaceAdapters/repositories/base.repository";
-import { REVIEW_STATUS } from "shared/constants";
-import {
-  BookReviewDTO,
-  GetDomainReviewResponseDTO,
-  GetStudentReviewResponseDTO,
-  ReviewsDataForMentorResponseDTO,
-  ReviewDataForMentorResponseDTO,
-} from "shared/dto/reviewDTO";
 
 export interface IReviewRepository
   extends BaseRepository<IReviewEntity, IReviewModel> {
-  
-    findByStudentAndDomain(
+  findByStudentAndDomain(
     studentId: string,
     domainId: string
-  ): Promise<GetDomainReviewResponseDTO[]>;
+  ): Promise<IGetReviewsForStudAndDomain[]>;
 
   getPassedReviewsCount(studentId: string, domainId: string): Promise<number>;
-
-  findByStudentId(
-    studentId: string,
-    status: REVIEW_STATUS[]
-  ): Promise<GetStudentReviewResponseDTO[]>;
 
   findReviewsForStudent(
     filter: any,
@@ -41,16 +29,14 @@ export interface IReviewRepository
     filter: any,
     skip: number,
     limit: number
-  ): Promise<Omit<ReviewsDataForMentorResponseDTO, "totalPages">>;
+  ): Promise<{ data: IGetReviewForMent[]; totalDocuments: number }>;
 
   findReviewForMentor(
     mentorId: string,
     reviewId: string
-  ): Promise<ReviewDataForMentorResponseDTO | null>;
+  ): Promise<IGetReviewForMent | null>;
 
-  createReview(
-    reviewDetails: Omit<BookReviewDTO, "amount">
-  ): Promise<IReviewModel>;
+  createReview(reviewDetails: Partial<IReviewEntity>): Promise<IReviewModel>;
 
   saveReview(review: IReviewModel): Promise<void>;
 

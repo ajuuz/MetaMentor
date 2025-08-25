@@ -1,7 +1,6 @@
 import { IUserReviewController } from "entities/controllerInterfaces/user/userReviewController.interface";
 import { ICancelReviewByStudentUsecase } from "entities/usecaseInterfaces/review/cancelReviewByStudentUsecase.interface";
 import { IGetReviewsForStudentUsecase } from "entities/usecaseInterfaces/review/getReviewsForStudentUsecase.interface";
-import { IGetStudentReviewsUsecase } from "entities/usecaseInterfaces/review/getStudentReviewsUsecase.interface";
 import { Request, Response } from "express";
 import {
   HTTP_STATUS,

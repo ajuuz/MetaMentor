@@ -1,4 +1,10 @@
-import { IGetBookedSlotsForStud, IGetReviewsForStud, IReviewEntity } from "entities/modelEntities/reviewModel.entity";
+import {
+  IGetBookedSlotsForStud,
+  IGetReviewForMent,
+  IGetReviewsForStud,
+  IGetReviewsForStudAndDomain,
+  IReviewEntity,
+} from "entities/modelEntities/reviewModel.entity";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import {
   reviewModel,
@@ -6,13 +12,6 @@ import {
 } from "frameworks/database/models/bookedSlot.model";
 import mongoose, { FilterQuery, UpdateQuery } from "mongoose";
 import { PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
-import {
-  BookReviewDTO,
-  GetDomainReviewResponseDTO,
-  GetStudentReviewResponseDTO,
-  ReviewsDataForMentorResponseDTO,
-  ReviewDataForMentorResponseDTO,
-} from "shared/dto/reviewDTO";
 
 import { BaseRepository } from "./base.repository";
 
@@ -27,8 +26,8 @@ export class ReviewRepository
   async findByStudentAndDomain(
     studentId: string,
     domainId: string
-  ): Promise<GetDomainReviewResponseDTO[]> {
-    const reviews: GetDomainReviewResponseDTO[] = await reviewModel.aggregate([
+  ): Promise<IGetReviewsForStudAndDomain[]> {
+    const reviews = await reviewModel.aggregate([
       {
         $match: {
           studentId: new mongoose.Types.ObjectId(studentId),
@@ -68,8 +67,8 @@ export class ReviewRepository
           slot: 1,
           payment: 1,
           feedBack: 1,
-          mentorEarning:1,
-          commissionAmount:1,
+          mentorEarning: 1,
+          commissionAmount: 1,
           mentorName: "$mentor.name",
           level: {
             name: "$level.name",
@@ -92,69 +91,6 @@ export class ReviewRepository
       status: REVIEW_STATUS.PASS,
     });
     return count;
-  }
-
-  async findByStudentId(
-    studentId: string,
-    status: REVIEW_STATUS[]
-  ): Promise<GetStudentReviewResponseDTO[]> {
-    const reviews: GetStudentReviewResponseDTO[] = await reviewModel.aggregate([
-      {
-        $match: {
-          studentId: new mongoose.Types.ObjectId(studentId),
-          status: { $in: status },
-        },
-      },
-      {
-        $lookup: {
-          from: "domains",
-          localField: "domainId",
-          foreignField: "_id",
-          as: "domain",
-        },
-      },
-      {
-        $unwind: "$domain",
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "mentorId",
-          foreignField: "_id",
-          as: "mentor",
-        },
-      },
-      {
-        $unwind: "$mentor",
-      },
-      {
-        $lookup: {
-          from: "levels",
-          localField: "levelId",
-          foreignField: "_id",
-          as: "level",
-        },
-      },
-      {
-        $unwind: "$level",
-      },
-      {
-        $project: {
-          status: 1,
-          payment: 1,
-          feedBack: 1,
-          slot: 1,
-          mentorName: "$mentor.name",
-          domainName: "$domain.name",
-          level: {
-            name: "$level.name",
-            taskFile: "$level.taskFile",
-          },
-        },
-      },
-    ]);
-
-    return reviews;
   }
 
   async findByDomain(domainId: string): Promise<IGetBookedSlotsForStud[]> {
@@ -196,7 +132,7 @@ export class ReviewRepository
     filter: any,
     skip: number,
     limit: number
-  ): Promise<{data:IGetReviewsForStud[],totalDocuments:number}> {
+  ): Promise<{ data: IGetReviewsForStud[]; totalDocuments: number }> {
     const studentIdObjectId = new mongoose.Types.ObjectId(filter.studentId);
     const mongoFilter: FilterQuery<IReviewEntity> = {
       studentId: studentIdObjectId,
@@ -280,7 +216,7 @@ export class ReviewRepository
     filter: any,
     skip: number,
     limit: number
-  ): Promise<Omit<ReviewsDataForMentorResponseDTO, "totalPages">> {
+  ): Promise<{ data: IGetReviewForMent[]; totalDocuments: number }> {
     const mentorObjectId = new mongoose.Types.ObjectId(filter.mentorId);
     const mongoFilter: FilterQuery<IReviewEntity> = {
       mentorId: mentorObjectId,
@@ -305,7 +241,7 @@ export class ReviewRepository
       }
     }
 
-    const [reviews, totalDocuments] = await Promise.all([
+    const [data, totalDocuments] = await Promise.all([
       reviewModel.aggregate([
         { $match: mongoFilter },
         { $skip: skip },
@@ -358,13 +294,13 @@ export class ReviewRepository
       ]),
       reviewModel.countDocuments(mongoFilter),
     ]);
-    return { reviews, totalDocuments };
+    return { data, totalDocuments };
   }
 
   async findReviewForMentor(
     mentorId: string,
     reviewId: string
-  ): Promise<ReviewDataForMentorResponseDTO | null> {
+  ): Promise<IGetReviewForMent | null> {
     const mentorObjectId = new mongoose.Types.ObjectId(mentorId);
     const reviewObjectId = new mongoose.Types.ObjectId(reviewId);
     const reviews = await reviewModel.aggregate([
@@ -403,7 +339,6 @@ export class ReviewRepository
       { $unwind: "$student" },
       {
         $project: {
-          mentorId: 1,
           student: {
             name: "$student.name",
             profileImage: "$student.profileImage",
@@ -423,7 +358,9 @@ export class ReviewRepository
     return reviews[0];
   }
 
-  async createReview(reviewDetails: BookReviewDTO): Promise<IReviewModel> {
+  async createReview(
+    reviewDetails: Partial<IReviewEntity>
+  ): Promise<IReviewModel> {
     const studentId = new mongoose.Types.ObjectId(reviewDetails.studentId);
     const mentorId = new mongoose.Types.ObjectId(reviewDetails.mentorId);
     const levelId = new mongoose.Types.ObjectId(reviewDetails.levelId);
@@ -475,10 +412,9 @@ export class ReviewRepository
     if (update.paymentStatus) {
       mongoUpdate.payment.status = update.paymentStatus;
     }
-    const updatedReview = await reviewModel.findOneAndUpdate(
-      mongoFilter,
-      mongoUpdate
-    ).lean<IReviewEntity>();
+    const updatedReview = await reviewModel
+      .findOneAndUpdate(mongoFilter, mongoUpdate)
+      .lean<IReviewEntity>();
     return updatedReview;
   }
 }

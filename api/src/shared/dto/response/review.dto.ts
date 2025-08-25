@@ -7,83 +7,7 @@ import {
 } from "shared/constants";
 import { LevelPreviewDTO } from "./level.dto";
 import { MentorPreviewDTO } from "./mentor.dto";
-
-//students
-@Exclude()
-export class GetReviewsForStudAndDomainResDTO {
-  @Expose()
-  @Transform(({ obj }) => obj._id.toString())
-  _id!: string;
-
-  @Expose()
-  mentorName!: string;
-
-  @Expose()
-  @Type(() => LevelPreviewDTO)
-  level!: LevelPreviewDTO;
-
-  @Expose()
-  @Type(() => ReviewSlotResDTO)
-  slot!: ReviewSlotResDTO;
-
-  @Expose()
-  mentorEarning!: number;
-
-  @Expose()
-  commissionAmount!: number;
-
-  @Expose()
-  feedBack!: string;
-
-  @Expose()
-  @Type(() => ReviewPaymentDTO)
-  payment!: ReviewPaymentDTO;
-
-  @Expose()
-  status!: REVIEW_STATUS;
-}
-
-export class GetReviewsForStudResDTO {
-  @Expose()
-  @Transform(({ obj }) => obj._id.toString())
-  _id!: string;
-
-  @Expose()
-  @Type(() => ReviewSlotResDTO)
-  slot!: ReviewSlotResDTO;
-
-  @Expose()
-  feedBack!: string;
-
-  @Expose()
-  @Type(() => ReviewPaymentDTO)
-  payment!: ReviewPaymentDTO;
-
-  @Expose()
-  status!: REVIEW_STATUS;
-
-  @Expose()
-  @Type(() => LevelPreviewDTO)
-  level!: LevelPreviewDTO;
-
-  @Expose()
-  @Type(() => MentorPreviewDTO)
-  mentor!: MentorPreviewDTO;
-
-  @Expose()
-  domainName!: string;
-}
-
-export class GetBookedReviewSlotsResDTO{
-  @Expose()
-  @Transform(({obj})=>obj.mentorId.toString())
-  mentorId!:string
-
-  @Expose()
-  @Type(()=>ReviewSlotResDTO)
-  slots!:ReviewSlotResDTO
-}
-
+import { StudentPreviewDTO } from "./student.dto";
 
 ///-----Helper DTOS-----///
 @Exclude()
@@ -112,3 +36,75 @@ export class ReviewSlotResDTO {
   @Transform(({ obj }) => obj._id.toString())
   _id!: string;
 }
+
+@Exclude()
+export class ReviewBaseDTO {
+  @Expose()
+  @Transform(({ obj }) => obj._id.toString())
+  _id!: string;
+
+  @Expose()
+  @Type(() => LevelPreviewDTO)
+  level!: LevelPreviewDTO;
+
+  @Expose() 
+  @Type(() => ReviewSlotResDTO)
+  slot!: ReviewSlotResDTO;
+
+  @Expose() 
+  feedBack!: string;
+
+  @Expose() 
+  @Type(() => ReviewPaymentDTO)
+  payment!: ReviewPaymentDTO;
+
+  @Expose() 
+  status!: REVIEW_STATUS;
+}
+
+//students
+@Exclude()
+export class GetReviewsForStudAndDomainResDTO extends ReviewBaseDTO{
+  @Expose()
+  mentorName!: string;
+
+  @Expose()
+  mentorEarning!: number;
+
+  @Expose()
+  commissionAmount!: number;
+}
+
+@Exclude()
+export class GetReviewsForStudResDTO extends ReviewBaseDTO{
+  @Expose()
+  @Type(() => MentorPreviewDTO)
+  mentor!: MentorPreviewDTO;
+
+  @Expose()
+  domainName!: string;
+}
+
+export class GetBookedReviewSlotsResDTO {
+  @Expose()
+  @Transform(({ obj }) => obj.mentorId.toString())
+  mentorId!: string;
+
+  @Expose()
+  @Type(() => ReviewSlotResDTO)
+  slots!: ReviewSlotResDTO;
+}
+
+//mentors
+
+@Exclude()
+export class GetReviewsForMentResDTO extends ReviewBaseDTO{
+  @Expose()
+  @Type(() => StudentPreviewDTO)
+  student!: StudentPreviewDTO;
+
+  @Expose()
+  domainName!: string;
+}
+
+export class GetReviewForMentResDTO extends GetReviewsForMentResDTO{}

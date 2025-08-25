@@ -5,7 +5,7 @@ import { Exclude, Expose, Transform } from "class-transformer";
 @Exclude()
 export class GetStudentsForAdminResDTO {
   @Expose()
-  @Transform(({obj})=>obj.userId.toString())
+  @Transform(({ obj }) => obj.userId.toString())
   userId!: string;
 
   @Expose()
@@ -25,4 +25,12 @@ export class GetStudentsForAdminResDTO {
 
   @Expose()
   mobileNumber!: null;
+}
+
+@Exclude()
+export class StudentPreviewDTO {
+  @Expose()
+  name!: string;
+  @Expose()
+  profileImage!: string;
 }

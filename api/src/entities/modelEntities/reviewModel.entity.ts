@@ -32,6 +32,22 @@ export interface IReviewEntity {
   bookedAt: Date;
 }
 
+//students
+export interface IGetReviewsForStudAndDomain {
+  _id: string;
+  slot: ReviewSlot;
+  feedBack: string;
+  payment: ReviewPayment;
+  status: REVIEW_STATUS;
+  level: {
+    name: string;
+    taskFile: string;
+  };
+  mentorName: string;
+  mentorEarning: number;
+  commissionAmount: number;
+}
+
 export interface IGetReviewsForStud {
   _id: string;
   slot: ReviewSlot;
@@ -52,4 +68,22 @@ export interface IGetReviewsForStud {
 export interface IGetBookedSlotsForStud {
   mentorId: string;
   slots: ReviewSlot;
+}
+
+//mentor
+export interface IGetReviewForMent {
+  _id: string;
+  slot: ReviewSlot;
+  feedBack: string;
+  payment: ReviewPayment;
+  status: REVIEW_STATUS;
+  level: {
+    name: string;
+    taskFile: string;
+  };
+  student: {
+    name: string;
+    profileImage: string;
+  };
+  domainName: string;
 }
