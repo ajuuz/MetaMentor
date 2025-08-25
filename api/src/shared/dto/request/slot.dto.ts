@@ -1,4 +1,4 @@
-import { Type } from "class-transformer";
+import { Exclude, Expose, Type } from "class-transformer";
 import {
   IsArray,
   IsBoolean,
@@ -33,20 +33,20 @@ export class SlotValidityCheckReqDTO {
 }
 
 //mentors
-class SlotTimeDTO {
+export class SlotTimeDTO {
   @IsOptional()
   @IsString()
   @IsNotEmpty()
   _id?: string;
-
+  
   @IsInt()
   @Min(0)
   start!: number;
-
+  
   @IsInt()
   @Min(0)
   end!: number;
-
+  
   @IsBoolean()
   enabled!: boolean;
 }

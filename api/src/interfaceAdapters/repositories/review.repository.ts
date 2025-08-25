@@ -1,4 +1,4 @@
-import { IReviewEntity } from "entities/modelEntities/reviewModel.entity";
+import { IGetBookedSlotsForStud, IGetReviewsForStud, IReviewEntity } from "entities/modelEntities/reviewModel.entity";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import {
   reviewModel,
@@ -9,11 +9,9 @@ import { PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
 import {
   BookReviewDTO,
   GetDomainReviewResponseDTO,
-  DomainReviewSlotResponseDTO,
   GetStudentReviewResponseDTO,
   ReviewsDataForMentorResponseDTO,
   ReviewDataForMentorResponseDTO,
-  ReviewsDataForStudentResponseDTO,
 } from "shared/dto/reviewDTO";
 
 import { BaseRepository } from "./base.repository";
@@ -70,6 +68,8 @@ export class ReviewRepository
           slot: 1,
           payment: 1,
           feedBack: 1,
+          mentorEarning:1,
+          commissionAmount:1,
           mentorName: "$mentor.name",
           level: {
             name: "$level.name",
@@ -157,7 +157,7 @@ export class ReviewRepository
     return reviews;
   }
 
-  async findByDomain(domainId: string): Promise<DomainReviewSlotResponseDTO[]> {
+  async findByDomain(domainId: string): Promise<IGetBookedSlotsForStud[]> {
     const reviews = await reviewModel.aggregate([
       { $match: { domainId: new mongoose.Types.ObjectId(domainId) } },
       {
@@ -196,7 +196,7 @@ export class ReviewRepository
     filter: any,
     skip: number,
     limit: number
-  ): Promise<Omit<ReviewsDataForStudentResponseDTO, "totalPages">> {
+  ): Promise<{data:IGetReviewsForStud[],totalDocuments:number}> {
     const studentIdObjectId = new mongoose.Types.ObjectId(filter.studentId);
     const mongoFilter: FilterQuery<IReviewEntity> = {
       studentId: studentIdObjectId,
@@ -221,7 +221,7 @@ export class ReviewRepository
       }
     }
 
-    const [reviews, totalDocuments] = await Promise.all([
+    const [data, totalDocuments] = await Promise.all([
       reviewModel.aggregate([
         { $match: mongoFilter },
         { $skip: skip },
@@ -273,7 +273,7 @@ export class ReviewRepository
       ]),
       reviewModel.countDocuments(mongoFilter),
     ]);
-    return { reviews, totalDocuments };
+    return { data, totalDocuments };
   }
 
   async findReviewsForMentor(
@@ -478,7 +478,7 @@ export class ReviewRepository
     const updatedReview = await reviewModel.findOneAndUpdate(
       mongoFilter,
       mongoUpdate
-    );
+    ).lean<IReviewEntity>();
     return updatedReview;
   }
 }

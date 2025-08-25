@@ -14,8 +14,6 @@ import { CancelReviewByStudReqDTO, GetAllReviewsForStudReqDTO } from "shared/dto
 @injectable()
 export class UserReviewController implements IUserReviewController {
   constructor(
-    @inject("IGetStudentReviewsUsecase")
-    private _getStudentReviewsUsecase: IGetStudentReviewsUsecase,
 
     @inject("IGetReviewsForStudentUsecase")
     private _getReviewsForStudentUsecase: IGetReviewsForStudentUsecase,
@@ -23,20 +21,6 @@ export class UserReviewController implements IUserReviewController {
     @inject("ICancelReviewByStudentUsecase")
     private _cancelReviewByStudentUsecase: ICancelReviewByStudentUsecase
   ) {}
-
-  // async getStudentReviews(
-  //   req: Request,
-  //   res: Response,
-  // ): Promise<void> {
-  //   console.log(req.verifiedData)
-  //   const type = req.query.type as "upcoming" | "completed";
-  //   const studentId = (req as ModifiedRequest).user.id;
-  //   const reviews = await this._getStudentReviewsUsecase.execute(
-  //     studentId,
-  //     type
-  //   );
-  //   res.status(200).json(reviews);
-  // }
 
   async getAllReviews(req: Request, res: Response): Promise<void> {
 

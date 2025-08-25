@@ -1,6 +1,6 @@
-import { UserDetailsResponseDTO } from "shared/dto/userDTO";
+import { GetUserDetailsResDTO } from "shared/dto/response/user.dto";
 
 export interface IGetSpecificUserUsecase{
 
-    execute(userId:string):Promise<UserDetailsResponseDTO>
+    execute(userId:string):Promise<GetUserDetailsResDTO>
 }

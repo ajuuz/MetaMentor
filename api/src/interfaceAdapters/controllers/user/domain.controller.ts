@@ -4,7 +4,7 @@ import { IGetEnrolledDomainsUsecase } from "entities/usecaseInterfaces/domain/ge
 import { IGetDomainInsightUsecase } from "entities/usecaseInterfaces/domain/getDomainInsightUsecase.interface";
 import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/getSpecificDomainUsecase.interface";
 import { IGetUnblockedDomainsUsecase } from "entities/usecaseInterfaces/domain/getUnblockedDomainsUsecase.interface";
-import {  Request, Response } from "express";
+import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
 import { ModifiedRequest } from "type/types";
@@ -36,30 +36,23 @@ export class UserDomainController implements IUserDomainController {
     private _getDomainInsightUsecase: IGetDomainInsightUsecase
   ) {}
 
-  async getAllDomains(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
+  async getAllDomains(req: Request, res: Response): Promise<void> {
     const { currentPage, limit }: GetAllDomainsForStudReqDTO = req.verifiedData;
-    const data: Omit<GetAllDomainsResponseDTO, "totalDocuments"> =
-      await this._getUnblockedDomainsUsecase.execute(currentPage, limit);
+    const data = await this._getUnblockedDomainsUsecase.execute(
+      currentPage,
+      limit
+    );
     res.status(HTTP_STATUS.OK).json(data);
   }
 
-  async getSpecificDomain(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
+  async getSpecificDomain(req: Request, res: Response): Promise<void> {
     console.log(req.verifiedData);
     const { domainId }: GetSpecificDomainForStudReqDTO = req.verifiedData;
     const domain = await this._getSpecificDomainUsecase.execute(domainId);
     res.status(HTTP_STATUS.OK).json(domain);
   }
 
-  async enrollDomain(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
+  async enrollDomain(req: Request, res: Response): Promise<void> {
     console.log(req.verifiedData);
     const { domainId }: EnrollDomainReqDTO = req.verifiedData;
     const userId = (req as ModifiedRequest).user.id;
@@ -69,23 +62,20 @@ export class UserDomainController implements IUserDomainController {
       .json({ success: true, message: SUCCESS_MESSAGE.DOMAINS.ENROLL });
   }
 
-  async getDomainDashboard(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
+  async getDomainDashboard(req: Request, res: Response): Promise<void> {
     const { currentPage, limit }: GetDomainDashboardForStudReqDTO =
       req.verifiedData;
     const userId = (req as ModifiedRequest).user.id;
 
-    const data: Omit<GetAllDomainsResponseDTO, "totalDocuments"> =
-      await this._getEnrolledDomainsUsecase.execute(userId, currentPage, limit);
+    const data = await this._getEnrolledDomainsUsecase.execute(
+      userId,
+      currentPage,
+      limit
+    );
     res.status(HTTP_STATUS.OK).json(data);
   }
 
-  async getDomainInsight(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
+  async getDomainInsight(req: Request, res: Response): Promise<void> {
     const { domainId }: GetDomainInsightReqDTO = req.verifiedData;
     const studentId = (req as ModifiedRequest).user.id;
 

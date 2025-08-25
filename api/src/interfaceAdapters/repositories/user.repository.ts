@@ -3,7 +3,6 @@ import { IUserRespository } from "entities/repositoryInterfaces/user-repository.
 import { IUserModel, userModel } from "frameworks/database/models/user.model";
 import { FilterQuery } from "mongoose";
 import { IuserRegisterData } from "shared/dto/request/auth.dto";
-import { UserDetailsResponseDTO, UserFindFilterDTO, UserUpdateDTO } from "shared/dto/userDTO";
 import { injectable } from "tsyringe";
 
 @injectable()
@@ -14,8 +13,8 @@ export class UserRepository implements IUserRespository{
         return user
     }
 
-    async findOne(filter:Partial<UserFindFilterDTO>):Promise<UserDetailsResponseDTO|null>{
-        const user = await userModel.findOne(filter,{name:1,profileImage:1,country:1,gender:1,mobileNumber:1,email:1,_id:0})
+    async findOne(filter:FilterQuery<IUserEntity>):Promise<IUserEntity|null>{
+        const user = await userModel.findOne(filter)
         return user
     }
 

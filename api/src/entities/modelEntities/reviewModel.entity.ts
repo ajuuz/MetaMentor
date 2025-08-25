@@ -1,26 +1,55 @@
-import { PAYMENT_METHOD, PAYMENT_STATUS, REVIEW_STATUS } from "shared/constants";
+import {
+  PAYMENT_METHOD,
+  PAYMENT_STATUS,
+  REVIEW_STATUS,
+} from "shared/constants";
 
+interface ReviewSlot {
+  isoStartTime: Date;
+  isoEndTime: Date;
+  day: string;
+  start: number;
+  end: number;
+}
 
-export interface IReviewEntity{
-    _id:string,
-    studentId:string,
-    mentorId:string,
-    domainId:string,
-    levelId:string,
-    mentorEarning:number,
-    commissionAmount:number,
-    payment:{
-        method:PAYMENT_METHOD,
-        status:PAYMENT_STATUS
-    },
-    status:REVIEW_STATUS
-    slot:{
-        isoStartTime:Date,
-        isoEndTime:Date,
-        day:string,
-        start:number,
-        end:number
-    },
-    feedBack:string,
-    bookedAt:Date
+interface ReviewPayment {
+  method: PAYMENT_METHOD;
+  status: PAYMENT_STATUS;
+}
+
+export interface IReviewEntity {
+  _id: string;
+  studentId: string;
+  mentorId: string;
+  domainId: string;
+  levelId: string;
+  mentorEarning: number;
+  commissionAmount: number;
+  payment: ReviewPayment;
+  status: REVIEW_STATUS;
+  slot: ReviewSlot;
+  feedBack: string;
+  bookedAt: Date;
+}
+
+export interface IGetReviewsForStud {
+  _id: string;
+  slot: ReviewSlot;
+  feedBack: string;
+  payment: ReviewPayment;
+  status: REVIEW_STATUS;
+  level: {
+    name: string;
+    taskFile: string;
+  };
+  mentor: {
+    name: string;
+    profileImage: string;
+  };
+  domainName: string;
+}
+
+export interface IGetBookedSlotsForStud {
+  mentorId: string;
+  slots: ReviewSlot;
 }

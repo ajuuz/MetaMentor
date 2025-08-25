@@ -1,10 +1,6 @@
 import { Request, Response } from "express";
 
 export interface IUserReviewController {
-  // getStudentReviews(
-  //   req: Request,
-  //   res: Response,
-  // ): Promise<void>;
   getDomainReviews(
     req: Request,
     res: Response,

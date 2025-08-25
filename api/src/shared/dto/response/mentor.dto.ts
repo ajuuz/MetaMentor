@@ -1,23 +1,12 @@
 import { Exclude, Expose, Transform, Type } from "class-transformer";
 import { GENDER } from "shared/constants";
 
-@Exclude()
-export class GetMentorsForAdminResDTO {
-  @Transform(({ obj }) => obj.userId.toString())
-  @Expose()
-  userId!: string;
-
+export class MentorBaseDTO {
   @Expose()
   name!: string;
 
   @Expose()
   country!: string;
-
-  @Expose()
-  mobileNumber!: number | null;
-
-  @Expose()
-  domains!: string[];
 
   @Expose()
   skills!: string[];
@@ -27,6 +16,20 @@ export class GetMentorsForAdminResDTO {
 
   @Expose()
   fee!: number;
+}
+
+//admin
+@Exclude()
+export class GetMentorsForAdminResDTO extends MentorBaseDTO{
+  @Transform(({ obj }) => obj.userId.toString())
+  @Expose()
+  userId!: string;
+
+  @Expose()
+  mobileNumber!: number | null;
+
+  @Expose()
+  domains!: string[];
 
   @Expose()
   isBlocked!: boolean;
@@ -43,7 +46,7 @@ export class DomainDTO {
 }
 
 @Exclude()
-export class GetMentorForAdminResDTO {
+export class GetMentorForAdminResDTO extends MentorBaseDTO{
   @Expose()
   about!: string;
 
@@ -52,21 +55,6 @@ export class GetMentorForAdminResDTO {
 
   @Expose()
   experienceCirtificate!: string;
-
-  @Expose()
-  skills!: string[];
-
-  @Expose()
-  workedAt!: string[];
-
-  @Expose()
-  fee!: number;
-
-  @Expose()
-  name!: string;
-
-  @Expose()
-  country!: string;
 
   @Expose()
   gender!: GENDER;
@@ -83,4 +71,12 @@ export class GetMentorForAdminResDTO {
   @Expose()
   @Type(() => DomainDTO)
   domains!: DomainDTO[];
+}
+
+@Exclude()
+export class MentorPreviewDTO {
+  @Expose()
+  name!: string;
+  @Expose()
+  profileImage!: string;
 }

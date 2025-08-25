@@ -4,7 +4,6 @@ import { IUpdateUserUsecase } from "entities/usecaseInterfaces/user/updateUserUs
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
 import { UpdateUserDetailsReqDTO } from "shared/dto/request/user.dto";
-import { UserDetailsResponseDTO } from "shared/dto/userDTO";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 
@@ -20,13 +19,12 @@ export class UserController implements IUserController {
 
   async getDetails(req: Request, res: Response): Promise<void> {
     const userId = (req as ModifiedRequest).user.id;
-    const user: UserDetailsResponseDTO =
-      await this._getSpecificUserUsecase.execute(userId);
+    const user = await this._getSpecificUserUsecase.execute(userId);
     res.status(HTTP_STATUS.OK).json(user);
   }
 
   async updateUser(req: Request, res: Response): Promise<void> {
-    const updationData:UpdateUserDetailsReqDTO= req.verifiedData;
+    const updationData: UpdateUserDetailsReqDTO = req.verifiedData;
     const userId: string = (req as ModifiedRequest).user.id;
     await this._updateUserUsecase.execute(userId, updationData);
     res
