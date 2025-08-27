@@ -53,7 +53,7 @@ const MentorWrapper = ({isVerified,children}:Prop) => {
               return {
                 id:mentor.userId,
                 content:[
-                mentor.name,
+                mentor.name.length>15?mentor.name.slice(0,15)+'...':mentor.name,
                 mentor.mobileNumber??"Unavailable",
                 0,
                 mentor.country,

@@ -38,12 +38,12 @@ const Domains = () => {
         return {
           id: domain._id,
           content: [
-            domain.name,
+            domain.name.length>15?domain.name.slice(0,15)+'...':domain.name,
             <div className="flex justify-center w-full">
               <img className="w-30 rounded-2xl" src={domain.image} />
             </div>,
-            domain.description,
-            domain.motive,
+            domain.description.length>15?domain.description.slice(0,15)+'...':domain.description,
+            domain.motive.length>15?domain.motive.slice(0,15)+'...':domain.motive,
             <AlertDialogComponent
               alertTriggerer={<Switch checked={domain.isBlocked} />}
               alertDescription="This action cannot be undone. This will permanently delete your account and remove your data from our servers."

@@ -107,7 +107,7 @@ const About=({domainDetails}:AboutProp)=>{
      <div>
         <section className="bg-[#222] text-white pt-10 pb-0">
             <div className="max-w-6xl mx-auto flex flex-wrap items-center gap-12 px-6">
-                <img src={domainImage} alt={domainDetails.name} className="w-[220px] h-[220px] rounded-full bg-[#222] object-cover mb-6" />
+                <img src={domainImage} alt={domainDetails.name.length>10?domainDetails.name.substring(0,10):domainDetails.name} className="w-[220px] h-[220px] rounded-full bg-[#222] object-cover mb-6" />
                 <div className="flex-1">
                     <h2 className="font-medium text-xl mb-4">
                         Unlock the power of modern web development by mastering <b>{domainDetails.name}</b>. This hands-on course takes you from the basics to building real-world full-stack applications. Whether you're starting your career or upskilling for the next big opportunity, this is your all-in-one roadmap to becoming a {domainDetails.name} pro.
@@ -120,7 +120,7 @@ const About=({domainDetails}:AboutProp)=>{
         <section className="bg-[#eee] py-8">
             <div className="max-w-3xl mx-auto text-center px-6">
                 <h1 className="font-bold text-3xl mb-6">What is {domainDetails.name}?</h1>
-                <p className="font-bold text-lg mb-6">
+                <p className="font-bold text-lg mb-6 break-words">
                     {domainDetails.description}
                 </p>
             </div>
@@ -130,7 +130,7 @@ const About=({domainDetails}:AboutProp)=>{
         <section className="bg-[#f7f7f7] py-8">
             <div className="max-w-3xl mx-auto px-6">
                 <h2 className="font-bold text-2xl text-center mb-6">Why Should You Learn {domainDetails.name}?</h2>
-                <p className="text-center">{domainDetails.motive}</p>
+                <p className="text-center break-words">{domainDetails.motive}</p>
             </div>
         </section>
     </div>

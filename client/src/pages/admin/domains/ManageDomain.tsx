@@ -86,7 +86,7 @@ const ManageDomain = () => {
     }
 
   return (
-    <div className="w-screen h-screen border flex p-5 gap-5">
+    <div className="w-screen grid grid-cols-1 md:grid-cols-2 p-5 gap-5">
       <div className="flex-1 flex flex-col gap-5 items-center">
             <h3 className="font-medium text-2xl">ADD DOMAIN</h3>
             <Label htmlFor="domainImage" className={`${!prevImage?"p-9 px-12":"p-4"} border-5 relative border-red-200 border-dashed bg-red-200/40 rounded-[50%] flex flex-col`}>
@@ -97,7 +97,7 @@ const ManageDomain = () => {
                     <p className="text-red-400/70 font-medium">Add Image</p>
                     {errors?.image && <div className="bg-red-400 text-white p-3 rounded-xl absolute top-0 -right-6">{errors.image}</div>}
                     </div>
-                  :<img src={URL.createObjectURL(prevImage)} className="w-30 rounded-4xl"/>
+                  :<img src={URL.createObjectURL(prevImage)} className="w-24 h-24 rounded-full object-cover"/>
                 }
                 <Input className="hidden" type="file" accept="image/*" id="domainImage" onChange={handleImageChange}/>
             </Label>
@@ -110,13 +110,13 @@ const ManageDomain = () => {
 
             <div className="w-full">
                 <Label className="font-medium text-lg">Description</Label>
-                <Textarea name="description" onChange={handleChange}  placeholder="Describe about the Domain.." className="h-35"/>
+                <Textarea name="description" onChange={handleChange}  placeholder="Describe about the Domain.." className="h-35 max-w-200"/>
                 {errors?.description && <p className="text-red-400 text-sm">{errors.description}</p>}
             </div>
 
             <div className="w-full">
                 <Label className="font-medium text-lg">why Should i Learn?</Label>
-                <Textarea name="motive" onChange={handleChange} placeholder="Describe about the Domain.." className="h-35"/>
+                <Textarea name="motive" onChange={handleChange} placeholder="Describe about the Domain.." className="h-30"/>
                 {errors?.motive && <p className="text-red-400 text-sm">{errors.motive}</p>}
             </div>
       </div>
@@ -124,13 +124,13 @@ const ManageDomain = () => {
       <div className="flex-1 flex flex-col gap-5 items-center">
             <ModalComponent dialogTriggerer={<Button>ADD Level</Button>} dialogTitle="Add new Level" dialogDescription="you can remove the level before publishing" content={[{label:'Name',name:'name',placeHolder:"HTML AND CSS",typeOfInput:'input'},{label:'Description',name:'description',placeHolder:"Enter a short description about the level..",typeOfInput:'textArea'},{label:'TaskFile',name:'taskFile',placeHolder:"Enter task file",typeOfInput:'textArea'}]} handleApproval={addLevel}/>
             <ScrollArea className="h-4/5 w-full rounded-md border">
-              <div className="p-4">
+              <div className="p-4 flex flex-col gap-3">
                     {
                     domainDetails.levels.map((level,index)=>
-                        (<div className="flex flex-col gap-3 items-center border rounded-2xl py-2 relative">
+                        (<div className="flex  flex-col gap-3 items-center border rounded-2xl py-2 relative">
                             <X onClick={()=>handleRemoveLevel(index)} size={30} className="absolute cursor-pointer top-0 right-0 bg-red-500 text-white p-1 scale-75 rounded-2xl"/>
                             <div className="font-medium text-2x px-4 py-2 bg-black rounded-4xl  text-white">{index+1}</div>
-                            <h5 className="font-medium text-lg">{level.name}</h5>
+                            <h5 className="font-medium text-lg">{level.name.length>15?level.name.slice(0,15)+'...':level.name}</h5>
                         </div>)
                     )
                     }

@@ -74,7 +74,7 @@ export function ModalComponent({dialogTriggerer,dialogTitle,dialogDescription,co
                       <div key={item.label} className="grid gap-2">
                         <Label onClick={()=>console.log(errors)} htmlFor={item.label}>{item.label}</Label>
                         {item.typeOfInput==='textArea'
-                        ?<Textarea id={item.label} name={item.name} placeholder={item.placeHolder}/>
+                        ?<Textarea className="max-h-30" id={item.label} name={item.name} placeholder={item.placeHolder}/>
                         :<Input id={item.label} name={item.name} placeholder={item.placeHolder}/>
                         }
                         {errors[item.name] && <p className="text-red-400 text-sm">{errors[item.name]}</p>}

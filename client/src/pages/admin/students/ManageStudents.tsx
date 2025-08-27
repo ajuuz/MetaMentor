@@ -48,7 +48,7 @@ const ManageStudents = () => {
             const transformedDetails:TableDetailsType[]=students.map((student)=>{
                 return {id:student.userId,
                     content:[
-                    student.name,
+                    student.name.length>15?student.name.slice(0,15)+'...':student.name,
                     student.mobileNumber,
                     student.country,
                     0,

@@ -12,11 +12,11 @@ const DomainCard = ({domain}:Props) => {
   return (
     <div className="rounded-xl shadow-lg border-t-2 bg-white border-slate-100 min-w-[700px] w-[70%] h-fit relative">
 
-     <img src={domain.image} className="absolute h-30 shadow-lg w-[20%] max-w-35 left-5 top-20 xl:top-15 rounded" alt={domain.name} />
+     <img src={domain.image} className="absolute border h-30 shadow-lg w-[20%] max-w-35 left-5 top-20 xl:top-15 rounded" alt={domain.name} />
 
       <div className="ps-50 py-4 pe-5">
         <h2 className="text-2xl font-semibold bg-gradient-to-r from-[#850A0A] to-[#06022B] bg-clip-text text-transparent">{domain.name}</h2>
-        <p>{domain.description}</p>
+        <p className="break-words">{domain.description.length>150?domain.description.slice(0,150)+'...':domain.description}</p>
       </div>
 
       <div className="flex justify-between items-center ps-50 pe-5 py-2 rounded-b-xl bg-gradient-to-r from-[#06022B] to-[#850A0A] ">

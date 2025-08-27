@@ -50,7 +50,7 @@ const Community = () => {
                 return {
                     id:community.communityId,
                     content:[
-                        community.name,
+                        community.name.length>15?community.name.slice(0,15)+'...':community.name,
                         <div className="flex justify-center w-full">
                            <img className="w-30 rounded-2xl" src={community.image} />
                          </div>,
