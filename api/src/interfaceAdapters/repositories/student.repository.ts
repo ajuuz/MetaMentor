@@ -7,9 +7,10 @@ import {
   IStudentModel,
   studentModel,
 } from "frameworks/database/models/student.model";
-import { ObjectId, Types } from "mongoose";
+import { FilterQuery, ObjectId, SortOrder, Types } from "mongoose";
 
 import { BaseRepository } from "./base.repository";
+import { SORT_ORDER } from "shared/constants";
 
 export class StudentRepository
   extends BaseRepository<IStudentEntity, IStudentModel>
@@ -24,54 +25,86 @@ export class StudentRepository
     await newStudent.save();
   }
 
-  async findStudents(
-    filter: any,
+  async findStudentsWithFilterAndPagination(
+    filter: Record<string,string|boolean>,
     skip: number,
-    limit: number
+    limit: number,
+    sort: { field: string; order: SORT_ORDER }
   ): Promise<{ data: IGetStudentsForAdmin[]; totalDocuments: number }> {
-    const [data, totalDocuments] = await Promise.all([
-      studentModel.aggregate([
-        { $match: filter },
-        { $sort: { createdAt: -1 } },
-        { $skip: skip },
-        { $limit: limit },
-        {
-          $lookup: {
-            from: "users",
-            let: { userId: "$userId" },
-            pipeline: [
-              {
-                $match: {
-                  $expr: {
-                    $and: [
-                      { $eq: ["$_id", "$$userId"] },
-                      { $eq: ["$role", "user"] },
-                    ],
-                  },
-                },
+    const mongoFilter: FilterQuery<IStudentModel>={};
+
+    if (filter.searchTerm) {
+      mongoFilter["user.name"] = { $regex: filter.searchTerm, $options: "i" };
+    }
+
+    if(filter.isPremium){
+      mongoFilter['isPremium'] = filter.isPremium
+    }
+
+    let sortOption: Record<string, 1 | -1> = {};
+    if (sort.field === "name") {
+      sortOption["user.name"] = sort.order === SORT_ORDER.ASC ? 1 : -1;
+    } else {
+      sortOption["user.createdAt"] = sort.order === SORT_ORDER.ASC ? 1 : -1;
+    }
+
+    const lookupPipeline = {
+      $lookup: {
+        from: "users",
+        let: { userId: "$userId" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$_id", "$$userId"] },
+                  { $eq: ["$role", "user"] },
+                ],
               },
-            ],
-            as: "user",
+            },
           },
+        ],
+        as: "user",
+      },
+    };
+
+    const projectPipeline = {
+      $project: {
+        _id: 0,
+        userId: 1,
+        isBlocked: 1,
+        point: 1,
+        isPremium: 1,
+        name: "$user.name",
+        country: "$user.country",
+        gender: "$user.gender",
+        mobileNumber: "$user.mobileNumber",
+      },
+    };
+
+    const response = await studentModel.aggregate([
+      lookupPipeline,
+      { $unwind: "$user" },
+      { $match: mongoFilter },
+      {
+        $facet: {
+          data: [
+            { $sort: sortOption },
+            { $skip: skip },
+            { $limit: limit },
+            projectPipeline,
+          ],
+          totalDocuments: [{ $count: "count" }, { $unwind: "$count" }],
         },
-        { $unwind: "$user" },
-        {
-          $project: {
-            _id: 0,
-            userId: 1,
-            isBlocked: 1,
-            point: 1,
-            isPremium: 1,
-            name: "$user.name",
-            country: "$user.country",
-            gender: "$user.gender",
-            mobileNumber: "$user.mobileNumber",
-          },
+      },
+      {
+        $addFields: {
+          totalDocuments: { $arrayElemAt: ["$totalDocuments.count", 0] },
         },
-      ]),
-      studentModel.countDocuments(filter),
+      },
     ]);
-    return { data, totalDocuments };
+    const {data,totalDocuments}=response[0]
+    return {data,totalDocuments}
   }
 
   async updateOne(filter: any, update: any): Promise<void> {

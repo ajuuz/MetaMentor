@@ -1,4 +1,4 @@
-import { getAdminAllDomains } from "@/services/adminService.ts/domainApi";
+import { getDomainsForAdmin } from "@/services/adminService.ts/domainApi";
 import { getAllDomains, getSpecificDomain, getEnrolledDomains, getEnrolledDomain } from "@/services/userService/domainApi"
 import type { DomainWithLevel, EnrolledDomain, GetAllDomains } from "@/types/domainTypes";
 import { useQuery } from "@tanstack/react-query"
@@ -12,10 +12,10 @@ export const useUserGetSpecificDomainQuery=(domainId:string)=>{
     })
 };
 
-export const useUserGetAllDomainsQuery=(currentPage:number,limit:number)=>{
+export const useUserGetAllDomainsQuery=(currentPage:number,limit:number,sortBy:string,searchTerm:string)=>{
     return useQuery<GetAllDomains>({
-        queryKey:['userGetAllDomains',currentPage,limit],
-        queryFn:()=> getAllDomains(currentPage,limit)
+        queryKey:['userGetAllDomains',currentPage,limit,sortBy,searchTerm],
+        queryFn:()=> getAllDomains(currentPage,limit,sortBy,searchTerm)
     })
 };
 
@@ -36,9 +36,9 @@ export const useEnrolledDomainsQuery=(currentPage:number,limit:number)=>{
 
 
 //admin
-export const useAdminGetAllDomainsQuery=(currentPage:number,limit:number)=>{
+export const useAdminGetAllDomainsQuery=(currentPage:number,limit:number,sortBy:string,searchTerm:string)=>{
     return useQuery<GetAllDomains>({
-        queryKey:['adminGetAllDomains',currentPage,limit],
-        queryFn:()=> getAdminAllDomains(currentPage,limit)
+        queryKey:['adminGetAllDomains',currentPage,limit,sortBy,searchTerm],
+        queryFn:()=> getDomainsForAdmin(currentPage,limit,sortBy,searchTerm)
     })
 };

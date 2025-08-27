@@ -1,8 +1,9 @@
 import { plainToInstance } from "class-transformer";
+import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { IGetAllDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainUsecase.interface";
+import { SORT_ORDER } from "shared/constants";
 import { GetDomainsForAdminResDTO } from "shared/dto/response/domain.dto";
-import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -14,16 +15,26 @@ export class GetAllDomainsUsecase implements IGetAllDomainsUsecase {
 
   async execute(
     currentPage: number,
-    limit: number
+    limit: number,
+    sortBy: string,
+    searchTerm: string
   ): Promise<{ domains: GetDomainsForAdminResDTO[]; totalPages: number }> {
-    if (!currentPage || !limit)
-      throw new ValidationError("Required fields are not recieved");
+    //filter
+    const filter: Partial<IDomainEntity> = {};
     const skip = (currentPage - 1) * limit;
-    const { items, totalDocuments } = await this._domainRepository.find(
-      {},
+
+    //sort
+    const splittedSortBy = sortBy.split("-");
+    const sortingField = splittedSortBy[0];
+    const sortingOrder = splittedSortBy[1] as SORT_ORDER;
+    const sort = { field: sortingField, order: sortingOrder };
+
+    const { items, totalDocuments } = await this._domainRepository.findWithFilterAndPaginated(
+      searchTerm,
+      filter,
       skip,
       limit,
-      { createdAt: 1 }
+      sort
     );
 
     const domains = plainToInstance(GetDomainsForAdminResDTO, items, {

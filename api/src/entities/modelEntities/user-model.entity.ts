@@ -8,9 +8,10 @@ export interface IUserEntity{
     mobileNumber:number|null,
     email:string,
     password:string|null,
-    createdAt:Date,
     role:ROLES,
     googleId:string|null,
     isBlocked:boolean,
-    isVerified:boolean
+    isVerified:boolean,
+    createdAt:Date,
+    updatedAt:Date,
 }

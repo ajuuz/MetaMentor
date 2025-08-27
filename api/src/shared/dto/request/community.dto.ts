@@ -1,8 +1,8 @@
 import { IsBoolean, IsNotEmpty, IsString } from "class-validator";
-import { PaginationReqDTO } from "./pagination.dto";
+import { FilterReqDTO } from "./pagination.dto";
 
 //admin
-export class GetAllCommunityForAdminReqDTO extends PaginationReqDTO {}
+export class GetAllCommunityForAdminReqDTO extends FilterReqDTO {}
 
 export class UpdateCommunityStatusDTO {
     @IsString()
@@ -15,4 +15,4 @@ export class UpdateCommunityStatusDTO {
 
 
 //student
-export class GetAllCommunityForStudReqDTO extends PaginationReqDTO {}
+export class GetAllCommunityForStudReqDTO extends FilterReqDTO {}

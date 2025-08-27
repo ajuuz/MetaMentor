@@ -14,9 +14,9 @@ export const registerForm = async(formData:MentorRegistrationFormDataType):Promi
 }
 
 
-export const getDomainsNameAndId=async():Promise<Required<ApiResponseType<Pick<DomainEntity,"_id"|'name'>[]>>>=>{
+export const getDomainsNameAndId=async():Promise<Pick<DomainEntity,"_id"|'name'>[]>=>{
     try{
-        const response = await userAxiosInstance.get('/mentor/domains')
+        const response = await userAxiosInstance.get('/common/domains')
         return response.data;
     }
     catch(error:any){

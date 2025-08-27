@@ -4,7 +4,7 @@ export class LevelReqDTO {
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(10, { message: "Name must be at most 10 characters long" })
+  @MaxLength(20, { message: "Name must be at most 10 characters long" })
   name!: string;
 
   @IsString()

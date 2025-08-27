@@ -33,9 +33,19 @@ export class AdminDomainController implements IAdminDomainController {
   }
 
   async getAllDomains(req: Request, res: Response): Promise<void> {
-    const { currentPage, limit }: GetAllDomainsForAdminReqDTO =
-      req.verifiedData;
-    const data = await this._getAllDomainsUsecase.execute(currentPage, limit);
+    const {
+      currentPage,
+      limit,
+      sortBy,
+      searchTerm,
+    }: GetAllDomainsForAdminReqDTO = req.verifiedData;
+
+    const data = await this._getAllDomainsUsecase.execute(
+      currentPage,
+      limit,
+      sortBy!,
+      searchTerm!
+    )
     res.status(HTTP_STATUS.OK).json(data);
   }
 

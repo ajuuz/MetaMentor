@@ -174,3 +174,9 @@ export enum NOTIFICATION_MESSAGE {
   REVIEW_RECHEDULE = "Your Review slot has been reschedule",
   REVIEW_FEEDBACK_UPDATED = "Your Review's feedback has been updated. Please check it",
 }
+
+
+export enum SORT_ORDER{
+  ASC='asc',
+  DESC='desc'
+}

@@ -4,7 +4,6 @@ import type { MutationApiResponse } from "@/types/responseType";
 
 export const addDomain=async(domainDetails:DomainCreationType):Promise<MutationApiResponse>=>{
     try{
-        console.log(domainDetails)
         const response = await adminAxiosInstance.post('/domains',domainDetails)
         return response.data;
     }
@@ -14,10 +13,9 @@ export const addDomain=async(domainDetails:DomainCreationType):Promise<MutationA
 }
 
 
-export const getAdminAllDomains=async(currentPage:number,limit:number):Promise<GetAllDomains>=>{
+export const getDomainsForAdmin=async(currentPage:number,limit:number,sortBy:string,searchTerm:string):Promise<GetAllDomains>=>{
     try{
-        console.log(currentPage,limit)
-        const response = await adminAxiosInstance.get(`/domains?currentPage=${currentPage}&limit=${limit}`)
+        const response = await adminAxiosInstance.get(`/domains?currentPage=${currentPage}&limit=${limit}&sortBy=${sortBy}&searchTerm=${searchTerm}`)
         return response.data;
     }
     catch(error:any){

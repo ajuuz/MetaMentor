@@ -6,7 +6,7 @@ import {
   MinLength,
   ValidateIf,
 } from "class-validator";
-import { PaginationReqDTO } from "./pagination.dto";
+import { FilterReqDTO } from "./pagination.dto";
 import {
   DATE_RANGE,
   PENDING_REVIEW_STATE,
@@ -14,7 +14,7 @@ import {
   REVIEW_STATUS,
 } from "shared/constants";
 
-export class GetAllReviewsForStudReqDTO extends PaginationReqDTO {
+export class GetAllReviewsForStudReqDTO extends FilterReqDTO {
   @IsEnum(REVIEW_FILTER_STATUS)
   status!: REVIEW_FILTER_STATUS;
 
@@ -35,7 +35,7 @@ export class CancelReviewByStudReqDTO {
 export class GetAllDomainReviewsForStudReqDTO {}
 
 //mentors
-export class GetReviewsForMentorReqDTO extends PaginationReqDTO {
+export class GetReviewsForMentorReqDTO extends FilterReqDTO {
   @IsEnum(REVIEW_FILTER_STATUS)
   status!: REVIEW_FILTER_STATUS;
 

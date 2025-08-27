@@ -11,11 +11,11 @@ import {
   Min,
   ValidateIf,
 } from "class-validator";
-import { PaginationReqDTO } from "./pagination.dto";
+import { FilterReqDTO } from "./pagination.dto";
 import { MENTOR_APPLICATION_STATUS } from "shared/constants";
 import { Transform, Type } from "class-transformer";
 
-export class GetAllMentorsReqDTO extends PaginationReqDTO {
+export class GetAllMentorsReqDTO extends FilterReqDTO {
   @Transform(({ value }) => {
     if (value === "true") return true;
     if (value === "false") return false;
@@ -23,6 +23,9 @@ export class GetAllMentorsReqDTO extends PaginationReqDTO {
   })
   @IsBoolean()
   isVerified!: boolean;
+
+  @IsString()
+  selectedDomains!:string
 }
 
 export class GetSpecificMentorReqDTO {
