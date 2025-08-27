@@ -4,6 +4,27 @@ import {
   REVIEW_STATUS,
 } from "shared/constants";
 
+
+export interface IReviewEntity {
+  _id: string;
+  studentId: string;
+  mentorId: string;
+  domainId: string;
+  levelId: string;
+  mentorEarning: number;
+  commissionAmount: number;
+  payment: ReviewPayment;
+  status: REVIEW_STATUS;
+  slot: ReviewSlot;
+  theory:number;
+  practical:number;
+  feedBack: string;
+  bookedAt: Date;
+}
+
+
+
+
 interface ReviewSlot {
   isoStartTime: Date;
   isoEndTime: Date;
@@ -17,21 +38,6 @@ interface ReviewPayment {
   status: PAYMENT_STATUS;
 }
 
-export interface IReviewEntity {
-  _id: string;
-  studentId: string;
-  mentorId: string;
-  domainId: string;
-  levelId: string;
-  mentorEarning: number;
-  commissionAmount: number;
-  payment: ReviewPayment;
-  status: REVIEW_STATUS;
-  slot: ReviewSlot;
-  feedBack: string;
-  bookedAt: Date;
-}
-
 //students
 export interface IGetReviewsForStudAndDomain {
   _id: string;
@@ -43,6 +49,8 @@ export interface IGetReviewsForStudAndDomain {
     name: string;
     taskFile: string;
   };
+  theory:number,
+  practical:number,
   mentorName: string;
   mentorEarning: number;
   commissionAmount: number;

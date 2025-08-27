@@ -54,7 +54,7 @@ const CompletedLevelCard = ({ review, index }: { review: StudentReviewCard, inde
                     </div>
                     <div className="text-gray-600 ">
                         <h4 className="font-semibold">slot</h4>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 font-semibold">
                         <p className='text-muted-foreground bg-slate-100 p-1 px-2 rounded'>Date: {dateFormatter(new Date(review.slot.isoStartTime))}</p>
                         <p className='text-muted-foreground bg-slate-100 p-1 px-2 rounded'>Day: {review.slot.day}</p>
                         <p className='text-muted-foreground bg-slate-100 p-1 px-2 rounded'>Start At: {new Date(review.slot.isoStartTime).toLocaleTimeString()}</p>
@@ -67,9 +67,18 @@ const CompletedLevelCard = ({ review, index }: { review: StudentReviewCard, inde
                         <span className="font-semibold capitalize text-lg">{review.mentorName}</span>
                     </div>
 
-                    <div className="text-gray-600">
-                        <h4 className="font-semibold">Fee</h4>
-                        <span className="font-semibold capitalize text-lg">Rs. {review.commissionAmount+review.mentorEarning}</span>
+                    <div className="flex justify-between gap-2">
+                       <div className="flex flex-col justify-center items-center border-2 border-black flex-1 bg-black/10 rounded-lg">
+                           <h4 className="font-semibold">Fee</h4>
+                           <span className="font-semibold capitalize text-lg">Rs. {review.commissionAmount+review.mentorEarning}</span>
+                       </div>
+                       <div className={`text-gray-600 bg-blue-100 p-1 px-2 rounded ${review.status === "pass" ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"}`}>
+                           <h4 className="font-semibold text-center">Mark</h4>
+                           <div className="flex justify-between gap-3">
+                            <div className={`bg-blue-50 p-1 border-2 px-2 rounded ${review.status === "pass" ? "border-emerald-400 bg-emerald-50 text-emerald-700" : "border-red-400 bg-red-50 text-red-700"}`}>Theory:{review.theory}</div>
+                            <div className={`bg-blue-50 p-1 border-2 px-2 rounded ${review.status === "pass" ? "border-emerald-400 bg-emerald-50 text-emerald-700" : "border-red-400 bg-red-50 text-red-700"}`}>Pratical:{review.practical}</div>
+                           </div>
+                       </div>
                     </div>
                 </div>
 

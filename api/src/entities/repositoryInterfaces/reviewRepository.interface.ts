@@ -49,6 +49,6 @@ export interface IReviewRepository
 
   updateReview(
     filter: Record<string, string>,
-    update: Record<string, string>
+    update: Record<string, string|number>
   ): Promise<IReviewEntity | null>;
 }

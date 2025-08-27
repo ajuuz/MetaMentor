@@ -69,6 +69,8 @@ export class ReviewRepository
           feedBack: 1,
           mentorEarning: 1,
           commissionAmount: 1,
+          theory: 1,
+          practical: 1,
           mentorName: "$mentor.name",
           level: {
             name: "$level.name",
@@ -201,7 +203,7 @@ export class ReviewRepository
               taskFile: "$level.taskFile",
             },
             status: 1,
-            payment: { method: "$payment.method", status: "payment.status" },
+            payment: { method: "$payment.method", status: "$payment.status" },
             feedBack: 1,
             slot: 1,
           },
@@ -286,7 +288,7 @@ export class ReviewRepository
               taskFile: "$level.taskFile",
             },
             status: 1,
-            payment: { method: "$payment.method", status: "payment.status" },
+            payment: { method: "$payment.method", status: "$payment.status" },
             feedBack: 1,
             slot: 1,
           },
@@ -349,9 +351,13 @@ export class ReviewRepository
             taskFile: "$level.taskFile",
           },
           status: 1,
-          payment: { method: "$payment.method", status: "payment.status" },
+          payment: 1,
           feedBack: 1,
+          mentorEarning: 1,
+          commissionAmount: 1,
           slot: 1,
+          theory: 1,
+          practical: 1,
         },
       },
     ]);
@@ -411,6 +417,12 @@ export class ReviewRepository
     }
     if (update.paymentStatus) {
       mongoUpdate.payment.status = update.paymentStatus;
+    }
+    if (update.theory) {
+      mongoUpdate.theory = update.theory;
+    }
+    if (update.practical) {
+      mongoUpdate.practical = update.practical;
     }
     const updatedReview = await reviewModel
       .findOneAndUpdate(mongoFilter, mongoUpdate)

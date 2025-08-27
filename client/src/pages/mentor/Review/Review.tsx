@@ -117,7 +117,7 @@ const ReviewPage = () => {
           <SideBar review={review}/>
 
           {/* Main Content Area */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-2">
             {renderMainContent()}
           </div>
         </div>

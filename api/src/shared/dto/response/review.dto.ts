@@ -60,6 +60,18 @@ export class ReviewBaseDTO {
 
   @Expose() 
   status!: REVIEW_STATUS;
+
+  @Expose()
+  mentorEarning!: number;
+
+  @Expose()
+  commissionAmount!: number;
+
+  @Expose()
+  theory!:number
+
+  @Expose()
+  practical!:number
 }
 
 //students
@@ -67,12 +79,6 @@ export class ReviewBaseDTO {
 export class GetReviewsForStudAndDomainResDTO extends ReviewBaseDTO{
   @Expose()
   mentorName!: string;
-
-  @Expose()
-  mentorEarning!: number;
-
-  @Expose()
-  commissionAmount!: number;
 }
 
 @Exclude()

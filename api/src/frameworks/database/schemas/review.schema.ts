@@ -41,6 +41,18 @@ export const reviewSchema:Schema<IReviewModel>=new mongoose.Schema<IReviewModel>
             end:String
         }
     },
+    theory:{
+        type:Number,
+        default:null,
+        min:0,
+        max:10
+    },
+    practical:{
+        type:Number,
+        default:null,
+        min:0,
+        max:10
+    },
     feedBack:{
         type:String,
         default:''
