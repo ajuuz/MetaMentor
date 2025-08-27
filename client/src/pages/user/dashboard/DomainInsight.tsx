@@ -140,14 +140,6 @@ const DomainInsight = () => {
             <Button>Challenges</Button>
           </CardContent>
         </Card> */}
-
-        <Card>
-          <CardContent className="p-4 space-y-2 text-black">
-            <h3 className="font-semibold">Review Meet</h3>
-            <p>Currently No Review has been Scheduled</p>
-            <Button>Schedule Review</Button>
-          </CardContent>
-        </Card>
       </div>
 
     </div>

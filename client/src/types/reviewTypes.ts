@@ -40,6 +40,8 @@ export type StudentReviewCard={
         method:string,
         status:PAYMENT_STATUS
     },
+    theory:number,
+    practical:number,
     feedBack:string,
     slot:ReviewSlot
 }
@@ -61,6 +63,10 @@ export type MentorReviewCard={
         status:PAYMENT_STATUS
     },
     feedBack:string,
+    theory:number,
+    practical:number,
+    commissionAmount:number,
+    mentorEarning:number,
     slot:ReviewSlot  & {isoStartTime:Date,isoEndTime:Date}
 }
 

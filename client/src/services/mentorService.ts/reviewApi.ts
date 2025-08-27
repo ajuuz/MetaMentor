@@ -33,9 +33,9 @@ export const cancelReviewByMentor=async(reviewId:string):Promise<MutationApiResp
         throw error?.response?.data || error
     }
 }
-export const submitReviewFeedBack=async({reviewId,status,feedBack}:{reviewId:string,status:ReviewStatus,feedBack:string}):Promise<MutationApiResponse>=>{
+export const submitReviewFeedBack=async({reviewId,...reviewDetails}:{reviewId:string,status:ReviewStatus,feedBack:string,theory:number,practical:number}):Promise<MutationApiResponse>=>{
       try{
-        const response = await mentorInstance.patch(`/reviews/${reviewId}/result`,{status,feedBack})
+        const response = await mentorInstance.patch(`/reviews/${reviewId}/result`,reviewDetails)
         return response.data;
     }
     catch(error:any){

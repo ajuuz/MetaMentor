@@ -2,7 +2,10 @@
 import {
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsString,
+  Max,
+  Min,
   MinLength,
   ValidateIf,
 } from "class-validator";
@@ -71,4 +74,14 @@ export class SubmitReviewResultReqDTO {
   @IsNotEmpty()
   @MinLength(10, { message: "Feedback must be at least 10 characters long" })
   feedBack!: string;
+
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  theory!:number
+
+  @IsNumber()
+  @Min(0)
+  @Max(10)
+  practical!:number
 }

@@ -18,7 +18,7 @@ export class CommunityRepository
   }
 
   async updateStatus(communityId: string, status: boolean): Promise<void> {
-    await this.model.updateOne({communityId} , { isBlocked: status });
+    await this.model.updateOne({ communityId }, { isBlocked: status });
   }
 
   async findWithFilterAndPaginated(
@@ -44,44 +44,45 @@ export class CommunityRepository
       sortOption["domain.createdAt"] = sort.order === SORT_ORDER.ASC ? 1 : -1;
     }
 
-    const lookupPipeline={
-        $lookup: {
-          from: "domains",
-          foreignField: "_id",
-          localField: "communityId",
-          as: "domain",
-        },
-      }
+    const lookupPipeline = {
+      $lookup: {
+        from: "domains",
+        foreignField: "_id",
+        localField: "communityId",
+        as: "domain",
+      },
+    };
 
     const data = await communityModel.aggregate([
       lookupPipeline,
       { $unwind: "$domain" },
       { $match: mongoFilter },
       {
-        $facet:{
-            items:[
-                {$sort:sortOption},
-                {$skip:skip},
-                {$limit:limit},
-                {
-                    $project:{
-                        _id:0,
-                        communityId:1,
-                        name:1,
-                        isBlocked:1,
-                        image:'$domain.image'
-                    }
-                }
-            ],
-            totalDocuments:[{$count:'count'},{$unwind:'$count'}]
-        }
-      },{
-         $addFields: {
+        $facet: {
+          items: [
+            { $sort: sortOption },
+            { $skip: skip },
+            { $limit: limit },
+            {
+              $project: {
+                _id: 0,
+                communityId: 1,
+                name: 1,
+                isBlocked: 1,
+                image: "$domain.image",
+              },
+            },
+          ],
+          totalDocuments: [{ $count: "count" }, { $unwind: "$count" }],
+        },
+      },
+      {
+        $addFields: {
           totalDocuments: { $arrayElemAt: ["$totalDocuments.count", 0] },
-        }
-      }
+        },
+      },
     ]);
-    const {items,totalDocuments}=data[0];
-    return {items,totalDocuments};
+    const { items, totalDocuments } = data[0];
+    return { items, totalDocuments };
   }
 }
