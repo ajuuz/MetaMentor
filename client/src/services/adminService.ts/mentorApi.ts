@@ -6,16 +6,23 @@ import type { ApiResponseType, MutationApiResponse } from "@/types/responseType"
 type GetAllMentorArgumentType={
     currentPage:number,
     limit:number,
-    isVerified:boolean
+    isVerified:boolean,
+    sortBy:string,
+    searchTerm:string,
+    selectedDomains:string[]
 }
 export const getAllMentors=async({
         currentPage,
         limit,
-        isVerified
+        isVerified,
+        sortBy,
+        searchTerm,
+        selectedDomains
     }:GetAllMentorArgumentType
-    ):Promise<Required<ApiResponseType<GetAllMentorResponseType>>>=>{
+    ):Promise<GetAllMentorResponseType>=>{
     try{
-        const response = await adminAxiosInstance.get(`/mentors?currentPage=${currentPage}&limit=${limit}&isVerified=${isVerified}`);
+        console.log(selectedDomains)
+        const response = await adminAxiosInstance.get(`/mentors?currentPage=${currentPage}&limit=${limit}&isVerified=${isVerified}&sortBy=${sortBy}&searchTerm=${searchTerm}&selectedDomains=${selectedDomains.join(',')}`);
         return response.data;
     }
     catch(error:any){

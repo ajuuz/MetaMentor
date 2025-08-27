@@ -25,11 +25,8 @@ export class AdminStudentController implements IAdminStudentController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { currentPage, limit }: GetAllStudentReqDTO = req.verifiedData;
-      const data = await this._getAllStudentsUsecase.execute(
-        currentPage,
-        limit
-      );
+      const fetchDetails: GetAllStudentReqDTO = req.verifiedData;
+      const data = await this._getAllStudentsUsecase.execute(fetchDetails);
       res.status(HTTP_STATUS.OK).json(data);
     } catch (error) {
       next(error);

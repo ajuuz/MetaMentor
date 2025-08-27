@@ -1,9 +1,7 @@
-import { ObjectId } from "mongoose";
-
 
 export interface ICommunityEntity{
-    _id:ObjectId,
-    communityId:ObjectId,
+    _id:string,
+    communityId:string,
     name:string
     isBlocked:boolean
 }

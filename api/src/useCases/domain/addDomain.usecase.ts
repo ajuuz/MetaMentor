@@ -25,7 +25,7 @@ export class AddDomainUsecase implements IAddDomainUsecase{
         const {levels,...rest} = domainDetails;
 
             const domain = this._domainRepository.create(rest)
-            const domainId = domain._id
+            const domainId = domain._id.toString()
             for(let i=0;i<levels.length;i++){
                 levels[i].domainId=domainId
             }

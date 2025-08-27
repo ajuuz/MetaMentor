@@ -20,14 +20,36 @@ const AdminRoutes = () => {
             <Route path='/dashboard' element={<Dashboard/>}/>
 
             <Route path='/mentors/application' element={<MentorWrapper isVerified={false}>
-                                                          {(tableHeaders,mentors,currentPage,setCurrentPage, totalPage) => (
-                                                           <Mentors  tableHeaders={tableHeaders} mentors={mentors}  currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage}/>
+                                                          {(tableHeaders,mentors,currentPage,setCurrentPage, totalPage,sortBy,setSortBy,searchTerm,setSearchTerm,selectedDomains,setSelectedDomains) => (
+                                                           <Mentors  tableHeaders={tableHeaders}
+                                                            mentors={mentors} 
+                                                             currentPage={currentPage}
+                                                              setCurrentPage={setCurrentPage} 
+                                                              totalPage={totalPage} 
+                                                              sortBy={sortBy} 
+                                                              setSortBy={setSortBy} 
+                                                              searchTerm={searchTerm} 
+                                                              setSearchTerm={setSearchTerm}
+                                                              selectedDomains={selectedDomains}
+                                                              setSelectedDomains={setSelectedDomains}
+                                                              />
+                                                              
                                                           )}
                                                         </MentorWrapper>}/>
                                                         
             <Route path='/mentors' element={<MentorWrapper isVerified={true}>
-                                               {(tableHeaders,mentors,currentPage,setCurrentPage, totalPage) => (
-                                                <Mentors  tableHeaders={tableHeaders} mentors={mentors}  currentPage={currentPage} setCurrentPage={setCurrentPage} totalPage={totalPage}/>
+                                               {(tableHeaders,mentors,currentPage,setCurrentPage, totalPage,sortBy,setSortBy,searchTerm,setSearchTerm,selectedDomains,setSelectedDomains) => (
+                                                <Mentors  tableHeaders={tableHeaders} 
+                                                mentors={mentors}  
+                                                currentPage={currentPage} 
+                                                setCurrentPage={setCurrentPage} 
+                                                totalPage={totalPage} 
+                                                sortBy={sortBy} 
+                                                setSortBy={setSortBy} 
+                                                searchTerm={searchTerm} 
+                                                setSearchTerm={setSearchTerm}
+                                                selectedDomains={selectedDomains}
+                                                setSelectedDomains={setSelectedDomains}/>
                                                )}
                                              </MentorWrapper>}/>
                                              

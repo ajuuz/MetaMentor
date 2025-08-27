@@ -4,9 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 
 
 //admin
-export const useAdminGetAllStudentsQuery=(currentPage:number,limit:number)=>{
+export const useAdminGetAllStudentsQuery=(currentPage:number,limit:number,sortBy:string,searchTerm:string,selectedPremium:string[])=>{
     return useQuery<GetAllStudentResponseType>({
-        queryKey:['adminGetAllStudents',currentPage,limit],
-        queryFn:()=> getAllStudents(currentPage,limit)
+        queryKey:['adminGetAllStudents',currentPage,limit,sortBy,searchTerm,selectedPremium],
+        queryFn:()=> getAllStudents(currentPage,limit,sortBy,searchTerm,selectedPremium)
     })
 };

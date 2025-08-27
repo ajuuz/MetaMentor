@@ -1,8 +1,8 @@
 
 type CommunityType={
-    _id:string,
     communityId:string,
     name:string,
+    image:string,
     isBlocked:boolean
 }
 

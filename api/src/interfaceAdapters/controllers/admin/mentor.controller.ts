@@ -43,9 +43,14 @@ export class AdminMentorController implements IAdminMentorController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { currentPage, limit, isVerified }: GetAllMentorsReqDTO =
-      req.verifiedData;
-
+    const {
+      currentPage,
+      limit,
+      isVerified,
+      sortBy,
+      searchTerm,
+      selectedDomains
+    }: GetAllMentorsReqDTO = req.verifiedData;
     let usecase: IGetNotVerifiedMentorsUsecase | IGetVerifiedMentorsUsecase;
     if (!isVerified) {
       usecase = this._getNotVerifiedMentorsUsecase;
@@ -53,12 +58,14 @@ export class AdminMentorController implements IAdminMentorController {
       usecase = this._getVerifiedMentorsUsecase;
     }
     try {
-      const { mentors, totalPages } = await usecase.execute(currentPage, limit);
-      res.status(HTTP_STATUS.OK).json({
-        success: true,
-        message: "mentors fetched successfully",
-        data: { mentors, totalPages },
-      });
+      const data = await usecase.execute(
+        currentPage,
+        limit,
+        sortBy!,
+        searchTerm!,
+        selectedDomains
+      );
+      res.status(HTTP_STATUS.OK).json(data);
     } catch (error) {
       next(error);
     }
@@ -84,7 +91,7 @@ export class AdminMentorController implements IAdminMentorController {
 
   async mentorApplicationVerification(
     req: Request,
-    res: Response,
+    res: Response
   ): Promise<void> {
     const {
       mentorId,
@@ -116,10 +123,7 @@ export class AdminMentorController implements IAdminMentorController {
     }
   }
 
-  async updateMentorStatus(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
+  async updateMentorStatus(req: Request, res: Response): Promise<void> {
     const { mentorId, status }: UpdateMentorStatusReqDTO = req.verifiedData;
     await this._updateMentorStatusUsecase.execute(mentorId, status);
     res.status(200).json({

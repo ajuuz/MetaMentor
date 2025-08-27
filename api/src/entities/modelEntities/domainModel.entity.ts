@@ -1,8 +1,6 @@
-import { ObjectId } from "mongoose";
-
 
 export interface IDomainEntity{
-    _id:ObjectId,
+    _id:string,
     name:string,
     image:string,
     description:string,

@@ -39,6 +39,8 @@ import { IUserCommunityController } from "entities/controllerInterfaces/user/com
 import { UserCommunityController } from "interfaceAdapters/controllers/user/community.controller";
 import { IFcmTokenController } from "entities/controllerInterfaces/common/fcmTokenController.interface";
 import { FcmTokenController } from "interfaceAdapters/controllers/common/fcmToken.controller";
+import { ICommonDomainController } from "entities/controllerInterfaces/common/domainController.interface";
+import { CommonDomainController } from "interfaceAdapters/controllers/common/domain.controller";
 
 DependencyInjection.registerAll()
 
@@ -71,6 +73,7 @@ export const paymentController = container.resolve<IPaymentController>(PaymentCo
 //commomController
 export const commonController = container.resolve<ICommonController>(CommonController)
 export const fcmTokenController = container.resolve<IFcmTokenController>(FcmTokenController)
+export const commonDomainController = container.resolve<ICommonDomainController>(CommonDomainController)
 
 //middleware
 export const errorMiddleware = container.resolve<IErrorMiddleware>(ErrorMiddleware)

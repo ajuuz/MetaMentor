@@ -5,9 +5,9 @@ import type { MutationApiResponse } from "@/types/responseType";
 
 
 
-export const getAllDomains=async(currentPage:number,limit:number):Promise<GetAllDomains>=>{
+export const getAllDomains=async(currentPage:number,limit:number,sortBy:string,searchTerm:string):Promise<GetAllDomains>=>{
     try{
-        const response = await userAxiosInstance.get(`/domains?currentPage=${currentPage}&limit=${limit}`)
+        const response = await userAxiosInstance.get(`/domains?currentPage=${currentPage}&limit=${limit}&sortBy=${sortBy}&searchTerm=${searchTerm}`)
         return response.data;
     }
     catch(error:any){

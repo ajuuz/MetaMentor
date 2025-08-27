@@ -6,10 +6,10 @@ import { useQuery } from "@tanstack/react-query";
 
 
 //admin
-export const useAdminGetAllCommunitiesQuery=(currentPage:number,limit:number)=>{
+export const useAdminGetAllCommunitiesQuery=(currentPage:number,limit:number,sortBy:string,searchTerm:string)=>{
     return useQuery<GetAllCommunity>({
-        queryKey: ['adminGetAllCommunities'],
-        queryFn: () => getAllCommunities(currentPage,limit)
+        queryKey: ['getCommunitiesForAdmin',currentPage,limit,sortBy,searchTerm],
+        queryFn: () => getAllCommunities(currentPage,limit,sortBy,searchTerm)
     })
 };
 

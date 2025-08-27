@@ -130,8 +130,7 @@ export default function MentorDetailsManage() {
 
   const { mutate: getDomainsNameAndIdMutation } = useMutation({
     mutationFn: getDomainsNameAndId,
-    onSuccess: (response) => {
-      const domains = response.data;
+    onSuccess: (domains) => {
       setDomains(domains);
     },
     onError: (error) => {

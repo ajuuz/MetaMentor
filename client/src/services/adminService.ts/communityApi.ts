@@ -5,9 +5,9 @@ import type { MutationApiResponse } from "@/types/responseType";
 
 
 
-export const getAllCommunities=async(currentPage:number,limit:number):Promise<GetAllCommunity>=>{
+export const getAllCommunities=async(currentPage:number,limit:number,sortBy:string,searchTerm:string):Promise<GetAllCommunity>=>{
     try{
-        const response = await adminAxiosInstance.get(`/communities?currentPage=${currentPage}&limit=${limit}`)
+        const response = await adminAxiosInstance.get(`/communities?currentPage=${currentPage}&limit=${limit}&sortBy=${sortBy}&searchTerm=${searchTerm}`)
         return response.data;
     }
     catch(error:any){

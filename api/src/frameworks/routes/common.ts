@@ -1,39 +1,57 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { upload } from "frameworks/cloudinary/cloudinary";
-import { authMiddleware, commonController, fcmTokenController } from "frameworks/di/resolver";
+import {
+  authMiddleware,
+  commonController,
+  commonDomainController,
+  fcmTokenController,
+} from "frameworks/di/resolver";
 import { ROLES } from "shared/constants";
 
-interface MulterRequest extends Request{
-    files: Express.Multer.File[];
+interface MulterRequest extends Request {
+  files: Express.Multer.File[];
 }
 
+export class CommonRoutes {
+  private _router: Router;
 
-export class CommonRoutes{
+  constructor() {
+    this._router = Router();
+    this.configureRoutes();
+  }
 
-    private _router:Router;
+  configureRoutes(): void {
+    this._router.post(
+      "/images/upload",
+      authMiddleware.verifyAuth.bind(authMiddleware),
+      authMiddleware.blockChecker.bind(authMiddleware),
+      upload.array("image", 5),
+      (req: Request, res: Response, next: NextFunction) => {
+        commonController.uploadImage(req as MulterRequest, res, next);
+      }
+    );
 
-    constructor(){
-        this._router = Router();
-        this.configureRoutes()
-    }
+    this._router.get(
+      "/eventSource/:email",
+      commonController.eventSource.bind(commonController)
+    );
 
-    configureRoutes():void{
-        this._router.post('/images/upload',
-            authMiddleware.verifyAuth.bind(authMiddleware),
-            authMiddleware.blockChecker.bind(authMiddleware),
-            upload.array("image",5),
-            (req:Request,res:Response,next:NextFunction) => {commonController.uploadImage(req as MulterRequest,res,next)});
+    this._router.post(
+      "/fcmTokens",
+      authMiddleware.verifyAuth.bind(authMiddleware),
+      authMiddleware.verifyAuthRole([ROLES.MENTOR, ROLES.ADMIN, ROLES.USER]),
+      authMiddleware.blockChecker.bind(authMiddleware),
+      fcmTokenController.saveFcmToken.bind(fcmTokenController)
+    );
 
-        this._router.get('/eventSource/:email',commonController.eventSource.bind(commonController))
+    this._router.get(
+      "/domains",
+      authMiddleware.verifyAuth.bind(authMiddleware),
+      commonDomainController.getDomainNamesAndId.bind(commonDomainController)
+    );
+  }
 
-        this._router.post('/fcmTokens',
-            authMiddleware.verifyAuth.bind(authMiddleware),
-            authMiddleware.verifyAuthRole([ROLES.MENTOR,ROLES.ADMIN,ROLES.USER]),
-            authMiddleware.blockChecker.bind(authMiddleware),
-            fcmTokenController.saveFcmToken.bind(fcmTokenController))
-    }
-
-    getRouter():Router{
-        return this._router;
-    }
+  getRouter(): Router {
+    return this._router;
+  }
 }

@@ -51,4 +51,4 @@ export const userSchema = new mongoose.Schema<IUserModel>({
         type:Boolean,
         default:false
     }
-})
+},{timestamps:true})

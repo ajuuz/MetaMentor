@@ -50,6 +50,7 @@ export class RegisterUserUsecase implements IRegisterUserUsecase {
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     console.log(otp);
+    console.log(formData)
     const asyncOperations = [];
 
     asyncOperations.push(this._otpRepository.saveOtp(formData.email, otp));

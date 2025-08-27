@@ -8,7 +8,7 @@ import {
   IsBoolean,
 } from "class-validator";
 import { LevelReqDTO } from "./level.dto";
-import { PaginationReqDTO } from "./pagination.dto";
+import { FilterReqDTO } from "./pagination.dto";
 
 export class CreateDomainReqDTO {
   @IsString()
@@ -34,7 +34,7 @@ export class CreateDomainReqDTO {
   levels!: LevelReqDTO[];
 }
 
-export class GetAllDomainsForAdminReqDTO extends PaginationReqDTO {}
+export class GetAllDomainsForAdminReqDTO extends FilterReqDTO {}
 
 export class UpdateDomainStatusDTO {
   @IsString()
@@ -46,7 +46,7 @@ export class UpdateDomainStatusDTO {
 }
 
 //students
-export class GetAllDomainsForStudReqDTO extends PaginationReqDTO {}
+export class GetAllDomainsForStudReqDTO extends FilterReqDTO {}
 
 export class GetSpecificDomainForStudReqDTO {
   @IsString()
@@ -60,7 +60,7 @@ export class EnrollDomainReqDTO {
   domainId!: string;
 }
 
-export class GetDomainDashboardForStudReqDTO extends PaginationReqDTO {}
+export class GetDomainDashboardForStudReqDTO extends FilterReqDTO {}
 
 export class GetDomainInsightReqDTO {
   @IsString()

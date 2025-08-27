@@ -65,7 +65,7 @@ export class CancelReviewByStudentUsecase implements ICancelReviewByStudentUseca
         const transactionAmount=cancelledReview.mentorEarning;
          const adminTransaction={
             walletId:this._adminId,
-            reviewId:cancelledReview._id,
+            reviewId:cancelledReview._id.toString(),
             type:TRANSACTION_TYPE.DEBIT,
             amount:transactionAmount,
             description:`Amount ${transactionAmount} has been debited for review cancellation by mentor`
@@ -73,7 +73,7 @@ export class CancelReviewByStudentUsecase implements ICancelReviewByStudentUseca
 
         const studentTransaction={
             walletId:cancelledReview.studentId.toString(),
-            reviewId:cancelledReview._id,
+            reviewId:cancelledReview._id.toString(),
             type:TRANSACTION_TYPE.CREDIT,
             amount:transactionAmount,
             description:`Amount ${transactionAmount} has been credited for review cancellation by mentor`

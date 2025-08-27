@@ -2,11 +2,13 @@ import AlertDialogComponent from "@/components/common/AlertDialogComponent"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
-import { getAllMentors, updateMentorStatus } from "@/services/adminService.ts/mentorApi"
+import { queryClient } from "@/config/tanstackConfig/tanstackConfig"
+import { useGetMentorsForAdminQuery } from "@/hooks/tanstack/mentor"
+import {  updateMentorStatus } from "@/services/adminService.ts/mentorApi"
 import type { TableDetailsType } from "@/types/tableDataTypes"
 import { useMutation } from "@tanstack/react-query"
 import { useEffect, useState, type ReactNode } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { toast } from "sonner"
 
 type Prop={
@@ -16,79 +18,105 @@ type Prop={
         mentors: TableDetailsType[],
         currentPage: number,
         setCurrentPage:React.Dispatch<React.SetStateAction<number>>,
-        totalPage: number
+        totalPage: number,
+        sortBy:string,
+        setSortBy:React.Dispatch<React.SetStateAction<string>>,
+        searchTerm:string,
+        setSearchTerm:React.Dispatch<React.SetStateAction<string>>,
+        selectedDomains:string[],
+        setSelectedDomains:React.Dispatch<React.SetStateAction<string[]>>
     ) => ReactNode
 }
 
 const MentorWrapper = ({isVerified,children}:Prop) => {
      const [mentors,setMentors] = useState<TableDetailsType[]>([])
-      const [currentPage,setCurrentPage] = useState<number>(1);
-      const [totalPage,setTotalPages] = useState<number>(0)
+     const [totalPage,setTotalPages] = useState<number>(0)
+     
+     const [searchParams,setSearchParams]=useSearchParams();
+     const [currentPage,setCurrentPage] = useState<number>(Number(searchParams.get("currentPage")) || 1);
+     const [searchTerm,setSearchTerm]=useState<string>(searchParams.get("searchTerm") || "")
+     const [sortBy,setSortBy]=useState<string>(searchParams.get("sortBy") || "name-asc")
+     const [selectedDomains, setSelectedDomains] = useState<string[]>(searchParams.get("selectedDomains")?.split(",") || [])
 
-    const navigate=useNavigate();
+      const navigate=useNavigate();
+      const {data:getMentorResponse,isError}=useGetMentorsForAdminQuery(currentPage,5,isVerified,sortBy,searchTerm,selectedDomains)
+
+      if (isError) {
+        return <div>Something went Wrong</div>;
+      }
+
+      useEffect(()=>{
+        if(getMentorResponse){
+            const {mentors,totalPages} = getMentorResponse;
+            setTotalPages(totalPages);
+            const transformedDetails=mentors.map((mentor)=>{
+              return {
+                id:mentor.userId,
+                content:[
+                mentor.name,
+                mentor.mobileNumber??"Unavailable",
+                0,
+                mentor.country,
+                mentor.domains.join(', ').length>15?mentor.domains.join(', ').slice(0,15)+'...':mentor.domains.join(', '),
+                mentor.skills.join(', ').length>15?mentor.skills.join(', ').slice(0,15)+'...':mentor.skills.join(', '),
+                isVerified
+                ?<Badge className={!mentor.isBlocked?"bg-green-700 text-white":"bg-red-700 text-white"}>{mentor.isBlocked?"BLOCKED":"ACTIVE"}</Badge>
+                :<Badge>PENDING</Badge>,
+                isVerified
+                ?<AlertDialogComponent alertTriggerer={<Switch checked={mentor.isBlocked}/>}  alertDescription={`Are you Sure do you want to ${mentor.isBlocked?"Unblock":"Block"} the mentor?`} handleClick={()=>handleStatusChange(mentor.userId,!mentor.isBlocked)}/>
+                :<Button onClick={()=>navigate(`/admin/mentors/${mentor.userId}/verify`)}>Verify</Button>
+            ]}
+            })
+            setMentors(transformedDetails)
+        }
+    },[getMentorResponse])
+
+    useEffect(()=>{
+        setCurrentPage(1);
+        setSortBy('name-asc')
+        setSearchTerm('')
+        setSelectedDomains([])
+    },[isVerified])
+
+    useEffect(()=>{
+        setSearchParams({
+            currentPage: String(currentPage),
+            searchTerm,
+            sortBy,
+            selectedDomains: selectedDomains.join(","),
+        });
+    }, [currentPage, searchTerm, sortBy, selectedDomains, setSearchParams]);
 
     const {mutate:updateMentorStatusMutation}=useMutation({
         mutationFn:updateMentorStatus,
         onSuccess:(response)=>{
-            toast.success(response.message)
+             toast.success(response.message);
+            queryClient.invalidateQueries({ queryKey: ["getMentorsForAdmin"] });
         },
         onError:(error)=>{
             toast.error(error.message)
         }
     })
 
-   const mentorMutaion = useMutation({
-      mutationFn:getAllMentors,
-      onSuccess:(response)=>{
-        console.log(response.data)
-        const {mentors,totalPages} = response.data
-         const transformedDetails=mentors.map((mentor)=>{
-                return {
-                    id:mentor.userId,
-                    content:[
-                    mentor.name,
-                    mentor.mobileNumber,
-                    0,
-                    mentor.country,
-                    mentor.skills.join(' , '),
-                    isVerified
-                    ?<Badge className={!mentor.isBlocked?"bg-green-700 text-white":"bg-red-700 text-white"}>{mentor.isBlocked?"BLOCKED":"ACTIVE"}</Badge>
-                    :<Badge>PENDING</Badge>,
-                    isVerified
-                    ?<AlertDialogComponent alertTriggerer={<Switch checked={mentor.isBlocked}/>}  alertDescription={`Are you Sure do you want to ${mentor.isBlocked?"Unblock":"Block"} the mentor?`} handleClick={()=>handleStatusChange(mentor.userId,!mentor.isBlocked)}/>
-                    :<Button onClick={()=>navigate(`/admin/mentors/${mentor.userId}/verify`)}>Verify</Button>
-                ]}
-            })
-            setMentors(transformedDetails)
-            setTotalPages(totalPages)
-      },
-      onError:(error)=>{
-        toast.error(error.message)
-      }
-    })
-
-    useEffect(()=>{
-      mentorMutaion.mutate({currentPage:1,limit:5,isVerified})
-    },[isVerified])
-
       const handleStatusChange=(mentorId:string,status:boolean)=>{
         updateMentorStatusMutation({mentorId,status})
-         setMentors((prev)=>{
-            const mentors=[...prev];
-            const mentor = mentors.find(mentor=>mentor.id===mentorId);
-
-            if(!mentor) return mentors;
-
-            mentor.content[6]=<Badge className={!status?"bg-green-700 text-white":"bg-red-700 text-white"}>{status?"BLOCKED":"ACTIVE"}</Badge>
-            mentor.content[7]=<AlertDialogComponent alertTriggerer={<Switch checked={status}/>} alertDescription={`Are you Sure do you want to ${status?"Block":"Unblock"} the mentor?`} handleClick={()=>handleStatusChange(mentor.id,!status)}/>
-            return mentors;
-        })
     }
 
 
     const tableHeaders=["Mentor Name","Number","Review Count","Country","Domains","Skills",isVerified?"Status":"Verification Status","Action"]
 
-    return <>{children(tableHeaders,mentors,currentPage,setCurrentPage,totalPage)}</>
+    return <>{children(tableHeaders,
+        mentors,
+        currentPage,
+        setCurrentPage,
+        totalPage,
+        sortBy,
+        setSortBy,
+        searchTerm,
+        setSearchTerm,
+        selectedDomains,
+        setSelectedDomains
+    )}</>
 }
 
 export default MentorWrapper

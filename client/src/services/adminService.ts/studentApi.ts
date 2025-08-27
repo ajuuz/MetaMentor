@@ -4,9 +4,18 @@ import type { GetAllStudentResponseType } from "@/types/studentTypes";
 
 
 
-export const getAllStudents=async(currentPage:number,limit:number):Promise<GetAllStudentResponseType>=>{
-        const response = await adminAxiosInstance.get(`/students?currentPage=${currentPage}&limit=${limit}`);
+export const getAllStudents=async(currentPage:number,limit:number,sortBy:string,searchTerm:string,isPremium:string[]):Promise<GetAllStudentResponseType>=>{
+    try{
+        let url=`/students?currentPage=${currentPage}&limit=${limit}&sortBy=${sortBy}&searchTerm=${searchTerm}`
+        if(isPremium.length>0){
+            url+=`&isPremium=${isPremium[0]==='yes'?true:false}`
+        }
+        const response = await adminAxiosInstance.get(url);
         return response.data;
+    }
+    catch(error:any){
+        throw error?.response?.data || error
+    }
 }
 
 

@@ -34,15 +34,6 @@ export class MentorRoutes {
       mentorController.registerForm.bind(mentorController)
     );
 
-    //domains
-    this._router.get(
-      "/domains",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.USER]),
-      authMiddleware.blockChecker.bind(authMiddleware),
-      mentorController.getDomains.bind(mentorController)
-    );
-
     // -------- Protected Routes (auth required) --------
     //application level middleware
     this._router.use(

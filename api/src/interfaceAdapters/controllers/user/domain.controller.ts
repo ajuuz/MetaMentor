@@ -37,10 +37,13 @@ export class UserDomainController implements IUserDomainController {
   ) {}
 
   async getAllDomains(req: Request, res: Response): Promise<void> {
-    const { currentPage, limit }: GetAllDomainsForStudReqDTO = req.verifiedData;
+    const { currentPage, limit,sortBy,searchTerm }: GetAllDomainsForStudReqDTO = req.verifiedData;
+    console.log(req.verifiedData)
     const data = await this._getUnblockedDomainsUsecase.execute(
       currentPage,
-      limit
+      limit,
+      sortBy!,
+      searchTerm!
     );
     res.status(HTTP_STATUS.OK).json(data);
   }

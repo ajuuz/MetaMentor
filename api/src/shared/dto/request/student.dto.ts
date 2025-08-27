@@ -1,9 +1,14 @@
-import { IsBoolean, IsNotEmpty, IsString } from "class-validator";
-import { PaginationReqDTO } from "./pagination.dto";
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { FilterReqDTO } from "./pagination.dto";
+import { Transform } from "class-transformer";
 
 
-
-export class GetAllStudentReqDTO extends PaginationReqDTO{}
+export class GetAllStudentReqDTO extends FilterReqDTO{
+      @IsOptional()
+      @Transform(({obj})=>obj.isPremium==='true'?true:false)
+      @IsBoolean()
+      isPremium?:boolean
+}
 
 export class UpdateStudentStatusReqDTO {
       @IsString()

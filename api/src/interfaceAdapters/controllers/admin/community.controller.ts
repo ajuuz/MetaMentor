@@ -1,9 +1,12 @@
 import { IAdminCommunityController } from "entities/controllerInterfaces/admin/communityController.interface";
 import { IGetCommunitiesUsecase } from "entities/usecaseInterfaces/community/getCommunitiesUsecase.interface";
 import { IUpdateCommunityStatusUsecase } from "entities/usecaseInterfaces/community/updateCommunityUsecase.interface";
-import {  Request, Response } from "express";
+import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
-import { GetAllCommunityForAdminReqDTO, UpdateCommunityStatusDTO } from "shared/dto/request/community.dto";
+import {
+  GetAllCommunityForAdminReqDTO,
+  UpdateCommunityStatusDTO,
+} from "shared/dto/request/community.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -16,22 +19,25 @@ export class AdminCommunityController implements IAdminCommunityController {
     private _updateCommunityStatusUsecase: IUpdateCommunityStatusUsecase
   ) {}
 
-  async getAllCommunities(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
-    const { currentPage, limit }: GetAllCommunityForAdminReqDTO =
-      req.verifiedData;
+  async getAllCommunities(req: Request, res: Response): Promise<void> {
+    const {
+      currentPage,
+      limit,
+      sortBy,
+      searchTerm,
+    }: GetAllCommunityForAdminReqDTO = req.verifiedData;
 
-    const data = await this._getCommunitiesUsecase.execute(currentPage, limit);
+    const data = await this._getCommunitiesUsecase.execute(
+      currentPage,
+      limit,
+      sortBy!,
+      searchTerm!
+    );
     res.status(HTTP_STATUS.OK).json(data);
   }
 
-  async updateCommunityStatus(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
-    const {communityId,status}:UpdateCommunityStatusDTO=req.verifiedData
+  async updateCommunityStatus(req: Request, res: Response): Promise<void> {
+    const { communityId, status }: UpdateCommunityStatusDTO = req.verifiedData;
     await this._updateCommunityStatusUsecase.execute(communityId, status);
     res.status(200).json({
       success: true,
