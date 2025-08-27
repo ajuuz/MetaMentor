@@ -75,6 +75,7 @@ const MentorWrapper = ({isVerified,children}:Prop) => {
         setCurrentPage(1);
         setSortBy('name-asc')
         setSearchTerm('')
+        setSelectedDomains([])
     },[isVerified])
 
     useEffect(()=>{

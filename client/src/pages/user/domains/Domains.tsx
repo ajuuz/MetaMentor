@@ -4,15 +4,18 @@ import DomainCard from "@/components/user/DomainCard";
 import { useUserGetAllDomainsQuery } from "@/hooks/domain";
 import type { DomainEntity } from "@/types/domainTypes";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const Domains = () => {
 
     const [domains,setDomains] = useState<DomainEntity[]>()
     const [totalpages,setTotalPages] = useState<number>(0)
-    const [currentPage,setCurrentPage] = useState<number>(1);
-    const [searchTerm,setSearchTerm] = useState<string>("")
-    const [sortBy,setSortBy] = useState<string>("name-asc")
+
+    const [searchParams,setSearchParams]=useSearchParams();
+    const [currentPage,setCurrentPage] = useState<number>(Number(searchParams.get("currentPage")) || 1);
+    const [searchTerm,setSearchTerm] = useState<string>(searchParams.get("searchTerm") || "")
+    const [sortBy,setSortBy] = useState<string>(searchParams.get("sortBy") || "name-asc")
     const {data:allDomains,isError,error}=useUserGetAllDomainsQuery(currentPage,
       10,
       sortBy,
@@ -27,6 +30,14 @@ const Domains = () => {
           setDomains(domains)
       }
     },[allDomains])
+
+    useEffect(()=>{
+      setSearchParams({
+        currentPage: String(currentPage),
+        searchTerm,
+        sortBy,
+      });
+    }, [currentPage, searchTerm, sortBy, setSearchParams]);
 
     if(isError){
       toast.error(error.message)
