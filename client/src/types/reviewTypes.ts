@@ -1,6 +1,9 @@
 import type { PAYMENT_METHOD, PAYMENT_STATUS, ReviewStatus } from "@/utils/constants"
 
 export type ReviewSlot={
+        _id:string,
+        isoStartTime:string,
+        isoEndTime:string,
         day:string,
         start:number,
         end:number
@@ -24,7 +27,10 @@ export type ReviewEntity={
 export type BookReviewDTO=Pick<ReviewEntity,'mentorId'|'domainId'|'levelId'|'slot'>
 
 export type StudentReviewCard={
+    _id:string,
     mentorName:string,
+    commissionAmount:number,
+    mentorEarning:number,
     level:{
         name:string,
         taskFile:string,

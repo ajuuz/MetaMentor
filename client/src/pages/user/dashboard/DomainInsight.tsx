@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, XCircle, Lock, LucideClockFading, FileText, MessageSquare } from "lucide-react";
+import {  Lock, FileText } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import type { StudentReviewCard } from "@/types/reviewTypes";
@@ -9,6 +9,7 @@ import type { DomainEntity } from "@/types/domainTypes";
 import type { LevelType } from "@/types/levelTypes";
 import { useEnrolledDomainQuery } from "@/hooks/domain";
 import ContentViewerModal from "@/components/common/ContentViewerModal";
+import CompletedLevelCard from "@/components/user/domainInsight/CompletedLevelCard";
 
 
 const DomainInsight = () => {
@@ -31,6 +32,7 @@ const DomainInsight = () => {
         if(enrolledDomain){
             const {reviews,domain,nextLevels} = enrolledDomain;
             setReviews(reviews);
+            console.log(reviews)
             setDomain(domain)
             console.log(reviews,noOfLevelPassed,nextLevels)
             setNoOfLevelPassed(noOfLevelPassed)
@@ -85,57 +87,10 @@ const DomainInsight = () => {
       {/* Level Cards */}
       <div className="grid md:grid-cols-2 gap-6">
         {reviews.map((item, index) => (
-          <Card key={index} className="text-black">
-            <CardContent className="p-4 space-y-2">
-              <div className="flex justify-between items-center">
-                <h2 className="font-bold text-lg">LEVEL {index+1}: HTML & CSS</h2>
-                {item.status==='pass' ? (
-                  <CheckCircle className="text-green-500" />
-                ) :item.status==='fail'?(
-                  <XCircle className="text-red-500" />
-                ) :<LucideClockFading/>
-                }
-              </div>
-              <p className="text-sm">Build the Web’s Foundation</p>
-              <p className="text-sm">Reviewer: {item.mentorName}</p>
-              {/* <p className="text-sm">Attempt: {item.attempt}</p> */}
-              <div className="flex gap-2">
-                {
-                  ['fail','pass'].includes(item.status) &&
-                  <ContentViewerModal
-                  triggerer={<Button
-                    size="sm"
-                    variant="outline"
-                    className={`gap-2 cursor-pointer ${item.status==='pass' ? 'border-emerald-300 hover:bg-emerald-50 bg-transparent text-emerald-700' : 'border-red-300 hover:bg-red-50 bg-transparent text-red-700'}`}
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    Feedback
-                  </Button>}
-                  title='Feedback'
-                  description='Feedback'
-                  content={item.feedBack}
-                  />
-                }
-                 <ContentViewerModal
-                  triggerer={
-                  <Button size="sm" className="gap-2 cursor-pointer bg-black">
-                    <FileText className="w-4 h-4" />
-                    Task File
-                  </Button>}
-                  title="Task File"
-                  description="Task File"
-                  content={item.level.taskFile}
-                  />
-              </div>
-              <div className="bg-violet-200 text-sm rounded p-1">
-                status: {item.status}
-              </div>
-            </CardContent>
-          </Card>
+        <CompletedLevelCard review={item} index={index}/>
         ))}
 
         {/* Locked Card */}
-
         {nextLevels?.map((nextLevel,index)=>(
         index===0 && reviews?.[reviews.length-1]?.status!=='pending'
         ? <Card key={index} className="text-black">
