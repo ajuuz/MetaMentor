@@ -1,5 +1,5 @@
 import type { LevelType } from "./levelTypes"
-import type { ReviewEntity } from "./reviewTypes"
+import type { ReviewEntity, StudentReviewCard } from "./reviewTypes"
 
 export type DomainEntity={
     _id:string,
@@ -29,7 +29,7 @@ export type GetAllDomains={
 
 //enrolled domainType
 export type EnrolledDomain={
-    reviews:ReviewEntity[]
+    reviews:StudentReviewCard[]
     domain:Omit<DomainEntity,'isBlocked'>
     noOfLevelPassed:number
     nextLevels:LevelType[]

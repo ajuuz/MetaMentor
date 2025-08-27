@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query"
 import { cancelReviewByMentor } from "@/services/mentorService.ts/reviewApi"
 import { toast } from "sonner"
 import { queryClient } from "@/config/tanstackConfig/tanstackConfig"
+import ContentViewerModal from "../common/ContentViewerModal"
 
 
 type Props={
@@ -91,20 +92,23 @@ const ReviewCard = ({review,isNotOver}:Props) => {
               </div>
 
               <div className="flex gap-2">
-                    <Button size="sm" className="gap-2 bg-slate-900 hover:bg-slate-800">
-                      <FileText className="w-4 h-4" />
-                      Task File
-                    </Button>
-                    {review.status!=='pending' &&
-                    <Button
-                    size="sm"
-                    variant="outline"
-                    className="gap-2 border-slate-300 hover:bg-slate-50 bg-transparent"
-                    >
-                      <MessageSquare className="w-4 h-4" />
-                      Feedback
-                    </Button>
-                    }
+                <ContentViewerModal
+                  triggerer={ <Button size="sm" className="gap-2 bg-slate-900 hover:bg-slate-800">
+                    <FileText className="w-4 h-4" />
+                    Task File
+                  </Button>}
+                  title='Task File'
+                  description='Task File'
+                  content={review.level.taskFile}
+                />
+                  {review.status!=='pending' &&
+                  <ContentViewerModal
+                  triggerer={<Button  size="sm" variant="outline" className="gap-2 border-slate-300 hover:bg-slate-50 bg-transparent"><MessageSquare className="w-4 h-4" />Feedback</Button>}
+                  title='Feedback'
+                  description='Feedback'
+                  content={review.feedBack}
+                    />
+                  }
                 </div>
 
                 <div className="flex gap-3">

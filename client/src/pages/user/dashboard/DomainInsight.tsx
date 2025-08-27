@@ -1,13 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, XCircle, Lock, LucideClockFading } from "lucide-react";
+import { CheckCircle, XCircle, Lock, LucideClockFading, FileText, MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import type { StudentReviewCard } from "@/types/reviewTypes";
 import type { DomainEntity } from "@/types/domainTypes";
 import type { LevelType } from "@/types/levelTypes";
 import { useEnrolledDomainQuery } from "@/hooks/domain";
+import ContentViewerModal from "@/components/common/ContentViewerModal";
 
 
 const DomainInsight = () => {
@@ -101,9 +102,30 @@ const DomainInsight = () => {
               <div className="flex gap-2">
                 {
                   ['fail','pass'].includes(item.status) &&
-                  <Button variant="secondary">FeedBack</Button>
+                  <ContentViewerModal
+                  triggerer={<Button
+                    size="sm"
+                    variant="outline"
+                    className={`gap-2 cursor-pointer ${item.status==='pass' ? 'border-emerald-300 hover:bg-emerald-50 bg-transparent text-emerald-700' : 'border-red-300 hover:bg-red-50 bg-transparent text-red-700'}`}
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    Feedback
+                  </Button>}
+                  title='Feedback'
+                  description='Feedback'
+                  content={item.feedBack}
+                  />
                 }
-                <Button variant="secondary">Task File</Button>
+                 <ContentViewerModal
+                  triggerer={
+                  <Button size="sm" className="gap-2 cursor-pointer bg-black">
+                    <FileText className="w-4 h-4" />
+                    Task File
+                  </Button>}
+                  title="Task File"
+                  description="Task File"
+                  content={item.level.taskFile}
+                  />
               </div>
               <div className="bg-violet-200 text-sm rounded p-1">
                 status: {item.status}
@@ -126,7 +148,16 @@ const DomainInsight = () => {
               {/* <p className="text-sm">Attempt: {item.attempt}</p> */}
                 <Button onClick={()=>navigate(`/review/schedule/${domainId}/${nextLevel._id}`)}>Schedule Review</Button>
               <div className="flex gap-2">
-                <Button variant="secondary">Task File</Button>
+              <ContentViewerModal
+                  triggerer={
+                  <Button size="sm" className="gap-2 cursor-pointer bg-black">
+                    <FileText className="w-4 h-4" />
+                    Task File
+                  </Button>}
+                  title="Task File"
+                  description="Task File"
+                  content={nextLevel.taskFile}
+                  />
               </div>
               <div className="bg-violet-200 text-sm rounded p-1">
                 Remark: Upcoming

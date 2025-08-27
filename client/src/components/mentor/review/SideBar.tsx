@@ -1,3 +1,4 @@
+import ContentViewerModal from "@/components/common/ContentViewerModal"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -59,7 +60,7 @@ const SideBar = ({review}:Props) => {
                       <span className="text-sm font-medium text-slate-600">Domain</span>
                     </div>
                     <Badge variant="secondary" className="w-full justify-center py-2 bg-blue-50 text-blue-700 border-blue-200">
-                      {review.domainName}
+                      {review?.domainName?.length>15?review?.domainName.slice(0,15)+"...":review?.domainName}
                     </Badge>
                   </div>
 
@@ -71,20 +72,31 @@ const SideBar = ({review}:Props) => {
                       <span className="text-sm font-medium text-slate-600">Level</span>
                     </div>
                     <Badge variant="outline" className="w-full justify-center py-2 border-green-200 text-green-700">
-                      {review.level.name}
+                      {review?.level?.name?.length>15?review?.level?.name.slice(0,15)+"...":review?.level?.name}
                     </Badge>
                   </div>
 
                   <div className="flex flex-col gap-2 pt-4">
-                    <Button size="sm" className="gap-2 bg-slate-900 hover:bg-slate-800">
+                    <ContentViewerModal
+                    triggerer={<Button size="sm" className="gap-2 bg-slate-900 hover:bg-slate-800">
                       <FileText className="w-4 h-4" />
                       Task File
-                    </Button>
+                    </Button>}
+                    title="Task File"
+                    description="Task File"
+                    content={review.level.taskFile}
+                    />
+                    
                     {review.feedBack && (
-                      <Button size="sm" variant="outline" className="gap-2">
+                      <ContentViewerModal
+                      triggerer={ <Button size="sm" variant="outline" className="gap-2">
                         <MessageSquare className="w-4 h-4" />
                         Feedback
-                      </Button>
+                      </Button>}
+                      title="Feedback"
+                      description="Feedback"
+                      content={review.feedBack}
+                      />
                     )}
                   </div>
                 </div>

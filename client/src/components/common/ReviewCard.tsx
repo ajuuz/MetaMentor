@@ -10,6 +10,7 @@ import { cancelReviewByStudent } from '@/services/userService/reviewApi'
 import { toast } from 'sonner'
 import { queryClient } from '@/config/tanstackConfig/tanstackConfig'
 import { useMutation } from '@tanstack/react-query'
+import ContentViewerModal from './ContentViewerModal'
 
 type Props = {
   review: GetStudentReviewResponseDTO,
@@ -105,19 +106,32 @@ const StudentReviewCard = ({ review, isNotOver }: Props) => {
           </div>
           
           <div className="flex gap-2">
+            <ContentViewerModal 
+            triggerer={
             <Button size="sm" className="gap-2 bg-emerald-800 hover:bg-emerald-700">
               <FileText className="w-4 h-4" />
               Task File
-            </Button>
+            </Button>}
+            title="Task File"
+            description="Task File"
+            content={review.level.taskFile}
+            />
+            
             {review.status !== 'pending' && (
-              <Button
+              <ContentViewerModal
+              triggerer={<Button
                 size="sm"
                 variant="outline"
                 className="gap-2 border-emerald-300 hover:bg-emerald-50 bg-transparent text-emerald-700"
               >
                 <MessageSquare className="w-4 h-4" />
                 Feedback
-              </Button>
+              </Button>}
+              title='Feedback'
+              description='Feedback'
+              content={review.feedBack}
+              />
+              
             )}
           </div>
 

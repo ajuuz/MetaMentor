@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import type { MentorReviewCard } from '@/types/reviewTypes'
 import { formattedIsoDate, toTimeString } from '@/utils/helperFunctions/toTimeString'
 import { AnimatePresence } from 'framer-motion'
-import { Award, CheckCircle, FileText, X, XCircle } from 'lucide-react'
+import { Award, CheckCircle, FileText, MessageSquare, X, XCircle } from 'lucide-react'
 import {motion} from 'framer-motion'
 import { useState } from 'react'
 import { Label } from '@/components/ui/label'
@@ -15,6 +15,7 @@ import { useMutation } from '@tanstack/react-query'
 import { submitReviewFeedBack } from '@/services/mentorService.ts/reviewApi'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
+import ContentViewerModal from '@/components/common/ContentViewerModal'
 
 type Props={
     review:MentorReviewCard,
@@ -94,7 +95,7 @@ const Completed = ({review,startTime,endTime}:Props) => {
   }
 
   const handleSubmitFeedBack=(status:Exclude<ReviewStatus,'cancelled'|'pending'>)=>{
-        const isValid=/^(?=.*[a-zA-Z])[a-zA-Z0-9 ]{6,}$/.test(feedBack)
+    const isValid = (feedBack.match(/[a-zA-Z]/g) || []).length >= 6;
         if(!isValid) {
           setFeedBackError("Reason should have more than 5 alphabets");
           return
@@ -168,10 +169,15 @@ const Completed = ({review,startTime,endTime}:Props) => {
                     <FileText className="w-5 h-5" />
                     Add Feedback
                   </Button>
-                  :<Button onClick={()=>setFeedBackPopupToggle(true)} variant="outline" className="gap-2">
-                    <FileText className="w-5 h-5" />
-                    View Feedback
-                  </Button>
+                  : <ContentViewerModal
+                  triggerer={ <Button size="sm" variant="outline" className="gap-2">
+                    <MessageSquare className="w-4 h-4" />
+                    Feedback
+                  </Button>}
+                  title="Feedback"
+                  description="Feedback"
+                  content={review.feedBack}
+                  />
                 }
               </div>
             </CardContent>
