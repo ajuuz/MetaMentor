@@ -4,6 +4,7 @@ import type { MutationApiResponse } from "@/types/responseType";
 
 export const addDomain=async(domainDetails:DomainCreationType):Promise<MutationApiResponse>=>{
     try{
+        console.log(domainDetails)
         const response = await adminAxiosInstance.post('/domains',domainDetails)
         return response.data;
     }

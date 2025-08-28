@@ -93,5 +93,7 @@ export interface IGetReviewForMent {
     name: string;
     profileImage: string;
   };
+  practical:number,
+  mentorName: string;
   domainName: string;
 }

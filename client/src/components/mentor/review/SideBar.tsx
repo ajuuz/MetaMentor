@@ -33,7 +33,6 @@ const SideBar = ({ review }: Props) => {
   }
 
   return (
-    <div className="lg:col-span-2">
       <Card className="h-fit overflow-hidden shadow-xl border-0 bg-white/80 backdrop-blur-sm">
         <CardContent className="p-0 h-full grid grid-cols-2 flex items-center justify-center">
           {/* Student Info */}
@@ -157,7 +156,6 @@ const SideBar = ({ review }: Props) => {
 
         </CardContent>
       </Card>
-    </div>
   )
 }
 

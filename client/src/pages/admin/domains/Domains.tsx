@@ -2,6 +2,7 @@ import AlertDialogComponent from "@/components/common/AlertDialogComponent";
 import FilterComponent from "@/components/common/FilterComponent";
 import PaginationComponent from "@/components/common/PaginationComponent";
 import TableComponent from "@/components/common/TableComponent";
+import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
 import { useAdminGetAllDomainsQuery } from "@/hooks/domain";
@@ -9,7 +10,7 @@ import { updateDomainStatus } from "@/services/adminService.ts/domainApi";
 import type { TableDetailsType } from "@/types/tableDataTypes";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const Domains = () => {
@@ -21,6 +22,7 @@ const Domains = () => {
   const [searchTerm, setSearchTerm] = useState<string>(searchParams.get("searchTerm") || "");
   const [sortBy, setSortBy] = useState<string>(searchParams.get("sortBy") || "name-asc");
 
+  const navigate = useNavigate()
   const { data: domainsResponse, isError } = useAdminGetAllDomainsQuery(
     currentPage,
     10,
@@ -92,13 +94,18 @@ const Domains = () => {
   return (
     <div className="flex flex-col gap-5">
       {/* Filters */}
-      <div className='flex justify-center'>
-      <FilterComponent searchTerm={searchTerm}
-       setSearchTerm={setSearchTerm}
-        sortBy={sortBy}
-         setSortBy={setSortBy}
-         contentForSortSelect={contentForSortSelect}
-        setCurrentPage={setCurrentPage}/>
+      <div className='flex justify-between gap-10 px-5'>
+        <div className="flex-6">
+          <FilterComponent searchTerm={searchTerm}
+           setSearchTerm={setSearchTerm}
+           sortBy={sortBy}
+           setSortBy={setSortBy}
+           contentForSortSelect={contentForSortSelect}
+           setCurrentPage={setCurrentPage}/>
+       </div>
+        <div className="flex-1 flex items-center justify-center">
+          <Button onClick={()=>navigate('/admin/domains/add')}>Add Domain</Button>
+        </div>
       </div>
 
       <div className="mx-5 space-y-4">

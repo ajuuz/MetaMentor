@@ -27,3 +27,9 @@ export const REVIEW_STATUS={
 } as const;
 
 export type ReviewStatus = typeof REVIEW_STATUS[keyof typeof REVIEW_STATUS];
+
+export const LEVEL_TASK_TYPE={
+    LINK:'link',
+    TEXT:'text'
+} as const;
+export type LevelTaskType = typeof LEVEL_TASK_TYPE[keyof typeof LEVEL_TASK_TYPE];

@@ -1,10 +1,21 @@
-import { IsString, IsNotEmpty, MaxLength } from "class-validator";
+import { Type } from "class-transformer";
+import { IsString, IsNotEmpty, MaxLength, ValidateNested, IsEnum } from "class-validator";
+import { LEVEL_TASK_TYPE } from "shared/constants";
 
-export class LevelReqDTO {
+
+export class TaskReqDTO {
+  @IsEnum(LEVEL_TASK_TYPE, { message: "Task type must be either 'link' or 'text'" })
+  type!:LEVEL_TASK_TYPE;
 
   @IsString()
+  @IsNotEmpty({ message: "Task content must not be empty" })
+  content!: string;
+}
+
+export class LevelReqDTO {
+  @IsString()
   @IsNotEmpty()
-  @MaxLength(20, { message: "Name must be at most 10 characters long" })
+  @MaxLength(20, { message: "Name must be at most 20 characters long" })
   name!: string;
 
   @IsString()
@@ -14,4 +25,8 @@ export class LevelReqDTO {
   @IsString()
   @IsNotEmpty()
   taskFile!: string;
+
+  @ValidateNested({ each: true })
+  @Type(() => TaskReqDTO)
+  tasks!: TaskReqDTO[];
 }

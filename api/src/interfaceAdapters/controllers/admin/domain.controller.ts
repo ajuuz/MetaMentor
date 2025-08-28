@@ -26,6 +26,7 @@ export class AdminDomainController implements IAdminDomainController {
 
   async addDomain(req: Request, res: Response): Promise<void> {
     const domainDetails = req.verifiedData;
+    console.log(domainDetails);
     await this._addDomainUsecase.execute(domainDetails);
     res
       .status(HTTP_STATUS.CREATED)
