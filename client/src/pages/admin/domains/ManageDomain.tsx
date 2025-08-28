@@ -1,146 +1,214 @@
-import { ModalComponent } from "@/components/common/ModalComponent"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Textarea } from "@/components/ui/textarea"
-import { addDomain } from "@/services/adminService.ts/domainApi"
-import type { DomainCreationType, DomainEntity } from "@/types/domainTypes"
-import { imageUploader } from "@/utils/helperFunctions/imageUploadFunction"
-import { useMutation } from "@tanstack/react-query"
-import { Image, X } from "lucide-react"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { toast } from "sonner"
+import LevelDialog from "@/components/admin/LevelDialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import { addDomain } from "@/services/adminService.ts/domainApi";
+import type { AddLevel } from "@/types/levelTypes";
+import { imageUploader } from "@/utils/helperFunctions/imageUploadFunction";
+import { useMutation } from "@tanstack/react-query";
+import { Image, X } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
+const formSchema = z.object({
+  name: z.string().trim().min(1, "Name is required"),
+  description: z.string().trim().min(10, "Description must be at least 10 characters"),
+  motive: z.string().trim().min(10, "Motive must be at least 10 characters"),
+  image: z
+    .instanceof(File, { message: "Image is required" })
+    .refine((file) => file.size > 0, "Image is required"),
+  levels: z.array(
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      taskFile: z.string(),
+      tasks: z.array(
+        z.object({
+          type: z.enum(["link", "text"]),
+          content: z.string(),
+        })
+      ),
+    })
+  ).min(3, "Need more than 2 levels"),
+});
+
+type DomainForm = z.infer<typeof formSchema>;
 
 const ManageDomain = () => {
-    const [domainDetails,setDomainDetails]=useState<DomainCreationType>({
-        name:'',
-        description:"",
-        motive:"",
-        image:"",
-        levels:[]
-    })
-    const [errors,setErrors] = useState<Partial<DomainCreationType&{noOfLevel:string}>>({})
-    const [prevImage,setPrevImage]=useState<File|null>(null);
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [prevImage, setPrevImage] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm<DomainForm>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      motive: "",
+      image: undefined,
+      levels: [],
+    },
+  });
 
-    const {mutate:addDomainMutation}=useMutation({
-        mutationFn:addDomain,
-        onSuccess:(response)=>{
-            toast.success(response.message)
-            navigate('/admin/domains')
-        },
-        onError:(error)=>{
-            toast.error(error.message)
-        }
-    })
+  const levels = watch("levels");
 
-    const handleChange=(e:React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>)=>{
-        setDomainDetails(prev=>({...prev,[e.target.name]:e.target.value}));
+  const { mutate: addDomainMutation } = useMutation({
+    mutationFn: addDomain,
+    onSuccess: (response) => {
+      toast.success(response.message);
+      navigate("/admin/domains");
+      reset();
+    setPrevImage(null);
+    setIsLoading(false)
+},
+onError: (error: any) => {
+        setIsLoading(false)
+      toast.error(error.message);
+    },
+  });
+
+  const onSubmit = async (data: DomainForm) => {
+    setIsLoading(true)
+    const imageUrl = await imageUploader([data.image]);
+    const finalData = {
+      ...data,
+      image: imageUrl[0].url,
+    };
+    addDomainMutation(finalData);
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      setPrevImage(file);
+      setValue("image", file); // sync with react-hook-form
     }
+  };
 
-    const handleImageChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
-    const file = e.target.files?e.target.files[0]:null
-    setPrevImage(file)
-    }
+  const addLevel = (level: AddLevel) => {
+    setValue("levels", [...levels, level]);
+  };
 
-    const addLevel=({name,description,taskFile}:Record<string,string>)=>{
-        setDomainDetails(prev=>({...prev,levels:[...prev.levels,{name,description,taskFile}]}))
-    }
-
-    const handleRemoveLevel=(index:number)=>{
-        setDomainDetails(prev=>({...prev,levels:prev.levels.filter((_,i)=>index!==i)}))
-    }
-
-    const formSchema = z.object({
-      name: z.string().trim().min(1, "Name is required"),
-      description: z.string().trim().min(10, "Description must be at least 10"),
-      motive: z.string().trim().min(10, "Motive must be at least 10"),
-      image:z.instanceof(File).refine(file => file.size > 0,"Image file is required"),
-      noOfLevel:z.number().gt(2, "Need more than 2 levels"),
-    });
-
-    const handleSubmit=async()=>{
-        const {levels,image,...rest}=domainDetails;
-        const result = formSchema.safeParse({...rest,image:prevImage,noOfLevel:levels.length});
-        if(!result.success){
-            const fieldErrors:Partial<DomainEntity & {noOfLevel:string}>={}
-            result.error.errors.forEach((error)=>{
-                const k = error.path[0] as keyof (Omit<DomainEntity,'levels'|'_id'|'isBlocked'> & {noOfLevel:string});
-                fieldErrors[k]=error.message
-            })
-
-            setErrors(prev=>({...prev,...fieldErrors}));
-            setTimeout(()=>{
-                setErrors({})
-            },3000) 
-            return;
-        }
-
-        const imageUrl = await imageUploader([prevImage!])
-        domainDetails.image=imageUrl[0].url
-        addDomainMutation(domainDetails)
-    }
+  const handleRemoveLevel = (index: number) => {
+    setValue(
+      "levels",
+      levels.filter((_, i) => i !== index)
+    );
+  };
 
   return (
-    <div className="w-screen grid grid-cols-1 md:grid-cols-2 p-5 gap-5">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-screen grid grid-cols-1 md:grid-cols-2 p-5 gap-5"
+    >
+      {/* LEFT SIDE */}
       <div className="flex-1 flex flex-col gap-5 items-center">
-            <h3 className="font-medium text-2xl">ADD DOMAIN</h3>
-            <Label htmlFor="domainImage" className={`${!prevImage?"p-9 px-12":"p-4"} border-5 relative border-red-200 border-dashed bg-red-200/40 rounded-[50%] flex flex-col`}>
-                {
-                  !prevImage
-                  ?<div>
-                    <Image className="text-red-400/70" size={70}/>
-                    <p className="text-red-400/70 font-medium">Add Image</p>
-                    {errors?.image && <div className="bg-red-400 text-white p-3 rounded-xl absolute top-0 -right-6">{errors.image}</div>}
-                    </div>
-                  :<img src={URL.createObjectURL(prevImage)} className="w-24 h-24 rounded-full object-cover"/>
-                }
-                <Input className="hidden" type="file" accept="image/*" id="domainImage" onChange={handleImageChange}/>
-            </Label>
+        <h3 className="font-medium text-2xl">ADD DOMAIN</h3>
 
-            <div className="w-full">
-                <Label className="font-medium text-md">Name</Label>
-                <Input name="name" onChange={handleChange} placeholder="domain name.."/>
-                {errors?.name && <p className="text-red-400 text-sm">{errors.name}</p>}
+        {/* IMAGE UPLOAD */}
+        <Label
+          htmlFor="domainImage"
+          className={`${
+            !prevImage ? "p-9 px-12" : "p-4"
+          } border-5 relative border-red-200 border-dashed bg-red-200/40 rounded-[50%] flex flex-col`}
+        >
+          {!prevImage ? (
+            <div>
+              <Image className="text-red-400/70" size={70} />
+              <p className="text-red-400/70 font-medium">Add Image</p>
+              {errors?.image && (
+                <div className="bg-red-400 text-white p-3 rounded-xl absolute top-0 -right-6">
+                  {errors.image.message?.toString()}
+                </div>
+              )}
             </div>
+          ) : (
+            <img
+              src={URL.createObjectURL(prevImage)}
+              className="w-24 h-24 rounded-full object-cover"
+            />
+          )}
+          <Input
+            className="hidden"
+            type="file"
+            accept="image/*"
+            id="domainImage"
+            onChange={handleImageChange}
+          />
+        </Label>
 
-            <div className="w-full">
-                <Label className="font-medium text-lg">Description</Label>
-                <Textarea name="description" onChange={handleChange}  placeholder="Describe about the Domain.." className="h-35 max-w-200"/>
-                {errors?.description && <p className="text-red-400 text-sm">{errors.description}</p>}
-            </div>
+        {/* NAME */}
+        <div className="w-full">
+          <Label className="font-medium text-md">Name</Label>
+          <Input {...register("name")} placeholder="domain name.." />
+          {errors?.name && <p className="text-red-400 text-sm">{errors.name.message}</p>}
+        </div>
 
-            <div className="w-full">
-                <Label className="font-medium text-lg">why Should i Learn?</Label>
-                <Textarea name="motive" onChange={handleChange} placeholder="Describe about the Domain.." className="h-30"/>
-                {errors?.motive && <p className="text-red-400 text-sm">{errors.motive}</p>}
-            </div>
+        {/* DESCRIPTION */}
+        <div className="w-full">
+          <Label className="font-medium text-lg">Description</Label>
+          <Textarea {...register("description")} placeholder="Describe about the Domain.." />
+          {errors?.description && (
+            <p className="text-red-400 text-sm">{errors.description.message}</p>
+          )}
+        </div>
+
+        {/* MOTIVE */}
+        <div className="w-full">
+          <Label className="font-medium text-lg">Why Should I Learn?</Label>
+          <Textarea {...register("motive")} placeholder="Describe about the Domain.." />
+          {errors?.motive && (
+            <p className="text-red-400 text-sm">{errors.motive.message}</p>
+          )}
+        </div>
       </div>
 
+      {/* RIGHT SIDE */}
       <div className="flex-1 flex flex-col gap-5 items-center">
-            <ModalComponent dialogTriggerer={<Button>ADD Level</Button>} dialogTitle="Add new Level" dialogDescription="you can remove the level before publishing" content={[{label:'Name',name:'name',placeHolder:"HTML AND CSS",typeOfInput:'input'},{label:'Description',name:'description',placeHolder:"Enter a short description about the level..",typeOfInput:'textArea'},{label:'TaskFile',name:'taskFile',placeHolder:"Enter task file",typeOfInput:'textArea'}]} handleApproval={addLevel}/>
-            <ScrollArea className="h-4/5 w-full rounded-md border">
-              <div className="p-4 flex flex-col gap-3">
-                    {
-                    domainDetails.levels.map((level,index)=>
-                        (<div className="flex  flex-col gap-3 items-center border rounded-2xl py-2 relative">
-                            <X onClick={()=>handleRemoveLevel(index)} size={30} className="absolute cursor-pointer top-0 right-0 bg-red-500 text-white p-1 scale-75 rounded-2xl"/>
-                            <div className="font-medium text-2x px-4 py-2 bg-black rounded-4xl  text-white">{index+1}</div>
-                            <h5 className="font-medium text-lg">{level.name.length>15?level.name.slice(0,15)+'...':level.name}</h5>
-                        </div>)
-                    )
-                    }
+        <LevelDialog addLevel={addLevel} />
+        <ScrollArea className="h-4/5 w-full rounded-md border">
+          <div className="p-4 flex flex-col gap-3">
+            {levels.map((level, index) => (
+              <div
+                key={index}
+                className="flex flex-col gap-3 items-center border rounded-2xl py-2 relative"
+              >
+                <X
+                  onClick={() => handleRemoveLevel(index)}
+                  size={30}
+                  className="absolute cursor-pointer top-0 right-0 bg-red-500 text-white p-1 scale-75 rounded-2xl"
+                />
+                <div className="font-medium text-2x px-4 py-2 bg-black rounded-4xl text-white">
+                  {index + 1}
+                </div>
+                <h5 className="font-medium text-lg">
+                  {level.name.length > 15 ? level.name.slice(0, 15) + "..." : level.name}
+                </h5>
               </div>
-            </ScrollArea>
-            {errors?.noOfLevel && <p className="text-red-400 text-sm">{errors.noOfLevel}</p>}
-            <Button onClick={handleSubmit} className="w-full">ADD DOMAIN</Button>
+            ))}
+          </div>
+        </ScrollArea>
+        {errors?.levels && (
+          <p className="text-red-400 text-sm">{errors.levels.message?.toString()}</p>
+        )}
+        <Button disabled={isLoading} type="submit" className="w-full">
+          {isLoading ? "Adding..." : "ADD DOMAIN"}
+        </Button>
       </div>
-    </div>
-  )
-}
+    </form>
+  );
+};
 
-export default ManageDomain
+export default ManageDomain;

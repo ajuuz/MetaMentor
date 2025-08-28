@@ -65,7 +65,6 @@ export default function ScheduleReview() {
           a: { start: number; end: number },
           b: { start: number; end: number }
         ) => a.start < b.end && b.start < a.end;
-        console.log(domainSlots);
         const transformed: DomainSlotsResponseDTO[] = domainSlots.map(
           (mentorSlot) => {
             const transformedWeekSlots: WeekSlotsWithBookingType = {
@@ -94,12 +93,15 @@ export default function ScheduleReview() {
             return { ...mentorSlot, weekSlots: transformedWeekSlots };
           }
         );
+        console.log(transformed)
         setDomainsSlots(transformed);
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
+
+
 
   const { mutate: slotValidityCheckerMutation } = useMutation({
     mutationFn: slotValidityChecker,

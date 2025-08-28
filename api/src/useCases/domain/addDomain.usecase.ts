@@ -29,7 +29,7 @@ export class AddDomainUsecase implements IAddDomainUsecase{
             for(let i=0;i<levels.length;i++){
                 levels[i].domainId=domainId
             }
-            
+            console.log(levels[0])
             const asyncOperations=[];
             asyncOperations.push(this._domainRepository.save(domain))
             asyncOperations.push(this._levelRepository.insertMany(levels))

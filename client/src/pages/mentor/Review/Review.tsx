@@ -2,7 +2,7 @@ import {  Loader2 } from 'lucide-react'
 import { Card, CardContent} from "@/components/ui/card"
 import { useState, useEffect } from "react"
 import { Button } from '@/components/ui/button'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { useGetReviewForMentorQuery } from '@/hooks/tanstack/review'
 import SideBar from '@/components/mentor/review/SideBar'
@@ -14,9 +14,9 @@ import Completed from '@/components/mentor/review/Completed'
 const ReviewPage = () => {
   const { reviewId } = useParams<{ reviewId: string }>()
   const [currentTime, setCurrentTime] = useState(new Date())
-
-
   const {data:review,error,isLoading:loading}=useGetReviewForMentorQuery(reviewId!)
+  
+  const navigate = useNavigate()
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -114,7 +114,10 @@ const ReviewPage = () => {
         <div className="grid lg:grid-cols-4 gap-6 h-[calc(100vh-3rem)] relative">
 
           {/* Left Sidebar - Student Details */}
+          <div className="lg:col-span-2">
+          <Button className='w-full' onClick={() => navigate(-1)} variant="outline">Back</Button>
           <SideBar review={review}/>
+          </div>
 
           {/* Main Content Area */}
           <div className="lg:col-span-2">

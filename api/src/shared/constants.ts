@@ -180,3 +180,8 @@ export enum SORT_ORDER{
   ASC='asc',
   DESC='desc'
 }
+
+export enum LEVEL_TASK_TYPE{
+  LINK='link',
+  TEXT='text'
+}

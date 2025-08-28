@@ -1,5 +1,5 @@
-import type { LevelType } from "./levelTypes"
-import type { ReviewEntity, StudentReviewCard } from "./reviewTypes"
+import type { AddLevel, LevelType } from "./levelTypes"
+import type { StudentReviewCard } from "./reviewTypes"
 
 export type DomainEntity={
     _id:string,
@@ -12,12 +12,8 @@ export type DomainEntity={
 
 export type DomainWithLevel= DomainEntity & {levels:LevelType[]}
 
-export type DomainCreationType={
-    name:string,
-    description:string,
-    motive:string,
-    image:string,
-    levels:{name:string,description:string,taskFile:string}[]
+export type DomainCreationType= Omit<DomainEntity,'_id'|'isBlocked'> & {
+    levels:AddLevel[]
 }
 
 export type GetAllDomains={
