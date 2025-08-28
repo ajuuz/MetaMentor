@@ -6,5 +6,6 @@ export interface IUserReviewController {
     res: Response,
   ): Promise<void>;
   getAllReviews(req: Request, res: Response): Promise<void>;
+  getReviewsByDay(req: Request, res: Response): Promise<void>
   cancelReview(req: Request, res: Response): Promise<void>;
 }

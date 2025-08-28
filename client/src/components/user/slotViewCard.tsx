@@ -42,7 +42,7 @@ export const SlotViewCard = ({
     setSelectedSlotPopup("");
   };
   return (
-    <Card className="fixed left-1/2 top-1/2 w-[90%] max-w-xl -translate-x-1/2 -translate-y-1/2 rounded-2xl shadow-xl p-6 md:p-10 bg-white z-50">
+    <Card className="fixed  left-1/2 top-1/2 w-[90%] max-w-xl -translate-x-1/2 -translate-y-1/2 rounded-2xl shadow-xl p-6 md:p-10 bg-white z-1000">
       <X
         onClick={handleClose}
         className=" right-3 top-2 bg-black text-white rounded-full p-1"

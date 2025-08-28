@@ -1,6 +1,6 @@
 import {  getReviewForMentor, getReviewsForMentor } from "@/services/mentorService.ts/reviewApi"
-import { getReviewsForStudent } from "@/services/userService/reviewApi"
-import type { GetReviewsForMentorResponse, GetReviewsForStudentResponse, MentorReviewCard } from "@/types/reviewTypes"
+import { getReviewsForStudent, getSlotReviewsForStudent } from "@/services/userService/reviewApi"
+import type { GetDomainReviewSlotResponseDTO, GetReviewsForMentorResponse, GetReviewsForStudentResponse, MentorReviewCard } from "@/types/reviewTypes"
 import type { DATE_RANGE, PENDING_REVIEW_STATE, REVIEW_FILTER_STATUS } from "@/utils/constants"
 import { useQuery } from "@tanstack/react-query"
 
@@ -24,5 +24,13 @@ export const useGetReviewsForStudentQuery=(status:REVIEW_FILTER_STATUS,dateRange
     return useQuery<GetReviewsForStudentResponse>({
         queryKey:['getReviewsForStudent',status,dateRange,currentPage,limit,pendingReviewState],
         queryFn:()=> getReviewsForStudent(status,dateRange,currentPage,limit,pendingReviewState)
+    })
+}
+
+export const useGetSlotReviewsForStudentQuery=(mentorId:string|undefined,date:string)=>{
+    return useQuery<GetDomainReviewSlotResponseDTO>({
+        queryKey:['getDomainReviewsSlot',mentorId,date],
+        queryFn:()=> getSlotReviewsForStudent(mentorId!,date),
+        enabled: !!mentorId && !!date,
     })
 }

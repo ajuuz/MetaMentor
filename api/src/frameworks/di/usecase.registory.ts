@@ -107,6 +107,10 @@ import { IGetEnrolledCommunitiesUsecase } from "entities/usecaseInterfaces/commu
 import { GetEnrolledCommunitiesUsecase } from "useCases/community/getEnrolledCommunities.usecase";
 import { ISaveFcmTokenUsecase } from "entities/usecaseInterfaces/fcmToken/saveFcmTokenUsecase.interface";
 import { SaveFcmTokenUsecase } from "useCases/fcmToken/saveFcmToken.usecase";
+import { IGetSlotsForStudUsecase } from "entities/usecaseInterfaces/slot/getSlotsForStudUsecase.interface";
+import { GetSlotsForStudUsecase } from "useCases/slot/getSlotsForStud.usecase";
+import { IGetReviewByDayForStudUsecase } from "entities/usecaseInterfaces/review/getReviewByDayForStudUsecase.interface";
+import { GetReviewByDayForStudUsecase } from "useCases/review/getReviewByDayForStud.usecase";
 
 export class UseCaseRegistory{
     static registerUsecases():void{
@@ -258,6 +262,9 @@ export class UseCaseRegistory{
         container.register<IGetDomainSlotsUsecase>('IGetDomainSlotsUsecase',{
             useClass:GetDomainSlotsUsecase
         })
+        container.register<IGetSlotsForStudUsecase>('IGetSlotsForStudUsecase',{
+            useClass:GetSlotsForStudUsecase
+        })
         container.register<ISlotValidityCheckerUsecase>('ISlotValidityCheckerUsecase',{
             useClass:SlotValidityCheckerUsecase
         })
@@ -299,6 +306,9 @@ export class UseCaseRegistory{
         })
         container.register<ICancelReviewByStudentUsecase>('ICancelReviewByStudentUsecase',{
             useClass:CancelReviewByStudentUsecase
+        })
+        container.register<IGetReviewByDayForStudUsecase>('IGetReviewByDayForStudUsecase',{
+            useClass:GetReviewByDayForStudUsecase
         })
 
         //transaction usecase

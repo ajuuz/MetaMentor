@@ -19,6 +19,15 @@ export class GetDomainSlotsForStudReqDTO {
   domainId!: string;
 }
 
+export class GetSlotsForStudReqDTO {
+  @IsString()
+  @IsNotEmpty()
+  mentorId!: string;
+
+  @IsEnum(DAYS)
+  day!:DAYS
+}
+
 export class SlotValidityCheckReqDTO {
   @IsString()
   @IsNotEmpty()

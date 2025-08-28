@@ -1,7 +1,7 @@
 import { userAxiosInstance } from "@/config/axiosConfig/userAxiosConfig";
 import type { MutationApiResponse } from "@/types/responseType";
 import type { GetDomainReviewSlotResponseDTO } from "@/types/reviewTypes";
-import type { DomainSlotsResponseDTO } from "@/types/slotTypes";
+import type { DomainSlotsResponseDTO, Slot } from "@/types/slotTypes";
 
 
 
@@ -14,6 +14,17 @@ export const getDomainSlots=async(domainId:string):Promise<{domainSlots:DomainSl
          throw error?.response?.data || error
    }
 }
+
+export const getSlotsForStud=async(mentorId:string|undefined,day:string):Promise<Slot[]>=>{
+    try{
+         const response = await userAxiosInstance.get(`/slots/${mentorId}/${day}`)
+         return response.data;
+     }
+     catch(error:any){
+         throw error?.response?.data || error
+   }
+}
+
 
 
 export const slotValidityChecker=async({mentorId,day,slotId}:{mentorId:string,day:string,slotId:string}):Promise<MutationApiResponse>=>{

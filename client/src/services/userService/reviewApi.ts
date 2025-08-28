@@ -24,6 +24,16 @@ export const getReviewsForStudent=async(status:REVIEW_FILTER_STATUS,dateRange:DA
     }
 }
 
+    export const getSlotReviewsForStudent=async(mentorId:string|undefined,date:string)=>{
+      try{
+        const response = await userAxiosInstance.get(`/reviews/${mentorId}/${date}`)
+        return response.data;
+    }
+    catch(error:any){
+        throw error?.response?.data || error
+    }
+}
+
 export const cancelReviewByStudent=async(reviewId:string):Promise<MutationApiResponse>=>{
       try{
         const response = await userAxiosInstance.patch(`/reviews/${reviewId}`)

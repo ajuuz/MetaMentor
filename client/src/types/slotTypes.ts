@@ -1,6 +1,13 @@
 
 export type DayOfWeekType ='Monday'|'Tuesday'|'Wednesday'|'Thursday'|'Friday'|'Saturday'|'Sunday';
 
+export type Slot={
+    _id:string,
+    start:number,
+    end:number,
+    enabled:boolean,
+    isBooked?:boolean
+}
 
 export type WeekSlotsType={
     Monday:{_id:string,start:number,end:number,enabled:boolean}[],

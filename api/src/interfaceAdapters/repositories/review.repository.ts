@@ -11,7 +11,7 @@ import {
   IReviewModel,
 } from "frameworks/database/models/bookedSlot.model";
 import mongoose, { FilterQuery, UpdateQuery } from "mongoose";
-import { PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
+import { DAYS, PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
 
 import { BaseRepository } from "./base.repository";
 
@@ -129,6 +129,46 @@ export class ReviewRepository
     ]);
     return reviews;
   }
+
+ async findByMentorAndDay(
+  mentorId: string,
+  startOfDay: Date,
+  endOfDay: Date
+): Promise<IGetBookedSlotsForStud[]> {
+  const reviews = await reviewModel.aggregate([
+    {
+      $match: {
+        mentorId: new mongoose.Types.ObjectId(mentorId),
+        "slot.isoStartTime": { $gte: startOfDay, $lte: endOfDay }, // ✅ date condition
+      },
+    },
+    {
+      $group: {
+        _id: "$mentorId",
+        slots: {
+          $push: {
+            _id: "$_id",
+            isoStartTime: "$slot.isoStartTime",
+            isoEndTime: "$slot.isoEndTime",
+            day: "$slot.day",
+            start: "$slot.start",
+            end: "$slot.end",
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        mentorId: { $toString: "$_id" }, 
+        slots: 1,                        
+      },
+    },
+  ]);
+
+  return reviews;
+}
+
 
   async findReviewsForStudent(
     filter: any,

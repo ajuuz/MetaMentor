@@ -1,3 +1,4 @@
+import Callender from "@/components/common/Callender";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -35,12 +36,15 @@ export default function ScheduleReview() {
   const [domainsSlots, setDomainsSlots] = useState<DomainSlotsResponseDTO[]>(
     []
   );
+  const [selectedMentor, setSelectedMentor] = useState<{mentorId:string,mentor:DomainSlotsResponseDTO['mentor']}|null>(null);
   const [selectedSlotPopup, setSelectedSlotPopup] = useState<string>("");
-
+  const [sheetOpen, setSheetOpen] = useState(false);
+  
   const { domainId, levelId } = useParams();
   if (!domainId || !levelId) {
     return <div>some thing wrong</div>;
   }
+
 
   useEffect(() => {
     (async function getDomainSlotFetch() {
@@ -101,7 +105,11 @@ export default function ScheduleReview() {
     })();
   }, []);
 
-
+  useEffect(()=>{
+    if(!sheetOpen){
+        setSelectedMentor(null)
+    }
+},[sheetOpen])
 
   const { mutate: slotValidityCheckerMutation } = useMutation({
     mutationFn: slotValidityChecker,
@@ -141,10 +149,26 @@ export default function ScheduleReview() {
     slotValidityCheckerMutation({ mentorId, day, slotId });
   };
 
+
+  const today = new Date();
+  const twoMonthsLater = new Date();
+  twoMonthsLater.setMonth(today.getMonth() + 2);
+
+
+  const handleSetSelectedMentor=(content:DomainSlotsResponseDTO)=>{
+    const selectedMentor={mentorId:content.mentorId,mentor:content.mentor}
+    setSelectedMentor(selectedMentor)
+  }
+
   return (
     <div className="p-5">
       {domainsSlots.map((content) => (
         <Card
+        key={content.mentorId}
+        onClick={() => {
+          handleSetSelectedMentor(content);
+          setSheetOpen(true);
+        }}
           className="max-w-5xl mx-auto p-4 rounded-2xl border shadow-md bg-white"
         >
           <div className="flex gap-6 items-start">
@@ -268,13 +292,20 @@ export default function ScheduleReview() {
                       </ScrollArea>
                     </div>
                   )
-
                   // <div>kdlsf</div>
               )}
             </div>
           </div>
         </Card>
       ))}
+       {/* <Callender sheetOpen={sheetOpen} 
+      setSheetOpen={setSheetOpen} 
+      today={today} 
+      twoMonthsLater={twoMonthsLater} 
+      selectedMentor={selectedMentor!}
+      domainId={domainId}
+      levelId={levelId}
+      />  */}
     </div>
   );
 }

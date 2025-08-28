@@ -9,12 +9,15 @@ import { validationMiddleware } from "interfaceAdapters/middlewares/validation.m
 import { ROLES } from "shared/constants";
 import { ApplyForMentorReqDTO } from "shared/dto/request/mentor.dto";
 import {
-    CancelReviewByMentorReqDTO,
+  CancelReviewByMentorReqDTO,
   GetReviewsForMentorReqDTO,
   GetReviewForMentorReqDTO,
   SubmitReviewResultReqDTO,
 } from "shared/dto/request/review.dto";
-import { UpdateSlotReqDTO, UpdateSlotStatusReqDTO } from "shared/dto/request/slot.dto";
+import {
+  UpdateSlotReqDTO,
+  UpdateSlotStatusReqDTO,
+} from "shared/dto/request/slot.dto";
 
 export class MentorRoutes {
   private _router: Router;

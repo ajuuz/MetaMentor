@@ -25,6 +25,12 @@ export interface IReviewRepository
 
   findByDomain(domainId: string): Promise<IGetBookedSlotsForStud[]>;
 
+  findByMentorAndDay(
+    mentorId: string,
+    startOfDay: Date,
+    endOfDay:Date
+  ): Promise<IGetBookedSlotsForStud[]>;
+
   findReviewsForMentor(
     filter: any,
     skip: number,
@@ -49,6 +55,6 @@ export interface IReviewRepository
 
   updateReview(
     filter: Record<string, string>,
-    update: Record<string, string|number>
+    update: Record<string, string | number>
   ): Promise<IReviewEntity | null>;
 }

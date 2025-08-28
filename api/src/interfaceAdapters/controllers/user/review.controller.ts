@@ -8,7 +8,8 @@ import {
 } from "shared/constants";
 import { ModifiedRequest } from "type/types";
 import { inject, injectable } from "tsyringe";
-import { CancelReviewByStudReqDTO, GetAllReviewsForStudReqDTO } from "shared/dto/request/review.dto";
+import { CancelReviewByStudReqDTO, GetAllReviewsForStudReqDTO, GetReviewByDayForStudReqDTO } from "shared/dto/request/review.dto";
+import { IGetReviewByDayForStudUsecase } from "entities/usecaseInterfaces/review/getReviewByDayForStudUsecase.interface";
 
 @injectable()
 export class UserReviewController implements IUserReviewController {
@@ -16,6 +17,9 @@ export class UserReviewController implements IUserReviewController {
 
     @inject("IGetReviewsForStudentUsecase")
     private _getReviewsForStudentUsecase: IGetReviewsForStudentUsecase,
+
+    @inject("IGetReviewByDayForStudUsecase")
+    private _getReviewByDayForStudUsecase: IGetReviewByDayForStudUsecase,
 
     @inject("ICancelReviewByStudentUsecase")
     private _cancelReviewByStudentUsecase: ICancelReviewByStudentUsecase
@@ -43,6 +47,21 @@ export class UserReviewController implements IUserReviewController {
     );
     res.status(HTTP_STATUS.OK).json(data);
   }
+  
+  async getReviewsByDay(req: Request, res: Response): Promise<void> {
+
+    const {
+      mentorId,
+      date
+    }: GetReviewByDayForStudReqDTO = req.verifiedData;
+    const data = await this._getReviewByDayForStudUsecase.execute(
+      mentorId,
+      date
+    );
+    res.status(HTTP_STATUS.OK).json(data[0]);
+  }
+
+
 
   async cancelReview(req: Request, res: Response): Promise<void> {
     const {reviewId}: CancelReviewByStudReqDTO = req.verifiedData;

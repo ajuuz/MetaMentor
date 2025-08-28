@@ -20,8 +20,9 @@ import {
 import {
   CancelReviewByStudReqDTO,
   GetAllReviewsForStudReqDTO,
+  GetReviewByDayForStudReqDTO,
 } from "shared/dto/request/review.dto";
-import { GetDomainSlotsForStudReqDTO, SlotValidityCheckReqDTO } from "shared/dto/request/slot.dto";
+import { GetDomainSlotsForStudReqDTO, GetSlotsForStudReqDTO, SlotValidityCheckReqDTO } from "shared/dto/request/slot.dto";
 import { UpdateUserDetailsReqDTO } from "shared/dto/request/user.dto";
 
 export class UserRoutes {
@@ -90,6 +91,11 @@ export class UserRoutes {
       validationMiddleware(GetDomainSlotsForStudReqDTO),
       userSlotController.getDomainSlots.bind(userSlotController)
     );
+    this._router.get(
+      "/slots/:mentorId/:day",
+      validationMiddleware(GetSlotsForStudReqDTO),
+      userSlotController.getSlots.bind(userSlotController)
+    );
     this._router.post(
       "/slots/:mentorId/:day/:slotId",
       validationMiddleware(SlotValidityCheckReqDTO),
@@ -101,6 +107,11 @@ export class UserRoutes {
       "/reviews",
       validationMiddleware(GetAllReviewsForStudReqDTO),
       userReviewController.getAllReviews.bind(userReviewController)
+    );
+    this._router.get(
+      "/reviews/:mentorId/:date",
+      validationMiddleware(GetReviewByDayForStudReqDTO),
+      userReviewController.getReviewsByDay.bind(userReviewController)
     );
     this._router.patch(
       "/reviews/:reviewId",
