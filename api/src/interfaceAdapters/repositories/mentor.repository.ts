@@ -10,7 +10,6 @@ import {
 } from "frameworks/database/models/mentor.model";
 import mongoose, { FilterQuery, Types } from "mongoose";
 import { SORT_ORDER } from "shared/constants";
-import { MentorUpdateDTO } from "shared/dto/mentorDTO";
 import { injectable } from "tsyringe";
 
 @injectable()
@@ -166,8 +165,8 @@ export class MentorRepository implements IMentorRepository {
   }
 
   async updateOne(
-    filter: Partial<MentorUpdateDTO.filter>,
-    update: Partial<MentorUpdateDTO.update>
+    filter: Partial<IMentorEntity>,
+    update: Partial<IMentorEntity>
   ): Promise<void> {
     await mentorModel.updateOne(filter, update);
   }

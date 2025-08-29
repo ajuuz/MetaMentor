@@ -1,8 +1,8 @@
-import { createTransactionDTO } from "shared/dto/transactionDTO";
+import { ITransactionEntity } from "entities/modelEntities/transactionModel.entity";
 
 
 
 export interface ITransactionRepository{
 
-    createTransaction(transactionDetails:createTransactionDTO):Promise<void>
+    createTransaction(transactionDetails:Omit<ITransactionEntity,'_id'|'createdAt'>):Promise<void>
 }

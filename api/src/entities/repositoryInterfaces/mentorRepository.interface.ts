@@ -4,7 +4,6 @@ import {
   IMentorEntity,
 } from "entities/modelEntities/mentor-model.entity";
 import { SORT_ORDER } from "shared/constants";
-import { MentorUpdateDTO } from "shared/dto/mentorDTO";
 
 export interface IMentorRepository {
   findById(userId: string): Promise<IGetMentorForAdmin | null>;
@@ -23,8 +22,8 @@ export interface IMentorRepository {
   ): Promise<{ data: IGetMentorsForAdmin[]; totalDocuments: number }>;
 
   updateOne(
-    filter: Partial<MentorUpdateDTO.filter>,
-    update: Partial<MentorUpdateDTO.update>
+    filter: Partial<IMentorEntity>,
+    update: Partial<IMentorEntity>
   ): Promise<void>;
   getStatus(userId: string): Promise<IMentorEntity | null>;
 }

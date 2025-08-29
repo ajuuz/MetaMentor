@@ -4,8 +4,8 @@ import { IGetAllDomainsUsecase } from "entities/usecaseInterfaces/domain/getDoma
 import { IUpdateDomainStatusUsecase } from "entities/usecaseInterfaces/domain/updateDomainStatusUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
-import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
 import {
+  CreateDomainReqDTO,
   GetAllDomainsForAdminReqDTO,
   UpdateDomainStatusDTO,
 } from "shared/dto/request/domain.dto";
@@ -25,7 +25,7 @@ export class AdminDomainController implements IAdminDomainController {
   ) {}
 
   async addDomain(req: Request, res: Response): Promise<void> {
-    const domainDetails = req.verifiedData;
+    const domainDetails:CreateDomainReqDTO= req.verifiedData;
     console.log(domainDetails);
     await this._addDomainUsecase.execute(domainDetails);
     res

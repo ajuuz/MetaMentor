@@ -3,7 +3,7 @@ import { SORT_ORDER } from "shared/constants"
 
 export interface IBaseRepository<T,D>{
     startSession():Promise<ClientSession>
-    insertMany(documents:Omit<T,'_id'>[],options?:InsertManyOptions):Promise<void>
+    insertMany(documents:Partial<Omit<T,'_id'>>[],options?:InsertManyOptions):Promise<void>
     create(newDocument:Partial<T>):D
     save(document:D,options?:QueryOptions):Promise<void>
     insertOne(newDocument:Partial<Omit<T,'_id'>>,options?:QueryOptions):Promise<void>

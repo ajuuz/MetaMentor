@@ -1,7 +1,5 @@
-import { ImageMulterResponseDTO } from "shared/dto/imageMulterDTO";
+import { MulterResDTO } from "shared/dto/response/multer.dto";
 
-
-
-export interface IUploadImageUsecase{
-    execute(files:Express.Multer.File[]):ImageMulterResponseDTO
+export interface IUploadImageUsecase {
+  execute(files: Express.Multer.File[]): MulterResDTO[];
 }

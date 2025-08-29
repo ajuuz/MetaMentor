@@ -3,8 +3,7 @@ import mongoose, { Document, ObjectId } from "mongoose";
 
 import { userSchema } from "../schemas/user.schema";
 
-export interface IUserModel extends IUserEntity , Document{
-    _id:ObjectId
+export interface IUserModel extends Omit<IUserEntity,'_id'> , Document<ObjectId>{
 }
 
 export const userModel = mongoose.model('users',userSchema)

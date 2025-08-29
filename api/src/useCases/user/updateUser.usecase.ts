@@ -1,7 +1,7 @@
+import { IUserEntity } from "entities/modelEntities/user-model.entity";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IUpdateUserUsecase } from "entities/usecaseInterfaces/user/updateUserUsecase.interface";
 import { UpdateUserDetailsReqDTO } from "shared/dto/request/user.dto";
-import { UserUpdateDTO } from "shared/dto/userDTO";
 import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
 
@@ -14,9 +14,8 @@ export class UpdateUserUsecase implements IUpdateUserUsecase{
     ){}
    async execute(userId:string,updatedData:UpdateUserDetailsReqDTO):Promise<void>{
         if(!userId) throw new ValidationError("user id is required");
-        const filter:Pick<UserUpdateDTO.filter,"_id">={_id:userId}
+        const filter:Pick<IUserEntity,'_id'>={_id:userId}
         const update=updatedData
-        console.log(filter,update)
         await this._userRepository.updateOne(filter,update)
    }
 }

@@ -1,6 +1,7 @@
 import { ROLES } from "shared/constants";
 
 export interface IUserEntity{
+    _id:string,
     name:string,
     profileImage:string|null,
     country:string|null,

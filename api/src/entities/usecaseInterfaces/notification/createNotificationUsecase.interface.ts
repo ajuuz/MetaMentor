@@ -1,6 +1,9 @@
-import { NotificationReqDTO } from "shared/dto/notificationDTO";
+import { INotificationEntity } from "entities/modelEntities/notificationModel.entity";
 
 
 export interface ICreateNotificationUsecase{
-    execute(notificationData:NotificationReqDTO):Promise<void>
+    execute(notificationData:Omit<
+          INotificationEntity,
+          "isRead" | "createdAt" | "updatedAt"
+        >):Promise<void>
 }

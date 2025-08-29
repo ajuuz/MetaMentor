@@ -6,7 +6,6 @@ import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/get
 import { IGetUnblockedDomainsUsecase } from "entities/usecaseInterfaces/domain/getUnblockedDomainsUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
-import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
 import { ModifiedRequest } from "type/types";
 import { inject, injectable } from "tsyringe";
 import {

@@ -1,7 +1,7 @@
-import { DomainRequestDTO } from "shared/dto/domainDTO";
+import { CreateDomainReqDTO } from "shared/dto/request/domain.dto";
 
 
 
 export interface IAddDomainUsecase{
-    execute(domainDetails:DomainRequestDTO):Promise<void>
+    execute(domainDetails:CreateDomainReqDTO):Promise<void>
 }

@@ -83,6 +83,7 @@ export class CommunityRepository
       },
     ]);
     const { items, totalDocuments } = data[0];
+    console.log(items)
     return { items, totalDocuments };
   }
 }

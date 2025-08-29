@@ -11,7 +11,7 @@ export class GetSlotsForStudUsecase implements IGetSlotsForStudUsecase {
     private _slotRepository: ISlotRepository
   ) {}
   async execute(mentorId: string, day: DAYS): Promise<ISlotTime[]> {
-    const slots=await this._slotRepository.findDaySlot(mentorId, day)
+    const slots=await this._slotRepository.findAllSlotsOfaDay(mentorId, day)
     return slots
   }
 }

@@ -9,7 +9,7 @@ import {
 } from "frameworks/di/resolver";
 import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
 import { ROLES } from "shared/constants";
-import { GetAllCommunityForStudReqDTO } from "shared/dto/request/community.dto";
+import { GetCommunitiesForStudReqDTO } from "shared/dto/request/community.dto";
 import {
   EnrollDomainReqDTO,
   GetAllDomainsForStudReqDTO,
@@ -122,7 +122,7 @@ export class UserRoutes {
     //community
     this._router.get(
       "/communities",
-      validationMiddleware(GetAllCommunityForStudReqDTO),
+      validationMiddleware(GetCommunitiesForStudReqDTO),
       userDomainController.getDomainDashboard.bind(userDomainController)
     );
     this._router.get(

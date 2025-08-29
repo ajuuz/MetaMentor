@@ -1,5 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
+import { IGetReviewsForStudAndDomain } from "entities/modelEntities/reviewModel.entity";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
@@ -7,7 +8,6 @@ import { IGetDomainInsightUsecase } from "entities/usecaseInterfaces/domain/getD
 import { GetDomainResDTO } from "shared/dto/response/domain.dto";
 import { LevelResDTO } from "shared/dto/response/level.dto";
 import { GetReviewsForStudAndDomainResDTO } from "shared/dto/response/review.dto";
-import { GetStudentReviewResponseDTO } from "shared/dto/reviewDTO";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { inject, injectable } from "tsyringe";
 
@@ -52,7 +52,7 @@ export class GetDomainInsightUsecase implements IGetDomainInsightUsecase {
       asyncOperations
     )) as [
       IDomainEntity | null,
-      GetStudentReviewResponseDTO[] | null,
+      IGetReviewsForStudAndDomain[] | null,
       number | null
     ];
 

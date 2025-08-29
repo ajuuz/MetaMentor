@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { ITransactionEntity } from 'entities/modelEntities/transactionModel.entity';
 
 import { IVerifyPaymentUsecase } from "entities/usecaseInterfaces/payment/verifyPaymentUsecase.interface";
 import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReviewUsecase.interface";
@@ -43,16 +44,16 @@ export class VerifyPaymentUsecase implements IVerifyPaymentUsecase{
         const bookedReview = await this._bookReviewUsecase.create(studentId,reviewDetails);
         const asyncOperation = [];
 
-        const adminTransaction={
+        const adminTransaction:Omit<ITransactionEntity,'_id'|'createdAt'>={
             walletId:this._adminId,
-            reviewId:bookedReview._id,
+            reviewId:bookedReview._id.toString(),
             type:TRANSACTION_TYPE.CREDIT,
             amount:reviewDetails.amount,
             description:`Amount ${reviewDetails.amount} has been credited for review booked by ${studentId}`
         }
-        const studentTransaction={
+        const studentTransaction:Omit<ITransactionEntity,'_id'|'createdAt'>={
             walletId:studentId,
-            reviewId:bookedReview._id,
+            reviewId:bookedReview._id.toString(),
             type:TRANSACTION_TYPE.DEBIT,
             amount:reviewDetails.amount,
             description:`Amount ${reviewDetails.amount} has been debited for review booked by ${studentId}`

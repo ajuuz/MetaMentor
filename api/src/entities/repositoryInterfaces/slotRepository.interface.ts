@@ -12,5 +12,5 @@ export interface ISlotRepository extends BaseRepository<ISlotEntity,ISlotModel>{
     updateSlotStatus(mentorId:string,day:string,slotId:string,slotStatus:boolean):Promise<void>
     getSlotsByDomains(domainId:string):Promise<DomainSlotsResponseDTO[]>
     getSpecificSlot(mentorId:string,day:string,slotId:string):Promise<SlotDTO|null>
-    findDaySlot(mentorId: string, day: DAYS): Promise<ISlotTime[]> 
+    findAllSlotsOfaDay(mentorId: string, day: DAYS): Promise<ISlotTime[]> 
 }

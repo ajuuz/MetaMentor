@@ -28,7 +28,7 @@ export const transactionSchema:Schema<ITransactionModel> = new mongoose.Schema<I
         type:String,
         required:true,
     },
-    date:{
+    createdAt:{
         type:Date,
         default:new Date()
     }

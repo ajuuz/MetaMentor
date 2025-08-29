@@ -1,4 +1,5 @@
-import { Exclude, Expose, Transform } from "class-transformer";
+import { Exclude, Expose, Transform, Type } from "class-transformer";
+import { LEVEL_TASK_TYPE } from "shared/constants";
 
 @Exclude()
 export class LevelResDTO {
@@ -14,7 +15,26 @@ export class LevelResDTO {
 
   @Expose()
   taskFile!: string;
+
+  @Expose()
+  @Type(() => TaskResDTO)
+  tasks!: TaskResDTO[];
 }
+
+@Expose()
+export class TaskResDTO {
+  @Expose()
+  @Transform(({ obj }) => obj._id.toString())
+  _id!: string;
+
+  @Expose()
+  type!: LEVEL_TASK_TYPE;
+
+  @Expose()
+  content!: string;
+}
+
+
 
 //preview level dto
 @Exclude()

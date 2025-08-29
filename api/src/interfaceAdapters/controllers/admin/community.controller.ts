@@ -4,7 +4,7 @@ import { IUpdateCommunityStatusUsecase } from "entities/usecaseInterfaces/commun
 import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import {
-  GetAllCommunityForAdminReqDTO,
+  GetCommunitiesForAdminReqDTO,
   UpdateCommunityStatusDTO,
 } from "shared/dto/request/community.dto";
 import { inject, injectable } from "tsyringe";
@@ -25,7 +25,7 @@ export class AdminCommunityController implements IAdminCommunityController {
       limit,
       sortBy,
       searchTerm,
-    }: GetAllCommunityForAdminReqDTO = req.verifiedData;
+    }: GetCommunitiesForAdminReqDTO = req.verifiedData;
 
     const data = await this._getCommunitiesUsecase.execute(
       currentPage,

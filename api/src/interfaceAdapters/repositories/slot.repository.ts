@@ -127,7 +127,7 @@ export class SlotRepository
     return slots[0] ? slots[0].slot : null;
   }
 
-  async findDaySlot(mentorId: string, day: DAYS): Promise<ISlotTime[]> {
+  async findAllSlotsOfaDay(mentorId: string, day: DAYS): Promise<ISlotTime[]> {
     const result = await slotModel.aggregate([
         {$match:{mentorId:new mongoose.Types.ObjectId(mentorId) }},
         {$project:{slot:`$weekSlots.${day}`,_id:0}}

@@ -1,7 +1,7 @@
+import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
 import { EVENT_EMITTER_TYPE, MAIL_CONTENT_PURPOSE } from "shared/constants";
-import { MentorUpdateDTO } from "shared/dto/mentorDTO";
 import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/mailContentProvider";
 import { inject, injectable } from "tsyringe";
@@ -17,8 +17,8 @@ export class RejectMentorApplicationUsecase implements IRejectMentorApplicationU
     ){}
     async execute(mentorId:string,email:string,reason:string):Promise<void>{
 
-        const filter:Pick<MentorUpdateDTO.filter,"userId">={userId:mentorId}
-        const update:Pick<MentorUpdateDTO.update,"isRejected">={isRejected:true}
+        const filter:Pick<IMentorEntity,'userId'>={userId:mentorId}
+        const update:Pick<IMentorEntity,'isRejected'>={isRejected:true}
 
         await this._mentorRepository.updateOne(filter,update)
 

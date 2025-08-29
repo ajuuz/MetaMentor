@@ -8,7 +8,7 @@ import {
 } from "frameworks/di/resolver";
 import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
 import { ROLES } from "shared/constants";
-import { GetAllCommunityForAdminReqDTO, UpdateCommunityStatusDTO } from "shared/dto/request/community.dto";
+import { GetCommunitiesForAdminReqDTO, UpdateCommunityStatusDTO } from "shared/dto/request/community.dto";
 import { CreateDomainReqDTO, GetAllDomainsForAdminReqDTO, UpdateDomainStatusDTO } from "shared/dto/request/domain.dto";
 import { GetAllMentorsReqDTO, GetSpecificMentorReqDTO, MentorApplicationVerificationReqDTO, UpdateMentorStatusReqDTO } from "shared/dto/request/mentor.dto";
 import { GetAllStudentReqDTO, UpdateStudentStatusReqDTO } from "shared/dto/request/student.dto";
@@ -98,7 +98,7 @@ export class AdminRoutes {
       "/communities",
       authMiddleware.verifyAuth.bind(authMiddleware),
       authMiddleware.verifyAuthRole([ROLES.ADMIN]),
-      validationMiddleware(GetAllCommunityForAdminReqDTO),
+      validationMiddleware(GetCommunitiesForAdminReqDTO),
       adminCommunityController.getAllCommunities.bind(adminCommunityController)
     );
     this._router.patch(

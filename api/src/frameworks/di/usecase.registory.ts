@@ -19,7 +19,6 @@ import { IGetAllDomainsUsecase } from "entities/usecaseInterfaces/domain/getDoma
 import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/getSpecificDomainUsecase.interface";
 import { IGetUnblockedDomainsUsecase } from "entities/usecaseInterfaces/domain/getUnblockedDomainsUsecase.interface";
 import { IUpdateDomainStatusUsecase } from "entities/usecaseInterfaces/domain/updateDomainStatusUsecase.interface";
-import { IInsertManyLevelUsecase } from "entities/usecaseInterfaces/level/insertManyLevelUsecase.interface";
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
 import { IGetNotVerifiedMentorsUsecase } from "entities/usecaseInterfaces/mentor/getNotVerifiedMentorsUsecase.interface";
 import { IGetSpecificMentorUsecase } from "entities/usecaseInterfaces/mentor/getSpecificMentorUsecase.interface";
@@ -68,7 +67,6 @@ import { GetEnrolledDomainsUsecase } from "useCases/domain/getEnrolledDomains.us
 import { GetSpecificDomainUsecase } from "useCases/domain/getSpecificDomain.usecase";
 import { GetUnblockedDomainsUsecase } from "useCases/domain/getUnblockedDomains.usecase";
 import { UpdateDomainStatusUsecase } from "useCases/domain/updateDomainStatus.usecase";
-import { InsertManyLevelUsecase } from "useCases/levels/insertManyLevel.usecase";
 import { AcceptMentorApplicationUsecase } from "useCases/mentor/acceptMentorApplication.usecase";
 import { GetNotVerifiedMentorsUsecase } from "useCases/mentor/getNotVerifiedMentors.usecase";
 import { GetSpecificMentorUsecase } from "useCases/mentor/getSpecificMentor.usecase";
@@ -230,10 +228,6 @@ export class UseCaseRegistory{
             useClass:GetDomainInsightUsecase
         })
 
-        //level usecase
-        container.register<IInsertManyLevelUsecase>('IInsertManyLevelUsecase',{
-            useClass:InsertManyLevelUsecase
-        })
 
         //community usecase
         container.register<IAddCommunityUsecase>('IAddCommunityUsecase',{

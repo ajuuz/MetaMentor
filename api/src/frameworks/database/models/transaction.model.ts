@@ -1,11 +1,12 @@
 import { ITransactionEntity } from "entities/modelEntities/transactionModel.entity";
-import mongoose, { ObjectId } from "mongoose";
+import mongoose, { Document, ObjectId } from "mongoose";
 
 import { transactionSchema } from "../schemas/transaction.schema";
 
 
-export interface ITransactionModel extends Omit<ITransactionEntity,'_id'>,Document{
-    _id:ObjectId
+export interface ITransactionModel extends Omit<ITransactionEntity,'_id'|'walletId'|'reviewId'>,Document<ObjectId>{
+    walletId:ObjectId,
+    reviewId:ObjectId,
 }
 
 export const transactionModel = mongoose.model<ITransactionModel>('transactions',transactionSchema)

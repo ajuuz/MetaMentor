@@ -1,7 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { IGetSpecificMentorUsecase } from "entities/usecaseInterfaces/mentor/getSpecificMentorUsecase.interface";
-import { MentorDataDTO } from "shared/dto/mentorDTO";
 import { GetMentorForAdminResDTO } from "shared/dto/response/mentor.dto";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { ValidationError } from "shared/utils/error/validationError";
