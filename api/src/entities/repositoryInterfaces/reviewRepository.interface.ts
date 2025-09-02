@@ -1,4 +1,5 @@
 import {
+  ICreateReview,
   IGetBookedSlotsForStud,
   IGetReviewForMent,
   IGetReviewsForStud,
@@ -42,15 +43,14 @@ export interface IReviewRepository
     reviewId: string
   ): Promise<IGetReviewForMent | null>;
 
-  createReview(reviewDetails: Partial<IReviewEntity>): Promise<IReviewModel>;
+  createReview(reviewDetails: ICreateReview): Promise<IReviewModel>;
 
   saveReview(review: IReviewModel): Promise<void>;
 
   checkIsBookedSlot(
     mentorId: string,
-    day: string,
-    start: number,
-    end: number
+    start: Date,
+    end: Date
   ): Promise<boolean>;
 
   updateReview(

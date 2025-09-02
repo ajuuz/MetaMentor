@@ -24,9 +24,9 @@ export const getReviewsForStudent=async(status:REVIEW_FILTER_STATUS,dateRange:DA
     }
 }
 
-    export const getSlotReviewsForStudent=async(mentorId:string|undefined,date:string)=>{
+    export const getSlotReviewsForStudent=async(mentorId:string|undefined,date:Date)=>{
       try{
-        const response = await userAxiosInstance.get(`/reviews/${mentorId}/${date}`)
+        const response = await userAxiosInstance.get(`/reviews/${mentorId}/${date.toISOString()}`)
         return response.data;
     }
     catch(error:any){

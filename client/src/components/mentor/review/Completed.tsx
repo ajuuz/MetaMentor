@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import type { MentorReviewCard } from '@/types/reviewTypes'
-import { formattedIsoDate, toTimeString } from '@/utils/helperFunctions/toTimeString'
+import { getFormattedDayWithMonthAndYear, isoStringToLocalTime } from '@/utils/helperFunctions/toTimeString'
 import { AnimatePresence } from 'framer-motion'
 import { Award, CheckCircle, FileText, MessageSquare, X, XCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
@@ -23,8 +23,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 type Props = {
   review: MentorReviewCard,
-  startTime: Date
-  endTime: Date
+  start:string
+  end: string
 }
 
 
@@ -76,8 +76,11 @@ const resultSchema = z.object({
 
 type ResultForm = z.infer<typeof resultSchema>;
 
-const Completed = ({ review, startTime, endTime }: Props) => {
+const Completed = ({ review, start, end }: Props) => {
 
+  const startTime = new Date(start)
+  const endTime = new Date(end)
+  
   const [feedBackPopupToggle, setFeedBackPopupToggle] = useState<boolean>(false)
 
   const navigate = useNavigate();
@@ -238,7 +241,7 @@ const Completed = ({ review, startTime, endTime }: Props) => {
           </div>
           <h3 className="text-2xl font-semibold text-slate-900 mb-2">{getCompletedTitle()}</h3>
           <p className="text-slate-600 mb-4">
-            This review session ended on {formattedIsoDate(endTime)} at {toTimeString(review.slot.end)}
+            This review session ended on {getFormattedDayWithMonthAndYear(end)} at {isoStringToLocalTime(review.slot.end)}
           </p>
           {getStatusBadge()}
         </div>

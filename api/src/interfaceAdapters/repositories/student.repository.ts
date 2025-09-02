@@ -26,20 +26,26 @@ export class StudentRepository
   }
 
   async findStudentsWithFilterAndPagination(
-    filter: Record<string,string|boolean>,
+    filters: {
+      field: string;
+      value: string | boolean;
+      type: "direct" | "complex";
+    }[],
     skip: number,
     limit: number,
     sort: { field: string; order: SORT_ORDER }
   ): Promise<{ data: IGetStudentsForAdmin[]; totalDocuments: number }> {
-    const mongoFilter: FilterQuery<IStudentModel>={};
+    const mongoFilter: FilterQuery<IStudentModel> = {};
 
-    if (filter.searchTerm) {
-      mongoFilter["user.name"] = { $regex: filter.searchTerm, $options: "i" };
-    }
-
-    if(filter.isPremium){
-      mongoFilter['isPremium'] = filter.isPremium
-    }
+    filters.forEach((item) => {
+      const { field, value, type } = item;
+      if (type === "direct") mongoFilter[field] = value;
+      else {
+        if (field === "searchTerm" && typeof value === "string") {
+          mongoFilter["user.name"] = { $regex: value, $options: "i" };
+        }
+      }
+    });
 
     let sortOption: Record<string, 1 | -1> = {};
     if (sort.field === "name") {
@@ -103,11 +109,14 @@ export class StudentRepository
         },
       },
     ]);
-    const {data,totalDocuments}=response[0]
-    return {data,totalDocuments}
+    const { data, totalDocuments } = response[0];
+    return { data, totalDocuments };
   }
 
-  async updateOne(filter: any, update: any): Promise<void> {
+  async updateOne(
+    filter: Partial<IStudentEntity>,
+    update: Partial<IStudentEntity>
+  ): Promise<void> {
     await studentModel.updateOne(filter, update);
   }
 

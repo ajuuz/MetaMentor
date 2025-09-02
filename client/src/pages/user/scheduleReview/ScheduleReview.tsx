@@ -1,311 +1,80 @@
 import Callender from "@/components/common/Callender";
-import { Card } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { SlotViewCard } from "@/components/user/slotViewCard";
-import {
-  getDomainSlots,
-  slotValidityChecker,
-} from "@/services/userService/slotApi";
-import type {
-  DayOfWeekType,
-  DomainSlotsResponseDTO,
-  WeekSlotsWithBookingType,
-} from "@/types/slotTypes";
-import { toTimeString } from "@/utils/helperFunctions/toTimeString";
-import { useMutation } from "@tanstack/react-query";
+import PaginationComponent from "@/components/common/PaginationComponent";
+import MentorCard from "@/components/mentors/MentorCard";
+import { useGetMentorsForDomainQuery } from "@/hooks/tanstack/mentor";
+import type { MentorCardType } from "@/types/mentorType";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { toast } from "sonner";
 
-const daysInNumber = {
-  Sunday: 0,
-  Monday: 1,
-  Tuesday: 2,
-  Wednesday: 3,
-  Thursday: 4,
-  Friday: 5,
-  Saturday: 6,
-};
 export default function ScheduleReview() {
-  const [domainsSlots, setDomainsSlots] = useState<DomainSlotsResponseDTO[]>(
-    []
+  const [selectedMentor, setSelectedMentor] = useState<null | MentorCardType>(
+    null
   );
-  const [selectedMentor, setSelectedMentor] = useState<{mentorId:string,mentor:DomainSlotsResponseDTO['mentor']}|null>(null);
-  const [selectedSlotPopup, setSelectedSlotPopup] = useState<string>("");
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [sortBy, setSortBy] = useState<string>("name-asc");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [sheetOpen, setSheetOpen] = useState(false);
-  
+  const [mentors, setMentors] = useState<MentorCardType[]>([]);
+
   const { domainId, levelId } = useParams();
   if (!domainId || !levelId) {
     return <div>some thing wrong</div>;
   }
 
+  const { data: mentorsForDomainResponse } = useGetMentorsForDomainQuery(
+    currentPage,
+    10,
+    sortBy,
+    searchTerm,
+    domainId
+  );
 
   useEffect(() => {
-    (async function getDomainSlotFetch() {
-      try {
-        const slots = await getDomainSlots(domainId);
-        const domainSlots = slots.domainSlots;
-        const bookedSlots = slots.bookedSlots;
-
-        const bookedMap = new Map();
-        for (const bookedSlot of bookedSlots) {
-          const mentorId = bookedSlot.mentorId;
-          const slots = bookedSlot.slots;
-
-          for (const slot of slots) {
-            const key = `${mentorId}-${slot.day}`;
-            if (!bookedMap.has(key)) bookedMap.set(key, []);
-            bookedMap.get(key).push({ start: slot.start, end: slot.end });
-          }
-        }
-
-        const isOverlapChecker = (
-          a: { start: number; end: number },
-          b: { start: number; end: number }
-        ) => a.start < b.end && b.start < a.end;
-        const transformed: DomainSlotsResponseDTO[] = domainSlots.map(
-          (mentorSlot) => {
-            const transformedWeekSlots: WeekSlotsWithBookingType = {
-              Monday: [],
-              Tuesday: [],
-              Wednesday: [],
-              Thursday: [],
-              Friday: [],
-              Saturday: [],
-              Sunday: [],
-            };
-
-            for (const [day, slots] of Object.entries(mentorSlot.weekSlots)) {
-              const key = `${mentorSlot.mentorId}-${day}`;
-              const booked: { start: number; end: number }[] =
-                bookedMap.get(key) || [];
-
-              const transformedSlots = slots.map((slot) => {
-                const overlap = booked.some((b) => isOverlapChecker(slot, b));
-                return { ...slot, isBooked: overlap };
-              });
-
-              transformedWeekSlots[day as DayOfWeekType] = transformedSlots;
-            }
-
-            return { ...mentorSlot, weekSlots: transformedWeekSlots };
-          }
-        );
-        console.log(transformed)
-        setDomainsSlots(transformed);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
-
-  useEffect(()=>{
-    if(!sheetOpen){
-        setSelectedMentor(null)
+    if (mentorsForDomainResponse) {
+      setMentors(mentorsForDomainResponse.mentors);
+      setTotalPages(mentorsForDomainResponse.totalPages);
     }
-},[sheetOpen])
+  }, [mentorsForDomainResponse]);
 
-  const { mutate: slotValidityCheckerMutation } = useMutation({
-    mutationFn: slotValidityChecker,
-    onSuccess: (response, variables) => {
-      console.log(response);
-      console.log(variables);
-      setSelectedSlotPopup(variables.slotId);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  const isoTimeCreator = (day: DayOfWeekType, time: number) => {
-    const currentDate = new Date();
-    const today = currentDate.getDay();
-    const bookingDay = daysInNumber[day];
-
-    let dayOffSet: number;
-
-    if (today <= bookingDay) {
-      dayOffSet = bookingDay - today;
-    } else {
-      dayOffSet = 7 - today + bookingDay;
+  useEffect(() => {
+    if (!sheetOpen) {
+      setSelectedMentor(null);
     }
+  }, [sheetOpen]);
 
-    const slotDate = new Date(currentDate);
-    slotDate.setDate(currentDate.getDate() + dayOffSet);
-    const h = Math.floor(time / 60);
-    const m = time % 60;
-    slotDate.setHours(h, m, 0, 0);
-
-    return slotDate;
+  const handleSelectMentor = (mentor: MentorCardType) => {
+    setSheetOpen(true);
+    setSelectedMentor(mentor);
   };
-
-  const handleSelectSlot = (mentorId: string, day: string, slotId: string) => {
-    slotValidityCheckerMutation({ mentorId, day, slotId });
-  };
-
-
-  const today = new Date();
-  const twoMonthsLater = new Date();
-  twoMonthsLater.setMonth(today.getMonth() + 2);
-
-
-  const handleSetSelectedMentor=(content:DomainSlotsResponseDTO)=>{
-    const selectedMentor={mentorId:content.mentorId,mentor:content.mentor}
-    setSelectedMentor(selectedMentor)
-  }
-
   return (
-    <div className="p-5">
-      {domainsSlots.map((content) => (
-        <Card
-        key={content.mentorId}
-        onClick={() => {
-          handleSetSelectedMentor(content);
-          setSheetOpen(true);
-        }}
-          className="max-w-5xl mx-auto p-4 rounded-2xl border shadow-md bg-white"
-        >
-          <div className="flex gap-6 items-start">
-            <div className="flex flex-col items-center">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <img
-                      src={content.mentor.profileImage}
-                      alt={content.mentor.name}
-                      width={150}
-                      height={150}
-                      className="rounded-xl object-cover"
-                    />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-sm text-sm leading-tight">
-                    <p>{content.mentor.about}</p>
-                    <p>{content.mentor.skills.join("|")}</p>
-                    <p>{content.mentor.workedAt.join("|")}</p>
-                  </TooltipContent>
-                </Tooltip>
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <h2 className="text-lg font-semibold mt-3 cursor-pointer">
-                      {content.mentor.name} {content.mentor.country}
-                    </h2>
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-sm text-sm leading-tight">
-                    <p>{content.mentor.about}</p>
-                    <p>{content.mentor.skills.join("|")}</p>
-                    <p>{content.mentor.workedAt.join("|")}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <p>FEE</p>
-              <p>{content.mentor.fee}</p>
+    <div
+      className="p-5 flex justify-center "
+    >
+      <div className="flex flex-col w-full items-center justify-between gap-10">
+        <div className="grid grid-cols-1  lg:grid-cols-2 ">
+          {mentors.map((mentor) => (
+            <div onClick={() => handleSelectMentor(mentor)}>
+              <MentorCard mentor={mentor} />
             </div>
+          ))}
+        </div>
 
-            <div className="grid grid-cols-2 gap-4 w-full">
-              {Object.entries(content.weekSlots).map(
-                ([day, slots]) =>
-                  slots.length > 0 && (
-                    <div key={day} className="flex flex-col">
-                      <h3 className="text-sm font-semibold text-gray-700 mb-1">
-                        {day}
-                      </h3>
-                      <ScrollArea
-                        className={`${
-                          slots.length > 5 && "max-h-[150px]"
-                        } rounded-md border p-4`}
-                      >
-                        <div className="flex flex-wrap gap-2">
-                          {slots.map(
-                            (slot) =>
-                              slot.enabled && (
-                                <div
-                                  key={slot._id}
-                                  onClick={() =>
-                                    !slot.isBooked &&
-                                    handleSelectSlot(
-                                      content.mentorId,
-                                      day,
-                                      slot._id
-                                    )
-                                  }
-                                  className={`relative px-3 py-1 text-sm rounded-md min-w-[70px] text-center overflow-hidden
-                                          ${
-                                            slot.isBooked
-                                              ? "bg-slate-200 text-gray-400 cursor-not-allowed"
-                                              : "bg-gray-100 cursor-pointer"
-                                          }`}
-                                >
-                                  {slot.isBooked && (
-                                    <div className="absolute -left-10 top-0 w-[140%] rotate-20 bg-red-500/70 text-center pointer-events-none">
-                                      <span className="text-white text-[10px] font-bold uppercase tracking-widest">
-                                        Booked
-                                      </span>
-                                    </div>
-                                  )}
-                                  {selectedSlotPopup === slot._id &&
-                                    !slot.isBooked && (
-                                      <SlotViewCard
-                                        key={slot._id}
-                                        domainId={domainId}
-                                        levelId={levelId}
-                                        mentorId={content.mentorId}
-                                        slotId={slot._id}
-                                        mentor={{
-                                          name: content.mentor.name,
-                                          title: content.mentor.about,
-                                          company: content.mentor.workedAt[0],
-                                          image: content.mentor.profileImage,
-                                        }}
-                                        fee={content.mentor.fee}
-                                        walletBalance={500}
-                                        slot={{
-                                          isoStartTime: isoTimeCreator(
-                                            day as DayOfWeekType,
-                                            slot.start
-                                          ),
-                                          isoEndTime: isoTimeCreator(
-                                            day as DayOfWeekType,
-                                            slot.end
-                                          ),
-                                          day,
-                                          start: slot.start,
-                                          end: slot.end,
-                                        }}
-                                        setSelectedSlotPopup={
-                                          setSelectedSlotPopup
-                                        }
-                                      />
-                                    )}
-                                  {toTimeString(slot.start)} –{" "}
-                                  {toTimeString(slot.end)}
-                                </div>
-                              )
-                          )}
-                        </div>
-                      </ScrollArea>
-                    </div>
-                  )
-                  // <div>kdlsf</div>
-              )}
-            </div>
-          </div>
-        </Card>
-      ))}
-       {/* <Callender sheetOpen={sheetOpen} 
-      setSheetOpen={setSheetOpen} 
-      today={today} 
-      twoMonthsLater={twoMonthsLater} 
-      selectedMentor={selectedMentor!}
-      domainId={domainId}
-      levelId={levelId}
-      />  */}
+        <PaginationComponent
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+        />
+      </div>
+      {sheetOpen && (
+        <Callender
+          sheetOpen={sheetOpen}
+          setSheetOpen={setSheetOpen}
+          selectedMentor={selectedMentor!}
+          domainId={domainId}
+          levelId={levelId}
+        />
+      )}
     </div>
   );
 }

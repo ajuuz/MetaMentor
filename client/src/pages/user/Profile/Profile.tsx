@@ -17,7 +17,7 @@ import { Edit, Eye, Image } from "lucide-react";
 import countries from "world-countries";
 
 import { toast } from "sonner";
-import { useProfileQuery } from "@/hooks/profile";
+import { useProfileQuery } from "@/hooks/tanstack/profile";
 
 const Profile = () => {
   const [isViewMode, setIsViewMode] = useState(true);

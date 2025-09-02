@@ -1,11 +1,12 @@
 import { GetMentorsForAdminResDTO } from "shared/dto/response/mentor.dto";
 
-export interface IGetNotVerifiedMentorsUsecase {
+export interface IGetMentorsForAdminUsecase {
   execute(
+    isVerified: boolean,
+    sortBy: string,
+    searchTerm: string,
+    selectedDomains: string,
     currentPage: number,
-    limit: number,
-    sortBy:string,
-    searchTerm:string,
-    selectedDomains:string
+    limit: number
   ): Promise<{ mentors: GetMentorsForAdminResDTO[]; totalPages: number }>;
 }

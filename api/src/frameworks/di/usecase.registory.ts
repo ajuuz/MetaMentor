@@ -20,9 +20,8 @@ import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/get
 import { IGetUnblockedDomainsUsecase } from "entities/usecaseInterfaces/domain/getUnblockedDomainsUsecase.interface";
 import { IUpdateDomainStatusUsecase } from "entities/usecaseInterfaces/domain/updateDomainStatusUsecase.interface";
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
-import { IGetNotVerifiedMentorsUsecase } from "entities/usecaseInterfaces/mentor/getNotVerifiedMentorsUsecase.interface";
+import { IGetMentorsForStudUsecase } from "entities/usecaseInterfaces/mentor/getMentorsForStudUsecase.interface";
 import { IGetSpecificMentorUsecase } from "entities/usecaseInterfaces/mentor/getSpecificMentorUsecase.interface";
-import { IGetVerifiedMentorsUsecase } from "entities/usecaseInterfaces/mentor/getVerifiedMentors.interface";
 import { IRegisterMentorUsecase } from "entities/usecaseInterfaces/mentor/registerMentorUsecase.interface";
 import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
 import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/updateMentorStatusUsecase.interface";
@@ -32,7 +31,7 @@ import { IVerifyPaymentUsecase } from "entities/usecaseInterfaces/payment/verify
 import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReviewUsecase.interface";
 import { IGetMentorReviewsUsecase } from "entities/usecaseInterfaces/review/getMentorReviewsUsecase.interface";
 import { IGetReviewForMentorUsecase } from "entities/usecaseInterfaces/review/getReviewForMentorUsecase.interface";
-import {  ISubmitReviewResultUsecase } from "entities/usecaseInterfaces/review/submitReviewFeedBackUsecase.interface";
+import { ISubmitReviewResultUsecase } from "entities/usecaseInterfaces/review/submitReviewFeedBackUsecase.interface";
 import { ICancelReviewByMentorUsecase } from "entities/usecaseInterfaces/review/cancelReviewByMentorUsecase.interface";
 import { IGetDomainSlotsUsecase } from "entities/usecaseInterfaces/slot/getDomainSlotsUsecase.interface";
 import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
@@ -68,9 +67,8 @@ import { GetSpecificDomainUsecase } from "useCases/domain/getSpecificDomain.usec
 import { GetUnblockedDomainsUsecase } from "useCases/domain/getUnblockedDomains.usecase";
 import { UpdateDomainStatusUsecase } from "useCases/domain/updateDomainStatus.usecase";
 import { AcceptMentorApplicationUsecase } from "useCases/mentor/acceptMentorApplication.usecase";
-import { GetNotVerifiedMentorsUsecase } from "useCases/mentor/getNotVerifiedMentors.usecase";
+import { GetMentorsForStudUsecase } from "useCases/mentor/getMentorsForStud.usecase";
 import { GetSpecificMentorUsecase } from "useCases/mentor/getSpecificMentor.usecase";
-import { GetVerifiedMentorsUsecase } from "useCases/mentor/getVerifiedMentors.usecase";
 import { RegisterMentorUsecase } from "useCases/mentor/registerMentor.usecase";
 import { RejectMentorApplicationUsecase } from "useCases/mentor/rejectMentorApplication.usecase";
 import { UpdateMentorStatusUsecase } from "useCases/mentor/updateMentorStatus.usecase";
@@ -109,221 +107,290 @@ import { IGetSlotsForStudUsecase } from "entities/usecaseInterfaces/slot/getSlot
 import { GetSlotsForStudUsecase } from "useCases/slot/getSlotsForStud.usecase";
 import { IGetReviewByDayForStudUsecase } from "entities/usecaseInterfaces/review/getReviewByDayForStudUsecase.interface";
 import { GetReviewByDayForStudUsecase } from "useCases/review/getReviewByDayForStud.usecase";
+import { IGetMentorsUsecase } from "entities/usecaseInterfaces/mentor/getMentorsUsecase.interface";
+import { GetMentorsUsecase } from "useCases/mentor/getMentors.usecase";
+import { GetMentorsForAdminUsecase } from "useCases/mentor/getMentorsForAdmin.usecase";
+import { IGetMentorsForAdminUsecase } from "entities/usecaseInterfaces/mentor/getMentorsForAdmin.interface";
 
-export class UseCaseRegistory{
-    static registerUsecases():void{
+export class UseCaseRegistory {
+  static registerUsecases(): void {
+    //auth usecases
+    container.register<IRegisterUserUsecase>("IRegisterUserUsecase", {
+      useClass: RegisterUserUsecase,
+    });
 
-        //auth usecases
-        container.register<IRegisterUserUsecase>('IRegisterUserUsecase',{
-            useClass:RegisterUserUsecase
-        })
+    container.register<IVerifyOtpUsecase>("IVerifyOtpUsecase", {
+      useClass: VerifyOtpUsecase,
+    });
 
-        container.register<IVerifyOtpUsecase>('IVerifyOtpUsecase',{
-            useClass:VerifyOtpUsecase
-        })
+    container.register<IResendOtpUsecase>("IResendOtpUsecase", {
+      useClass: ResendOtpUsecase,
+    });
 
-        container.register<IResendOtpUsecase>('IResendOtpUsecase',{
-            useClass:ResendOtpUsecase
-        })
+    container.register<ILoginUsecase>("ILoginUsecase", {
+      useClass: LoginUsecase,
+    });
 
-        container.register<ILoginUsecase>('ILoginUsecase',{
-            useClass:LoginUsecase
-        })
+    container.register<IGoogleAuthUsecase>("IGoogleAuthUsecase", {
+      useClass: GoogleAuthUsecase,
+    });
 
-        container.register<IGoogleAuthUsecase>('IGoogleAuthUsecase',{
-            useClass:GoogleAuthUsecase
-        })
+    container.register<ILogoutUsecase>("ILogoutUsecase", {
+      useClass: LogoutUsecase,
+    });
 
-        container.register<ILogoutUsecase>('ILogoutUsecase',{
-            useClass:LogoutUsecase
-        })
+    container.register<IForgotPasswordSendMailUsecase>(
+      "IForgotPasswordSendMailUsecase",
+      {
+        useClass: ForgotPasswordSendMailUsecase,
+      }
+    );
 
-        container.register<IForgotPasswordSendMailUsecase>('IForgotPasswordSendMailUsecase',{
-            useClass:ForgotPasswordSendMailUsecase
-        })
+    container.register<IForgotPasswordResetUsecase>(
+      "IForgotPasswordResetUsecase",
+      {
+        useClass: ForgotPasswordResetUsecase,
+      }
+    );
 
-        container.register<IForgotPasswordResetUsecase>('IForgotPasswordResetUsecase',{
-            useClass:ForgotPasswordResetUsecase
-        })
+    container.register<ITokenRefreshingUsecase>("ITokenRefreshingUsecase", {
+      useClass: TokenRefreshingUsecase,
+    });
 
-        container.register<ITokenRefreshingUsecase>('ITokenRefreshingUsecase',{
-            useClass:TokenRefreshingUsecase
-        })
+    //user usecases
+    container.register<IGetSpecificUserUsecase>("IGetSpecificUserUsecase", {
+      useClass: GetSpecificUserUsecase,
+    });
 
+    container.register<IUpdateUserUsecase>("IUpdateUserUsecase", {
+      useClass: UpdateUserUsecase,
+    });
 
-        //user usecases
-        container.register<IGetSpecificUserUsecase>('IGetSpecificUserUsecase',{
-            useClass:GetSpecificUserUsecase
-        })
+    //student usecases
+    container.register<IGetAllStudentsUsecase>("IGetAllStudentsUsecase", {
+      useClass: GetAllStudentsUsecase,
+    });
 
-        container.register<IUpdateUserUsecase>('IUpdateUserUsecase',{
-            useClass:UpdateUserUsecase
-        })
+    container.register<IUpdateStudentStatusUsecase>(
+      "IUpdateStudentStatusUsecase",
+      {
+        useClass: UpdateStudentStatusUsecase,
+      }
+    );
 
-        //student usecases
-        container.register<IGetAllStudentsUsecase>('IGetAllStudentsUsecase',{
-            useClass:GetAllStudentsUsecase
-        })
+    //mentor usecase
+    container.register<IRegisterMentorUsecase>("IRegisterMentorUsecase", {
+      useClass: RegisterMentorUsecase,
+    });
 
-        container.register<IUpdateStudentStatusUsecase>('IUpdateStudentStatusUsecase',{
-            useClass:UpdateStudentStatusUsecase
-        })
+    container.register<IGetMentorsForStudUsecase>(
+      "IGetMentorsForStudUsecase",
+      {
+        useClass: GetMentorsForStudUsecase,
+      }
+    );
 
-        //mentor usecase
-        container.register<IRegisterMentorUsecase>('IRegisterMentorUsecase',{
-            useClass:RegisterMentorUsecase
-        })
-        
-        container.register<IGetNotVerifiedMentorsUsecase>('IGetNotVerifiedMentorsUsecase',{
-            useClass:GetNotVerifiedMentorsUsecase
-        })
-       
-        container.register<IGetVerifiedMentorsUsecase>('IGetVerifiedMentorsUsecase',{
-            useClass:GetVerifiedMentorsUsecase
-        })
+    container.register<IGetMentorsUsecase>("IGetMentorsUsecase", {
+      useClass: GetMentorsUsecase,
+    });
 
-        container.register<IGetSpecificMentorUsecase>('IGetSpecificMentorUsecase',{
-            useClass:GetSpecificMentorUsecase
-        })
+    container.register<IGetMentorsForAdminUsecase>(
+      "IGetMentorsForAdminUsecase",
+      {
+        useClass: GetMentorsForAdminUsecase,
+      }
+    );
 
-        container.register<IAcceptMentorApplicationUsecase>('IAcceptMentorApplicationUsecase',{
-            useClass:AcceptMentorApplicationUsecase
-        })
+    container.register<IGetSpecificMentorUsecase>("IGetSpecificMentorUsecase", {
+      useClass: GetSpecificMentorUsecase,
+    });
 
-        container.register<IRejectMentorApplicationUsecase>('IRejectMentorApplicationUsecase',{
-            useClass:RejectMentorApplicationUsecase
-        })
+    container.register<IAcceptMentorApplicationUsecase>(
+      "IAcceptMentorApplicationUsecase",
+      {
+        useClass: AcceptMentorApplicationUsecase,
+      }
+    );
 
-        container.register<IUpdateMentorStatusUsecase>("IUpdateMentorStatusUsecase",{
-            useClass:UpdateMentorStatusUsecase
-        })
-        
-        
-        //domain usecase
-        container.register<IAddDomainUsecase>("IAddDomainUsecase",{
-            useClass:AddDomainUsecase
-        })
-        container.register<IGetAllDomainsUsecase>("IGetAllDomainsUsecase",{
-            useClass:GetAllDomainsUsecase
-        })
-        container.register<IGetUnblockedDomainsUsecase>("IGetUnblockedDomainsUsecase",{
-            useClass:GetUnblockedDomainsUsecase
-        })
-        container.register<IGetAllDomainsNameAndIdUsecase>("IGetAllDomainsNameAndIdUsecase",{
-            useClass:GetAllDomainsNameAndIdUsecase
-        })
-        container.register<IGetSpecificDomainUsecase>("IGetSpecificDomainUsecase",{
-            useClass:GetSpecificDomainUsecase
-        })
-        container.register<IUpdateDomainStatusUsecase>("IUpdateDomainStatusUsecase",{
-            useClass:UpdateDomainStatusUsecase
-        })
-        container.register<IEnrollDomainUsecase>("IEnrollDomainUsecase",{
-            useClass:EnrollDomainUsecase
-        })
-        container.register<IGetEnrolledDomainsUsecase>("IGetEnrolledDomainsUsecase",{
-            useClass:GetEnrolledDomainsUsecase
-        })
-        container.register<IGetDomainInsightUsecase>("IGetDomainInsightUsecase",{
-            useClass:GetDomainInsightUsecase
-        })
+    container.register<IRejectMentorApplicationUsecase>(
+      "IRejectMentorApplicationUsecase",
+      {
+        useClass: RejectMentorApplicationUsecase,
+      }
+    );
 
+    container.register<IUpdateMentorStatusUsecase>(
+      "IUpdateMentorStatusUsecase",
+      {
+        useClass: UpdateMentorStatusUsecase,
+      }
+    );
 
-        //community usecase
-        container.register<IAddCommunityUsecase>('IAddCommunityUsecase',{
-            useClass:AddCommunityUsecase
-        })
-        container.register<IGetCommunitiesUsecase>('IGetCommunitiesUsecase',{
-            useClass:GetCommunitiesUsecase
-        })
-        container.register<IUpdateCommunityStatusUsecase>('IUpdateCommunityStatusUsecase',{
-            useClass:UpdateCommunityStatusUsecase
-        })
-        container.register<IGetEnrolledCommunitiesUsecase>('IGetEnrolledCommunitiesUsecase',{
-            useClass:GetEnrolledCommunitiesUsecase
-        })
+    //domain usecase
+    container.register<IAddDomainUsecase>("IAddDomainUsecase", {
+      useClass: AddDomainUsecase,
+    });
+    container.register<IGetAllDomainsUsecase>("IGetAllDomainsUsecase", {
+      useClass: GetAllDomainsUsecase,
+    });
+    container.register<IGetUnblockedDomainsUsecase>(
+      "IGetUnblockedDomainsUsecase",
+      {
+        useClass: GetUnblockedDomainsUsecase,
+      }
+    );
+    container.register<IGetAllDomainsNameAndIdUsecase>(
+      "IGetAllDomainsNameAndIdUsecase",
+      {
+        useClass: GetAllDomainsNameAndIdUsecase,
+      }
+    );
+    container.register<IGetSpecificDomainUsecase>("IGetSpecificDomainUsecase", {
+      useClass: GetSpecificDomainUsecase,
+    });
+    container.register<IUpdateDomainStatusUsecase>(
+      "IUpdateDomainStatusUsecase",
+      {
+        useClass: UpdateDomainStatusUsecase,
+      }
+    );
+    container.register<IEnrollDomainUsecase>("IEnrollDomainUsecase", {
+      useClass: EnrollDomainUsecase,
+    });
+    container.register<IGetEnrolledDomainsUsecase>(
+      "IGetEnrolledDomainsUsecase",
+      {
+        useClass: GetEnrolledDomainsUsecase,
+      }
+    );
+    container.register<IGetDomainInsightUsecase>("IGetDomainInsightUsecase", {
+      useClass: GetDomainInsightUsecase,
+    });
 
-        //slots usecase
-        container.register<IUpdateSlotUsecase>('IUpdateSlotUsecase',{
-            useClass:UpdateSlotUsecase
-        })
-        container.register<IGetMentorSlotsUsecase>('IGetMentorSlotsUsecase',{
-            useClass:GetMentorSlotsUsecase
-        })
-        container.register<IUpdateSlotStatusUsecase>('IUpdateSlotStatusUsecase',{
-            useClass:UpdateSlotStatusUsecase
-        })
-        container.register<IGetDomainSlotsUsecase>('IGetDomainSlotsUsecase',{
-            useClass:GetDomainSlotsUsecase
-        })
-        container.register<IGetSlotsForStudUsecase>('IGetSlotsForStudUsecase',{
-            useClass:GetSlotsForStudUsecase
-        })
-        container.register<ISlotValidityCheckerUsecase>('ISlotValidityCheckerUsecase',{
-            useClass:SlotValidityCheckerUsecase
-        })
-        
-        //payment usecase
-        container.register<ICreateOrderUsecase>('ICreateOrderUsecase',{
-            useClass:CreateOrderUsecase
-        })
-        container.register<IVerifyPaymentUsecase>('IVerifyPaymentUsecase',{
-            useClass:VerifyPaymentUsecase
-        })
+    //community usecase
+    container.register<IAddCommunityUsecase>("IAddCommunityUsecase", {
+      useClass: AddCommunityUsecase,
+    });
+    container.register<IGetCommunitiesUsecase>("IGetCommunitiesUsecase", {
+      useClass: GetCommunitiesUsecase,
+    });
+    container.register<IUpdateCommunityStatusUsecase>(
+      "IUpdateCommunityStatusUsecase",
+      {
+        useClass: UpdateCommunityStatusUsecase,
+      }
+    );
+    container.register<IGetEnrolledCommunitiesUsecase>(
+      "IGetEnrolledCommunitiesUsecase",
+      {
+        useClass: GetEnrolledCommunitiesUsecase,
+      }
+    );
 
-        //wallet usecase
-        container.register<ICreditWalletUsecase>('ICreditWalletUsecase',{
-            useClass:CreditWalletUsecase
-        })
-        container.register<IDebitWalletUsecase>('IDebitWalletUsecase',{
-            useClass:DebitWalletUsecase
-        })
-        
-        //review usecase
-        container.register<IBookReviewUsecase>('IBookReviewUsecase',{
-            useClass:BookReviewUsecase
-        })
-        container.register<IGetMentorReviewsUsecase>('IGetMentorReviewsUsecase',{
-            useClass:GetMentorReviewsUsecase
-        })
-        container.register<IGetReviewForMentorUsecase>('IGetReviewForMentorUsecase',{
-            useClass:GetReviewForMentorUsecase
-        })
-        container.register<ISubmitReviewResultUsecase>('ISubmitReviewResultUsecase',{
-            useClass:SubmitReviewResultUsecase
-        })
-        container.register<ICancelReviewByMentorUsecase>('ICancelReviewByMentorUsecase',{
-            useClass:CancelReviewByMentorUsecase
-        })
-        container.register<IGetReviewsForStudentUsecase>('IGetReviewsForStudentUsecase',{
-            useClass:GetReviewsForStudentUsecase
-        })
-        container.register<ICancelReviewByStudentUsecase>('ICancelReviewByStudentUsecase',{
-            useClass:CancelReviewByStudentUsecase
-        })
-        container.register<IGetReviewByDayForStudUsecase>('IGetReviewByDayForStudUsecase',{
-            useClass:GetReviewByDayForStudUsecase
-        })
+    //slots usecase
+    container.register<IUpdateSlotUsecase>("IUpdateSlotUsecase", {
+      useClass: UpdateSlotUsecase,
+    });
+    container.register<IGetMentorSlotsUsecase>("IGetMentorSlotsUsecase", {
+      useClass: GetMentorSlotsUsecase,
+    });
+    container.register<IUpdateSlotStatusUsecase>("IUpdateSlotStatusUsecase", {
+      useClass: UpdateSlotStatusUsecase,
+    });
+    container.register<IGetDomainSlotsUsecase>("IGetDomainSlotsUsecase", {
+      useClass: GetDomainSlotsUsecase,
+    });
+    container.register<IGetSlotsForStudUsecase>("IGetSlotsForStudUsecase", {
+      useClass: GetSlotsForStudUsecase,
+    });
+    container.register<ISlotValidityCheckerUsecase>(
+      "ISlotValidityCheckerUsecase",
+      {
+        useClass: SlotValidityCheckerUsecase,
+      }
+    );
 
-        //transaction usecase
-        container.register<ICreateTransactionUsecase>('ICreateTransactionUsecase',{
-            useClass:CreateTransactionUsecase
-        })
+    //payment usecase
+    container.register<ICreateOrderUsecase>("ICreateOrderUsecase", {
+      useClass: CreateOrderUsecase,
+    });
+    container.register<IVerifyPaymentUsecase>("IVerifyPaymentUsecase", {
+      useClass: VerifyPaymentUsecase,
+    });
 
-        //notification usecase
-        container.register<ICreateNotificationUsecase>('ICreateNotificationUsecase',{
-            useClass:CreateNotificationUsecase
-        })
-        
-        //fcmToken usecase
-        container.register<ISaveFcmTokenUsecase>('ISaveFcmTokenUsecase',{
-            useClass:SaveFcmTokenUsecase
-        })
+    //wallet usecase
+    container.register<ICreditWalletUsecase>("ICreditWalletUsecase", {
+      useClass: CreditWalletUsecase,
+    });
+    container.register<IDebitWalletUsecase>("IDebitWalletUsecase", {
+      useClass: DebitWalletUsecase,
+    });
 
+    //review usecase
+    container.register<IBookReviewUsecase>("IBookReviewUsecase", {
+      useClass: BookReviewUsecase,
+    });
+    container.register<IGetMentorReviewsUsecase>("IGetMentorReviewsUsecase", {
+      useClass: GetMentorReviewsUsecase,
+    });
+    container.register<IGetReviewForMentorUsecase>(
+      "IGetReviewForMentorUsecase",
+      {
+        useClass: GetReviewForMentorUsecase,
+      }
+    );
+    container.register<ISubmitReviewResultUsecase>(
+      "ISubmitReviewResultUsecase",
+      {
+        useClass: SubmitReviewResultUsecase,
+      }
+    );
+    container.register<ICancelReviewByMentorUsecase>(
+      "ICancelReviewByMentorUsecase",
+      {
+        useClass: CancelReviewByMentorUsecase,
+      }
+    );
+    container.register<IGetReviewsForStudentUsecase>(
+      "IGetReviewsForStudentUsecase",
+      {
+        useClass: GetReviewsForStudentUsecase,
+      }
+    );
+    container.register<ICancelReviewByStudentUsecase>(
+      "ICancelReviewByStudentUsecase",
+      {
+        useClass: CancelReviewByStudentUsecase,
+      }
+    );
+    container.register<IGetReviewByDayForStudUsecase>(
+      "IGetReviewByDayForStudUsecase",
+      {
+        useClass: GetReviewByDayForStudUsecase,
+      }
+    );
 
-        //common usecase
-        container.register<IUploadImageUsecase>('IUploadImageUsecase',{
-            useClass:UploadImageUsecase
-        })
-    }
+    //transaction usecase
+    container.register<ICreateTransactionUsecase>("ICreateTransactionUsecase", {
+      useClass: CreateTransactionUsecase,
+    });
+
+    //notification usecase
+    container.register<ICreateNotificationUsecase>(
+      "ICreateNotificationUsecase",
+      {
+        useClass: CreateNotificationUsecase,
+      }
+    );
+
+    //fcmToken usecase
+    container.register<ISaveFcmTokenUsecase>("ISaveFcmTokenUsecase", {
+      useClass: SaveFcmTokenUsecase,
+    });
+
+    //common usecase
+    container.register<IUploadImageUsecase>("IUploadImageUsecase", {
+      useClass: UploadImageUsecase,
+    });
+  }
 }

@@ -43,7 +43,7 @@ export class CancelReviewByStudentUsecase implements ICancelReviewByStudentUseca
         }
 
         const currentDate = new Date()
-        const slotStartTime = new Date(review.slot.isoStartTime); 
+        const slotStartTime = new Date(review.slot.start); 
 
         const diffInMs = slotStartTime.getTime() - currentDate.getTime(); 
         const diffInHours = diffInMs / (1000 * 60 * 60); 

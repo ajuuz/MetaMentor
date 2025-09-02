@@ -1,6 +1,6 @@
 import {
   IGetMentorForAdmin,
-  IGetMentorsForAdmin,
+  IGetMentors,
   IMentorEntity,
 } from "entities/modelEntities/mentor-model.entity";
 import { SORT_ORDER } from "shared/constants";
@@ -13,13 +13,11 @@ export interface IMentorRepository {
   ): Promise<void>;
 
   findMentorsWithFilterAndPagination(
-    searchTerm:string,
-    selectedDomains:string,
-    filter: Partial<IMentorEntity>,
+    filters: {field:string,value:string|boolean,type:'direct'|'complex'}[],
     skip: number,
     limit: number,
     sort: { field: string; order: SORT_ORDER }
-  ): Promise<{ data: IGetMentorsForAdmin[]; totalDocuments: number }>;
+  ): Promise<{ items: IGetMentors[]; totalDocuments: number }>;
 
   updateOne(
     filter: Partial<IMentorEntity>,

@@ -15,6 +15,7 @@ import { FilterReqDTO } from "./pagination.dto";
 import { MENTOR_APPLICATION_STATUS } from "shared/constants";
 import { Transform, Type } from "class-transformer";
 
+///------------------Admin---------------------------///
 export class GetAllMentorsReqDTO extends FilterReqDTO {
   @Transform(({ value }) => {
     if (value === "true") return true;
@@ -59,8 +60,10 @@ export class UpdateMentorStatusReqDTO {
   @IsBoolean()
   status!: boolean;
 }
+///------------------Admin---------------------------///
 
-//mentor
+
+///------------------Mentor---------------------------///
 export class ApplyForMentorReqDTO {
   @IsString()
   @IsNotEmpty()
@@ -98,3 +101,12 @@ export class ApplyForMentorReqDTO {
   @Max(700, { message: "Fee must not exceed 700" })
   fee!: number;
 }
+///------------------Mentor---------------------------///
+
+
+///------------------Student---------------------------///
+export class GetMentorsForStudReqDTO extends FilterReqDTO {
+  @IsString()
+  selectedDomains!:string
+}
+

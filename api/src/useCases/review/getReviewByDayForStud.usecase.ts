@@ -14,11 +14,10 @@ export class GetReviewByDayForStudUsecase implements IGetReviewByDayForStudUseca
     const newDate = new Date(date);
 
     const startOfDay = new Date(newDate);
-    startOfDay.setUTCHours(0, 0, 0, 0);
+    startOfDay.setHours(0, 0, 0, 0);
 
     const endOfDay = new Date(newDate);
-    endOfDay.setUTCHours(23, 59, 59, 999);
-    console.log(startOfDay,endOfDay)
+    endOfDay.setHours(23, 59, 59, 999);
     const reviews=await this._reviewRepository.findByMentorAndDay(
       mentorId,
       startOfDay,

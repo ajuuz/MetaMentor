@@ -1,10 +1,7 @@
-import { IDomainEntity } from "entities/modelEntities/domainModel.entity"
+import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
 
-export type GetAllDomainsResponseDTO={
-   domains:IDomainEntity[],
-   totalDocuments:number,
-   totalPages:number
-}
-
-
-
+export type GetAllDomainsResponseDTO = {
+  domains: IDomainEntity[];
+  totalDocuments: number;
+  totalPages: number;
+};

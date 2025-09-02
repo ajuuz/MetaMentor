@@ -1,7 +1,5 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
-
-
-export interface IFcmTokenController{
-    saveFcmToken(req:Request,res:Response,next:NextFunction):Promise<void>
+export interface IFcmTokenController {
+  saveFcmToken(req: Request, res: Response): Promise<void>;
 }

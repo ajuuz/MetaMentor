@@ -14,12 +14,12 @@ import { IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
 export class FilterReqDTO {
   @IsOptional()
   @IsString()
-  searchTerm?: string;
+  searchTerm!: string;
 
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  sortBy?: string;
+  sortBy!: string;
 
   @Type(() => Number)
   @IsInt()

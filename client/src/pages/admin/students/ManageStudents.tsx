@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch"
 import PaginationComponent from '@/components/common/PaginationComponent';
 import { toast } from 'sonner';
 import type {  TableDetailsType } from '@/types/tableDataTypes';
-import { useAdminGetAllStudentsQuery } from '@/hooks/student';
+import { useAdminGetAllStudentsQuery } from '@/hooks/tanstack/student';
 import { queryClient } from '@/config/tanstackConfig/tanstackConfig';
 import FilterComponent from '@/components/common/FilterComponent';
 import { useSearchParams } from 'react-router-dom';

@@ -41,6 +41,8 @@ import { IFcmTokenController } from "entities/controllerInterfaces/common/fcmTok
 import { FcmTokenController } from "interfaceAdapters/controllers/common/fcmToken.controller";
 import { ICommonDomainController } from "entities/controllerInterfaces/common/domainController.interface";
 import { CommonDomainController } from "interfaceAdapters/controllers/common/domain.controller";
+import { IUserMentorController } from "entities/controllerInterfaces/user/mentorController.interface";
+import { UserMentorController } from "interfaceAdapters/controllers/user/mentor.controller";
 
 DependencyInjection.registerAll()
 
@@ -63,6 +65,7 @@ export const mentorReviewController = container.resolve<IMentorReviewController>
 //studentController
 export const userController = container.resolve<IUserController>(UserController)
 export const userDomainController = container.resolve<IUserDomainController>(UserDomainController)
+export const userMentorController = container.resolve<IUserMentorController>(UserMentorController)
 export const userSlotController = container.resolve<IUserSlotController>(UserSlotController)
 export const userReviewController = container.resolve<IUserReviewController>(UserReviewController)
 export const userCommunityController = container.resolve<IUserCommunityController>(UserCommunityController)

@@ -27,10 +27,10 @@ export const useGetReviewsForStudentQuery=(status:REVIEW_FILTER_STATUS,dateRange
     })
 }
 
-export const useGetSlotReviewsForStudentQuery=(mentorId:string|undefined,date:string)=>{
+export const useGetSlotReviewsForStudentQuery=(mentorId:string|undefined,date:Date)=>{
     return useQuery<GetDomainReviewSlotResponseDTO>({
         queryKey:['getDomainReviewsSlot',mentorId,date],
-        queryFn:()=> getSlotReviewsForStudent(mentorId!,date),
+        queryFn:()=> getSlotReviewsForStudent(mentorId!,date!),
         enabled: !!mentorId && !!date,
     })
 }

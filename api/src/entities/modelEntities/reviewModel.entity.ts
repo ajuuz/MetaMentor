@@ -4,7 +4,18 @@ import {
   REVIEW_STATUS,
 } from "shared/constants";
 
+//herper interfaces
+interface ReviewSlot {
+  _id:string,
+  start: Date;
+  end: Date;
+}
+interface ReviewPayment {
+  method: PAYMENT_METHOD;
+  status: PAYMENT_STATUS;
+}
 
+//main entity
 export interface IReviewEntity {
   _id: string;
   studentId: string;
@@ -22,21 +33,10 @@ export interface IReviewEntity {
   bookedAt: Date;
 }
 
-
-
-
-interface ReviewSlot {
-  isoStartTime: Date;
-  isoEndTime: Date;
-  day: string;
-  start: number;
-  end: number;
+export interface ICreateReview extends Omit<IReviewEntity,'_id'|"status"|"slot"|"theory"|"practical"|"feedBack"|"bookedAt">{
+  slot:Omit<ReviewSlot,'_id'>
 }
 
-interface ReviewPayment {
-  method: PAYMENT_METHOD;
-  status: PAYMENT_STATUS;
-}
 
 //students
 export interface IGetReviewsForStudAndDomain {

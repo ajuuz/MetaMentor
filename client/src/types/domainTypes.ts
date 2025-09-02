@@ -10,17 +10,10 @@ export type DomainEntity={
     isBlocked:boolean,
 }
 
-export type DomainWithLevel= DomainEntity & {levels:LevelType[]}
 
 export type DomainCreationType= Omit<DomainEntity,'_id'|'isBlocked'> & {
     levels:AddLevel[]
 }
-
-export type GetAllDomains={
-   domains:DomainEntity[],
-   totalPages:number
-}
-
 
 
 //enrolled domainType

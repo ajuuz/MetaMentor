@@ -12,33 +12,11 @@ import { Image, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
+import { domainSchema, type CreateDomainReq } from "@/types/request/domain";
 
-const formSchema = z.object({
-  name: z.string().trim().min(1, "Name is required"),
-  description: z.string().trim().min(10, "Description must be at least 10 characters"),
-  motive: z.string().trim().min(10, "Motive must be at least 10 characters"),
-  image: z
-    .instanceof(File, { message: "Image is required" })
-    .refine((file) => file.size > 0, "Image is required"),
-  levels: z.array(
-    z.object({
-      name: z.string(),
-      description: z.string(),
-      taskFile: z.string(),
-      tasks: z.array(
-        z.object({
-          type: z.enum(["link", "text"]),
-          content: z.string(),
-        })
-      ),
-    })
-  ).min(3, "Need more than 2 levels"),
-});
-
-type DomainForm = z.infer<typeof formSchema>;
 
 const ManageDomain = () => {
   const navigate = useNavigate();
@@ -51,8 +29,8 @@ const ManageDomain = () => {
     watch,
     formState: { errors },
     reset,
-  } = useForm<DomainForm>({
-    resolver: zodResolver(formSchema),
+  } = useForm<CreateDomainReq>({
+    resolver: zodResolver(domainSchema),
     defaultValues: {
       name: "",
       description: "",
@@ -72,6 +50,7 @@ const ManageDomain = () => {
       reset();
     setPrevImage(null);
     setIsLoading(false)
+     queryClient.invalidateQueries({ queryKey: ["getDomainsForAdmin"] });
 },
 onError: (error: any) => {
         setIsLoading(false)
@@ -79,7 +58,7 @@ onError: (error: any) => {
     },
   });
 
-  const onSubmit = async (data: DomainForm) => {
+  const onSubmit = async (data: CreateDomainReq) => {
     setIsLoading(true)
     const imageUrl = await imageUploader([data.image]);
     const finalData = {

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import type { MentorReviewCard } from "@/types/reviewTypes"
 import { REVIEW_STATUS } from "@/utils/constants"
-import { formattedIsoDate, toTimeString } from "@/utils/helperFunctions/toTimeString"
+import {  getDayFromISO, getFormattedDayWithMonthAndYear, isoStringToLocalTime } from "@/utils/helperFunctions/toTimeString"
 import { Separator } from "@radix-ui/react-select"
 import { Calendar, Clock, FileText, MessageSquare, User } from "lucide-react"
 
@@ -116,12 +116,12 @@ const SideBar = ({ review }: Props) => {
               <div className="space-y-2">
                 <div className="bg-white rounded-lg p-3 shadow-sm border border-slate-100">
                   <p className="text-xs text-slate-500 mb-1">Date</p>
-                  <p className="text-sm font-semibold text-slate-900">{formattedIsoDate(review.slot.isoStartTime)}</p>
+                  <p className="text-sm font-semibold text-slate-900">{getFormattedDayWithMonthAndYear(review.slot.start)}</p>
                 </div>
 
                 <div className="bg-white rounded-lg p-3 shadow-sm border border-slate-100">
                   <p className="text-xs text-slate-500 mb-1">Day</p>
-                  <p className="text-sm font-semibold text-slate-900">{review.slot.day}</p>
+                  <p className="text-sm font-semibold text-slate-900">{getDayFromISO(review.slot.start)}</p>
                 </div>
 
                 <div className="bg-white rounded-lg p-3 shadow-sm border border-slate-100">
@@ -130,7 +130,7 @@ const SideBar = ({ review }: Props) => {
                     <p className="text-xs text-slate-500">Time</p>
                   </div>
                   <p className="text-sm font-semibold text-slate-900">
-                    {toTimeString(review.slot.start)} - {toTimeString(review.slot.end)}
+                    {isoStringToLocalTime(review.slot.start)} - {isoStringToLocalTime(review.slot.end)}
                   </p>
                 </div>
 

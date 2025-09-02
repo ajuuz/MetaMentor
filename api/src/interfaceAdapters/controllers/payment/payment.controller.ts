@@ -29,6 +29,7 @@ export class PaymentController implements IPaymentController {
 
   async verifyPayment(req: Request, res: Response): Promise<void> {
     const paymentAndReviewDetails:VerifyPaymentReqDTO=req.verifiedData;
+    console.log(paymentAndReviewDetails)
     const studentId = (req as ModifiedRequest).user.id;
 
     await this._verifyPaymentUsecase.execute(studentId,paymentAndReviewDetails);

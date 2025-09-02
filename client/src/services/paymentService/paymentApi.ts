@@ -3,7 +3,7 @@ import type { VerifyPaymentDTO } from "@/types/paymentType";
 
 
 
-export const createOrder=async(slotId:string,amount:number)=>{
+export const createOrder=async(slotId:string[],amount:number)=>{
     try{
         const response = await userAxiosInstance.post('/payment/createOrder',{slotId,amount})
         return response.data;

@@ -1,4 +1,5 @@
 import {
+  ICreateReview,
   IGetBookedSlotsForStud,
   IGetReviewForMent,
   IGetReviewsForStud,
@@ -11,7 +12,7 @@ import {
   IReviewModel,
 } from "frameworks/database/models/bookedSlot.model";
 import mongoose, { FilterQuery, UpdateQuery } from "mongoose";
-import { DAYS, PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
+import { PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
 
 import { BaseRepository } from "./base.repository";
 
@@ -139,7 +140,7 @@ export class ReviewRepository
     {
       $match: {
         mentorId: new mongoose.Types.ObjectId(mentorId),
-        "slot.isoStartTime": { $gte: startOfDay, $lte: endOfDay }, // ✅ date condition
+        "slot.start": { $gte: startOfDay, $lte: endOfDay }, 
       },
     },
     {
@@ -148,9 +149,6 @@ export class ReviewRepository
         slots: {
           $push: {
             _id: "$_id",
-            isoStartTime: "$slot.isoStartTime",
-            isoEndTime: "$slot.isoEndTime",
-            day: "$slot.day",
             start: "$slot.start",
             end: "$slot.end",
           },
@@ -185,7 +183,7 @@ export class ReviewRepository
     }
 
     if (filter.dateRange) {
-      mongoFilter["slot.isoStartTime"] = {
+      mongoFilter["slot.start"] = {
         $gte: filter.dateRange.start,
         $lte: filter.dateRange.end,
       };
@@ -193,9 +191,9 @@ export class ReviewRepository
     if (filter.pendingReviewState !== "undefined") {
       const currentDate = new Date();
       if (filter.pendingReviewState === PENDING_REVIEW_STATE.NOTOVER) {
-        mongoFilter["slot.isoStartTime"] = { $gt: currentDate };
+        mongoFilter["slot.start"] = { $gt: currentDate };
       } else {
-        mongoFilter["slot.isoEndTime"] = { $lt: currentDate };
+        mongoFilter["slot.end"] = { $lt: currentDate };
       }
     }
 
@@ -269,7 +267,7 @@ export class ReviewRepository
     }
 
     if (filter.dateRange) {
-      mongoFilter["slot.isoStartTime"] = {
+      mongoFilter["slot.start"] = {
         $gte: filter.dateRange.start,
         $lte: filter.dateRange.end,
       };
@@ -277,9 +275,9 @@ export class ReviewRepository
     if (filter.pendingReviewState !== "undefined") {
       const currentDate = new Date();
       if (filter.pendingReviewState === PENDING_REVIEW_STATE.NOTOVER) {
-        mongoFilter["slot.isoStartTime"] = { $gt: currentDate };
+        mongoFilter["slot.start"] = { $gt: currentDate };
       } else {
-        mongoFilter["slot.isoEndTime"] = { $lt: currentDate };
+        mongoFilter["slot.end"] = { $lt: currentDate };
       }
     }
 
@@ -405,7 +403,7 @@ export class ReviewRepository
   }
 
   async createReview(
-    reviewDetails: Partial<IReviewEntity>
+    reviewDetails: ICreateReview
   ): Promise<IReviewModel> {
     const studentId = new mongoose.Types.ObjectId(reviewDetails.studentId);
     const mentorId = new mongoose.Types.ObjectId(reviewDetails.mentorId);
@@ -427,13 +425,11 @@ export class ReviewRepository
 
   async checkIsBookedSlot(
     mentorId: string,
-    day: string,
-    start: number,
-    end: number
+    start: Date,
+    end: Date
   ): Promise<boolean> {
     const review = await reviewModel.findOne({
       mentorId,
-      "slot.day": day,
       "slot.start": { $lt: end },
       "slot.end": { $gt: start },
     });

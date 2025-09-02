@@ -7,26 +7,46 @@ import { CustomError } from "shared/utils/error/customError";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { inject, injectable } from "tsyringe";
 
-
 @injectable()
-export class SlotValidityCheckerUsecase implements ISlotValidityCheckerUsecase{
+export class SlotValidityCheckerUsecase implements ISlotValidityCheckerUsecase {
+  constructor(
+    @inject("ISlotRepository")
+    private _slotRepository: ISlotRepository,
 
-    constructor(
-        @inject('ISlotRepository')
-        private _slotRepository:ISlotRepository,
+    @inject("IReviewRepository")
+    private _reviewRepository: IReviewRepository
+  ) {}
 
-        @inject('IReviewRepository')
-        private _reviewRepository:IReviewRepository,
-        
-    ){}
+  async execute(mentorId: string, date: string, slotId: string): Promise<void> {
+    const start = new Date(date);
+    const end = new Date(date);
+    const day = start.toLocaleDateString("en-US", { weekday: "long" });
+    const slot: SlotDTO | null = await this._slotRepository.getSpecificSlot(
+      mentorId,
+      day,
+      slotId
+    );
+    if (!slot) throw new NotFoundError("Slot not Found");
+    if (!slot.enabled)
+      throw new CustomError(
+        HTTP_STATUS.UNPROCESSED_ENTITY,
+        ERROR_MESSAGE.SLOT.UNPROCESSED_ENTITY
+      );
 
-    async execute(mentorId:string,day:string,slotId:string):Promise<void>{
-        const slot:SlotDTO|null= await this._slotRepository.getSpecificSlot(mentorId,day,slotId);
+    const startHours = Math.floor(slot.start / 60);
+    const startMins = slot.start % 60;
+    start.setHours(startHours, startMins, 0, 0);
 
-        if(!slot) throw new NotFoundError("Slot not Found");
-        if(!slot.enabled) throw new CustomError(HTTP_STATUS.UNPROCESSED_ENTITY,ERROR_MESSAGE.SLOT.UNPROCESSED_ENTITY);
+    const endHours = Math.floor(slot.end / 60);
+    const endMins = slot.end % 60;
+    end.setHours(endHours, endMins, 0, 0);
 
-        const isBooked = await this._reviewRepository.checkIsBookedSlot(mentorId,day,slot.start,slot.end);
-        if(isBooked) throw new CustomError(HTTP_STATUS.CONFLICT,ERROR_MESSAGE.SLOT.CONFLICT);
-    }
+    const isBooked = await this._reviewRepository.checkIsBookedSlot(
+      mentorId,
+      start,
+      end
+    );
+    if (isBooked)
+      throw new CustomError(HTTP_STATUS.CONFLICT, ERROR_MESSAGE.SLOT.CONFLICT);
+  }
 }

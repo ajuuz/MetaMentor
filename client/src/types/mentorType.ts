@@ -1,46 +1,57 @@
-import type { GENDER } from "@/utils/constants"
-import type { DomainType } from "./domainTypes"
+import type { GENDER } from "@/utils/constants";
+import type { DomainEntity } from "./domainTypes";
 
-export type MentorRegistrationFormDataType={
-    domains:string[]
-    about:string,
-    workedAt:string[],
-    skills:string[]
-    cv:string
-    experienceCirtificate:string,
-    fee:number
-}
+export type MentorRegistrationFormDataType = {
+  domains: string[];
+  about: string;
+  workedAt: string[];
+  skills: string[];
+  cv: string;
+  experienceCirtificate: string;
+  fee: number;
+};
 
-export type MentorRegistrationErrorType={
-    selectedDomainsError?:string,
-    descriptionError?:string,
-    workedAtError?:string,
-    skillsError?:string,
-    images?:string;
-    
-}
+export type MentorRegistrationErrorType = {
+  selectedDomainsError?: string;
+  descriptionError?: string;
+  workedAtError?: string;
+  skillsError?: string;
+  images?: string;
+};
 
-export type MentorDataType={
-    _id: string,
-    userId:string,
-    about: string,
-    email:string,
-    domains:Pick<DomainType,'_id'|'name'>[],
-    isBlocked: boolean,
-    cv:string,
-    experienceCirtificate:string,
-    skills: string[],
-    workedAt:string[],
-    name: string,
-    country: string|null,
-    gender: GENDER|null,
-    mobileNumber: string|null,
-    profileImage:string|null,
-    fee:number
-}
+export type MentorDataType = {
+  name: string;
+  profileImage: string | null;
+  country: string | null;
+  domains: Pick<DomainEntity, "_id" | "name" | "image">[];
+  skills: string[];
+  workedAt: string[];
+  fee: number;
+  userId: string;
+  rating: number;
+  about: string;
+  email: string;
+  isBlocked: boolean;
+  cv: string;
+  experienceCirtificate: string;
+  gender: GENDER | null;
+  mobileNumber: string | null;
+};
 
+export type MentorCardType = {
+  name: string;
+  profileImage: string | null;
+  country: string | null;
+  domains: Pick<DomainEntity, "_id" | "name" | "image">[];
+  skills: string[];
+  workedAt: string[];
+  fee: number;
+  userId: string;
+  rating: number;
+  about: string;
+};
 
-export type GetAllMentorResponseType={
-   mentors:Omit<MentorDataType,"cv"|"experienceCirtificate">[],
-   totalPages:number
-}
+export type GetAllMentorResponseType = {
+  mentors: Omit<MentorDataType, "cv" | "experienceCirtificate">[];
+  totalPages: number;
+};

@@ -1,6 +1,7 @@
 //student
 import {
   IsEnum,
+  IsISO8601,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -35,8 +36,7 @@ export class GetReviewByDayForStudReqDTO {
   @IsNotEmpty()
   mentorId!: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @IsISO8601()
   date!: string;
 }
 

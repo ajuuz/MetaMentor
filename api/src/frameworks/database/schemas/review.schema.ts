@@ -34,11 +34,8 @@ export const reviewSchema:Schema<IReviewModel>=new mongoose.Schema<IReviewModel>
     },
     slot:{
         type:{
-            isoStartTime:Date,
-            isoEndTime:Date,
-            day:String,
-            start:String,
-            end:String
+            start:{type:Date,required:true},
+            end:{type:Date,required:true}
         }
     },
     theory:{

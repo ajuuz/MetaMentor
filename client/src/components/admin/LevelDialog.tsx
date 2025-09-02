@@ -17,31 +17,11 @@ import { ScrollArea } from "../ui/scroll-area";
 import { LEVEL_TASK_TYPE } from "@/utils/constants";
 import { Plus, X } from "lucide-react";
 import { toast } from "sonner";
-import { z } from "zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AddLevel } from "@/types/levelTypes";
+import { levelSchema, type CreateLevelReq } from "@/types/request/level";
 
-const levelSchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: "Name is required" })
-    .max(20, { message: "Name must be at most 20 characters" }),
-  description: z.string().min(1, { message: "Description is required" }),
-  taskFile: z.string().min(1, { message: "TaskFile is required" }),
-  tasks: z
-    .array(
-      z.object({
-        type: z.nativeEnum(LEVEL_TASK_TYPE),
-        content: z
-          .string()
-          .min(1, { message: "Task content is required" }),
-      })
-    )
-    .max(3, { message: "You can add up to 3 tasks" })
-});
-
-export type LevelForm = z.infer<typeof levelSchema>;
 
 type Props={
     addLevel: (level: AddLevel) => void
@@ -56,7 +36,7 @@ const LevelDialog = ({addLevel}: Props) => {
     control,
     formState: { errors },
     reset
-  } = useForm<LevelForm>({
+  } = useForm<CreateLevelReq>({
     resolver: zodResolver(levelSchema),
     defaultValues: {
       name: "",
@@ -79,7 +59,7 @@ const LevelDialog = ({addLevel}: Props) => {
     append({ type: LEVEL_TASK_TYPE.TEXT, content: "" });
   };
 
-  const onSubmit = (data: LevelForm) => {
+  const onSubmit = (data: CreateLevelReq) => {
     setOpen(false);
     addLevel(data)
     reset()

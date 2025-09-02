@@ -6,7 +6,14 @@ export class MentorBaseDTO {
   name!: string;
 
   @Expose()
+  profileImage!: string;
+
+  @Expose()
   country!: string;
+
+  @Expose()
+  @Type(() => DomainDTO)
+  domains!: DomainDTO[];
 
   @Expose()
   skills!: string[];
@@ -18,22 +25,6 @@ export class MentorBaseDTO {
   fee!: number;
 }
 
-//admin
-@Exclude()
-export class GetMentorsForAdminResDTO extends MentorBaseDTO{
-  @Transform(({ obj }) => obj.userId.toString())
-  @Expose()
-  userId!: string;
-
-  @Expose()
-  mobileNumber!: number | null;
-
-  @Expose()
-  domains!: string[];
-
-  @Expose()
-  isBlocked!: boolean;
-}
 
 @Exclude()
 export class DomainDTO {
@@ -43,10 +34,31 @@ export class DomainDTO {
 
   @Expose()
   name!: string;
+
+  @Expose()
+  image!: string;
 }
 
+//admin
 @Exclude()
-export class GetMentorForAdminResDTO extends MentorBaseDTO{
+export class GetMentorsForAdminResDTO extends MentorBaseDTO {
+  @Transform(({ obj }) => obj.userId.toString())
+  @Expose()
+  userId!: string;
+
+  @Expose()
+  mobileNumber!: number | null;
+
+  @Expose()
+  rating!:number
+
+  @Expose()
+  isBlocked!: boolean;
+}
+
+
+@Exclude()
+export class GetMentorForAdminResDTO extends MentorBaseDTO {
   @Expose()
   about!: string;
 
@@ -64,19 +76,27 @@ export class GetMentorForAdminResDTO extends MentorBaseDTO{
 
   @Expose()
   email!: string;
-
-  @Expose()
-  profileImage!: string;
-
-  @Expose()
-  @Type(() => DomainDTO)
-  domains!: DomainDTO[];
 }
 
+//=------------user----------------//
 @Exclude()
 export class MentorPreviewDTO {
   @Expose()
   name!: string;
   @Expose()
   profileImage!: string;
+}
+
+
+@Exclude()
+export class GetMentorsForStudResDTO extends MentorBaseDTO {
+  @Transform(({ obj }) => obj.userId.toString())
+  @Expose()
+  userId!: string;
+
+  @Expose()
+  rating!:number;
+
+  @Expose()
+  about!:string
 }

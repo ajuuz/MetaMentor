@@ -4,6 +4,7 @@ import {
   userCommunityController,
   userController,
   userDomainController,
+  userMentorController,
   userReviewController,
   userSlotController,
 } from "frameworks/di/resolver";
@@ -17,12 +18,17 @@ import {
   GetDomainInsightReqDTO,
   GetSpecificDomainForStudReqDTO,
 } from "shared/dto/request/domain.dto";
+import { GetMentorsForStudReqDTO } from "shared/dto/request/mentor.dto";
 import {
   CancelReviewByStudReqDTO,
   GetAllReviewsForStudReqDTO,
   GetReviewByDayForStudReqDTO,
 } from "shared/dto/request/review.dto";
-import { GetDomainSlotsForStudReqDTO, GetSlotsForStudReqDTO, SlotValidityCheckReqDTO } from "shared/dto/request/slot.dto";
+import {
+  GetDomainSlotsForStudReqDTO,
+  GetSlotsForStudReqDTO,
+  SlotValidityCheckReqDTO,
+} from "shared/dto/request/slot.dto";
 import { UpdateUserDetailsReqDTO } from "shared/dto/request/user.dto";
 
 export class UserRoutes {
@@ -57,10 +63,7 @@ export class UserRoutes {
     );
 
     //user
-    this._router.get(
-      "/user",
-      userController.getDetails.bind(userController)
-    );
+    this._router.get("/user", userController.getDetails.bind(userController));
     this._router.patch(
       "/user",
       validationMiddleware(UpdateUserDetailsReqDTO),
@@ -68,7 +71,6 @@ export class UserRoutes {
     );
 
     //domains
-
     this._router.post(
       "/domains/:domainId",
       validationMiddleware(EnrollDomainReqDTO),
@@ -85,6 +87,13 @@ export class UserRoutes {
       userDomainController.getDomainInsight.bind(userDomainController)
     );
 
+    // mentors
+    this._router.get(
+      "/mentors",
+      validationMiddleware(GetMentorsForStudReqDTO),
+      userMentorController.getMentorsForStud.bind(userMentorController)
+    );
+
     //slots
     this._router.get(
       "/slots/:domainId",
@@ -97,7 +106,7 @@ export class UserRoutes {
       userSlotController.getSlots.bind(userSlotController)
     );
     this._router.post(
-      "/slots/:mentorId/:day/:slotId",
+      "/slots/:mentorId/:date/:slotId",
       validationMiddleware(SlotValidityCheckReqDTO),
       userSlotController.slotValidityChecker.bind(userSlotController)
     );

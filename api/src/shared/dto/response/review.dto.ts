@@ -21,17 +21,11 @@ export class ReviewPaymentDTO {
 @Exclude()
 export class ReviewSlotResDTO {
   @Expose()
-  @Type(() => Date)
-  isoStartTime!: Date;
+  start!: Date;
+
   @Expose()
-  @Type(() => Date)
-  isoEndTime!: Date;
-  @Expose()
-  day!: DAYS;
-  @Expose()
-  start!: number;
-  @Expose()
-  end!: number;
+  end!: Date;
+  
   @Expose()
   @Transform(({ obj }) => obj._id.toString())
   _id!: string;
@@ -47,18 +41,18 @@ export class ReviewBaseDTO {
   @Type(() => LevelPreviewDTO)
   level!: LevelPreviewDTO;
 
-  @Expose() 
+  @Expose()
   @Type(() => ReviewSlotResDTO)
   slot!: ReviewSlotResDTO;
 
-  @Expose() 
+  @Expose()
   feedBack!: string;
 
-  @Expose() 
+  @Expose()
   @Type(() => ReviewPaymentDTO)
   payment!: ReviewPaymentDTO;
 
-  @Expose() 
+  @Expose()
   status!: REVIEW_STATUS;
 
   @Expose()
@@ -68,21 +62,21 @@ export class ReviewBaseDTO {
   commissionAmount!: number;
 
   @Expose()
-  theory!:number
+  theory!: number;
 
   @Expose()
-  practical!:number
+  practical!: number;
 }
 
 //students
 @Exclude()
-export class GetReviewsForStudAndDomainResDTO extends ReviewBaseDTO{
+export class GetReviewsForStudAndDomainResDTO extends ReviewBaseDTO {
   @Expose()
   mentorName!: string;
 }
 
 @Exclude()
-export class GetReviewsForStudResDTO extends ReviewBaseDTO{
+export class GetReviewsForStudResDTO extends ReviewBaseDTO {
   @Expose()
   @Type(() => MentorPreviewDTO)
   mentor!: MentorPreviewDTO;
@@ -104,7 +98,7 @@ export class GetBookedReviewSlotsResDTO {
 //mentors
 
 @Exclude()
-export class GetReviewsForMentResDTO extends ReviewBaseDTO{
+export class GetReviewsForMentResDTO extends ReviewBaseDTO {
   @Expose()
   @Type(() => StudentPreviewDTO)
   student!: StudentPreviewDTO;
@@ -113,4 +107,4 @@ export class GetReviewsForMentResDTO extends ReviewBaseDTO{
   domainName!: string;
 }
 
-export class GetReviewForMentResDTO extends GetReviewsForMentResDTO{}
+export class GetReviewForMentResDTO extends GetReviewsForMentResDTO {}

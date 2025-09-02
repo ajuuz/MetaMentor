@@ -4,6 +4,7 @@ import {
   IsBoolean,
   IsEnum,
   IsInt,
+  IsISO8601,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -33,8 +34,8 @@ export class SlotValidityCheckReqDTO {
   @IsNotEmpty()
   mentorId!: string;
 
-  @IsEnum(DAYS)
-  day!: DAYS;
+  @IsISO8601()
+  date!: string;
 
   @IsString()
   @IsNotEmpty()

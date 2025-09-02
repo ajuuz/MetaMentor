@@ -28,9 +28,9 @@ export const validationMiddleware = (dtoClass: any) => {
     });
 
     if (errors.length > 0) {
-      errors.forEach((err)=>{
-        console.log(err.children)
-      })
+      errors.forEach((err) => {
+        console.log(err.children);
+      });
       res.status(HTTP_STATUS.BAD_REQUEST).json({
         message: "Validation failed",
         errors: errors.map((err) => ({

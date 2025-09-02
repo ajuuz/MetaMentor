@@ -61,8 +61,8 @@ const ReviewPage = () => {
     )
   }
 
-  const startTime = new Date(review.slot.isoStartTime)
-  const endTime = new Date(review.slot.isoEndTime)
+  const startTime = new Date(review.slot.start)
+  const endTime = new Date(review.slot.end)
   const now = currentTime
 
   const getReviewStatus = () => {
@@ -90,17 +90,17 @@ const ReviewPage = () => {
     switch (status) {
       case 'active':
         return (
-          <Active end={review.slot.end} endTime={endTime} now={now}/>
+          <Active end={review.slot.end}  now={now}/>
         )
 
       case 'waiting':
         return (
-          <Waiting start={review.slot.start} now={now} startTime={startTime}/>
+          <Waiting start={review.slot.start} now={now}/>
         )
 
       case 'completed':
         return (
-          <Completed review={review} startTime={startTime} endTime={endTime}/>
+          <Completed review={review} start={review.slot.start} end={review.slot.end}/>
         )
 
       default:

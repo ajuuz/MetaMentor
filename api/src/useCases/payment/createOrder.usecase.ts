@@ -16,10 +16,10 @@ export class CreateOrderUsecase implements ICreateOrderUsecase{
         private _slotLockRepository:ISlotLockRepository
     ){}
 
-    async execute(slotId:string,amount:number):Promise<Orders.RazorpayOrder>{
-        const isLocked = await this._slotLockRepository.isSlotLocked(slotId)
-        if(isLocked){
-            throw new CustomError(HTTP_STATUS.CONFLICT,"Slot is already locked, Please try another")
+    async execute(slotId:string[],amount:number):Promise<Orders.RazorpayOrder>{
+        const lockedSlot = await this._slotLockRepository.isSlotLocked(slotId)
+        if(lockedSlot){
+            throw new CustomError(HTTP_STATUS.CONFLICT,`${lockedSlot} slot is locked`)
         }
 
         const options={

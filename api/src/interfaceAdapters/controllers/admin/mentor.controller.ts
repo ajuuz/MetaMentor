@@ -1,8 +1,7 @@
 import { IAdminMentorController } from "entities/controllerInterfaces/admin/adminMentorController.interface";
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
-import { IGetNotVerifiedMentorsUsecase } from "entities/usecaseInterfaces/mentor/getNotVerifiedMentorsUsecase.interface";
+import { IGetMentorsForAdminUsecase } from "entities/usecaseInterfaces/mentor/getMentorsForAdmin.interface";
 import { IGetSpecificMentorUsecase } from "entities/usecaseInterfaces/mentor/getSpecificMentorUsecase.interface";
-import { IGetVerifiedMentorsUsecase } from "entities/usecaseInterfaces/mentor/getVerifiedMentors.interface";
 import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
 import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/updateMentorStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
@@ -19,11 +18,8 @@ import { inject, injectable } from "tsyringe";
 @injectable()
 export class AdminMentorController implements IAdminMentorController {
   constructor(
-    @inject("IGetNotVerifiedMentorsUsecase")
-    private _getNotVerifiedMentorsUsecase: IGetNotVerifiedMentorsUsecase,
-
-    @inject("IGetVerifiedMentorsUsecase")
-    private _getVerifiedMentorsUsecase: IGetVerifiedMentorsUsecase,
+    @inject("IGetMentorsForAdminUsecase")
+    private _getMentorsForAdminUsecase: IGetMentorsForAdminUsecase,
 
     @inject("IGetSpecificMentorUsecase")
     private _getSpecificMentorUsecase: IGetSpecificMentorUsecase,
@@ -49,21 +45,16 @@ export class AdminMentorController implements IAdminMentorController {
       isVerified,
       sortBy,
       searchTerm,
-      selectedDomains
+      selectedDomains,
     }: GetAllMentorsReqDTO = req.verifiedData;
-    let usecase: IGetNotVerifiedMentorsUsecase | IGetVerifiedMentorsUsecase;
-    if (!isVerified) {
-      usecase = this._getNotVerifiedMentorsUsecase;
-    } else {
-      usecase = this._getVerifiedMentorsUsecase;
-    }
     try {
-      const data = await usecase.execute(
+      const data = await this._getMentorsForAdminUsecase.execute(
+        isVerified,
+        sortBy,
+        searchTerm,
+        selectedDomains,
         currentPage,
-        limit,
-        sortBy!,
-        searchTerm!,
-        selectedDomains
+        limit
       );
       res.status(HTTP_STATUS.OK).json(data);
     } catch (error) {

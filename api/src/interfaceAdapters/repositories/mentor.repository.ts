@@ -1,6 +1,6 @@
 import {
   IGetMentorForAdmin,
-  IGetMentorsForAdmin,
+  IGetMentors,
   IMentorEntity,
 } from "entities/modelEntities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
@@ -37,18 +37,18 @@ export class MentorRepository implements IMentorRepository {
       { $unwind: "$userDetails" },
       {
         $project: {
-          about: 1,
-          cv: 1,
-          experienceCirtificate: 1,
+          name: "$userDetails.name",
+          profileImage: "$userDetails.profileImage",
+          country: "$userDetails.country",
           skills: 1,
           workedAt: 1,
           fee: 1,
-          name: "$userDetails.name",
-          country: "$userDetails.country",
+          about: 1,
+          cv: 1,
+          experienceCirtificate: 1,
           gender: "$userDetails.gender",
           mobileNumber: "$userDetails.mobileNumber",
           email: "$userDetails.email",
-          profileImage: "$userDetails.profileImage",
           domains: {
             $map: {
               input: "$domains",
@@ -56,6 +56,7 @@ export class MentorRepository implements IMentorRepository {
               in: {
                 _id: "$$domain._id",
                 name: "$$domain.name",
+                image: "$$domain.image",
               },
             },
           },
@@ -74,23 +75,36 @@ export class MentorRepository implements IMentorRepository {
   }
 
   async findMentorsWithFilterAndPagination(
-    searchTerm: string,
-    selectedDomains:string,
-    filter: Partial<IMentorEntity>,
+    filters: {
+      field: string;
+      value: string | boolean;
+      type: "direct" | "complex";
+    }[],
     skip: number,
     limit: number,
     sort: { field: string; order: SORT_ORDER }
-  ): Promise<{ data: IGetMentorsForAdmin[]; totalDocuments: number }> {
-    const mongoFilter = filter as unknown as FilterQuery<IMentorModel>;
+  ): Promise<{ items: IGetMentors[]; totalDocuments: number }> {
+    const mongoFilter: FilterQuery<IMentorModel> = {};
 
-    if (searchTerm) {
-      mongoFilter["user.name"] = { $regex: searchTerm, $options: "i" };
-    }
+    filters.forEach((item) => {
+      if (item.type === "direct") {
+        mongoFilter[item.field] = item.value;
+      } else {
+        if (item.field === "searchTerm") {
+          mongoFilter["user.name"] = { $regex: item.value, $options: "i" };
+        }
 
-    if(selectedDomains){
-        const domains = selectedDomains.split(',').map((domainId)=>new mongoose.Types.ObjectId(domainId))
-        mongoFilter['domains']={$all:domains}
-    }
+        if (
+          item.field === "selectedDomains" &&
+          typeof item.value === "string"
+        ) {
+          const domains = item.value
+            .split(",")
+            .map((domainId) => new mongoose.Types.ObjectId(domainId));
+          mongoFilter["domains"] = { $all: domains };
+        }
+      }
+    });
 
     let sortOption: Record<string, 1 | -1> = {};
     if (sort.field === "name") {
@@ -121,19 +135,31 @@ export class MentorRepository implements IMentorRepository {
       $project: {
         _id: 0,
         name: "$user.name",
+        profileImage:'$user.profileImage',
         country: "$user.country",
         mobileNumber: "$user.mobileNumber",
         userId: 1,
         domains: {
           $map: {
             input: "$domains",
-            as: "d",
-            in: "$$d.name",
+            as: "domain",
+            in: {
+                _id: "$$domain._id",
+                name: "$$domain.name",
+                image: "$$domain.image",
+              },
           },
         },
         skills: 1,
         workedAt: 1,
         fee: 1,
+        rating:{
+          $cond:[
+            {$eq:["$rating.noOfRaters",0]},0,
+            {$divide:["$rating.totalStars","$rating.noOfRaters"]}
+          ]
+        },
+        about:1,
         isBlocked: 1,
       },
     };
@@ -144,7 +170,7 @@ export class MentorRepository implements IMentorRepository {
       { $match: mongoFilter },
       {
         $facet: {
-          data: [
+          items: [
             { $sort: sortOption },
             { $skip: skip },
             { $limit: limit },
@@ -160,8 +186,8 @@ export class MentorRepository implements IMentorRepository {
         },
       },
     ]);
-    const {data,totalDocuments}=response[0];
-    return {data,totalDocuments}
+    const { items, totalDocuments } = response[0];
+    return { items, totalDocuments };
   }
 
   async updateOne(

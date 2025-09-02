@@ -3,6 +3,7 @@ import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepositor
 import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReviewUsecase.interface";
 import { IReviewModel } from "frameworks/database/models/bookedSlot.model";
 import { PAYMENT_METHOD, PAYMENT_STATUS } from "shared/constants";
+import { BookReviewReqDTO } from "shared/dto/request/payment.dto";
 import { inject, injectable } from "tsyringe";
 
 
@@ -14,7 +15,7 @@ export class BookReviewUsecase implements IBookReviewUsecase{
         private _reviewRepository:IReviewRepository
     ){}
 
-    async create(studentId:string,reviewDetails:Partial<IReviewEntity> & {amount:number}):Promise<IReviewModel>{
+    async create(studentId:string,reviewDetails:BookReviewReqDTO):Promise<IReviewModel>{
         const amount=reviewDetails.amount!
         const commissionAmount = (amount*10)/100;
         const mentorEarning = amount-commissionAmount;

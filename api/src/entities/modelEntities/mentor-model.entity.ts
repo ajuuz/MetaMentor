@@ -18,30 +18,37 @@ export interface IMentorEntity {
   fee: number;
 }
 
-export interface IGetMentorsForAdmin {
+export interface IGetMentors {
   name: string;
+  profileImage:string,
   country: string;
-  mobileNumber: number;
-  userId: string;
-  domains: string[];
+  domains: { _id: string; name: string ,image:string}[];
   skills: string[];
   workedAt: string[];
   fee: number;
+  userId: string;
+  mobileNumber: number;
+  rating: {
+    totalStars: number;
+    noOfRaters: number;
+  };
+  about: string;
   isBlocked: boolean;
 }
 
+
 export interface IGetMentorForAdmin {
-  about: string;
-  cv: string;
-  experienceCirtificate: string;
+  name: string;
+  profileImage: string;
+  country: string;
+  domains: { _id: string; name: string ,image:string}[];
   skills: string[];
   workedAt: string[];
   fee: number;
-  name: string;
-  country: string;
+  about: string;
+  cv: string;
+  experienceCirtificate: string;
   gender: GENDER;
   mobileNumber: number;
   email: string;
-  profileImage: string;
-  domains: { _id: string; name: string }[];
 }

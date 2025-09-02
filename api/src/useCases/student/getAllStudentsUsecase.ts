@@ -19,21 +19,28 @@ export class GetAllStudentsUsecase implements IGetAllStudentsUsecase {
   ): Promise<{ students: GetStudentsForAdminResDTO[]; totalPages: number }> {
     const { currentPage, limit, sortBy, searchTerm, isPremium } = fetchDetails;
     const skip: number = (currentPage - 1) * limit;
+
     //filter
-    const filter: Record<string, string|boolean> = {};
-    if(searchTerm) filter.searchTerm=searchTerm;
-    if(isPremium) filter.isPremium=isPremium;
+    const filters: {
+      field: string;
+      value: string | boolean;
+      type: "direct" | "complex";
+    }[]=[];
+
+    if(isPremium) filters.push({field:'isPremium',value:isPremium,type:'direct'})
+    if (searchTerm) filters.push({field:'searchTerm',value:searchTerm,type:'complex'})
 
     //sort
     const [field, order] = sortBy!.split("-");
     const sort = { field, order: order as SORT_ORDER };
 
-    const { data, totalDocuments } = await this._studentRepository.findStudentsWithFilterAndPagination(
-      filter,
-      skip,
-      limit,
-      sort
-    );
+    const { data, totalDocuments } =
+      await this._studentRepository.findStudentsWithFilterAndPagination(
+        filters,
+        skip,
+        limit,
+        sort
+      );
     const students = plainToInstance(GetStudentsForAdminResDTO, data, {
       excludeExtraneousValues: true,
     });

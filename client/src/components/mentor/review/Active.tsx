@@ -1,14 +1,14 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { toTimeString } from '@/utils/helperFunctions/toTimeString'
+import { isoStringToLocalTime } from '@/utils/helperFunctions/toTimeString'
 import { MessageSquare, Video } from 'lucide-react'
 
 type Props={
-    end:number,
-    endTime:Date,
+    end:string,
     now:Date
 }
-const Active = ({end,endTime,now}:Props) => {
+const Active = ({end,now}:Props) => {
+  const endTime=new Date(end);
   return (
      <Card>
             <CardHeader className="text-center">
@@ -38,7 +38,7 @@ const Active = ({end,endTime,now}:Props) => {
               </div>
 
               <div className="text-center text-sm text-slate-600">
-                <p>Session ends at {toTimeString(end)}</p>
+                <p>Session ends at {isoStringToLocalTime(end)}</p>
                 <p className="text-xs mt-1">
                   Time remaining: {Math.floor((endTime.getTime() - now.getTime()) / (1000 * 60))} minutes
                 </p>

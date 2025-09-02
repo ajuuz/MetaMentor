@@ -1,6 +1,10 @@
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
   IsDate,
+  IsISO8601,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -8,15 +12,17 @@ import {
 } from "class-validator";
 
 export class RazorPayCreateOrderReqDTO {
-  @IsString()
-  @IsNotEmpty()
-  slotId!: string;
+  @IsArray()
+  @ArrayMinSize(1)
+  @ArrayMaxSize(2)
+  @IsString({ each: true })
+  slotId!: string[];
 
   @IsNumber()
   amount!: number;
 }
 
-class RazorpayDetails {
+class RazorPayVerifyDetailsReqDTO {
   @IsString()
   @IsNotEmpty()
   razorpay_order_id!: string;
@@ -30,27 +36,18 @@ class RazorpayDetails {
   razorpay_signature!: string;
 }
 
-class SlotDetails {
-  @Type(() => Date)
-  @IsDate()
-  isoStartTime!: Date;
+class ReviewSlotReqDTO {
+  @IsISO8601()
+  start!: Date;
 
-  @Type(() => Date)
-  @IsDate()
-  isoEndTime!: Date;
-
-  @IsString()
-  @IsNotEmpty()
-  day!: string;
-
-  @IsNumber()
-  start!: number;
-
-  @IsNumber()
-  end!: number;
+  @IsISO8601()
+  end!: Date;
 }
 
-export class ReviewDetails {
+export class BookReviewReqDTO {
+  @IsNumber()
+  amount!: number;
+
   @IsString()
   @IsNotEmpty()
   domainId!: string;
@@ -63,20 +60,17 @@ export class ReviewDetails {
   @IsNotEmpty()
   mentorId!: string;
 
-  @IsNumber()
-  amount!: number;
-
   @ValidateNested()
-  @Type(() => SlotDetails)
-  slot!: SlotDetails;
+  @Type(()=>ReviewSlotReqDTO)
+  slot!: ReviewSlotReqDTO;
 }
 
 export class VerifyPaymentReqDTO {
   @ValidateNested()
-  @Type(() => RazorpayDetails)
-  razorPayDetails!: RazorpayDetails;
+  @Type(() => RazorPayVerifyDetailsReqDTO)
+  razorPayDetails!: RazorPayVerifyDetailsReqDTO;
 
   @ValidateNested()
-  @Type(() => ReviewDetails)
-  reviewDetails!: ReviewDetails;
+  @Type(() => BookReviewReqDTO)
+  reviewDetails!: BookReviewReqDTO;
 }

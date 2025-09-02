@@ -13,7 +13,11 @@ export interface IStudentRepository
   createStudent(userId: ObjectId): Promise<void>;
 
   findStudentsWithFilterAndPagination(
-    filter: Record<string,string|boolean>,
+    filters: {
+      field: string;
+      value: string | boolean;
+      type: "direct" | "complex";
+    }[],
     skip: number,
     limit: number,
     sort: { field: string; order: SORT_ORDER }
