@@ -20,7 +20,8 @@ export class UpdateMentorStatusUsecase implements IUpdateMentorStatusUsecase{
     async execute(mentorId:string,status:boolean):Promise<void>{
         if(!mentorId || ![true,false].includes(status)) throw new ValidationError("insufficient data for updating status");
 
-        const filter:Pick<IMentorEntity,'userId'>={userId:mentorId};
+        const filter:{field:keyof IMentorEntity,value:string|boolean|number}[]=[];
+        filter.push({field:"userId",value:mentorId})
         const update:Pick<IMentorEntity,"isBlocked">={isBlocked:status}
         const asyncOperations=[]
         asyncOperations.push(this._userRepository.updateOne({_id:mentorId},update))

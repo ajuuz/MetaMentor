@@ -1,7 +1,7 @@
 import { IAdminMentorController } from "entities/controllerInterfaces/admin/adminMentorController.interface";
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
 import { IGetMentorsForAdminUsecase } from "entities/usecaseInterfaces/mentor/getMentorsForAdmin.interface";
-import { IGetSpecificMentorUsecase } from "entities/usecaseInterfaces/mentor/getSpecificMentorUsecase.interface";
+import { IGetMentorApplicationDetailsUsecase } from "entities/usecaseInterfaces/mentor/getMentorApplicationDetailsUsecase.interface";
 import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
 import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/updateMentorStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
@@ -21,8 +21,8 @@ export class AdminMentorController implements IAdminMentorController {
     @inject("IGetMentorsForAdminUsecase")
     private _getMentorsForAdminUsecase: IGetMentorsForAdminUsecase,
 
-    @inject("IGetSpecificMentorUsecase")
-    private _getSpecificMentorUsecase: IGetSpecificMentorUsecase,
+    @inject("IGetMentorApplicationDetailsUsecase")
+    private _getMentorApplicationDetailsUsecase: IGetMentorApplicationDetailsUsecase,
 
     @inject("IAcceptMentorApplicationUsecase")
     private _acceptMentorApplicationUsecase: IAcceptMentorApplicationUsecase,
@@ -62,14 +62,16 @@ export class AdminMentorController implements IAdminMentorController {
     }
   }
 
-  async getSpecificMentor(
+  async getMentorApplicationDetails(
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     const { mentorId }: GetSpecificMentorReqDTO = req.verifiedData;
     try {
-      const mentor = await this._getSpecificMentorUsecase.execute(mentorId);
+      const mentor = await this._getMentorApplicationDetailsUsecase.execute(
+        mentorId
+      );
       res.status(HTTP_STATUS.OK).json({
         success: true,
         message: "mentor fetched successfully",

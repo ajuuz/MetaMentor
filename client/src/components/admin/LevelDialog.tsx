@@ -20,7 +20,8 @@ import { toast } from "sonner";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AddLevel } from "@/types/levelTypes";
-import { levelSchema, type CreateLevelReq } from "@/types/request/level";
+import {  type CreateLevelReq } from "@/types/request/level";
+import { levelSchema } from "@/utils/validations/level";
 
 
 type Props={

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { upload } from "frameworks/cloudinary/cloudinary";
 import {
   adminCommunityController,
   adminDomainController,
@@ -6,12 +7,28 @@ import {
   adminStudentController,
   authMiddleware,
 } from "frameworks/di/resolver";
+import { formDataParserFormatter } from "interfaceAdapters/middlewares/imageFormatter.middleware";
 import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
 import { ROLES } from "shared/constants";
-import { GetCommunitiesForAdminReqDTO, UpdateCommunityStatusDTO } from "shared/dto/request/community.dto";
-import { CreateDomainReqDTO, GetAllDomainsForAdminReqDTO, UpdateDomainStatusDTO } from "shared/dto/request/domain.dto";
-import { GetAllMentorsReqDTO, GetSpecificMentorReqDTO, MentorApplicationVerificationReqDTO, UpdateMentorStatusReqDTO } from "shared/dto/request/mentor.dto";
-import { GetAllStudentReqDTO, UpdateStudentStatusReqDTO } from "shared/dto/request/student.dto";
+import {
+  GetCommunitiesForAdminReqDTO,
+  UpdateCommunityStatusDTO,
+} from "shared/dto/request/community.dto";
+import {
+  CreateDomainReqDTO,
+  GetAllDomainsForAdminReqDTO,
+  UpdateDomainStatusDTO,
+} from "shared/dto/request/domain.dto";
+import {
+  GetAllMentorsReqDTO,
+  GetSpecificMentorReqDTO,
+  MentorApplicationVerificationReqDTO,
+  UpdateMentorStatusReqDTO,
+} from "shared/dto/request/mentor.dto";
+import {
+  GetAllStudentReqDTO,
+  UpdateStudentStatusReqDTO,
+} from "shared/dto/request/student.dto";
 
 export class AdminRoutes {
   private _router: Router;
@@ -51,7 +68,7 @@ export class AdminRoutes {
       authMiddleware.verifyAuth.bind(authMiddleware),
       authMiddleware.verifyAuthRole([ROLES.ADMIN]),
       validationMiddleware(GetSpecificMentorReqDTO),
-      adminMentorController.getSpecificMentor.bind(adminMentorController)
+      adminMentorController.getMentorApplicationDetails.bind(adminMentorController)
     );
     this._router.patch(
       "/mentors/:mentorId/:applicationStatus",
@@ -75,6 +92,8 @@ export class AdminRoutes {
       "/domains",
       authMiddleware.verifyAuth.bind(authMiddleware),
       authMiddleware.verifyAuthRole([ROLES.ADMIN]),
+      upload.array("image", 5),
+      formDataParserFormatter,
       validationMiddleware(CreateDomainReqDTO),
       adminDomainController.addDomain.bind(adminDomainController)
     );
@@ -92,7 +111,7 @@ export class AdminRoutes {
       validationMiddleware(UpdateDomainStatusDTO),
       adminDomainController.updateDomainStatus.bind(adminDomainController)
     );
-    
+
     //community
     this._router.get(
       "/communities",

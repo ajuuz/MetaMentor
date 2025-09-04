@@ -6,6 +6,8 @@ import {
   ValidateNested,
   ArrayMinSize,
   IsBoolean,
+  IsArray,
+  ArrayNotEmpty,
 } from "class-validator";
 import { LevelReqDTO } from "./level.dto";
 import { FilterReqDTO } from "./pagination.dto";
@@ -16,9 +18,11 @@ export class CreateDomainReqDTO {
   @MaxLength(15, { message: "Name must be at most 15 characters long" })
   name!: string;
 
-  @IsString()
-  @IsNotEmpty()
-  image!: string;
+  @IsArray()
+  @ArrayNotEmpty({ message: "Images array should not be empty" })
+  @IsString({ each: true, message: "Each image must be a string" })
+  @IsNotEmpty({ each: true, message: "Each image should not be empty" })
+  images!: string[];
 
   @IsString()
   @IsNotEmpty()

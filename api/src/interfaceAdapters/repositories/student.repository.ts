@@ -113,12 +113,6 @@ export class StudentRepository
     return { data, totalDocuments };
   }
 
-  async updateOne(
-    filter: Partial<IStudentEntity>,
-    update: Partial<IStudentEntity>
-  ): Promise<void> {
-    await studentModel.updateOne(filter, update);
-  }
 
   async updateStatus(userId: string, status: boolean): Promise<number> {
     const update = await studentModel.updateOne(

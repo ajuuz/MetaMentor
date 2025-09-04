@@ -21,8 +21,8 @@ import { IGetUnblockedDomainsUsecase } from "entities/usecaseInterfaces/domain/g
 import { IUpdateDomainStatusUsecase } from "entities/usecaseInterfaces/domain/updateDomainStatusUsecase.interface";
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
 import { IGetMentorsForStudUsecase } from "entities/usecaseInterfaces/mentor/getMentorsForStudUsecase.interface";
-import { IGetSpecificMentorUsecase } from "entities/usecaseInterfaces/mentor/getSpecificMentorUsecase.interface";
-import { IRegisterMentorUsecase } from "entities/usecaseInterfaces/mentor/registerMentorUsecase.interface";
+import { IGetMentorApplicationDetailsUsecase } from "entities/usecaseInterfaces/mentor/getMentorApplicationDetailsUsecase.interface";
+import { ICreateMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/createMentorApplicationUsecase.interface";
 import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
 import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/updateMentorStatusUsecase.interface";
 import { ICreateNotificationUsecase } from "entities/usecaseInterfaces/notification/createNotificationUsecase.interface";
@@ -68,8 +68,8 @@ import { GetUnblockedDomainsUsecase } from "useCases/domain/getUnblockedDomains.
 import { UpdateDomainStatusUsecase } from "useCases/domain/updateDomainStatus.usecase";
 import { AcceptMentorApplicationUsecase } from "useCases/mentor/acceptMentorApplication.usecase";
 import { GetMentorsForStudUsecase } from "useCases/mentor/getMentorsForStud.usecase";
-import { GetSpecificMentorUsecase } from "useCases/mentor/getSpecificMentor.usecase";
-import { RegisterMentorUsecase } from "useCases/mentor/registerMentor.usecase";
+import { GetMentorApplicationDetailsUsecase } from "useCases/mentor/getMentorApplicationDetails.usecase";
+import { CreateMentorApplicationUsecase } from "useCases/mentor/createMentorApplication.usecase";
 import { RejectMentorApplicationUsecase } from "useCases/mentor/rejectMentorApplication.usecase";
 import { UpdateMentorStatusUsecase } from "useCases/mentor/updateMentorStatus.usecase";
 import { CreateNotificationUsecase } from "useCases/notification/createNotification.usecase";
@@ -111,6 +111,8 @@ import { IGetMentorsUsecase } from "entities/usecaseInterfaces/mentor/getMentors
 import { GetMentorsUsecase } from "useCases/mentor/getMentors.usecase";
 import { GetMentorsForAdminUsecase } from "useCases/mentor/getMentorsForAdmin.usecase";
 import { IGetMentorsForAdminUsecase } from "entities/usecaseInterfaces/mentor/getMentorsForAdmin.interface";
+import { UpdateMentorApplicationUsecase } from "useCases/mentor/updateMentorApplication.usecase";
+import { IUpdateMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/updateMentorApplicationUsecase.interface";
 
 export class UseCaseRegistory {
   static registerUsecases(): void {
@@ -179,16 +181,22 @@ export class UseCaseRegistory {
     );
 
     //mentor usecase
-    container.register<IRegisterMentorUsecase>("IRegisterMentorUsecase", {
-      useClass: RegisterMentorUsecase,
-    });
-
-    container.register<IGetMentorsForStudUsecase>(
-      "IGetMentorsForStudUsecase",
+    container.register<ICreateMentorApplicationUsecase>(
+      "ICreateMentorApplicationUsecase",
       {
-        useClass: GetMentorsForStudUsecase,
+        useClass: CreateMentorApplicationUsecase,
       }
     );
+    container.register<IUpdateMentorApplicationUsecase>(
+      "IUpdateMentorApplicationUsecase",
+      {
+        useClass: UpdateMentorApplicationUsecase,
+      }
+    );
+
+    container.register<IGetMentorsForStudUsecase>("IGetMentorsForStudUsecase", {
+      useClass: GetMentorsForStudUsecase,
+    });
 
     container.register<IGetMentorsUsecase>("IGetMentorsUsecase", {
       useClass: GetMentorsUsecase,
@@ -201,9 +209,12 @@ export class UseCaseRegistory {
       }
     );
 
-    container.register<IGetSpecificMentorUsecase>("IGetSpecificMentorUsecase", {
-      useClass: GetSpecificMentorUsecase,
-    });
+    container.register<IGetMentorApplicationDetailsUsecase>(
+      "IGetMentorApplicationDetailsUsecase",
+      {
+        useClass: GetMentorApplicationDetailsUsecase,
+      }
+    );
 
     container.register<IAcceptMentorApplicationUsecase>(
       "IAcceptMentorApplicationUsecase",

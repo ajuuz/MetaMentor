@@ -5,7 +5,7 @@ import { IuserRegisterData } from "shared/dto/request/auth.dto";
 
 export interface IUserRespository{
     findByEmail(email:string):Promise<IUserModel|null>
-    findOne(filter:FilterQuery<IUserEntity>):Promise<IUserEntity|null>
+    findOne(filter:FilterQuery<IUserEntity>):Promise<IUserModel|null>
     findBynumber(number:number):Promise<boolean>
     createUser(formData:IuserRegisterData):Promise<IUserModel>
     updateOne(filter:FilterQuery<IUserEntity>,update:Partial<IUserEntity>):Promise<void>

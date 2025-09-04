@@ -1,11 +1,12 @@
 import { getDomainsForAdmin } from "@/services/adminService.ts/domainApi";
+import { getDomainsNameAndId } from "@/services/mentorService.ts/registrationApi";
 import {
   getDomainsForStud,
   getSpecificDomain,
   getEnrolledDomains,
   getEnrolledDomain,
 } from "@/services/userService/domainApi";
-import type { EnrolledDomain } from "@/types/domainTypes";
+import type { DomainEntity, EnrolledDomain } from "@/types/domainTypes";
 import type {
   GetDomainForStudRes,
   GetDomainsForAdminRes,
@@ -16,6 +17,13 @@ import type { LevelRes } from "@/types/response/level";
 import { useQuery } from "@tanstack/react-query";
 
 //users
+export const useGetDomainsNameAndIdQuery = () => {
+  return useQuery<Pick<DomainEntity,"_id"|'name'|"image">[]>({
+    queryKey: ["getDomainsNameAndId"],
+    queryFn:getDomainsNameAndId,
+  });
+};
+
 export const useUserGetSpecificDomainQuery = (domainId: string) => {
   return useQuery<GetDomainForStudRes & { levels: LevelRes[] }>({
     queryKey: ["getDomainForStud", domainId],

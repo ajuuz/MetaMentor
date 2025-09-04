@@ -100,3 +100,6 @@ export class GetMentorsForStudResDTO extends MentorBaseDTO {
   @Expose()
   about!:string
 }
+
+//mentor application
+export class GetMentorApplicationResDTO extends GetMentorForAdminResDTO{}

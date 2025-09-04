@@ -25,8 +25,7 @@ export class AdminDomainController implements IAdminDomainController {
   ) {}
 
   async addDomain(req: Request, res: Response): Promise<void> {
-    const domainDetails:CreateDomainReqDTO= req.verifiedData;
-    console.log(domainDetails);
+    const domainDetails: CreateDomainReqDTO = req.verifiedData;
     await this._addDomainUsecase.execute(domainDetails);
     res
       .status(HTTP_STATUS.CREATED)
@@ -46,7 +45,7 @@ export class AdminDomainController implements IAdminDomainController {
       limit,
       sortBy!,
       searchTerm!
-    )
+    );
     res.status(HTTP_STATUS.OK).json(data);
   }
 

@@ -8,6 +8,7 @@ import {
   ProjectionType,
   QueryOptions,
   SortOrder,
+  UpdateQuery,
 } from "mongoose";
 import { SORT_ORDER } from "shared/constants";
 
@@ -43,6 +44,17 @@ export class BaseRepository<T, D extends Document>
     options?: QueryOptions
   ): Promise<void> {
     await this.model.create(newDocument);
+  }
+  async updateOne(
+    filters:{field:keyof T,value:string|boolean|number}[],
+    updationFields:Partial<T>
+  ): Promise<void> {
+    const mongoFilter:Partial<Record<keyof T,string|boolean|number>>={};
+    for(let {field,value} of filters){
+      mongoFilter[field]=value
+    }
+    console.log("working in repository")
+    await this.model.updateOne(mongoFilter as FilterQuery<D>,updationFields as UpdateQuery<D>);
   }
 
   async find(

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { upload } from "frameworks/cloudinary/cloudinary";
 import {
   authMiddleware,
   userCommunityController,
@@ -8,6 +9,7 @@ import {
   userReviewController,
   userSlotController,
 } from "frameworks/di/resolver";
+import { formDataParserFormatter } from "interfaceAdapters/middlewares/imageFormatter.middleware";
 import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
 import { ROLES } from "shared/constants";
 import { GetCommunitiesForStudReqDTO } from "shared/dto/request/community.dto";
@@ -18,7 +20,7 @@ import {
   GetDomainInsightReqDTO,
   GetSpecificDomainForStudReqDTO,
 } from "shared/dto/request/domain.dto";
-import { GetMentorsForStudReqDTO } from "shared/dto/request/mentor.dto";
+import { CreateMentorApplicationReqDTO, GetMentorsForStudReqDTO, UpdateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
 import {
   CancelReviewByStudReqDTO,
   GetAllReviewsForStudReqDTO,
@@ -88,6 +90,24 @@ export class UserRoutes {
     );
 
     // mentors
+    this._router.get(
+      "/application",
+      authMiddleware.verifyAuthRole([ROLES.USER]),
+      userMentorController.getMentorApplicationDetails.bind(
+        userMentorController
+      )
+    );
+    this._router.patch(
+      "/application",
+      authMiddleware.verifyAuthRole([ROLES.USER]),
+      upload.array("images", 5),
+      formDataParserFormatter,
+      validationMiddleware(UpdateMentorApplicationReqDTO),
+      userMentorController.updateMentorApplication.bind(
+        userMentorController
+      )
+    );
+
     this._router.get(
       "/mentors",
       validationMiddleware(GetMentorsForStudReqDTO),
