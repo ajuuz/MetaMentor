@@ -1,14 +1,16 @@
 import { adminAxiosInstance } from "@/config/axiosConfig/adminAxiosConfig";
-import type { DomainCreationType } from "@/types/domainTypes";
 import type { GetDomainsForAdminRes } from "@/types/response/domain";
 import type { MutationApiResponse } from "@/types/responseType";
 
 export const addDomain = async (
-  domainDetails: DomainCreationType
+  domainDetails: FormData
 ): Promise<MutationApiResponse> => {
   try {
-    console.log(domainDetails);
-    const response = await adminAxiosInstance.post("/domains", domainDetails);
+    const response = await adminAxiosInstance.post("/domains", domainDetails, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   } catch (error: any) {
     throw error?.response?.data || error;

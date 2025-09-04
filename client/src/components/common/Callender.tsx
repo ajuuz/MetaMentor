@@ -80,6 +80,7 @@ const Callender = ({
     useMutation({
       mutationFn: slotValidityChecker,
       onSuccess: (response, variables) => {
+        console.log(response.message);
         const slot = slots.find((s) => s._id === variables.slotId);
         if (slot) {
           setSelectedSlots((prev) => [...prev, slot]);

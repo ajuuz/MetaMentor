@@ -12,10 +12,10 @@ export class GetAllDomainsNameAndIdUsecase implements IGetAllDomainsNameAndIdUse
         private _domainRepository:IDomainRepository
     ){}
 
-    async execute():Promise<Pick<IDomainEntity,'_id'|'name'>[]>{
+    async execute():Promise<Pick<IDomainEntity,'_id'|'name'|'image'>[]>{
         const filter={}
-        const projection={name:true}
-        const domains=await this._domainRepository.findWhole(filter,projection) as Pick<IDomainEntity,'_id'|'name'>[]
+        const projection:Record<string,1|0>={name:1,image:1}
+        const domains=await this._domainRepository.findWhole(filter,projection) as Pick<IDomainEntity,'_id'|'name'|'image'>[]
         return domains;
     }
 }

@@ -1,7 +1,7 @@
 import { userAxiosInstance } from "@/config/axiosConfig/userAxiosConfig";
 import type { MutationApiResponse } from "@/types/responseType";
 import type { GetDomainReviewSlotResponseDTO } from "@/types/reviewTypes";
-import type { DaysType, DomainSlotsResponseDTO, Slot } from "@/types/slotTypes";
+import type { DomainSlotsResponseDTO, Slot } from "@/types/slotTypes";
 
 
 

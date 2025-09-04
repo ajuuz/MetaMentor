@@ -13,7 +13,7 @@ export class UserRepository implements IUserRespository{
         return user
     }
 
-    async findOne(filter:FilterQuery<IUserEntity>):Promise<IUserEntity|null>{
+    async findOne(filter:FilterQuery<IUserEntity>):Promise<IUserModel|null>{
         const user = await userModel.findOne(filter)
         return user
     }

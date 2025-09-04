@@ -1,3 +1,4 @@
+import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
@@ -38,7 +39,8 @@ export class AcceptMentorApplicationUsecase implements IAcceptMentorApplicationU
         
         asyncOperations.push(this._userRepository.updateOne(userFilter,userUpdate))
         
-        const mentorFilter={userId:mentorId};
+        const mentorFilter:{field:keyof IMentorEntity,value:string|boolean|number}[]=[];
+        mentorFilter.push({field:"userId",value:mentorId})
         const mentorUpdate={isVerified:true}
 
         asyncOperations.push(this._mentorRepository.updateOne(mentorFilter,mentorUpdate))

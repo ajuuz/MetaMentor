@@ -11,9 +11,15 @@ import {
 import mongoose, { FilterQuery, Types } from "mongoose";
 import { SORT_ORDER } from "shared/constants";
 import { injectable } from "tsyringe";
+import { BaseRepository } from "./base.repository";
 
 @injectable()
-export class MentorRepository implements IMentorRepository {
+export class MentorRepository extends BaseRepository<IMentorEntity,IMentorModel> implements IMentorRepository {
+
+  constructor(){
+    super(mentorModel)
+  }
+  
   async findById(mentorId: string): Promise<IGetMentorForAdmin | null> {
     const mentorObjectId = new Types.ObjectId(mentorId);
     const mentor = await mentorModel.aggregate([
@@ -54,7 +60,7 @@ export class MentorRepository implements IMentorRepository {
               input: "$domains",
               as: "domain",
               in: {
-                _id: "$$domain._id",
+                _id:{ $toString: "$$domain._id" },
                 name: "$$domain.name",
                 image: "$$domain.image",
               },
@@ -62,7 +68,7 @@ export class MentorRepository implements IMentorRepository {
           },
         },
       },
-    ]);
+    ]).exec();
     return mentor?.[0] ? mentor[0] : null;
   }
 
@@ -190,12 +196,6 @@ export class MentorRepository implements IMentorRepository {
     return { items, totalDocuments };
   }
 
-  async updateOne(
-    filter: Partial<IMentorEntity>,
-    update: Partial<IMentorEntity>
-  ): Promise<void> {
-    await mentorModel.updateOne(filter, update);
-  }
 
   async getStatus(userId: string): Promise<IMentorEntity | null> {
     const user = await mentorModel.findOne({ userId }).lean<IMentorEntity>();

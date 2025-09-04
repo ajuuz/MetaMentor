@@ -6,7 +6,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { addDomain } from "@/services/adminService.ts/domainApi";
 import type { AddLevel } from "@/types/levelTypes";
-import { imageUploader } from "@/utils/helperFunctions/imageUploadFunction";
 import { useMutation } from "@tanstack/react-query";
 import { Image, X } from "lucide-react";
 import { useState } from "react";
@@ -15,8 +14,8 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
-import { domainSchema, type CreateDomainReq } from "@/types/request/domain";
-
+import { type CreateDomainReq } from "@/types/request/domain";
+import { domainSchema } from "@/utils/validations/domain";
 
 const ManageDomain = () => {
   const navigate = useNavigate();
@@ -48,31 +47,32 @@ const ManageDomain = () => {
       toast.success(response.message);
       navigate("/admin/domains");
       reset();
-    setPrevImage(null);
-    setIsLoading(false)
-     queryClient.invalidateQueries({ queryKey: ["getDomainsForAdmin"] });
-},
-onError: (error: any) => {
-        setIsLoading(false)
+      setPrevImage(null);
+      setIsLoading(false);
+      queryClient.invalidateQueries({ queryKey: ["getDomainsForAdmin"] });
+    },
+    onError: (error: any) => {
+      setIsLoading(false);
       toast.error(error.message);
     },
   });
 
   const onSubmit = async (data: CreateDomainReq) => {
-    setIsLoading(true)
-    const imageUrl = await imageUploader([data.image]);
-    const finalData = {
-      ...data,
-      image: imageUrl[0].url,
-    };
-    addDomainMutation(finalData);
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("motive", data.motive);
+    formData.append("image", data.image);
+    formData.append("levels", JSON.stringify(data.levels));
+    addDomainMutation(formData);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       setPrevImage(file);
-      setValue("image", file); // sync with react-hook-form
+      setValue("image", file); 
     }
   };
 
@@ -132,13 +132,18 @@ onError: (error: any) => {
         <div className="w-full">
           <Label className="font-medium text-md">Name</Label>
           <Input {...register("name")} placeholder="domain name.." />
-          {errors?.name && <p className="text-red-400 text-sm">{errors.name.message}</p>}
+          {errors?.name && (
+            <p className="text-red-400 text-sm">{errors.name.message}</p>
+          )}
         </div>
 
         {/* DESCRIPTION */}
         <div className="w-full">
           <Label className="font-medium text-lg">Description</Label>
-          <Textarea {...register("description")} placeholder="Describe about the Domain.." />
+          <Textarea
+            {...register("description")}
+            placeholder="Describe about the Domain.."
+          />
           {errors?.description && (
             <p className="text-red-400 text-sm">{errors.description.message}</p>
           )}
@@ -147,7 +152,10 @@ onError: (error: any) => {
         {/* MOTIVE */}
         <div className="w-full">
           <Label className="font-medium text-lg">Why Should I Learn?</Label>
-          <Textarea {...register("motive")} placeholder="Describe about the Domain.." />
+          <Textarea
+            {...register("motive")}
+            placeholder="Describe about the Domain.."
+          />
           {errors?.motive && (
             <p className="text-red-400 text-sm">{errors.motive.message}</p>
           )}
@@ -173,14 +181,18 @@ onError: (error: any) => {
                   {index + 1}
                 </div>
                 <h5 className="font-medium text-lg">
-                  {level.name.length > 15 ? level.name.slice(0, 15) + "..." : level.name}
+                  {level.name.length > 15
+                    ? level.name.slice(0, 15) + "..."
+                    : level.name}
                 </h5>
               </div>
             ))}
           </div>
         </ScrollArea>
         {errors?.levels && (
-          <p className="text-red-400 text-sm">{errors.levels.message?.toString()}</p>
+          <p className="text-red-400 text-sm">
+            {errors.levels.message?.toString()}
+          </p>
         )}
         <Button disabled={isLoading} type="submit" className="w-full">
           {isLoading ? "Adding..." : "ADD DOMAIN"}

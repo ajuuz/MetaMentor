@@ -1,13 +1,15 @@
 import { Router } from "express";
+import { upload } from "frameworks/cloudinary/cloudinary";
 import {
   authMiddleware,
   mentorController,
   mentorReviewController,
   mentorSlotController,
 } from "frameworks/di/resolver";
+import { formDataParserFormatter } from "interfaceAdapters/middlewares/imageFormatter.middleware";
 import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
 import { ROLES } from "shared/constants";
-import { ApplyForMentorReqDTO } from "shared/dto/request/mentor.dto";
+import { CreateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
 import {
   CancelReviewByMentorReqDTO,
   GetReviewsForMentorReqDTO,
@@ -33,7 +35,9 @@ export class MentorRoutes {
       authMiddleware.verifyAuth.bind(authMiddleware),
       authMiddleware.verifyAuthRole([ROLES.USER]),
       authMiddleware.blockChecker.bind(authMiddleware),
-      validationMiddleware(ApplyForMentorReqDTO),
+      upload.array("images", 5),
+      formDataParserFormatter,
+      validationMiddleware(CreateMentorApplicationReqDTO),
       mentorController.registerForm.bind(mentorController)
     );
 

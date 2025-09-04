@@ -4,8 +4,11 @@ import {
   IMentorEntity,
 } from "entities/modelEntities/mentor-model.entity";
 import { SORT_ORDER } from "shared/constants";
+import { IBaseRepository } from "./baseRepository.interface";
+import { IMentorModel } from "frameworks/database/models/mentor.model";
 
-export interface IMentorRepository {
+export interface IMentorRepository
+  extends IBaseRepository<IMentorEntity, IMentorModel> {
   findById(userId: string): Promise<IGetMentorForAdmin | null>;
   register(
     userId: string,
@@ -13,15 +16,15 @@ export interface IMentorRepository {
   ): Promise<void>;
 
   findMentorsWithFilterAndPagination(
-    filters: {field:string,value:string|boolean,type:'direct'|'complex'}[],
+    filters: {
+      field: string;
+      value: string | boolean;
+      type: "direct" | "complex";
+    }[],
     skip: number,
     limit: number,
     sort: { field: string; order: SORT_ORDER }
   ): Promise<{ items: IGetMentors[]; totalDocuments: number }>;
 
-  updateOne(
-    filter: Partial<IMentorEntity>,
-    update: Partial<IMentorEntity>
-  ): Promise<void>;
   getStatus(userId: string): Promise<IMentorEntity | null>;
 }

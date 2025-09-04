@@ -1,11 +1,13 @@
 import {
   ArrayMinSize,
+  ArrayNotEmpty,
   IsArray,
   IsBoolean,
   IsEmail,
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   Max,
   Min,
@@ -26,7 +28,7 @@ export class GetAllMentorsReqDTO extends FilterReqDTO {
   isVerified!: boolean;
 
   @IsString()
-  selectedDomains!:string
+  selectedDomains!: string;
 }
 
 export class GetSpecificMentorReqDTO {
@@ -62,9 +64,8 @@ export class UpdateMentorStatusReqDTO {
 }
 ///------------------Admin---------------------------///
 
-
 ///------------------Mentor---------------------------///
-export class ApplyForMentorReqDTO {
+export class CreateMentorApplicationReqDTO {
   @IsString()
   @IsNotEmpty()
   about!: string;
@@ -75,20 +76,18 @@ export class ApplyForMentorReqDTO {
   @ArrayMinSize(1, { message: "At least one domain you must know" })
   domains!: string[];
 
-  @IsString()
-  @IsNotEmpty()
-  cv!: string;
-
-  @IsString()
-  @IsNotEmpty()
-  experienceCirtificate!: string;
+  @IsArray()
+  @ArrayNotEmpty({ message: "Images array should not be empty" })
+  @IsString({ each: true, message: "Each image must be a string" })
+  @IsNotEmpty({ each: true, message: "Each image should not be empty" })
+  images!: string[];
 
   @IsArray()
   @IsString({ each: true })
   @IsNotEmpty({ each: true })
   @ArrayMinSize(1, { message: "At least one worked place you have to mention" })
   workedAt!: string[];
-  
+
   @IsArray()
   @IsString({ each: true })
   @IsNotEmpty({ each: true })
@@ -101,12 +100,56 @@ export class ApplyForMentorReqDTO {
   @Max(700, { message: "Fee must not exceed 700" })
   fee!: number;
 }
-///------------------Mentor---------------------------///
+export class UpdateMentorApplicationReqDTO {
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  about?: string;
 
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  @IsNotEmpty({ each: true })
+  @ArrayMinSize(1, { message: "At least one domain you must know" })
+  domains?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true, message: "Each image must be a string" })
+  @IsNotEmpty({ each: true, message: "Each image should not be empty" })
+  images?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true, message: "Each image must be a string" })
+  @IsNotEmpty({ each: true, message: "Each image should not be empty" })
+  imageIndexMap?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  @IsNotEmpty({ each: true })
+  @ArrayMinSize(1, { message: "At least one worked place you have to mention" })
+  workedAt?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  @IsNotEmpty({ each: true })
+  @ArrayMinSize(1, { message: "At least one skills you must know" })
+  skills?: string[];
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber({}, { message: "Fee must be a number" })
+  @Min(100, { message: "Fee must be at least 100" })
+  @Max(700, { message: "Fee must not exceed 700" })
+  fee?: number;
+}
+///------------------Mentor---------------------------///
 
 ///------------------Student---------------------------///
 export class GetMentorsForStudReqDTO extends FilterReqDTO {
   @IsString()
-  selectedDomains!:string
+  selectedDomains!: string;
 }
-

@@ -17,7 +17,8 @@ export class RejectMentorApplicationUsecase implements IRejectMentorApplicationU
     ){}
     async execute(mentorId:string,email:string,reason:string):Promise<void>{
 
-        const filter:Pick<IMentorEntity,'userId'>={userId:mentorId}
+        const filter:{field:keyof IMentorEntity,value:string|boolean|number}[]=[];
+        filter.push({field:"userId",value:mentorId})
         const update:Pick<IMentorEntity,'isRejected'>={isRejected:true}
 
         await this._mentorRepository.updateOne(filter,update)

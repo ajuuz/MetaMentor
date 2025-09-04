@@ -1,6 +1,10 @@
 import { getAllMentors } from "@/services/adminService.ts/mentorApi";
-import { getAllMentorsForStud } from "@/services/userService/mentorApi";
+import {
+  getAllMentorsForStud,
+  getMyApplicationDetails,
+} from "@/services/userService/mentorApi";
 import type { GetAllMentorResponseType } from "@/types/mentorType";
+import type { GetMentorApplicationDetialsRes } from "@/types/response/mentor";
 import { useQuery } from "@tanstack/react-query";
 
 //admin
@@ -59,5 +63,13 @@ export const useGetMentorsForDomainQuery = (
         searchTerm,
         selectedDomains,
       }),
+  });
+};
+
+//mentor application
+export const useGetMentorApplicationDetailsQuery = () => {
+  return useQuery<GetMentorApplicationDetialsRes>({
+    queryKey: ["getMentorsForDomain"],
+    queryFn: getMyApplicationDetails,
   });
 };
