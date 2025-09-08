@@ -1,12 +1,12 @@
 import { userAxiosInstance } from "@/config/axiosConfig/userAxiosConfig";
 import type { GetAllMentorResponseType } from "@/types/mentorType";
-import type { GetMentorApplicationDetialsRes } from "@/types/response/mentor";
+import type { GetMentorApplicationDetialsForUserRes } from "@/types/response/mentor";
 import type { MutationApiResponse } from "@/types/responseType";
 
 
 //mentor application
 export const getMyApplicationDetails =
-  async (): Promise<GetMentorApplicationDetialsRes> => {
+  async (): Promise<GetMentorApplicationDetialsForUserRes> => {
     try {
       const response = await userAxiosInstance.get(`/application`);
       return response.data;

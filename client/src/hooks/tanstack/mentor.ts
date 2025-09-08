@@ -1,10 +1,11 @@
-import { getAllMentors } from "@/services/adminService.ts/mentorApi";
+import { getAllMentors, getMentorApplicationDetailsForAdmin } from "@/services/adminService.ts/mentorApi";
+import { getProfessionalDetails } from "@/services/mentorService.ts/mentorApi";
 import {
   getAllMentorsForStud,
   getMyApplicationDetails,
 } from "@/services/userService/mentorApi";
 import type { GetAllMentorResponseType } from "@/types/mentorType";
-import type { GetMentorApplicationDetialsRes } from "@/types/response/mentor";
+import type { GetMentorApplicationDetialsForAdminRes, GetMentorApplicationDetialsForUserRes, GetProfessionalDetailsForMentorRes } from "@/types/response/mentor";
 import { useQuery } from "@tanstack/react-query";
 
 //admin
@@ -38,6 +39,15 @@ export const useGetMentorsForAdminQuery = (
   });
 };
 
+//mentor application -admin
+export const useGetMentorApplicationDetailsForAdminQuery = (mentorId:string) => {
+  return useQuery<GetMentorApplicationDetialsForAdminRes>({
+    queryKey: ["getMentorApplicationDetialsForUser",mentorId],
+    queryFn: ()=>getMentorApplicationDetailsForAdmin(mentorId),
+  });
+};
+
+
 //Student
 export const useGetMentorsForDomainQuery = (
   currentPage: number,
@@ -66,10 +76,20 @@ export const useGetMentorsForDomainQuery = (
   });
 };
 
-//mentor application
-export const useGetMentorApplicationDetailsQuery = () => {
-  return useQuery<GetMentorApplicationDetialsRes>({
-    queryKey: ["getMentorsForDomain"],
+//mentor application for user
+export const useGetMentorApplicationDetailsForUserQuery = () => {
+  return useQuery<GetMentorApplicationDetialsForUserRes>({
+    queryKey: ["getMentorApplicationDetialsForUser"],
     queryFn: getMyApplicationDetails,
+  });
+};
+
+
+
+//-----Mentor -----//
+export const useGetProfessionalDetailsForMentQuery = () => {
+  return useQuery<GetProfessionalDetailsForMentorRes>({
+    queryKey: ["getProfessionalDetailsForMentor"],
+    queryFn: getProfessionalDetails,
   });
 };

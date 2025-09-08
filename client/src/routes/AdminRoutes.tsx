@@ -2,13 +2,13 @@ import Dashboard from "@/pages/admin/dashboard/Dashboard"
 import Mentors from "@/pages/admin/mentors/Mentors"
 import MentorWrapper from "@/pages/admin/mentors/MentorWrapper"
 import ManageStudents from "@/pages/admin/students/ManageStudents"
-import MentorDetailsManage from "@/pages/common/mentorDetailsManage/MentorDetailsManage"
 import { Route, Routes } from "react-router-dom"
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute"
 import AdminLayout from "@/layouts/AdminLayout"
 import ManageDomain from "@/pages/admin/domains/ManageDomain"
 import Domains from "@/pages/admin/domains/Domains"
 import Community from "@/pages/admin/community/Community"
+import ApplicationVerification from "@/pages/admin/mentors/Verification"
 
 const AdminRoutes = () => {
   return (
@@ -53,7 +53,7 @@ const AdminRoutes = () => {
                                                )}
                                              </MentorWrapper>}/>
                                              
-            <Route path='/mentors/:mentorId/verify' element={<MentorDetailsManage/>}/>
+            <Route path='/mentors/:mentorId/verify' element={<ApplicationVerification/>}/>
             <Route path='/students' element={<ManageStudents/>}/>
             <Route path='/domains' element={<Domains/>}/>
             <Route path='/communities' element={<Community/>}/>

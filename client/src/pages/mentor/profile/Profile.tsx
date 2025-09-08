@@ -1,18 +1,22 @@
+import ProfessionalDetails from "@/components/mentor/mentorDetails/ProfessionalDetails";
+import UserDetails from "@/components/user/userDetails/UserDetails";
 import { useGetDomainsNameAndIdQuery } from "@/hooks/tanstack/domain";
+import { useGetProfessionalDetailsForMentQuery } from "@/hooks/tanstack/mentor";
+import { useProfileQuery } from "@/hooks/tanstack/profile";
+import { updateMentorAplication } from "@/services/userService/mentorApi";
 import type { MentorApplicationFormReq } from "@/types/request/mentor";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { Edit, Eye } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetMentorApplicationDetailsForUserQuery } from "@/hooks/tanstack/mentor";
-import { updateMentorAplication } from "@/services/userService/mentorApi";
-import ProfessionalDetails from "@/components/mentor/mentorDetails/ProfessionalDetails";
-import { Card } from "@/components/ui/card";
-import UserDetails from "@/components/mentor/mentorDetails/UserDetails";
+import { toast } from "sonner";
 
-export default function EditMentorApplication() {
-  const navigate = useNavigate();
-  const { data: applicationData } = useGetMentorApplicationDetailsForUserQuery();
+const Profile = () => {
+  const [isViewMode,setIsViewMode]=useState<boolean>(true)
+  const { data: profileData, isLoading, isError } = useProfileQuery();
   const { data: domainsData } = useGetDomainsNameAndIdQuery();
+  const { data: professionalData } = useGetProfessionalDetailsForMentQuery();
+  const navigate = useNavigate();
 
   const { mutate: updateMentorApplicationMutation, isPending: loading } =
     useMutation({
@@ -25,25 +29,22 @@ export default function EditMentorApplication() {
         toast.error(error.message);
       },
     });
+  if (isLoading) {
+    return <div></div>;
+  }
 
-  if (!applicationData || !domainsData) return <div>Loading...</div>;
-  const {
-    name,
-    about,
-    mobileNumber,
-    country,
-    email,
-    profileImage,
-    cv,
-    experienceCirtificate,
-    domains,
-    fee,
-    gender,
-    skills,
-    workedAt,
-  } = applicationData;
+  if (isError) {
+    return <div className="flex justify-center items-center">Error</div>;
+  }
+
+  if (!professionalData || !profileData || !domainsData)
+    return <div>Loading...</div>;
+  const { about, cv, experienceCirtificate, domains, fee, skills, workedAt } =
+    professionalData;
 
   const onSubmit = (data: MentorApplicationFormReq) => {
+    console.log(data)
+    console.log("working")
     const formData = new FormData();
     if (data.about !== about) formData.append("about", data.about);
 
@@ -74,24 +75,24 @@ export default function EditMentorApplication() {
     updateMentorApplicationMutation(formData);
   };
 
+
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4">
-      <h1 className="text-3xl font-bold text-center mb-10">
-        Reviewer Registration
-      </h1>
-      <Card>
-        <UserDetails
-          userData={{
-            name,
-            country,
-            mobileNumber,
-            email,
-            gender,
-            profileImage,
-          }}
-        />
+    <div className="flex flex-col gap-15 justify-center items-center min-h-[90vh] pb-10">
+      <UserDetails profileData={profileData} />
+      <div className=" w-[950px] flex flex-col gap-4">
+        <div className="relative border-y-2 py-3 bg-red-500 text-white">
+          <h3 className="text-xl font-semibold text-center">
+            Professional Details
+          </h3>
+          <div
+            onClick={() => setIsViewMode((prev) => !prev)}
+            className="absolute top-1 right-1 border-4 bg-red-300 border-red-400 text-red-100 p-2 rounded-4xl scale-75 cursor-pointer"
+          >
+            {isViewMode ? <Edit /> : <Eye />}
+          </div>
+        </div>
         <ProfessionalDetails
-          purpose="EditApplication"
+          purpose="Profile"
           domains={domainsData}
           applicationDetails={{
             about,
@@ -103,9 +104,12 @@ export default function EditMentorApplication() {
           }}
           images={[cv, experienceCirtificate]}
           onSubmit={onSubmit}
+          isViewMode={isViewMode}
           loading={loading}
         />
-      </Card>
+      </div>
     </div>
   );
-}
+};
+
+export default Profile;

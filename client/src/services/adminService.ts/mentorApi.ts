@@ -1,6 +1,7 @@
 import { adminAxiosInstance } from "@/config/axiosConfig/adminAxiosConfig";
-import type { GetAllMentorResponseType, MentorDataType } from "@/types/mentorType";
-import type { ApiResponseType, MutationApiResponse } from "@/types/responseType";
+import type { GetAllMentorResponseType } from "@/types/mentorType";
+import type { GetMentorApplicationDetialsForAdminRes } from "@/types/response/mentor";
+import type { MutationApiResponse } from "@/types/responseType";
 
 
 type GetAllMentorArgumentType={
@@ -31,7 +32,7 @@ export const getAllMentors=async({
     }
 }
 
-export const getSpecificMentor=async(mentorId:string):Promise<Required<ApiResponseType<MentorDataType>>>=>{
+export const getMentorApplicationDetailsForAdmin=async(mentorId:string):Promise<GetMentorApplicationDetialsForAdminRes>=>{
     try{
         const response = await adminAxiosInstance.get(`/mentors/${mentorId}`);
         return response.data

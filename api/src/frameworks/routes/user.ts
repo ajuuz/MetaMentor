@@ -20,7 +20,7 @@ import {
   GetDomainInsightReqDTO,
   GetSpecificDomainForStudReqDTO,
 } from "shared/dto/request/domain.dto";
-import { CreateMentorApplicationReqDTO, GetMentorsForStudReqDTO, UpdateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
+import { GetMentorsForStudReqDTO, UpdateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
 import {
   CancelReviewByStudReqDTO,
   GetAllReviewsForStudReqDTO,
@@ -68,6 +68,8 @@ export class UserRoutes {
     this._router.get("/user", userController.getDetails.bind(userController));
     this._router.patch(
       "/user",
+      upload.array('image'),
+      formDataParserFormatter,
       validationMiddleware(UpdateUserDetailsReqDTO),
       userController.updateUser.bind(userController)
     );
@@ -99,7 +101,7 @@ export class UserRoutes {
     );
     this._router.patch(
       "/application",
-      authMiddleware.verifyAuthRole([ROLES.USER]),
+      authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),
       upload.array("images", 5),
       formDataParserFormatter,
       validationMiddleware(UpdateMentorApplicationReqDTO),

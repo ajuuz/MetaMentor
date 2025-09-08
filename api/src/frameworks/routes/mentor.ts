@@ -49,6 +49,13 @@ export class MentorRoutes {
       authMiddleware.blockChecker.bind(authMiddleware)
     );
 
+
+    //mentor
+    this._router.get(
+      "/details/professional",
+      mentorController.getProfessionalDetails.bind(mentorController)
+    )
+
     //slots
     this._router.patch(
       "/slots",

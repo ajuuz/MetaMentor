@@ -1,6 +1,7 @@
 import { GENDER } from "shared/constants";
 
 export interface IMentorEntity {
+  _id: string;
   userId: string;
   about: string;
   domains: string[];
@@ -20,9 +21,9 @@ export interface IMentorEntity {
 
 export interface IGetMentors {
   name: string;
-  profileImage:string,
+  profileImage: string;
   country: string;
-  domains: { _id: string; name: string ,image:string}[];
+  domains: { _id: string; name: string; image: string }[];
   skills: string[];
   workedAt: string[];
   fee: number;
@@ -36,12 +37,11 @@ export interface IGetMentors {
   isBlocked: boolean;
 }
 
-
-export interface IGetMentorForAdmin {
+export interface IGetMentorApplicationDetails {
   name: string;
   profileImage: string;
   country: string;
-  domains: { _id: string; name: string ,image:string}[];
+  domains: { _id: string; name: string; image: string }[];
   skills: string[];
   workedAt: string[];
   fee: number;
@@ -51,4 +51,12 @@ export interface IGetMentorForAdmin {
   gender: GENDER;
   mobileNumber: number;
   email: string;
+}
+
+export interface IGetMentorProfessionalDetails
+  extends Pick<
+    IMentorEntity,
+    "skills" | "workedAt" | "fee" | "about" | "cv" | "experienceCirtificate"
+  > {
+  domains: { _id: string; name: string; image: string }[];
 }

@@ -11,14 +11,14 @@ export const formDataParserFormatter = (
 ) => {
   const files: Express.Multer.File[] = (req as MulterRequest).files;
   req.body.images = files.map((file: any) => file.filename);
-  for(let key in req.body){
-    req.body[key]=parseValue(req.body[key])
+  for (let key in req.body) {
+    req.body[key] = parseValue(req.body[key]);
   }
   next();
 };
 
-function parseValue(value: any){
-  if (typeof value !== "string") return value; 
+function parseValue(value: any) {
+  if (typeof value !== "string") return value;
 
   if (value === "true") return true;
   if (value === "false") return false;
@@ -31,4 +31,4 @@ function parseValue(value: any){
   } catch {}
 
   return value;
-};
+}

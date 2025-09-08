@@ -25,7 +25,6 @@ export class MentorBaseDTO {
   fee!: number;
 }
 
-
 @Exclude()
 export class DomainDTO {
   @Expose()
@@ -50,12 +49,11 @@ export class GetMentorsForAdminResDTO extends MentorBaseDTO {
   mobileNumber!: number | null;
 
   @Expose()
-  rating!:number
+  rating!: number;
 
   @Expose()
   isBlocked!: boolean;
 }
-
 
 @Exclude()
 export class GetMentorForAdminResDTO extends MentorBaseDTO {
@@ -87,7 +85,6 @@ export class MentorPreviewDTO {
   profileImage!: string;
 }
 
-
 @Exclude()
 export class GetMentorsForStudResDTO extends MentorBaseDTO {
   @Transform(({ obj }) => obj.userId.toString())
@@ -95,11 +92,37 @@ export class GetMentorsForStudResDTO extends MentorBaseDTO {
   userId!: string;
 
   @Expose()
-  rating!:number;
+  rating!: number;
 
   @Expose()
-  about!:string
+  about!: string;
 }
 
 //mentor application
-export class GetMentorApplicationResDTO extends GetMentorForAdminResDTO{}
+export class GetMentorApplicationResDTO extends GetMentorForAdminResDTO {}
+
+//---------------------mentor--------------------------//
+@Exclude()
+export class GetProfessionalDetailsResDTO {
+  @Expose()
+  about!: string;
+
+  @Expose()
+  @Type(() => DomainDTO)
+  domains!: DomainDTO[];
+
+  @Expose()
+  cv!: string;
+
+  @Expose()
+  experienceCirtificate!: string;
+
+  @Expose()
+  skills!: string[];
+
+  @Expose()
+  workedAt!: string[];
+
+  @Expose()
+  fee!: number;
+}

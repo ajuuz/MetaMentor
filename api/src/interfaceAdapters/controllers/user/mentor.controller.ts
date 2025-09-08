@@ -36,17 +36,20 @@ export class UserMentorController implements IUserMentorController {
     res.status(HTTP_STATUS.OK).json(data);
   }
 
-  
   async updateMentorApplication(req: Request, res: Response): Promise<void> {
     const mentorDetails: UpdateMentorApplicationReqDTO = req.verifiedData;
     const mentorId = (req as ModifiedRequest).user.id;
-    const data = await this._updateMentorApplicationUsecase.execute(
+    console.log(mentorDetails);
+     await this._updateMentorApplicationUsecase.execute(
       mentorId,
       mentorDetails
     );
     res
       .status(HTTP_STATUS.OK)
-      .json({ success: true, message: "mentor Application Updated successfully" });
+      .json({
+        success: true,
+        message: "mentor Application Updated successfully",
+      });
   }
 
   async getMentorsForStud(req: Request, res: Response): Promise<void> {

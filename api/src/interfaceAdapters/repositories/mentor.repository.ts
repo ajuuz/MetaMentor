@@ -1,5 +1,6 @@
 import {
-  IGetMentorForAdmin,
+  IGetMentorApplicationDetails,
+  IGetMentorProfessionalDetails,
   IGetMentors,
   IMentorEntity,
 } from "entities/modelEntities/mentor-model.entity";
@@ -14,61 +15,80 @@ import { injectable } from "tsyringe";
 import { BaseRepository } from "./base.repository";
 
 @injectable()
-export class MentorRepository extends BaseRepository<IMentorEntity,IMentorModel> implements IMentorRepository {
-
-  constructor(){
-    super(mentorModel)
+export class MentorRepository
+  extends BaseRepository<IMentorEntity, IMentorModel>
+  implements IMentorRepository
+{
+  constructor() {
+    super(mentorModel);
   }
-  
-  async findById(mentorId: string): Promise<IGetMentorForAdmin | null> {
+
+  async findById(mentorId: string): Promise<IGetMentorApplicationDetails | null> {
     const mentorObjectId = new Types.ObjectId(mentorId);
-    const mentor = await mentorModel.aggregate([
-      { $match: { userId: mentorObjectId } },
-      {
-        $lookup: {
-          from: "users",
-          localField: "userId",
-          foreignField: "_id",
-          as: "userDetails",
-        },
-      },
-      {
-        $lookup: {
-          from: "domains",
-          localField: "domains",
-          foreignField: "_id",
-          as: "domains",
-        },
-      },
-      { $unwind: "$userDetails" },
-      {
-        $project: {
-          name: "$userDetails.name",
-          profileImage: "$userDetails.profileImage",
-          country: "$userDetails.country",
-          skills: 1,
-          workedAt: 1,
-          fee: 1,
-          about: 1,
-          cv: 1,
-          experienceCirtificate: 1,
-          gender: "$userDetails.gender",
-          mobileNumber: "$userDetails.mobileNumber",
-          email: "$userDetails.email",
-          domains: {
-            $map: {
-              input: "$domains",
-              as: "domain",
-              in: {
-                _id:{ $toString: "$$domain._id" },
-                name: "$$domain.name",
-                image: "$$domain.image",
-              },
-            },
+    const mentor = await mentorModel
+      .aggregate([
+        { $match: { userId: mentorObjectId } },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "userDetails",
           },
         },
-      },
-    ]).exec();
+        {
+          $lookup: {
+            from: "domains",
+            localField: "domains",
+            foreignField: "_id",
+            as: "domains",
+          },
+        },
+        { $unwind: "$userDetails" },
+        {
+          $project: {
+            //userDetails
+            ...this._userDetailsProjection,
+
+            //professionalDetails
+            ...this._professionalDetailsProjection,
+          },
+        },
+      ])
+      .exec();
+    return mentor?.[0] ? mentor[0] : null;
+  }
+
+  async findProfessionalDetails(mentorId:string):Promise<IGetMentorProfessionalDetails|null>{
+    const mentorObjectId = new Types.ObjectId(mentorId);
+    const mentor = await mentorModel
+      .aggregate([
+        { $match: { userId: mentorObjectId } },
+        {
+          $lookup: {
+            from: "users",
+            localField: "userId",
+            foreignField: "_id",
+            as: "userDetails",
+          },
+        },
+        {
+          $lookup: {
+            from: "domains",
+            localField: "domains",
+            foreignField: "_id",
+            as: "domains",
+          },
+        },
+        { $unwind: "$userDetails" },
+        {
+          $project: {
+            //professionalDetails
+            ...this._professionalDetailsProjection,
+          },
+        },
+      ])
+      .exec();
     return mentor?.[0] ? mentor[0] : null;
   }
 
@@ -141,7 +161,7 @@ export class MentorRepository extends BaseRepository<IMentorEntity,IMentorModel>
       $project: {
         _id: 0,
         name: "$user.name",
-        profileImage:'$user.profileImage',
+        profileImage: "$user.profileImage",
         country: "$user.country",
         mobileNumber: "$user.mobileNumber",
         userId: 1,
@@ -150,22 +170,23 @@ export class MentorRepository extends BaseRepository<IMentorEntity,IMentorModel>
             input: "$domains",
             as: "domain",
             in: {
-                _id: "$$domain._id",
-                name: "$$domain.name",
-                image: "$$domain.image",
-              },
+              _id: "$$domain._id",
+              name: "$$domain.name",
+              image: "$$domain.image",
+            },
           },
         },
         skills: 1,
         workedAt: 1,
         fee: 1,
-        rating:{
-          $cond:[
-            {$eq:["$rating.noOfRaters",0]},0,
-            {$divide:["$rating.totalStars","$rating.noOfRaters"]}
-          ]
+        rating: {
+          $cond: [
+            { $eq: ["$rating.noOfRaters", 0] },
+            0,
+            { $divide: ["$rating.totalStars", "$rating.noOfRaters"] },
+          ],
         },
-        about:1,
+        about: 1,
         isBlocked: 1,
       },
     };
@@ -196,9 +217,40 @@ export class MentorRepository extends BaseRepository<IMentorEntity,IMentorModel>
     return { items, totalDocuments };
   }
 
-
   async getStatus(userId: string): Promise<IMentorEntity | null> {
     const user = await mentorModel.findOne({ userId }).lean<IMentorEntity>();
     return user;
   }
+
+
+  //projection
+  private _previewDomainProjection = {
+    $map: {
+      input: "$domains",
+      as: "domain",
+      in: {
+        _id: { $toString: "$$domain._id" },
+        name: "$$domain.name",
+        image: "$$domain.image",
+      },
+    },
+  };
+
+  private _professionalDetailsProjection = {
+    skills: 1,
+    workedAt: 1,
+    fee: 1,
+    about: 1,
+    cv: 1,
+    experienceCirtificate: 1,
+    domains: this._previewDomainProjection,
+  };
+  private _userDetailsProjection = {
+    name: "$userDetails.name",
+    profileImage: "$userDetails.profileImage",
+    country: "$userDetails.country",
+    gender: "$userDetails.gender",
+    mobileNumber: "$userDetails.mobileNumber",
+    email: "$userDetails.email",
+  };
 }

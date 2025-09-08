@@ -14,8 +14,16 @@ export class UpdateUserUsecase implements IUpdateUserUsecase{
     ){}
    async execute(userId:string,updatedData:UpdateUserDetailsReqDTO):Promise<void>{
         if(!userId) throw new ValidationError("user id is required");
+        const {name,country,gender,mobileNumber,images}=updatedData;
         const filter:Pick<IUserEntity,'_id'>={_id:userId}
-        const update=updatedData
+        const update:Partial<IUserEntity>={}
+        if(name) update.name=name
+        if(country) update.country=country
+        if(gender) update.gender=gender
+        if(mobileNumber) update.mobileNumber=mobileNumber
+        if(images && images.length) update.profileImage=images[0]
+
+        console.log(update)
         await this._userRepository.updateOne(filter,update)
    }
 }

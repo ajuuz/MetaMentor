@@ -1,22 +1,45 @@
-import { useLocation, useNavigate } from 'react-router-dom'
-import { Button } from '../ui/button'
-import { useMemo } from 'react'
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
+import { useMemo } from "react";
+import { Home, Calendar, DollarSign, UserCheck, User } from "lucide-react";
 
 const SideBar = () => {
-    const navigate=useNavigate()
-    const location = useLocation()
-    const pathname = useMemo(()=>location.pathname,[location])
-  return (
-    <div className='fixed bg-white h-full'>
-        <aside className="hidden md:flex flex-col w-56 bg-transparent px-4">
-	    	<Button onClick={()=>navigate('/mentor/dashboard')} variant="ghost" className={`mb-2 justify-start text-[#222] ${pathname==='/mentor/dashboard'?'bg-[#ffb3bb] text-[#fff] font-bold rounded-lg shadow-none':""}`}>Dashboard</Button>
-	    	<Button onClick={()=>navigate('/mentor/reviews/upcoming')} variant="ghost" className={`mb-2 justify-start text-[#222] ${pathname==='/mentor/reviews/upcoming'?'bg-[#ffb3bb] text-[#fff] font-bold rounded-lg shadow-none':""}`}>Upcoming</Button>
-	    	<Button onClick={()=>navigate('/mentor/reviews/completed')} variant="ghost" className={`mb-2 justify-start text-[#222] ${pathname==='/mentor/reviews/completed'?'bg-[#ffb3bb] text-[#fff] font-bold rounded-lg shadow-none':""}`}>Completed</Button>
-	    	<Button onClick={()=>navigate('/mentor/slots')} variant="ghost" className={`mb-2 justify-start text-[#222] ${pathname==='/mentor/slots'?'bg-[#ffb3bb] hover:bg-[#fd8080] text-[#fff] font-bold rounded-lg shadow-none':""}`}>Slots</Button>
-	    	<Button onClick={()=>navigate('/mentor/wallet')} variant="ghost" className={`mb-2 justify-start text-[#222] ${pathname==='/mentor/wallet'?'bg-[#ffb3bb] text-[#fff] font-bold rounded-lg shadow-none':""}`}>Wallet</Button>
-	    </aside>
-    </div>
-  )
-}
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pathname = useMemo(() => location.pathname, [location]);
 
-export default SideBar
+  const links = [
+    { label: "Profile", icon: <User />, path: "/mentor" },
+    { label: "Dashboard", icon: <Home />, path: "/mentor/dashboard" },
+    { label: "Upcoming", icon: <Calendar />, path: "/mentor/reviews/upcoming" },
+    {
+      label: "Completed",
+      icon: <UserCheck />,
+      path: "/mentor/reviews/completed",
+    },
+    { label: "Slots", icon: <Calendar />, path: "/mentor/slots" },
+    { label: "Wallet", icon: <DollarSign />, path: "/mentor/wallet" },
+  ];
+
+  return (
+    <aside className="fixed top-16 left-0 w-64 h-full bg-white shadow-lg flex flex-col p-4 space-y-3">
+      {links.map(({ label, icon, path }) => (
+        <Button
+          key={path}
+          variant="ghost"
+          className={`justify-start text-[#222] ${
+            pathname === path
+              ? "bg-[#e9182c] text-white font-semibold rounded-lg shadow-sm"
+              : ""
+          }`}
+          onClick={() => navigate(path)}
+        >
+          <span className="mr-2">{icon}</span>
+          {label}
+        </Button>
+      ))}
+    </aside>
+  );
+};
+
+export default SideBar;

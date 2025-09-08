@@ -69,14 +69,10 @@ export class AdminMentorController implements IAdminMentorController {
   ): Promise<void> {
     const { mentorId }: GetSpecificMentorReqDTO = req.verifiedData;
     try {
-      const mentor = await this._getMentorApplicationDetailsUsecase.execute(
+      const data = await this._getMentorApplicationDetailsUsecase.execute(
         mentorId
       );
-      res.status(HTTP_STATUS.OK).json({
-        success: true,
-        message: "mentor fetched successfully",
-        data: mentor,
-      });
+      res.status(HTTP_STATUS.OK).json(data);
     } catch (error) {
       next(error);
     }

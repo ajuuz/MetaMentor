@@ -2,17 +2,20 @@
 
 import { useGetDomainsNameAndIdQuery } from "@/hooks/tanstack/domain";
 import { useGetUserDetailsQuery } from "@/hooks/tanstack/user";
-import MentorDetailsManage from "@/components/mentor/application/Application";
 import type { MentorApplicationFormReq } from "@/types/request/mentor";
 import { mentorRegistration } from "@/services/mentorService.ts/registrationApi";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import ProfessionalDetails from "@/components/mentor/mentorDetails/ProfessionalDetails";
+import UserDetails from "@/components/mentor/mentorDetails/UserDetails";
+import { Card } from "@/components/ui/card";
 
 export default function CreateMentorApplication() {
   const navigate = useNavigate();
-  const { data: userData , isLoading:userLoading} = useGetUserDetailsQuery();
-  const { data: domainsData ,isLoading:domainsLoading} = useGetDomainsNameAndIdQuery();
+  const { data: userData, isLoading: userLoading } = useGetUserDetailsQuery();
+  const { data: domainsData, isLoading: domainsLoading } =
+    useGetDomainsNameAndIdQuery();
 
   const { mutate: mentorRegisterMutation, isPending: loading } = useMutation({
     mutationFn: mentorRegistration,
@@ -38,7 +41,10 @@ export default function CreateMentorApplication() {
     formData.append("fee", data.fee.toString());
     formData.append("skills", JSON.stringify(data.skills));
     formData.append("workedAt", JSON.stringify(data.workedAt));
-    formData.append("domains", JSON.stringify(data.selectedDomains.map((domain)=>domain._id)));
+    formData.append(
+      "domains",
+      JSON.stringify(data.selectedDomains.map((domain) => domain._id))
+    );
     data.images.forEach((file) => {
       if (file) formData.append("images", file);
     });
@@ -51,13 +57,16 @@ export default function CreateMentorApplication() {
       <h1 className="text-3xl font-bold text-center mb-10">
         Reviewer Registration
       </h1>
-      <MentorDetailsManage
-        purpose="CreateApplication"
-        userDetails={userData}
-        domains={domainsData}
-        onSubmit={onSubmit}
-        loading={loading}
-      />
+      <Card className="p-6 gap-8">
+        <UserDetails userData={userData} />
+
+        <ProfessionalDetails
+          purpose="CreateApplication"
+          domains={domainsData}
+          onSubmit={onSubmit}
+          loading={loading}
+        />
+      </Card>
     </div>
   );
 }

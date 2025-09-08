@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 const MentorLayout = () => {
   return (
-    <div className="pt-20">
+    <div className="pt-20 ps-15">
       <Header/>
       <div className="flex">
         <SideBar/>

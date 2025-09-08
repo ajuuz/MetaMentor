@@ -1,16 +1,17 @@
-import { Transform } from "class-transformer";
 import {
-  IsEnum,
-  IsNotEmpty,
   IsString,
   Matches,
-  ValidateIf,
+  IsEnum,
+  IsOptional,
+  Length,
+  IsNotEmpty,
+  IsArray,
 } from "class-validator";
+import { Transform } from "class-transformer";
 import { GENDER } from "shared/constants";
-import { ValidationError } from "shared/utils/error/validationError";
 
 export class UpdateUserDetailsReqDTO {
-  @ValidateIf((o) => o.name !== undefined)
+  @IsOptional()
   @IsString()
   @Transform(({ value }) => value?.trim())
   @Matches(/^[A-Za-z\s]{3,20}$/, {
@@ -18,29 +19,23 @@ export class UpdateUserDetailsReqDTO {
   })
   name?: string;
 
-  @ValidateIf((o) => o.country !== undefined)
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
+  @Transform(({ value }) => value?.trim())
   country?: string;
 
-  @ValidateIf((o) => o.gender !== undefined)
-  @IsEnum(GENDER)
+  @IsOptional()
+  @IsEnum(GENDER, { message: "Gender must be male, female, or other" })
   gender?: GENDER;
 
-  @ValidateIf((o) => o.mobileNumber !== undefined)
-  @Transform(({ value }) => {
-    const str = String(value).trim();
-    console.log(str);
-    const regex = /^\d{10}$/;
-    if (!regex.test(str)) {
-      throw new ValidationError("Mobile number must be exactly 10 digits");
-    }
-    return Number(str);
-  })
+  @IsOptional()
+  @Transform(({ value }) => value?.toString().trim())
+  @Matches(/^\d{10}$/, { message: "Mobile number must be exactly 10 digits" })
   mobileNumber?: number;
 
-  @ValidateIf((o) => o.profileImage !== undefined)
-  @IsString()
-  @IsNotEmpty()
-  profileImage?: string;
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true, message: "Each image must be a string" })
+  @IsNotEmpty({ each: true, message: "Each image should not be empty" })
+  images?: string[];
 }

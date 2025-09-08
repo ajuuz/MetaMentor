@@ -1,5 +1,6 @@
 import {
-  IGetMentorForAdmin,
+  IGetMentorApplicationDetails,
+  IGetMentorProfessionalDetails,
   IGetMentors,
   IMentorEntity,
 } from "entities/modelEntities/mentor-model.entity";
@@ -9,7 +10,11 @@ import { IMentorModel } from "frameworks/database/models/mentor.model";
 
 export interface IMentorRepository
   extends IBaseRepository<IMentorEntity, IMentorModel> {
-  findById(userId: string): Promise<IGetMentorForAdmin | null>;
+  findById(userId: string): Promise<IGetMentorApplicationDetails | null>;
+  findProfessionalDetails(
+    mentorId: string
+  ): Promise<IGetMentorProfessionalDetails | null>;
+
   register(
     userId: string,
     mentorDetails: Partial<IMentorEntity>

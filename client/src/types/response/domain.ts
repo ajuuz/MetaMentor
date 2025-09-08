@@ -6,17 +6,16 @@ export type DomainResBase = {
   motive: string;
 };
 
+export type DomainPreviewType = { _id: string; name: string; image: string };
 
-//admin
+//====admin=====//
 export type GetDomainsForAdminRes = DomainResBase & {
-    isBlocked: boolean;
-}
+  isBlocked: boolean;
+};
 
-//students
-
+//=====students=====//
 //multiple
-export type GetDomainsForStudRes = DomainResBase
-export type GetEnrolledDomainsRes = DomainResBase
-
+export type GetDomainsForStudRes = DomainResBase;
+export type GetEnrolledDomainsRes = DomainResBase;
 //single
-export type GetDomainForStudRes = DomainResBase
+export type GetDomainForStudRes = DomainResBase;

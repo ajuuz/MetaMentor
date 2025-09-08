@@ -1,12 +1,12 @@
-import { getSpecificUser } from "@/services/userService/userApi";
-import type { UserDetailsType } from "@/types/userType";
+import { getProfile } from "@/services/userService/userApi";
+import type { UserDetailsRes } from "@/types/response/user";
 import { useQuery } from "@tanstack/react-query";
 
 
 
 export const useProfileQuery=()=>{
-    return useQuery<Omit<UserDetailsType,"role"|"isVerified"|"_id">>({
+    return useQuery<UserDetailsRes>({
         queryKey:['enrolledDomain'],
-        queryFn:()=> getSpecificUser()
+        queryFn:()=> getProfile()
     })
 };

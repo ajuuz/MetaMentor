@@ -113,6 +113,8 @@ import { GetMentorsForAdminUsecase } from "useCases/mentor/getMentorsForAdmin.us
 import { IGetMentorsForAdminUsecase } from "entities/usecaseInterfaces/mentor/getMentorsForAdmin.interface";
 import { UpdateMentorApplicationUsecase } from "useCases/mentor/updateMentorApplication.usecase";
 import { IUpdateMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/updateMentorApplicationUsecase.interface";
+import { IGetProfessionalDetailsUsecase } from "entities/usecaseInterfaces/mentor/getProfessionalDetailsUsecase.interface";
+import { GetProfessionalDetailsUsecase } from "useCases/mentor/getProfessionalDetails.usecase";
 
 export class UseCaseRegistory {
   static registerUsecases(): void {
@@ -187,6 +189,14 @@ export class UseCaseRegistory {
         useClass: CreateMentorApplicationUsecase,
       }
     );
+    
+    container.register<IGetProfessionalDetailsUsecase>(
+      "IGetProfessionalDetailsUsecase",
+      {
+        useClass: GetProfessionalDetailsUsecase,
+      }
+    );
+
     container.register<IUpdateMentorApplicationUsecase>(
       "IUpdateMentorApplicationUsecase",
       {
