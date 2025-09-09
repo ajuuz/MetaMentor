@@ -2,5 +2,5 @@
 
 export interface IEnrollDomainUsecase{
 
-    execute(userId:string,domainId:string):Promise<void>
+    execute(studentId:string,domainId:string,fullCourse:boolean,selectedLevelsId?:string[]):Promise<void>
 }

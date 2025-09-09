@@ -2,11 +2,12 @@ import { plainToInstance } from "class-transformer";
 import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
 import { IGetReviewsForStudAndDomain } from "entities/modelEntities/reviewModel.entity";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
+import { IEnrolledLevelRepository } from "entities/repositoryInterfaces/enrolledLevelRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { IGetDomainInsightUsecase } from "entities/usecaseInterfaces/domain/getDomainInsightUsecase.interface";
 import { GetDomainResDTO } from "shared/dto/response/domain.dto";
-import { LevelResDTO } from "shared/dto/response/level.dto";
+import { EnrolledLevelResDTO } from "shared/dto/response/enrolledLevel.dto";
 import { GetReviewsForStudAndDomainResDTO } from "shared/dto/response/review.dto";
 import { NotFoundError } from "shared/utils/error/notFounError";
 import { inject, injectable } from "tsyringe";
@@ -20,6 +21,9 @@ export class GetDomainInsightUsecase implements IGetDomainInsightUsecase {
     @inject("ILevelRepository")
     private _levelRepository: ILevelRepository,
 
+    @inject("IEnrolledLevelRepository")
+    private _enrolledLevelRepository: IEnrolledLevelRepository,
+
     @inject("IReviewRepository")
     private _reviewRepository: IReviewRepository
   ) {}
@@ -31,7 +35,7 @@ export class GetDomainInsightUsecase implements IGetDomainInsightUsecase {
     reviews: GetReviewsForStudAndDomainResDTO[];
     domain: GetDomainResDTO;
     noOfLevelPassed: number;
-    nextLevels: LevelResDTO[];
+    nextLevels: EnrolledLevelResDTO[];
   }> {
     const asyncOperations = [];
 
@@ -71,12 +75,14 @@ export class GetDomainInsightUsecase implements IGetDomainInsightUsecase {
       throw new NotFoundError("Domain Not found");
     }
 
-    const nextLevelsData = await this._levelRepository.getNextLevel(
+    const nextLevelsData = await this._enrolledLevelRepository.getNextLevels(
+      studentId,
       domainId,
       noOfLevelPassed
     );
+    
 
-    const nextLevels = plainToInstance(LevelResDTO, nextLevelsData, {
+    const nextLevels = plainToInstance(EnrolledLevelResDTO, nextLevelsData, {
       excludeExtraneousValues: true,
     });
 

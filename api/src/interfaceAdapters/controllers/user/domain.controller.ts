@@ -55,10 +55,9 @@ export class UserDomainController implements IUserDomainController {
   }
 
   async enrollDomain(req: Request, res: Response): Promise<void> {
-    console.log(req.verifiedData);
-    const { domainId }: EnrollDomainReqDTO = req.verifiedData;
+    const { domainId,fullCourse,selectedLevelsId }: EnrollDomainReqDTO = req.verifiedData;
     const userId = (req as ModifiedRequest).user.id;
-    await this._enrollDomainUsecase.execute(userId, domainId);
+    await this._enrollDomainUsecase.execute(userId, domainId,fullCourse,selectedLevelsId);
     res
       .status(HTTP_STATUS.OK)
       .json({ success: true, message: SUCCESS_MESSAGE.DOMAINS.ENROLL });

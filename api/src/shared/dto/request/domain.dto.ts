@@ -8,6 +8,7 @@ import {
   IsBoolean,
   IsArray,
   ArrayNotEmpty,
+  IsOptional,
 } from "class-validator";
 import { LevelReqDTO } from "./level.dto";
 import { FilterReqDTO } from "./pagination.dto";
@@ -62,6 +63,15 @@ export class EnrollDomainReqDTO {
   @IsString()
   @IsNotEmpty()
   domainId!: string;
+
+  @IsBoolean()
+  fullCourse!: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  @IsNotEmpty({ each: true })
+  selectedLevelsId?: string[];
 }
 
 export class GetDomainDashboardForStudReqDTO extends FilterReqDTO {}

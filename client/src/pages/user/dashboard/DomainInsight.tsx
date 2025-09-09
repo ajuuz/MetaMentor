@@ -10,6 +10,7 @@ import type { LevelType } from "@/types/levelTypes";
 import { useEnrolledDomainQuery } from "@/hooks/tanstack/domain";
 import ContentViewerModal from "@/components/common/ContentViewerModal";
 import CompletedLevelCard from "@/components/user/domainInsight/CompletedLevelCard";
+import { config } from "@/config/configuration";
 
 const DomainInsight = () => {
   const [reviews, setReviews] = useState<StudentReviewCard[]>([]);
@@ -54,9 +55,9 @@ const DomainInsight = () => {
         <p className="max-w-3xl mx-auto text-sm">{domain?.description}</p>
         <div className="mx-auto flex justify-center">
           <img
-            src={domain?.image}
+            src={config.IMAGE_BASE_URL+domain?.image}
             alt="MERN Stack"
-            className="w-28 h-28 object-contain"
+            className="w-24 h-24 rounded-full object-cover"
           />
         </div>
         <div className="bg-gray-800 p-2 rounded-xl w-full max-w-md mx-auto">

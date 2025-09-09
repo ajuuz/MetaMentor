@@ -3,6 +3,7 @@ import { ICommentRepository } from "entities/repositoryInterfaces/commentReposit
 import { ICommunityPostRepository } from "entities/repositoryInterfaces/communityPostRepository.interface";
 import { ICommunityRepository } from "entities/repositoryInterfaces/communityRepository.interface";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
+import { IEnrolledLevelRepository } from "entities/repositoryInterfaces/enrolledLevelRepository.interface";
 import { IFcmTokenRepository } from "entities/repositoryInterfaces/fcmTokenRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
@@ -20,6 +21,7 @@ import { CommentRepository } from "interfaceAdapters/repositories/comment.reposi
 import { CommunityRepository } from "interfaceAdapters/repositories/community.repository";
 import { CommunityPostRepository } from "interfaceAdapters/repositories/communityPost.repository";
 import { DomainRepository } from "interfaceAdapters/repositories/domain.repository";
+import { EnrolledLevelRepository } from "interfaceAdapters/repositories/enrolledLevel.repository";
 import { FcmTokenRepository } from "interfaceAdapters/repositories/fcmToken.repository";
 import { LevelRepository } from "interfaceAdapters/repositories/level.repository";
 import { MentorRepository } from "interfaceAdapters/repositories/mentor.repository";
@@ -107,6 +109,11 @@ export class RepositoryRegistry {
     //sequence number
     container.register<ISequenceNumberRepository>("ISequenceNumberRepository", {
       useClass: SequenceNumberRepository,
+    });
+
+    //enrolledLevel
+    container.register<IEnrolledLevelRepository>("IEnrolledLevelRepository", {
+      useClass: EnrolledLevelRepository,
     });
   }
 }

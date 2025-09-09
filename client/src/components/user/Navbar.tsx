@@ -1,128 +1,170 @@
 import {
   NavigationMenu,
   NavigationMenuItem,
+  NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+} from "@/components/ui/navigation-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-import { Menu } from "lucide-react"
+import { Menu } from "lucide-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FaPaperPlane } from "react-icons/fa";
 
-import { useUserStore, type UserType } from '@/zustand/userStore'
+import { useUserStore, type UserType } from "@/zustand/userStore";
 
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { useCallback, useEffect } from "react";
-import { listenForForegroundMessages, requestForToken } from "@/config/firebaseConfig/firebaseConfig";
+import { useCallback, useEffect, useMemo } from "react";
+import {
+  listenForForegroundMessages,
+  requestForToken,
+} from "@/config/firebaseConfig/firebaseConfig";
 import { saveFcmToken } from "@/services/commonApi";
 import { useMutation } from "@tanstack/react-query";
 
 const Navbar = () => {
-  
-  const user:UserType|null= useUserStore((state)=>state.user);
+  const user: UserType | null = useUserStore((state) => state.user);
   const navigate = useNavigate();
+  const location = useLocation();
+  const pathname = useMemo(() => location.pathname, [location]);
 
-
-   const { mutate: saveFcmTokenMutation } = useMutation({
+  const { mutate: saveFcmTokenMutation } = useMutation({
     mutationFn: saveFcmToken,
-      onSuccess: (response,token) => {
-        console.log(response)
-        console.log(token)
-        localStorage.setItem("fcmToken",token);
-      },
-      onError: (err) => {
-        console.error("Failed to save token:", err);
-      },
-    });
+    onSuccess: (response, token) => {
+      console.log(response);
+      console.log(token);
+      localStorage.setItem("fcmToken", token);
+    },
+    onError: (err) => {
+      console.error("Failed to save token:", err);
+    },
+  });
 
-    const setupFCM = useCallback(async () => {
+  const setupFCM = useCallback(async () => {
     if (!user) return;
-    if (user.role==='admin') return;
+    if (user.role === "admin") return;
     try {
-      if (Notification.permission === 'denied') {
-        console.log('Notifications are blocked by user');
+      if (Notification.permission === "denied") {
+        console.log("Notifications are blocked by user");
         return;
       }
-  
+
       const cachedToken = localStorage.getItem("fcmToken");
       const token = await requestForToken();
-  
+
       if (token && token !== cachedToken) {
         saveFcmTokenMutation(token);
       }
-  
+
       listenForForegroundMessages();
     } catch (error) {
-      console.error('FCM setup error:', error);
+      console.error("FCM setup error:", error);
     }
   }, [user, saveFcmTokenMutation]);
 
-   useEffect(() => {
+  useEffect(() => {
     setupFCM();
   }, [setupFCM]);
 
-  return (
-      <header className="fixed top-0 w-full bg-white shadow-sm z-2">
-        <div className=" mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="text-[#E63946] font-bold text-xl"><span className="text-black">META</span> MENTOR</div>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center ">
-                <NavigationMenu className="flex items-center space-x-4">
-                    <NavigationMenuList className="flex gap-5">
-                      {["Communities","Domains", "Mentors", "About", "Network", "Rooms", "Highlights", "Dashboard"].map((item) => (
-                        <NavigationMenuItem key={item} >
-                          <Link className="text-black hover:text-[#E63946] transition-colors" to={`/${item.toLowerCase()}`}>
-                            {item}
-                          </Link>
-                        </NavigationMenuItem>
-                      ))}
-                    </NavigationMenuList>
-                </NavigationMenu>
-            </div>
+  const navItmes = [
+    { itemName: "Domains", itemEndPoint: "domains" },
+    { itemName: "Dashboard", itemEndPoint: "dashboard" },
+  ];
 
-          <div className='flex gap-4 items-center'>
-              {!user ? <Button onClick={()=>navigate('/signup')} className="bg-[#E63946] text-white hover:bg-[#dc2f3c]">
+  return (
+    <header className="fixed top-0 w-full bg-white shadow-sm z-100">
+      <div className=" mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          <div className="text-[#E63946] font-bold text-xl">
+            <span className="text-black">META</span> MENTOR
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center ">
+            <NavigationMenu className="flex items-center space-x-4">
+              <NavigationMenuList className="flex gap-5">
+                {navItmes.map((item) => (
+                  <NavigationMenuItem key={item.itemName}>
+                    <NavigationMenuLink
+                      className={`${
+                        pathname === `/${item.itemEndPoint}`
+                          ? "text-white bg-gradient-to-r from-red-600 to-black hover:text-white hover:from-black hover:to-red-600"
+                          : "text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-black hover:text-black"
+                      }  text-nowrap transition-colors duration-1000 font-medium `}
+                    >
+                      <Link to={`/${item.itemEndPoint}`}>{item.itemName}</Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+
+          <div className="flex gap-4 items-center">
+            {!user ? (
+              <Button
+                onClick={() => navigate("/signup")}
+                className="bg-[#E63946] text-white hover:bg-[#dc2f3c]"
+              >
                 Sign Up
               </Button>
-              :
-              <div className='flex gap-4 items-center'>
-                {user.role==='mentor' && <Button onClick={()=>navigate('/mentor/reviews/upcoming')}>Switch to mentor</Button>}
-                {user.role==='admin' && <Button onClick={()=>navigate('/admin/dashboard')}>Switch to admin</Button>}
-                <FaUserCircle onClick={()=>navigate('/profile')} className='cursor-pointer scale-[1.2]'/>
+            ) : (
+              <div className="flex gap-4 items-center">
+                {user.role === "mentor" && (
+                  <Button onClick={() => navigate("/mentor/reviews/upcoming")}>
+                    Switch to mentor
+                  </Button>
+                )}
+                {user.role === "admin" && (
+                  <Button onClick={() => navigate("/admin/dashboard")}>
+                    Switch to admin
+                  </Button>
+                )}
+                <FaUserCircle
+                  onClick={() => navigate("/profile")}
+                  className="cursor-pointer scale-[1.2]"
+                />
                 <FaPaperPlane />
               </div>
-              }
+            )}
 
-               {/* Mobile Navigation */}
-               <Sheet>
+            {/* Mobile Navigation */}
+            <Sheet>
+              <SheetTrigger className="md:hidden cursor-pointer">
+                <Menu className="h-6 w-6" />
+              </SheetTrigger>
 
-                 <SheetTrigger className="md:hidden cursor-pointer">
-                   <Menu className="h-6 w-6" />
-                 </SheetTrigger>
+              <SheetContent className="rounded-l-2xl h-[98vh] my-auto">
+                <div className="flex flex-col gap-3 mt-6 px-6 py-4  rounded-2xl">
+                  <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-2">
+                    Explore
+                  </h2>
 
-                 <SheetContent className='rounded-l-2xl h-[98vh] my-auto'>
-                   <div className="flex flex-col gap-3 mt-6 px-6 py-4  rounded-2xl">
-                   <h2 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-2">Explore</h2>
-
-                    {["Communities","Mentors","About","Network","Rooms","Highlights","Dashboard",].map((item, index) => (
-                      <Link  key={index}  to={`/${item.toLowerCase()}`}  className="text-[16px] font-medium text-gray-700 hover:text-[#E63946] hover:pl-2 transition-all duration-200 ease-in-out px-2 py-1 rounded-md hover:bg-[#E63946]/10">
-                        {item}
-                      </Link>
-                    ))}
-                  </div>
-
-                 </SheetContent>
-
-               </Sheet>
-            </div>
-
+                  {[
+                    "Communities",
+                    "Mentors",
+                    "About",
+                    "Network",
+                    "Rooms",
+                    "Highlights",
+                    "Dashboard",
+                  ].map((item, index) => (
+                    <Link
+                      key={index}
+                      to={`/${item.toLowerCase()}`}
+                      className="text-[16px] font-medium text-gray-700 hover:text-[#E63946] hover:pl-2 transition-all duration-200 ease-in-out px-2 py-1 rounded-md hover:bg-[#E63946]/10"
+                    >
+                      {item}
+                    </Link>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
-      </header>
-  )
-}
+      </div>
+    </header>
+  );
+};
 
-export default Navbar
+export default Navbar;
