@@ -23,7 +23,9 @@ export class MentorRepository
     super(mentorModel);
   }
 
-  async findById(mentorId: string): Promise<IGetMentorApplicationDetails | null> {
+  async findById(
+    mentorId: string
+  ): Promise<IGetMentorApplicationDetails | null> {
     const mentorObjectId = new Types.ObjectId(mentorId);
     const mentor = await mentorModel
       .aggregate([
@@ -59,7 +61,9 @@ export class MentorRepository
     return mentor?.[0] ? mentor[0] : null;
   }
 
-  async findProfessionalDetails(mentorId:string):Promise<IGetMentorProfessionalDetails|null>{
+  async findProfessionalDetails(
+    mentorId: string
+  ): Promise<IGetMentorProfessionalDetails | null> {
     const mentorObjectId = new Types.ObjectId(mentorId);
     const mentor = await mentorModel
       .aggregate([
@@ -117,7 +121,17 @@ export class MentorRepository
         mongoFilter[item.field] = item.value;
       } else {
         if (item.field === "searchTerm") {
-          mongoFilter["user.name"] = { $regex: item.value, $options: "i" };
+          if (!isNaN(Number(item.value))) {
+            mongoFilter["$expr"] = {
+              $regexMatch: {
+                input: { $toString: "$seq" },
+                regex: item.value,
+                options: "i",
+              },
+            };
+          } else {
+            mongoFilter["user.name"] = { $regex: item.value, $options: "i" };
+          }
         }
 
         if (
@@ -160,11 +174,12 @@ export class MentorRepository
     const projectPipeline = {
       $project: {
         _id: 0,
+        userId: 1,
+        seq: 1,
         name: "$user.name",
         profileImage: "$user.profileImage",
         country: "$user.country",
         mobileNumber: "$user.mobileNumber",
-        userId: 1,
         domains: {
           $map: {
             input: "$domains",
@@ -221,7 +236,6 @@ export class MentorRepository
     const user = await mentorModel.findOne({ userId }).lean<IMentorEntity>();
     return user;
   }
-
 
   //projection
   private _previewDomainProjection = {

@@ -9,6 +9,7 @@ import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepositor
 import { INotificationRepository } from "entities/repositoryInterfaces/notificationRepository.interface";
 import { IOtpRespository } from "entities/repositoryInterfaces/otp-repository.interface";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
+import { ISequenceNumberRepository } from "entities/repositoryInterfaces/sequenceNumberRepository.interface";
 import { ISlotLockRepository } from "entities/repositoryInterfaces/slotLockRepository.interface";
 import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
 import { ITransactionRepository } from "entities/repositoryInterfaces/transactionRepository.interface";
@@ -25,6 +26,7 @@ import { MentorRepository } from "interfaceAdapters/repositories/mentor.reposito
 import { NotificationRepository } from "interfaceAdapters/repositories/notification.repository";
 import { OtpRepository } from "interfaceAdapters/repositories/otp.repository";
 import { ReviewRepository } from "interfaceAdapters/repositories/review.repository";
+import { SequenceNumberRepository } from "interfaceAdapters/repositories/sequenceNumber.repository";
 import { SlotRepository } from "interfaceAdapters/repositories/slot.repository";
 import { SlotLockRepository } from "interfaceAdapters/repositories/slotLock.repository";
 import { StudentRepository } from "interfaceAdapters/repositories/student.repository";
@@ -33,77 +35,78 @@ import { UserRepository } from "interfaceAdapters/repositories/user.repository";
 import { WalletRepository } from "interfaceAdapters/repositories/wallet.repository";
 import { container } from "tsyringe";
 
-export class RepositoryRegistry{
-    static registerRepositories():void{
+export class RepositoryRegistry {
+  static registerRepositories(): void {
+    container.register<IOtpRespository>("IOtpRepository", {
+      useClass: OtpRepository,
+    });
 
-        container.register<IOtpRespository>("IOtpRepository",{
-            useClass:OtpRepository
-        })
+    container.register<IBlackListTokenRepository>("IBlackListTokenRepository", {
+      useClass: BlackListTokenRepository,
+    });
 
-        container.register<IBlackListTokenRepository>('IBlackListTokenRepository',{
-            useClass:BlackListTokenRepository
-        })
-        
-        container.register<IUserRespository>('IUserRepository',{
-            useClass:UserRepository
-        })
+    container.register<IUserRespository>("IUserRepository", {
+      useClass: UserRepository,
+    });
 
-        container.register<IFcmTokenRepository>('IFcmTokenRepository',{
-            useClass:FcmTokenRepository
-        })
+    container.register<IFcmTokenRepository>("IFcmTokenRepository", {
+      useClass: FcmTokenRepository,
+    });
 
-        container.register('IStudentRepository',{
-            useClass:StudentRepository
-        })
+    container.register("IStudentRepository", {
+      useClass: StudentRepository,
+    });
 
-        container.register<IMentorRepository>('IMentorRepository',{
-            useClass:MentorRepository
-        })
+    container.register<IMentorRepository>("IMentorRepository", {
+      useClass: MentorRepository,
+    });
 
-        container.register<IDomainRepository>('IDomainRepository',{
-            useClass:DomainRepository
-        })
+    container.register<IDomainRepository>("IDomainRepository", {
+      useClass: DomainRepository,
+    });
 
-        container.register<ILevelRepository>('ILevelRepository',{
-            useClass:LevelRepository
-        })
+    container.register<ILevelRepository>("ILevelRepository", {
+      useClass: LevelRepository,
+    });
 
-        container.register<ICommunityRepository>('ICommunityRepository',{
-            useClass:CommunityRepository
-        })
+    container.register<ICommunityRepository>("ICommunityRepository", {
+      useClass: CommunityRepository,
+    });
 
-        container.register<ISlotRepository>('ISlotRepository',{
-            useClass:SlotRepository
-        })
+    container.register<ISlotRepository>("ISlotRepository", {
+      useClass: SlotRepository,
+    });
 
-        container.register<IReviewRepository>('IReviewRepository',{
-            useClass:ReviewRepository
-        })
+    container.register<IReviewRepository>("IReviewRepository", {
+      useClass: ReviewRepository,
+    });
 
-        container.register<ISlotLockRepository>('ISlotLockRepository',{
-            useClass:SlotLockRepository
-        })
+    container.register<ISlotLockRepository>("ISlotLockRepository", {
+      useClass: SlotLockRepository,
+    });
 
-        container.register<IWalletRepository>('IWalletRepository',{
-            useClass:WalletRepository
-        })
+    container.register<IWalletRepository>("IWalletRepository", {
+      useClass: WalletRepository,
+    });
 
-        container.register<ITransactionRepository>('ITransactionRepository',{
-            useClass:TransactionRepository
-        })
+    container.register<ITransactionRepository>("ITransactionRepository", {
+      useClass: TransactionRepository,
+    });
 
-        container.register<INotificationRepository>('INotificationRepository',{
-            useClass:NotificationRepository
-        })
+    container.register<INotificationRepository>("INotificationRepository", {
+      useClass: NotificationRepository,
+    });
 
-        container.register<ICommunityPostRepository>('ICommunityPostRepository',{
-            useClass:CommunityPostRepository
-        })
-        container.register<ICommentRepository>('ICommentRepository',{
-            useClass:CommentRepository
-        })
+    container.register<ICommunityPostRepository>("ICommunityPostRepository", {
+      useClass: CommunityPostRepository,
+    });
+    container.register<ICommentRepository>("ICommentRepository", {
+      useClass: CommentRepository,
+    });
 
-
-
-    }
+    //sequence number
+    container.register<ISequenceNumberRepository>("ISequenceNumberRepository", {
+      useClass: SequenceNumberRepository,
+    });
+  }
 }

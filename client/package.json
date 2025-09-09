@@ -32,6 +32,7 @@
     "firebase": "^11.9.1",
     "framer-motion": "^12.16.0",
     "input-otp": "^1.4.2",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.511.0",
     "react": "^19.1.0",
     "react-day-picker": "^9.9.0",
@@ -52,6 +53,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^22.15.21",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",

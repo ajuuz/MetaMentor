@@ -11,6 +11,8 @@ type Prop={
   mentors: MentorTableDetailsType[],
   currentPage: number,
   setCurrentPage:React.Dispatch<React.SetStateAction<number>>,
+  limit: number,
+  setLimit:React.Dispatch<React.SetStateAction<number>>,
   totalPage: number
   sortBy:string
   setSortBy:React.Dispatch<React.SetStateAction<string>>
@@ -18,18 +20,22 @@ type Prop={
   setSearchTerm:React.Dispatch<React.SetStateAction<string>>,
   selectedDomains:string[],
   setSelectedDomains:React.Dispatch<React.SetStateAction<string[]>>
+  h1Content:string
 }
 const Mentors = ({tableHeaders,
   mentors,
   currentPage,
   setCurrentPage,
+  limit,
+  setLimit,
   totalPage,
   sortBy,
   setSortBy,
   searchTerm,
   setSearchTerm,
   selectedDomains,
-  setSelectedDomains
+  setSelectedDomains,
+  h1Content
 }:Prop) => {
   
   const { data: domains } = useQuery({
@@ -76,6 +82,7 @@ const Mentors = ({tableHeaders,
   
   return (
     <div className="flex flex-col gap-5">
+       <h1 className="text-center font-medium text-2xl bg-gradient-to-r from-red-600 to-black text-transparent bg-clip-text">{h1Content}</h1>
     {/* Filters */}
     <div className='flex justify-center'>
     <FilterComponent searchTerm={searchTerm} 
@@ -83,6 +90,8 @@ const Mentors = ({tableHeaders,
     sortBy={sortBy} 
     setSortBy={setSortBy} 
     setCurrentPage={setCurrentPage}
+    limit={limit}
+    setLimit={setLimit}
     contentForSortSelect={contentForSortSelect}
     contentForFilterDropdown={contentForFilterDropdown}
     resetFilterDropdown={()=>setSelectedDomains([])}

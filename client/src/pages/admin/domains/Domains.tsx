@@ -4,6 +4,7 @@ import PaginationComponent from "@/components/common/PaginationComponent";
 import TableComponent from "@/components/common/TableComponent";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { config } from "@/config/configuration";
 import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
 import { useAdminGetAllDomainsQuery } from "@/hooks/tanstack/domain";
 import { updateDomainStatus } from "@/services/adminService.ts/domainApi";
@@ -18,6 +19,10 @@ const Domains = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const [limit, setLimit] = useState<number>(
+    Number(searchParams.get("limit")) || 1
+  );
+
   const [currentPage, setCurrentPage] = useState<number>(
     Number(searchParams.get("currentPage")) || 1
   );
@@ -31,7 +36,7 @@ const Domains = () => {
   const navigate = useNavigate();
   const { data: domainsResponse, isError } = useAdminGetAllDomainsQuery(
     currentPage,
-    10,
+    limit,
     sortBy,
     searchTerm
   );
@@ -50,7 +55,10 @@ const Domains = () => {
               ? domain.name.slice(0, 15) + "..."
               : domain.name,
             <div className="flex justify-center w-full">
-              <img className="w-30 rounded-2xl" src={domain.image} />
+              <img
+                className="h-15 w-15 rounded-full shadow-lg border-3 border-white"
+                src={config.IMAGE_BASE_URL + domain.image}
+              />
             </div>,
             domain.description.length > 15
               ? domain.description.slice(0, 15) + "..."
@@ -87,10 +95,11 @@ const Domains = () => {
   useEffect(() => {
     setSearchParams({
       currentPage: String(currentPage),
+      limit: String(limit),
       searchTerm,
       sortBy,
     });
-  }, [currentPage, searchTerm, sortBy, setSearchParams]);
+  }, [currentPage, limit, searchTerm, sortBy, setSearchParams]);
 
   function handleStatusChange(domainId: string, status: boolean) {
     updateStatusMutation({ domainId, status });
@@ -108,6 +117,9 @@ const Domains = () => {
   return (
     <div className="flex flex-col gap-5">
       {/* Filters */}
+      <h1 className="text-center font-medium text-2xl bg-gradient-to-r from-red-600 to-black text-transparent bg-clip-text">
+        DOMAINS
+      </h1>
       <div className="flex justify-between gap-10 px-5">
         <div className="flex-6">
           <FilterComponent
@@ -117,9 +129,11 @@ const Domains = () => {
             setSortBy={setSortBy}
             contentForSortSelect={contentForSortSelect}
             setCurrentPage={setCurrentPage}
+            limit={limit}
+            setLimit={setLimit}
           />
         </div>
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 flex flex-col gap-5 items-center justify-center">
           <Button onClick={() => navigate("/admin/domains/add")}>
             Add Domain
           </Button>

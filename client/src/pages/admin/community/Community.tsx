@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Loader2, X } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
+import { config } from "@/config/configuration";
 
 const Community = () => {
   const [communities, setCommunities] = useState<TableDetailsType[]>([]);
@@ -21,6 +22,9 @@ const Community = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState<number>(
     Number(searchParams.get("currentPage")) || 1
+  );
+  const [limit, setLimit] = useState<number>(
+    Number(searchParams.get("limit")) || 1
   );
   const [searchTerm, setSearchTerm] = useState<string>(
     searchParams.get("searchTerm") || ""
@@ -33,7 +37,7 @@ const Community = () => {
     data: communityResponse,
     isError,
     isFetching,
-  } = useAdminGetAllCommunitiesQuery(currentPage, 10, sortBy, searchTerm);
+  } = useAdminGetAllCommunitiesQuery(currentPage, limit, sortBy, searchTerm);
 
   const { mutate: updateStatusMutation } = useMutation({
     mutationFn: updateCommunityStatus,
@@ -58,7 +62,10 @@ const Community = () => {
               ? community.name.slice(0, 15) + "..."
               : community.name,
             <div className="flex justify-center w-full">
-              <img className="w-30 rounded-2xl" src={community.image} />
+              <img
+                className="h-15 w-15 rounded-full shadow-lg border-3 border-white"
+                src={config.IMAGE_BASE_URL + community.image}
+              />
             </div>,
             <Badge variant={community.isBlocked ? "destructive" : "default"}>
               {community.isBlocked ? "Blocked" : "Active"}
@@ -81,11 +88,12 @@ const Community = () => {
 
   useEffect(() => {
     setSearchParams({
-      page: String(currentPage),
+      currentPage: String(currentPage),
+      limit:String(limit),
       search: searchTerm,
       sortBy,
     });
-  }, [currentPage, searchTerm, sortBy, setSearchParams]);
+  }, [currentPage,limit, searchTerm, sortBy, setSearchParams]);
 
   function handleStatusChange(communityId: string, status: boolean) {
     updateStatusMutation({ communityId, status });
@@ -101,6 +109,9 @@ const Community = () => {
   const tableHeaders = ["Name", "Image", "Status", "Action"];
   return (
     <div className="flex flex-col gap-5">
+      <h1 className="text-center font-medium text-2xl bg-gradient-to-r from-red-600 to-black text-transparent bg-clip-text">
+        Communities
+      </h1>
       {/* Filters */}
       <div className="flex justify-center">
         <FilterComponent
@@ -110,6 +121,8 @@ const Community = () => {
           setSortBy={setSortBy}
           contentForSortSelect={contentForSortSelect}
           setCurrentPage={setCurrentPage}
+          limit={limit}
+          setLimit={setLimit}
         />
       </div>
 

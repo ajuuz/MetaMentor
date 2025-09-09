@@ -3,6 +3,7 @@ import { GENDER } from "shared/constants";
 export interface IMentorEntity {
   _id: string;
   userId: string;
+  seq:number,
   about: string;
   domains: string[];
   isBlocked: boolean;
@@ -21,6 +22,7 @@ export interface IMentorEntity {
 
 export interface IGetMentors {
   name: string;
+  seq:number,
   profileImage: string;
   country: string;
   domains: { _id: string; name: string; image: string }[];

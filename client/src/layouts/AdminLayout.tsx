@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 const AdminLayout = () => {
   return (
-    <div className="pt-20">
+    <div className="pt-25">
       <Header/>
       <Outlet/>
     </div>
