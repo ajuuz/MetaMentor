@@ -28,7 +28,7 @@ export class EnrollDomainUsecase implements IEnrollDomainUsecase {
     let transformedLevelData: Omit<IEnrolledLevelEntity, "_id" | "assignments">[];
 
     if (fullCourse) {
-      const levelFilter = { domainId };
+      const levelFilter = { domainId,isBlocked:false };
       const levelsData = await this._levelRepository.findWhole(levelFilter);
       transformedLevelData=levelsData.map((level)=>{
         return {

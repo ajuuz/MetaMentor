@@ -5,10 +5,11 @@ import ManageStudents from "@/pages/admin/students/ManageStudents";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./protectedRoutes/ProtectedRoute";
 import AdminLayout from "@/layouts/AdminLayout";
-import ManageDomain from "@/pages/admin/domains/ManageDomain";
 import Domains from "@/pages/admin/domains/Domains";
 import Community from "@/pages/admin/community/Community";
 import ApplicationVerification from "@/pages/admin/mentors/Verification";
+import EditDomain from "@/pages/admin/domains/EditDomain";
+import AddDomain from "@/pages/admin/domains/AddDomain";
 
 const AdminRoutes = () => {
   return (
@@ -105,9 +106,10 @@ const AdminRoutes = () => {
           <Route path="/students" element={<ManageStudents />} />
           <Route path="/domains" element={<Domains />} />
           <Route path="/communities" element={<Community />} />
-        </Route>
 
-        <Route path="/domains/add" element={<ManageDomain />} />
+          <Route path="/domains/add" element={<AddDomain />} />
+          <Route path="/domains/:domainId/edit" element={<EditDomain />} />
+        </Route>
       </Route>
     </Routes>
   );

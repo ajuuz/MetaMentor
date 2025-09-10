@@ -115,6 +115,10 @@ import { UpdateMentorApplicationUsecase } from "useCases/mentor/updateMentorAppl
 import { IUpdateMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/updateMentorApplicationUsecase.interface";
 import { IGetProfessionalDetailsUsecase } from "entities/usecaseInterfaces/mentor/getProfessionalDetailsUsecase.interface";
 import { GetProfessionalDetailsUsecase } from "useCases/mentor/getProfessionalDetails.usecase";
+import { IEditDomainUsecase } from "entities/usecaseInterfaces/domain/editDomainUsecase";
+import { EditDomainUsecase } from "useCases/domain/editDomain.usecase";
+import { IUpdateLevelStatusUsecase } from "entities/usecaseInterfaces/level/updateLevelStatusUsecase.interface";
+import { UpdateLevelStatusUsecase } from "useCases/level/updateLevelStatus.usecase";
 
 export class UseCaseRegistory {
   static registerUsecases(): void {
@@ -251,42 +255,60 @@ export class UseCaseRegistory {
     container.register<IAddDomainUsecase>("IAddDomainUsecase", {
       useClass: AddDomainUsecase,
     });
+
+    container.register<IEditDomainUsecase>("IEditDomainUsecase", {
+      useClass: EditDomainUsecase,
+    });
+
     container.register<IGetAllDomainsUsecase>("IGetAllDomainsUsecase", {
       useClass: GetAllDomainsUsecase,
     });
+
     container.register<IGetUnblockedDomainsUsecase>(
       "IGetUnblockedDomainsUsecase",
       {
         useClass: GetUnblockedDomainsUsecase,
       }
     );
+
     container.register<IGetAllDomainsNameAndIdUsecase>(
       "IGetAllDomainsNameAndIdUsecase",
       {
         useClass: GetAllDomainsNameAndIdUsecase,
       }
     );
+
     container.register<IGetSpecificDomainUsecase>("IGetSpecificDomainUsecase", {
       useClass: GetSpecificDomainUsecase,
     });
+
     container.register<IUpdateDomainStatusUsecase>(
       "IUpdateDomainStatusUsecase",
       {
         useClass: UpdateDomainStatusUsecase,
       }
     );
+
     container.register<IEnrollDomainUsecase>("IEnrollDomainUsecase", {
       useClass: EnrollDomainUsecase,
     });
+
     container.register<IGetEnrolledDomainsUsecase>(
       "IGetEnrolledDomainsUsecase",
       {
         useClass: GetEnrolledDomainsUsecase,
       }
     );
+
     container.register<IGetDomainInsightUsecase>("IGetDomainInsightUsecase", {
       useClass: GetDomainInsightUsecase,
     });
+
+    //levels
+    container.register<IUpdateLevelStatusUsecase>("IUpdateLevelStatusUsecase", {
+      useClass: UpdateLevelStatusUsecase,
+    });
+
 
     //community usecase
     container.register<IAddCommunityUsecase>("IAddCommunityUsecase", {

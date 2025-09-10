@@ -3,6 +3,7 @@ import { upload } from "frameworks/cloudinary/cloudinary";
 import {
   adminCommunityController,
   adminDomainController,
+  adminLevelController,
   adminMentorController,
   adminStudentController,
   authMiddleware,
@@ -16,9 +17,12 @@ import {
 } from "shared/dto/request/community.dto";
 import {
   CreateDomainReqDTO,
+  EditDomainReqDTO,
   GetAllDomainsForAdminReqDTO,
+  GetDomainForAdminReqDTO,
   UpdateDomainStatusDTO,
 } from "shared/dto/request/domain.dto";
+import { UpdateLevelStatusDTO } from "shared/dto/request/level.dto";
 import {
   GetAllMentorsReqDTO,
   GetSpecificMentorReqDTO,
@@ -39,18 +43,19 @@ export class AdminRoutes {
   }
 
   private configureRoutes(): void {
+    ///------application level------//
+    this._router.use(
+      authMiddleware.verifyAuth.bind(authMiddleware),
+      authMiddleware.verifyAuthRole([ROLES.ADMIN])
+    );
     //student
     this._router.get(
       "/students",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.ADMIN]),
       validationMiddleware(GetAllStudentReqDTO),
       adminStudentController.getAllStudents.bind(adminStudentController)
     );
     this._router.patch(
       "/students/:userId",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.ADMIN]),
       validationMiddleware(UpdateStudentStatusReqDTO),
       adminStudentController.updateStudentStatus.bind(adminStudentController)
     );
@@ -58,22 +63,18 @@ export class AdminRoutes {
     //mentor
     this._router.get(
       "/mentors",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.ADMIN]),
       validationMiddleware(GetAllMentorsReqDTO),
       adminMentorController.getAllMentors.bind(adminMentorController)
     );
     this._router.get(
       "/mentors/:mentorId",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.ADMIN]),
       validationMiddleware(GetSpecificMentorReqDTO),
-      adminMentorController.getMentorApplicationDetails.bind(adminMentorController)
+      adminMentorController.getMentorApplicationDetails.bind(
+        adminMentorController
+      )
     );
     this._router.patch(
       "/mentors/:mentorId/:applicationStatus",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.ADMIN]),
       validationMiddleware(MentorApplicationVerificationReqDTO),
       adminMentorController.mentorApplicationVerification.bind(
         adminMentorController
@@ -81,8 +82,6 @@ export class AdminRoutes {
     );
     this._router.patch(
       "/mentors/:mentorId",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.ADMIN]),
       validationMiddleware(UpdateMentorStatusReqDTO),
       adminMentorController.updateMentorStatus.bind(adminMentorController)
     );
@@ -90,40 +89,49 @@ export class AdminRoutes {
     //domain
     this._router.post(
       "/domains",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.ADMIN]),
       upload.array("image", 5),
       formDataParserFormatter,
       validationMiddleware(CreateDomainReqDTO),
       adminDomainController.addDomain.bind(adminDomainController)
     );
+    this._router.patch(
+      "/domains/:domainId",
+      upload.array("image", 5),
+      formDataParserFormatter,
+      validationMiddleware(EditDomainReqDTO),
+      adminDomainController.editDomain.bind(adminDomainController)
+    );
     this._router.get(
       "/domains",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.ADMIN]),
       validationMiddleware(GetAllDomainsForAdminReqDTO),
       adminDomainController.getAllDomains.bind(adminDomainController)
     );
-    this._router.patch(
+    this._router.get(
       "/domains/:domainId",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.ADMIN]),
+      validationMiddleware(GetDomainForAdminReqDTO),
+      adminDomainController.getDomain.bind(adminDomainController)
+    );
+    this._router.patch(
+      "/domains/:domainId/status",
       validationMiddleware(UpdateDomainStatusDTO),
       adminDomainController.updateDomainStatus.bind(adminDomainController)
+    );
+
+    //level
+    this._router.patch(
+      "/levels/:levelId/status",
+      validationMiddleware(UpdateLevelStatusDTO),
+      adminLevelController.updateLevelStatus.bind(adminLevelController)
     );
 
     //community
     this._router.get(
       "/communities",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.ADMIN]),
       validationMiddleware(GetCommunitiesForAdminReqDTO),
       adminCommunityController.getAllCommunities.bind(adminCommunityController)
     );
     this._router.patch(
       "/communities/:communityId",
-      authMiddleware.verifyAuth.bind(authMiddleware),
-      authMiddleware.verifyAuthRole([ROLES.ADMIN]),
       validationMiddleware(UpdateCommunityStatusDTO),
       adminCommunityController.updateCommunityStatus.bind(
         adminCommunityController

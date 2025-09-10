@@ -5,5 +5,5 @@ import { LevelResDTO } from "shared/dto/response/level.dto";
 type ReturnType=GetDomainResDTO & {levels:LevelResDTO[]}
 export interface IGetSpecificDomainUsecase{
 
-    execute(domainId:string):Promise<ReturnType>
+    execute(domainId:string,unBlockedLevels?:boolean):Promise<ReturnType>
 }

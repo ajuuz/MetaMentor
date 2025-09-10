@@ -1,4 +1,4 @@
-import { getDomainsForAdmin } from "@/services/adminService.ts/domainApi";
+import { getDomainForAdmin, getDomainsForAdmin } from "@/services/adminService.ts/domainApi";
 import { getDomainsNameAndId } from "@/services/mentorService.ts/registrationApi";
 import {
   getDomainsForStud,
@@ -8,6 +8,7 @@ import {
 } from "@/services/userService/domainApi";
 import type { DomainEntity, EnrolledDomain } from "@/types/domainTypes";
 import type {
+  GetDomainForAdminRes,
   GetDomainForStudRes,
   GetDomainsForAdminRes,
   GetDomainsForStudRes,
@@ -67,5 +68,12 @@ export const useAdminGetAllDomainsQuery = (
   return useQuery<{ domains: GetDomainsForAdminRes[]; totalPages: number }>({
     queryKey: ["getDomainsForAdmin", currentPage, limit, sortBy, searchTerm],
     queryFn: () => getDomainsForAdmin(currentPage, limit, sortBy, searchTerm),
+  });
+};
+
+export const useGetDomainForAdminQuery = (domainId: string) => {
+  return useQuery<GetDomainForAdminRes & { levels: LevelRes[] }>({
+    queryKey: ["getDomainForAdmin", domainId],
+    queryFn: () => getDomainForAdmin(domainId),
   });
 };

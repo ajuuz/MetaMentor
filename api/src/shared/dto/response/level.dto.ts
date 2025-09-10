@@ -19,6 +19,9 @@ export class LevelResDTO {
   @Expose()
   @Type(() => TaskResDTO)
   tasks!: TaskResDTO[];
+
+  @Expose()
+  isBlocked!:boolean
 }
 
 @Expose()

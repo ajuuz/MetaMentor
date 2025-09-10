@@ -73,6 +73,7 @@ const Domains = () => {
                 handleStatusChange(domain._id, !domain.isBlocked)
               }
             />,
+            <Button onClick={()=>navigate(`/admin/domains/${domain._id}/edit`)}>Edit</Button>
           ],
         };
       });

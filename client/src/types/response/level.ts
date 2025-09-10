@@ -6,6 +6,7 @@ export type LevelRes= {
   description: string;
   taskFile: string;
   tasks: TaskRes[];
+  isBlocked:boolean
 }
 
 export type TaskRes= {

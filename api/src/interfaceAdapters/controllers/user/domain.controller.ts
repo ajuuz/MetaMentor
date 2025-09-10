@@ -50,7 +50,8 @@ export class UserDomainController implements IUserDomainController {
   async getSpecificDomain(req: Request, res: Response): Promise<void> {
     console.log(req.verifiedData);
     const { domainId }: GetSpecificDomainForStudReqDTO = req.verifiedData;
-    const domain = await this._getSpecificDomainUsecase.execute(domainId);
+    const unBlockedLevels=true
+    const domain = await this._getSpecificDomainUsecase.execute(domainId,unBlockedLevels);
     res.status(HTTP_STATUS.OK).json(domain);
   }
 

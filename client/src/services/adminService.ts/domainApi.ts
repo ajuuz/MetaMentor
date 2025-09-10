@@ -1,5 +1,9 @@
 import { adminAxiosInstance } from "@/config/axiosConfig/adminAxiosConfig";
-import type { GetDomainsForAdminRes } from "@/types/response/domain";
+import type {
+  GetDomainForAdminRes,
+  GetDomainsForAdminRes,
+} from "@/types/response/domain";
+import type { LevelRes } from "@/types/response/level";
 import type { MutationApiResponse } from "@/types/responseType";
 
 export const addDomain = async (
@@ -7,6 +11,24 @@ export const addDomain = async (
 ): Promise<MutationApiResponse> => {
   try {
     const response = await adminAxiosInstance.post("/domains", domainDetails, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw error?.response?.data || error;
+  }
+};
+export const editDomain = async ({
+  domainId,
+  domainDetails,
+}: {
+  domainId: string;
+  domainDetails: FormData;
+}): Promise<MutationApiResponse> => {
+  try {
+    const response = await adminAxiosInstance.patch(`/domains/${domainId}`, domainDetails, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -33,6 +55,17 @@ export const getDomainsForAdmin = async (
   }
 };
 
+export const getDomainForAdmin = async (
+  domainId: string
+): Promise<GetDomainForAdminRes & { levels: LevelRes[] }> => {
+  try {
+    const response = await adminAxiosInstance.get(`/domains/${domainId}`);
+    return response.data;
+  } catch (error: any) {
+    throw error?.response?.data || error;
+  }
+};
+
 export const updateDomainStatus = async ({
   domainId,
   status,
@@ -41,7 +74,7 @@ export const updateDomainStatus = async ({
   status: boolean;
 }): Promise<MutationApiResponse> => {
   try {
-    const response = await adminAxiosInstance.patch(`/domains/${domainId}`, {
+    const response = await adminAxiosInstance.patch(`/domains/${domainId}/status`, {
       status,
     });
     return response.data;

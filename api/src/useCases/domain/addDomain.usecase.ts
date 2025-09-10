@@ -45,7 +45,6 @@ export class AddDomainUsecase implements IAddDomainUsecase {
       tasks: level.tasks.map((task) => ({
         type: task.type,
         content: task.content,
-        isCompleted: false,
       })),
     }));
 

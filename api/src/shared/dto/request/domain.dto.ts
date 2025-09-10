@@ -10,9 +10,10 @@ import {
   ArrayNotEmpty,
   IsOptional,
 } from "class-validator";
-import { LevelReqDTO } from "./level.dto";
+import { EditLevelReqDTO, LevelReqDTO } from "./level.dto";
 import { FilterReqDTO } from "./pagination.dto";
 
+//==============Admin===================//
 export class CreateDomainReqDTO {
   @IsString()
   @IsNotEmpty()
@@ -39,7 +40,49 @@ export class CreateDomainReqDTO {
   levels!: LevelReqDTO[];
 }
 
+export class EditDomainReqDTO {
+  @IsString()
+  @IsNotEmpty()
+  domainId!: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(15, { message: "Name must be at most 15 characters long" })
+  name?: string;
+
+  @IsOptional()
+  @IsArray()
+  images?: string[];
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  description?: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  motive?: string;
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => EditLevelReqDTO)
+  editRequiredLevels?: EditLevelReqDTO[];
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => LevelReqDTO)
+  newLevels?: LevelReqDTO[];
+}
+
 export class GetAllDomainsForAdminReqDTO extends FilterReqDTO {}
+
+export class GetDomainForAdminReqDTO {
+  @IsString()
+  @IsNotEmpty()
+  domainId!: string;
+}
 
 export class UpdateDomainStatusDTO {
   @IsString()
