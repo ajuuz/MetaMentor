@@ -24,7 +24,7 @@ const Community = () => {
     Number(searchParams.get("currentPage")) || 1
   );
   const [limit, setLimit] = useState<number>(
-    Number(searchParams.get("limit")) || 1
+    Number(searchParams.get("limit")) || 5
   );
   const [searchTerm, setSearchTerm] = useState<string>(
     searchParams.get("searchTerm") || ""

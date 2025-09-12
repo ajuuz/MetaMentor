@@ -5,7 +5,10 @@ import {
   userCommunityController,
   userController,
   userDomainController,
+  userEnrolledLevelController,
   userMentorController,
+  userNotificationController,
+  userRescheduledReviewController,
   userReviewController,
   userSlotController,
 } from "frameworks/di/resolver";
@@ -20,11 +23,16 @@ import {
   GetDomainInsightReqDTO,
   GetSpecificDomainForStudReqDTO,
 } from "shared/dto/request/domain.dto";
-import { GetMentorsForStudReqDTO, UpdateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
+import { SaveAssignmentReqDTO } from "shared/dto/request/enrolledLevel.dto";
+import {
+  GetMentorsForStudReqDTO,
+  UpdateMentorApplicationReqDTO,
+} from "shared/dto/request/mentor.dto";
 import {
   CancelReviewByStudReqDTO,
   GetAllReviewsForStudReqDTO,
   GetReviewByDayForStudReqDTO,
+  RescheduleReviewByStudReqDTO,
 } from "shared/dto/request/review.dto";
 import {
   GetDomainSlotsForStudReqDTO,
@@ -68,7 +76,7 @@ export class UserRoutes {
     this._router.get("/user", userController.getDetails.bind(userController));
     this._router.patch(
       "/user",
-      upload.array('image'),
+      upload.array("image"),
       formDataParserFormatter,
       validationMiddleware(UpdateUserDetailsReqDTO),
       userController.updateUser.bind(userController)
@@ -101,13 +109,11 @@ export class UserRoutes {
     );
     this._router.patch(
       "/application",
-      authMiddleware.verifyAuthRole([ROLES.USER,ROLES.MENTOR]),
+      authMiddleware.verifyAuthRole([ROLES.USER, ROLES.MENTOR]),
       upload.array("images", 5),
       formDataParserFormatter,
       validationMiddleware(UpdateMentorApplicationReqDTO),
-      userMentorController.updateMentorApplication.bind(
-        userMentorController
-      )
+      userMentorController.updateMentorApplication.bind(userMentorController)
     );
 
     this._router.get(
@@ -149,6 +155,19 @@ export class UserRoutes {
       validationMiddleware(CancelReviewByStudReqDTO),
       userReviewController.cancelReview.bind(userReviewController)
     );
+    this._router.patch(
+      "/reviews/:reviewId/reschedule",
+      validationMiddleware(RescheduleReviewByStudReqDTO),
+      userReviewController.rescheduleReview.bind(userReviewController)
+    );
+
+    //reschduled review
+    this._router.get(
+      "/rescheduledReviews/:reviewId",
+      userRescheduledReviewController.getRescheduledReview.bind(
+        userRescheduledReviewController
+      )
+    );
 
     //community
     this._router.get(
@@ -159,6 +178,27 @@ export class UserRoutes {
     this._router.get(
       "/dashboard/:domainId",
       userCommunityController.getAllCommunities.bind(userDomainController)
+    );
+
+    //notification
+    this._router.get(
+      "/notifications",
+      userNotificationController.getNotifications.bind(
+        userNotificationController
+      )
+    );
+    this._router.patch(
+      "/notifications",
+      userNotificationController.markAsRead.bind(userNotificationController)
+    );
+
+    //enrolled levels
+    this._router.patch(
+      "/enrolledLevels/:enrolledLevelId",
+      validationMiddleware(SaveAssignmentReqDTO),
+      userEnrolledLevelController.saveLevelAssignments.bind(
+        userEnrolledLevelController
+      )
     );
   }
 

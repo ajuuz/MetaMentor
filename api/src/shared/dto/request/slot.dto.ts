@@ -43,6 +43,20 @@ export class SlotValidityCheckReqDTO {
 }
 
 //mentors
+export class GetSlotsOfADayForMentReqDTO {
+  @IsEnum(DAYS)
+  day!:DAYS
+}
+
+export class SlotValidityCheckForMentReqDTO {
+  @IsISO8601()
+  date!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  slotId!: string;
+}
+
 export class SlotTimeDTO {
   @IsOptional()
   @IsString()

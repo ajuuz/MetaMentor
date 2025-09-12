@@ -30,6 +30,7 @@ export enum REVIEW_STATUS {
   FAIL = "fail",
   PENDING = "pending",
   CANCELLED = "cancelled",
+  RESCHEDULED = "rescheduled",
 }
 export enum REVIEW_FILTER_STATUS {
   PASS = "pass",
@@ -37,6 +38,7 @@ export enum REVIEW_FILTER_STATUS {
   PENDING = "pending",
   CANCELLED = "cancelled",
   COMPLETED = "completed",
+  RESCHEDULED = "rescheduled",
 }
 
 export enum DATE_RANGE {
@@ -101,6 +103,7 @@ export const SUCCESS_MESSAGE = {
   },
   LEVEL: {
     UPDATE_STATUS: "Updated domain status successfully",
+    SUBMIT_ASSIGNMENT: "Assignment submitted successfully",
   },
   COMMUNITY: {
     FETCH_ALL: "Fetched all Communities successfully",
@@ -110,6 +113,7 @@ export const SUCCESS_MESSAGE = {
   REVIEWS: {
     CANCEL_REVIEW_BY_MENTOR: "Review cancelled successfully",
     UPDATE_STATUS: "Updated Review status successfully",
+    RESCHEDULE:'Reschedule request has been sent successfully',
     CANCEL_REVIEW_BY_STUDENT:
       "Platform fee has been debited from your amount. Balance is credited to your wallet",
   },
@@ -168,6 +172,7 @@ export enum NOTIFICATION_TITLE {
   REVIEW_BOOKED = "REVIEW BOOKED",
   REVIEW_CANCEL = "REVIEW CANCEL",
   REVIEW_RESCHEDULE = "REVIEW RESCHEDULE",
+  REVIEW_RESCHEDULE_ACCEPTED = "REVIEW RESCHEDULE ACCEPTED",
   REVIEW_FEEDBACK_UPDATED = "REVIEW FEEDBACK UPDATED",
 }
 export enum NOTIFICATION_MESSAGE {
@@ -176,7 +181,8 @@ export enum NOTIFICATION_MESSAGE {
   REVIEW_BOOKED = "Review Booked Successfully",
   REVIEW_CANCEL_MENTOR = "Your Review has been cancelled! Review amount has been credited to your wallet",
   REVIEW_CANCEL_STUDENT = "Your Review has been cancelled by the student",
-  REVIEW_RECHEDULE = "Your Review slot has been reschedule",
+  REVIEW_RECHEDULE = "You have a review reschedule request",
+  REVIEW_RESCHEDULE_ACCEPTED="Your reschedule request has been accepted",
   REVIEW_FEEDBACK_UPDATED = "Your Review's feedback has been updated. Please check it",
 }
 

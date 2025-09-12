@@ -28,6 +28,7 @@ export class UserSlotController implements IUserSlotController {
 
   async getSlots(req: Request, res: Response): Promise<void> {
     const { mentorId,day }: GetSlotsForStudReqDTO = req.verifiedData;
+    console.log(mentorId,day)
     const slots = await this._getSlotsForStudUsecase.execute(mentorId,day);
     res.status(200).json(slots);
   }

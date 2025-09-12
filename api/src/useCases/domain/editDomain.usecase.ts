@@ -53,7 +53,7 @@ export class EditDomainUsecase implements IEditDomainUsecase {
         name: level.name,
         description: level.description,
         taskFile: level.taskFile,
-        tasks: level.tasks.map((task) => ({
+        tasks: level.tasks.map((task,index) => ({
           type: task.type,
           content: task.content,
         })),

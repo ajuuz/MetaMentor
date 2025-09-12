@@ -131,42 +131,41 @@ export class ReviewRepository
     return reviews;
   }
 
- async findByMentorAndDay(
-  mentorId: string,
-  startOfDay: Date,
-  endOfDay: Date
-): Promise<IGetBookedSlotsForStud[]> {
-  const reviews = await reviewModel.aggregate([
-    {
-      $match: {
-        mentorId: new mongoose.Types.ObjectId(mentorId),
-        "slot.start": { $gte: startOfDay, $lte: endOfDay }, 
+  async findByMentorAndDay(
+    mentorId: string,
+    startOfDay: Date,
+    endOfDay: Date
+  ): Promise<IGetBookedSlotsForStud[]> {
+    const reviews = await reviewModel.aggregate([
+      {
+        $match: {
+          mentorId: new mongoose.Types.ObjectId(mentorId),
+          "slot.start": { $gte: startOfDay, $lte: endOfDay },
+        },
       },
-    },
-    {
-      $group: {
-        _id: "$mentorId",
-        slots: {
-          $push: {
-            _id: "$_id",
-            start: "$slot.start",
-            end: "$slot.end",
+      {
+        $group: {
+          _id: "$mentorId",
+          slots: {
+            $push: {
+              _id: "$_id",
+              start: "$slot.start",
+              end: "$slot.end",
+            },
           },
         },
       },
-    },
-    {
-      $project: {
-        _id: 0,
-        mentorId: { $toString: "$_id" }, 
-        slots: 1,                        
+      {
+        $project: {
+          _id: 0,
+          mentorId: { $toString: "$_id" },
+          slots: 1,
+        },
       },
-    },
-  ]);
+    ]);
 
-  return reviews;
-}
-
+    return reviews;
+  }
 
   async findReviewsForStudent(
     filter: any,
@@ -232,6 +231,7 @@ export class ReviewRepository
         {
           $project: {
             mentor: {
+              _id: "$mentor._id",
               name: "$mentor.name",
               profileImage: "$mentor.profileImage",
             },
@@ -243,6 +243,7 @@ export class ReviewRepository
             status: 1,
             payment: { method: "$payment.method", status: "$payment.status" },
             feedBack: 1,
+            isRescheduledOnce:1,
             slot: 1,
           },
         },
@@ -328,12 +329,14 @@ export class ReviewRepository
             status: 1,
             payment: { method: "$payment.method", status: "$payment.status" },
             feedBack: 1,
+            isRescheduledOnce:1,
             slot: 1,
           },
         },
       ]),
       reviewModel.countDocuments(mongoFilter),
     ]);
+    console.log("fdsfd", data);
     return { data, totalDocuments };
   }
 
@@ -402,9 +405,7 @@ export class ReviewRepository
     return reviews[0];
   }
 
-  async createReview(
-    reviewDetails: ICreateReview
-  ): Promise<IReviewModel> {
+  async createReview(reviewDetails: ICreateReview): Promise<IReviewModel> {
     const studentId = new mongoose.Types.ObjectId(reviewDetails.studentId);
     const mentorId = new mongoose.Types.ObjectId(reviewDetails.mentorId);
     const levelId = new mongoose.Types.ObjectId(reviewDetails.levelId);
@@ -464,5 +465,12 @@ export class ReviewRepository
       .findOneAndUpdate(mongoFilter, mongoUpdate)
       .lean<IReviewEntity>();
     return updatedReview;
+  }
+
+  async updateReviewSlot(
+    reviewId: string,
+    slot: { start: Date; end: Date }
+  ): Promise<void> {
+    await reviewModel.updateOne({ _id: reviewId }, { $set: { slot,status:'pending',isRescheduledOnce:true } });
   }
 }

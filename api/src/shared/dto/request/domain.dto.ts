@@ -17,7 +17,7 @@ import { FilterReqDTO } from "./pagination.dto";
 export class CreateDomainReqDTO {
   @IsString()
   @IsNotEmpty()
-  @MaxLength(15, { message: "Name must be at most 15 characters long" })
+  @MaxLength(40, { message: "Name must be at most 40 characters long" })
   name!: string;
 
   @IsArray()
@@ -48,7 +48,7 @@ export class EditDomainReqDTO {
   @IsOptional()
   @IsString()
   @IsNotEmpty()
-  @MaxLength(15, { message: "Name must be at most 15 characters long" })
+  @MaxLength(40, { message: "Name must be at most 40 characters long" })
   name?: string;
 
   @IsOptional()

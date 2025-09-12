@@ -35,7 +35,7 @@ type Props = {
   sortBy: string;
   setSortBy: React.Dispatch<React.SetStateAction<string>>;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  limit: number
+  limit: number;
   setLimit: React.Dispatch<React.SetStateAction<number>>;
   contentForSortSelect: { value: string; label: string }[];
   contentForFilterDropdown?: ContentForFilterDropdown[];
@@ -221,9 +221,9 @@ const FilterComponent = ({
               <SelectValue placeholder="No of Pages" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="1">No of Page :1</SelectItem>
-              <SelectItem value="2">No of Page :2</SelectItem>
-              <SelectItem value="3">No of Page :3</SelectItem>
+              <SelectItem value="5">No of Page :5</SelectItem>
+              <SelectItem value="7">No of Page :7</SelectItem>
+              <SelectItem value="10">No of Page :10</SelectItem>
             </SelectContent>
           </Select>
         </div>

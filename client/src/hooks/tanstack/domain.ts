@@ -1,4 +1,7 @@
-import { getDomainForAdmin, getDomainsForAdmin } from "@/services/adminService.ts/domainApi";
+import {
+  getDomainForAdmin,
+  getDomainsForAdmin,
+} from "@/services/adminService.ts/domainApi";
 import { getDomainsNameAndId } from "@/services/mentorService.ts/registrationApi";
 import {
   getDomainsForStud,
@@ -6,7 +9,7 @@ import {
   getEnrolledDomains,
   getEnrolledDomain,
 } from "@/services/userService/domainApi";
-import type { DomainEntity, EnrolledDomain } from "@/types/domainTypes";
+import type { DomainEntity } from "@/types/domainTypes";
 import type {
   GetDomainForAdminRes,
   GetDomainForStudRes,
@@ -14,14 +17,16 @@ import type {
   GetDomainsForStudRes,
   GetEnrolledDomainsRes,
 } from "@/types/response/domain";
+import type { EnrolledLevelRes } from "@/types/response/enrolledLevel";
 import type { LevelRes } from "@/types/response/level";
+import type { StudentReviewCard } from "@/types/reviewTypes";
 import { useQuery } from "@tanstack/react-query";
 
 //users
 export const useGetDomainsNameAndIdQuery = () => {
-  return useQuery<Pick<DomainEntity,"_id"|'name'|"image">[]>({
+  return useQuery<Pick<DomainEntity, "_id" | "name" | "image">[]>({
     queryKey: ["getDomainsNameAndId"],
-    queryFn:getDomainsNameAndId,
+    queryFn: getDomainsNameAndId,
   });
 };
 
@@ -45,7 +50,12 @@ export const useUserGetAllDomainsQuery = (
 };
 
 export const useEnrolledDomainQuery = (domainId: string) => {
-  return useQuery<EnrolledDomain>({
+  return useQuery<{
+    reviews: StudentReviewCard[];
+    domain: Omit<DomainEntity, "isBlocked">;
+    noOfLevelPassed: number;
+    nextLevels: EnrolledLevelRes[];
+  }>({
     queryKey: ["enrolledDomain", domainId],
     queryFn: () => getEnrolledDomain(domainId),
   });

@@ -2,7 +2,7 @@ import z from "zod";
 import { levelSchema } from "./level";
 
 export const domainSchema = z.object({
-  name: z.string().trim().min(1, "Name is required"),
+  name: z.string().trim().min(1, "Name is required").max(40,'less than 40'),
   description: z
     .string()
     .trim()

@@ -6,6 +6,7 @@ import {
   ValidateNested,
   IsEnum,
   IsBoolean,
+  IsOptional,
 } from "class-validator";
 import { LEVEL_TASK_TYPE } from "shared/constants";
 
@@ -21,6 +22,7 @@ export class TaskReqDTO {
 }
 
 export class EditTaskReqDTO {
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   _id!: string;
@@ -38,7 +40,7 @@ export class EditTaskReqDTO {
 export class LevelReqDTO {
   @IsString()
   @IsNotEmpty()
-  @MaxLength(20, { message: "Name must be at most 20 characters long" })
+  @MaxLength(40, { message: "Name must be at most 40 characters long" })
   name!: string;
 
   @IsString()
@@ -61,7 +63,7 @@ export class EditLevelReqDTO {
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(20, { message: "Name must be at most 20 characters long" })
+  @MaxLength(40, { message: "Name must be at most 40 characters long" })
   name!: string;
 
   @IsString()
@@ -73,7 +75,7 @@ export class EditLevelReqDTO {
   taskFile!: string;
 
   @ValidateNested({ each: true })
-  @Type(() => TaskReqDTO)
+  @Type(() => EditTaskReqDTO)
   tasks!: EditTaskReqDTO[];
 
   @IsBoolean()

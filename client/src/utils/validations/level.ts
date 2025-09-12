@@ -7,7 +7,7 @@ export const levelSchema = z.object({
   name: z
     .string()
     .min(1, { message: "Name is required" })
-    .max(20, { message: "Name must be at most 20 characters" }),
+    .max(40, { message: "Name must be at most 40 characters" }),
   description: z.string().min(1, { message: "Description is required" }),
   taskFile: z.string().min(1, { message: "TaskFile is required" }),
   tasks: z

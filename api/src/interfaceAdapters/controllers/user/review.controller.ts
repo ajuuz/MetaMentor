@@ -8,8 +8,9 @@ import {
 } from "shared/constants";
 import { ModifiedRequest } from "type/types";
 import { inject, injectable } from "tsyringe";
-import { CancelReviewByStudReqDTO, GetAllReviewsForStudReqDTO, GetReviewByDayForStudReqDTO } from "shared/dto/request/review.dto";
+import { CancelReviewByStudReqDTO, GetAllReviewsForStudReqDTO, GetReviewByDayForStudReqDTO, RescheduleReviewByStudReqDTO } from "shared/dto/request/review.dto";
 import { IGetReviewByDayForStudUsecase } from "entities/usecaseInterfaces/review/getReviewByDayForStudUsecase.interface";
+import { IRescheduleReviewByStudentUsecase } from "entities/usecaseInterfaces/review/rescheduleReviewByStudentUsecase.interface";
 
 @injectable()
 export class UserReviewController implements IUserReviewController {
@@ -22,7 +23,10 @@ export class UserReviewController implements IUserReviewController {
     private _getReviewByDayForStudUsecase: IGetReviewByDayForStudUsecase,
 
     @inject("ICancelReviewByStudentUsecase")
-    private _cancelReviewByStudentUsecase: ICancelReviewByStudentUsecase
+    private _cancelReviewByStudentUsecase: ICancelReviewByStudentUsecase,
+
+    @inject("IRescheduleReviewByStudentUsecase")
+    private _rescheduleReviewByStudentUsecase: IRescheduleReviewByStudentUsecase,
   ) {}
 
   async getAllReviews(req: Request, res: Response): Promise<void> {
@@ -71,6 +75,17 @@ export class UserReviewController implements IUserReviewController {
     res.status(HTTP_STATUS.OK).json({
       success: true,
       message: SUCCESS_MESSAGE.REVIEWS.CANCEL_REVIEW_BY_STUDENT,
+    });
+  }
+
+  async rescheduleReview(req: Request, res: Response): Promise<void> {
+    const rescheduleDetails: RescheduleReviewByStudReqDTO = req.verifiedData;
+    const studentId: string = (req as ModifiedRequest)?.user?.id;
+
+    await this._rescheduleReviewByStudentUsecase.execute(studentId,rescheduleDetails);
+    res.status(HTTP_STATUS.OK).json({
+      success: true,
+      message: SUCCESS_MESSAGE.REVIEWS.RESCHEDULE,
     });
   }
 

@@ -16,8 +16,7 @@ const UserProfileLayout = () => {
 
   const navigationPathMap = {
     Profile: "/profile",
-    "Upcoming Reviews": "/reviews/upcoming",
-    "Completed Reviews": "/reviews/completed",
+    Reviews: "/reviews",
   };
   const handleClick = (
     element: keyof typeof navigationPathMap,
@@ -54,14 +53,14 @@ const UserProfileLayout = () => {
             sidebarOpen && "translate-x-0"
           }`}
         >
-          {["Profile", "Upcoming Reviews", "Completed Reviews", "Settings"].map(
+          {["Profile","Reviews", "Settings"].map(
             (element, index) => (
               <div
                 onClick={() =>
                   handleClick(element as keyof typeof navigationPathMap, index)
                 }
                 className={`font-medium ${
-                  active === index ? "bg-red-200 text-white" : "text-black"
+                  active === index ? "bg-red-500 text-white" : "text-black"
                 }  px-20 py-2 rounded-md`}
               >
                 {element}

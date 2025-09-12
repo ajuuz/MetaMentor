@@ -37,6 +37,7 @@ const Header = () => {
     { itemName: "Students", itemEndPoint: "students" },
     { itemName: "Mentor Application", itemEndPoint: "mentors/application" },
     { itemName: "Domains", itemEndPoint: "Domains" },
+    { itemName: "Wallet", itemEndPoint: "wallet" },
     { itemName: "Communities", itemEndPoint: "communities" },
   ];
 

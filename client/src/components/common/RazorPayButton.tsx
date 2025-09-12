@@ -62,7 +62,6 @@ const RazorPayButton = ({
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
             };
-            console.log(paymentDetails);
             await verifyPayment({
               razorPayDetails: paymentDetails,
               reviewDetails: {
@@ -76,7 +75,7 @@ const RazorPayButton = ({
                 },
               },
             });
-            navigate("/reviews/upcoming");
+            navigate("/reviews?tab=pending");
             setSheetOpen(false);
             setIsLoading(false);
           } catch (err: any) {

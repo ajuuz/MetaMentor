@@ -68,5 +68,9 @@ export const reviewSchema:Schema<IReviewModel>=new mongoose.Schema<IReviewModel>
     bookedAt:{
         type:Date,
         default:new Date()
+    },
+    isRescheduledOnce:{
+        type:Boolean,
+        default:false
     }
 })

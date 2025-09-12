@@ -133,6 +133,7 @@ export class SlotRepository
         {$project:{slot:`$weekSlots.${day}`,_id:0}}
     ])
 
+    console.log("dsfdfdf",result);
     return result[0].slot
   }
 }

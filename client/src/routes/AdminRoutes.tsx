@@ -10,6 +10,7 @@ import Community from "@/pages/admin/community/Community";
 import ApplicationVerification from "@/pages/admin/mentors/Verification";
 import EditDomain from "@/pages/admin/domains/EditDomain";
 import AddDomain from "@/pages/admin/domains/AddDomain";
+import UserWallet from "@/pages/user/wallet/UserWallet";
 
 const AdminRoutes = () => {
   return (
@@ -106,6 +107,7 @@ const AdminRoutes = () => {
           <Route path="/students" element={<ManageStudents />} />
           <Route path="/domains" element={<Domains />} />
           <Route path="/communities" element={<Community />} />
+          <Route path="/wallet" element={<UserWallet />} />
 
           <Route path="/domains/add" element={<AddDomain />} />
           <Route path="/domains/:domainId/edit" element={<EditDomain />} />

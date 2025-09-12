@@ -20,4 +20,9 @@ export class WalletRepository extends BaseRepository<IWalletEntity,IWalletModel>
     async debitAmount(userId:string,amount:number):Promise<void>{
         await walletModel.updateOne({userId},{$inc:{balance:-amount}})
     }
+
+    async getBalance(userId:string):Promise<number|null>{
+        const wallet = await walletModel.findOne({userId})
+        return wallet?wallet.balance:null
+    }
 }

@@ -21,8 +21,6 @@ type Props = {
   isNotOver?: boolean;
 };
 
-
-
 const statusColorMap: Record<string, string> = {
   pass: "bg-green-500 text-white",
   fail: "bg-red-500 text-white",
@@ -49,17 +47,22 @@ const StudentReviewCard = ({ review, isNotOver }: Props) => {
     cancelReviewMutation(reviewId);
   };
 
-  let isCancelAvailable;
+  let isCancelOrRescheduleAllowed;
   if (isNotOver) {
-    const isCancelAvailableChecker = () => {
+    const checker = () => {
       if (!isNotOver || !review?.slot?.start) return false;
+
       const currentDate = new Date();
       const startTime = new Date(review.slot.start);
-      const diffInMs = startTime.getTime() - currentDate.getTime();
-      const diffInHours = diffInMs / (1000 * 60 * 60);
-      return diffInHours >= 2;
+      const diffInDays =
+        (startTime.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24);
+
+      console.log("Difference in days:", diffInDays);
+
+      return diffInDays >= 2;
     };
-    isCancelAvailable = isCancelAvailableChecker();
+
+    isCancelOrRescheduleAllowed = checker();
   }
 
   const start = isoStringToLocalTime(review.slot.start);
@@ -154,16 +157,23 @@ const StudentReviewCard = ({ review, isNotOver }: Props) => {
             <Badge className={`p-2 px-5 ${statusColorMap[review.status]}`}>
               {review.status}
             </Badge>
-            {isCancelAvailable && (
-              <AlertDialogComponent
-                alertTriggerer={
-                  <Button disabled={isLoading} variant="destructive" size="sm">
-                    Cancel
-                  </Button>
-                }
-                alertDescription="Are you sure you want to cancel this review?"
-                handleClick={handleCancelReview}
-              />
+            {isCancelOrRescheduleAllowed && (
+              <div className="flex gap-2">
+                <AlertDialogComponent
+                  alertTriggerer={
+                    <Button
+                      disabled={isLoading}
+                      variant="destructive"
+                      size="sm"
+                    >
+                      Cancel
+                    </Button>
+                  }
+                  alertDescription="Are you sure you want to cancel this review?"
+                  handleClick={handleCancelReview}
+                />
+                <Button>Reschedule</Button>
+              </div>
             )}
           </div>
 

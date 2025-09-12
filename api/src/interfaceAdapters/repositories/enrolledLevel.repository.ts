@@ -43,6 +43,7 @@ export class EnrolledLevelRepository
       {
         $project:{
             name:'$levelData.name',
+            levelId:1,
             description:'$levelData.description',
             taskFile:'$levelData.taskFile',
             tasks:'$levelData.tasks',
@@ -51,5 +52,10 @@ export class EnrolledLevelRepository
       },
     ]);
     return levels;
+  }
+
+
+  async saveLevelAssignments(enrolledLevelId:string,assignments:string[]):Promise<void>{
+     await EnrolledLevelModel.updateOne({_id:enrolledLevelId},{assignments})
   }
 }

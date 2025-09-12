@@ -49,13 +49,7 @@ export default function MentorCard({ mentor }: MentorCardProps) {
                 key={d._id}
                 className="bg-rose-100 text-rose-700 border border-rose-200 flex items-center gap-1"
               >
-                <img
-                  src={d.image}
-                  alt={d.name}
-                  width={30}
-                  height={16}
-                  className="rounded-sm"
-                />
+                
                 {d.name}
               </Badge>
             ))}

@@ -11,7 +11,7 @@ export interface ILevelEntity{
 }
 
 interface ITask{
-    _id:string
+    _id:string,
     type:LEVEL_TASK_TYPE,
     content:string,
 }

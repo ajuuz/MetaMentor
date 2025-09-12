@@ -1,8 +1,12 @@
-import { Exclude, Expose } from "class-transformer";
+import { Exclude, Expose, Transform } from "class-transformer";
 import { LevelResDTO } from "./level.dto";
 
 @Exclude()
 export class EnrolledLevelResDTO extends LevelResDTO {
   @Expose()
-  assignments!:string[]
+  @Transform(({ obj }) => obj.levelId.toString())
+  levelId!: string;
+
+  @Expose()
+  assignments!: string[];
 }

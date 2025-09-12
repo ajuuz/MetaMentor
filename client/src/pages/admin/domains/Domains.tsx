@@ -20,7 +20,7 @@ const Domains = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [limit, setLimit] = useState<number>(
-    Number(searchParams.get("limit")) || 1
+    Number(searchParams.get("limit")) || 5
   );
 
   const [currentPage, setCurrentPage] = useState<number>(

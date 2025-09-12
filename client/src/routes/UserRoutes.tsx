@@ -17,12 +17,12 @@ import DomainDetail from "@/pages/user/domains/DomainDetail";
 import Dashboard from "@/pages/user/dashboard/Dashboard";
 import DomainInsight from "@/pages/user/dashboard/DomainInsight";
 import ScheduleReview from "@/pages/user/scheduleReview/ScheduleReview";
-import { UpcomingReviews } from "@/pages/user/reviews/Upcoming";
-import Completed from "@/pages/user/reviews/Completed";
 import CommunityPost from "@/pages/user/community/CommunityThread";
 import Communities from "@/pages/user/community/Communities";
 import CreateMentorApplication from "@/pages/user/Application/Create";
 import EditMentorApplication from "@/pages/user/Application/Edit";
+import StudentReviewsPage from "@/pages/user/reviews/Reviews";
+import UserWallet from "@/pages/user/wallet/UserWallet";
 
 const UserRoutes = () => {
   return (
@@ -76,8 +76,8 @@ const UserRoutes = () => {
             {/* user profile layout */}
             <Route element={<UserProfileLayout />}>
               <Route path="/profile" element={<Profile />} />
-              <Route path="/reviews/upcoming" element={<UpcomingReviews />} />
-              <Route path="/reviews/completed" element={<Completed />} />
+              <Route path="/reviews" element={<StudentReviewsPage />} />
+              <Route path="/wallet" element={<UserWallet />} />
             </Route>
           </Route>
         </Route>

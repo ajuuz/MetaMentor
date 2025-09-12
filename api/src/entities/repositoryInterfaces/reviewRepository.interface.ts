@@ -29,7 +29,7 @@ export interface IReviewRepository
   findByMentorAndDay(
     mentorId: string,
     startOfDay: Date,
-    endOfDay:Date
+    endOfDay: Date
   ): Promise<IGetBookedSlotsForStud[]>;
 
   findReviewsForMentor(
@@ -47,14 +47,15 @@ export interface IReviewRepository
 
   saveReview(review: IReviewModel): Promise<void>;
 
-  checkIsBookedSlot(
-    mentorId: string,
-    start: Date,
-    end: Date
-  ): Promise<boolean>;
+  checkIsBookedSlot(mentorId: string, start: Date, end: Date): Promise<boolean>;
 
   updateReview(
     filter: Record<string, string>,
     update: Record<string, string | number>
   ): Promise<IReviewEntity | null>;
+
+  updateReviewSlot(
+    reviewId: string,
+    slot: { start: Date; end: Date }
+  ): Promise<void>;
 }

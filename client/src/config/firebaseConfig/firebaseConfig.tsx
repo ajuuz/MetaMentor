@@ -3,6 +3,7 @@ import {getAuth,GoogleAuthProvider} from 'firebase/auth';
 import {getMessaging, getToken, onMessage} from 'firebase/messaging';
 import toast from "react-hot-toast";
 import { NotificationToast } from "@/components/toaster/NotificationToaster";
+import { queryClient } from "../tanstackConfig/tanstackConfig";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -50,7 +51,8 @@ export const listenForForegroundMessages = () => {
   onMessage(messaging, (payload) => {
     const title = payload.notification?.title || "New Notification";
     const body = payload.notification?.body || "You have a new message";
-
+    
+    queryClient.invalidateQueries({ queryKey: ["getNotifications"] });
     toast.custom((t)=>(
       <NotificationToast t={t} title={title} body={body}/>
     ),{duration:3000})

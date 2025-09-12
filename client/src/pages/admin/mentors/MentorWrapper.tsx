@@ -45,7 +45,7 @@ const MentorWrapper = ({ isVerified, children }: Prop) => {
     Number(searchParams.get("currentPage")) || 1
   );
   const [limit, setLimit] = useState<number>(
-    Number(searchParams.get("limit")) || 1
+    Number(searchParams.get("limit")) || 10
   );
   const [searchTerm, setSearchTerm] = useState<string>(
     searchParams.get("searchTerm") || ""
@@ -75,11 +75,11 @@ const MentorWrapper = ({ isVerified, children }: Prop) => {
     if (getMentorResponse) {
       const { mentors, totalPages } = getMentorResponse;
       setTotalPages(totalPages);
-      const transformedDetails = mentors.map((mentor,index) => {
+      const transformedDetails = mentors.map((mentor, index) => {
         return {
           id: mentor.userId,
           content: [
-            isVerified?mentor.seq:index+1,
+            isVerified ? mentor.seq : index + 1,
             mentor.name.length > 15
               ? mentor.name.slice(0, 15) + "..."
               : mentor.name,
@@ -145,7 +145,7 @@ const MentorWrapper = ({ isVerified, children }: Prop) => {
 
   useEffect(() => {
     setCurrentPage(1);
-    setLimit(1);
+    setLimit(5);
     setSortBy("name-asc");
     setSearchTerm("");
     setSelectedDomains([]);
@@ -177,7 +177,7 @@ const MentorWrapper = ({ isVerified, children }: Prop) => {
   };
 
   const tableHeaders = [
-    isVerified?"Mentor No.":"Seq No.",
+    isVerified ? "Mentor No." : "Seq No.",
     "Mentor Name",
     "Number",
     "Review Count",

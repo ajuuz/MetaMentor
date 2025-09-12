@@ -9,6 +9,7 @@ import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { INotificationRepository } from "entities/repositoryInterfaces/notificationRepository.interface";
 import { IOtpRespository } from "entities/repositoryInterfaces/otp-repository.interface";
+import { IRescheduleReviewRepository } from "entities/repositoryInterfaces/rescheduleReviewRepository.interface";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import { ISequenceNumberRepository } from "entities/repositoryInterfaces/sequenceNumberRepository.interface";
 import { ISlotLockRepository } from "entities/repositoryInterfaces/slotLockRepository.interface";
@@ -27,6 +28,7 @@ import { LevelRepository } from "interfaceAdapters/repositories/level.repository
 import { MentorRepository } from "interfaceAdapters/repositories/mentor.repository";
 import { NotificationRepository } from "interfaceAdapters/repositories/notification.repository";
 import { OtpRepository } from "interfaceAdapters/repositories/otp.repository";
+import { RescheduleReviewRepository } from "interfaceAdapters/repositories/rescheduleReview.repository";
 import { ReviewRepository } from "interfaceAdapters/repositories/review.repository";
 import { SequenceNumberRepository } from "interfaceAdapters/repositories/sequenceNumber.repository";
 import { SlotRepository } from "interfaceAdapters/repositories/slot.repository";
@@ -114,6 +116,11 @@ export class RepositoryRegistry {
     //enrolledLevel
     container.register<IEnrolledLevelRepository>("IEnrolledLevelRepository", {
       useClass: EnrolledLevelRepository,
+    });
+
+    //reschedule review
+    container.register<IRescheduleReviewRepository>("IRescheduleReviewRepository", {
+      useClass: RescheduleReviewRepository,
     });
   }
 }
