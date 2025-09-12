@@ -2,6 +2,7 @@ import type { GENDER } from "@/utils/constants"
 
 type StudentData={
    _id: string,
+   seq:number,
     userId: string,
     isBlocked: boolean,
     point: number,

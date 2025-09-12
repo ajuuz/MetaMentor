@@ -5,6 +5,7 @@ import {easeInOut, motion} from 'framer-motion'
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
 export const HeroSection1 = () => {
+  const navigate =useNavigate()
   return (
    <motion.div
    initial={{opacity:0}}
@@ -18,7 +19,7 @@ export const HeroSection1 = () => {
               <p className='text-muted-foreground text-sm mb-2'>Connecting Dreams to Reality</p>
               <h1 className='text-5xl font-bold mb-5'><span>Find Your Perfect</span> <span className='text-red-500'>Professional Guide</span></h1>
               <p className='text-gray-700'>Whether you're starting a new course or refining your skills, Meta Mentor offers curated learning roadmaps and the chance to have your work reviewed by experienced professionals. No more studying in isolation — get expert insights, clear direction, and build with confidence. Avoid the uncertainty of self-paced learning and step into a smarter, more connected educational journey.</p>
-              <Button onClick={()=>console.log("working")} className='mt-9 rounded-3xl bg-red-400 hover:bg-red-500 z-1 relative'>Choose Your Domain<ArrowRightCircleIcon className='rounded-lg bg-white text-red-400'/></Button>
+              <Button onClick={()=>navigate('/domains')} className='mt-9 rounded-3xl bg-red-400 hover:bg-red-500 z-1 relative'>Choose Your Domain<ArrowRightCircleIcon className='rounded-lg bg-white text-red-400'/></Button>
             </div>
 
             {/* rigth side */}
@@ -141,7 +142,7 @@ export const HeroSection2=()=>{
                   </div>
                 </div>
 
-                <Button onClick={()=>navigate('/mentor/register')} className='mt-9 rounded-3xl bg-red-400 hover:bg-red-500 z-1 relative'>Register As Mentor <ArrowRightCircleIcon className='rounded-lg bg-white text-red-400'/></Button>
+                <Button onClick={()=>navigate('/registration')} className='mt-9 rounded-3xl bg-red-400 hover:bg-red-500 z-1 relative'>Register As Mentor <ArrowRightCircleIcon className='rounded-lg bg-white text-red-400'/></Button>
 
                   <div className='h-10 w-[50%] absolute bg-red-200  blur-3xl right-0 -bottom-30 z-0'></div>
               </div>

@@ -1,4 +1,5 @@
 import { plainToInstance } from "class-transformer";
+import { ILevelEntity } from "entities/modelEntities/levelModel.entity";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
 import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/getSpecificDomainUsecase.interface";
@@ -19,7 +20,7 @@ export class GetSpecificDomainUsecase implements IGetSpecificDomainUsecase {
     private _levelRepository: ILevelRepository
   ) {}
 
-  async execute(domainId: string): Promise<ReturnType> {
+  async execute(domainId: string,unBlockedLevels?:boolean): Promise<ReturnType> {
     const domainFilter = { _id: domainId };
     const domainData = await this._domainRepository.findOne(domainFilter);
     if (!domainData) throw new NotFoundError("Domain not found");
@@ -28,7 +29,8 @@ export class GetSpecificDomainUsecase implements IGetSpecificDomainUsecase {
       excludeExtraneousValues: true,
     });
 
-    const levelFilter = { domainId };
+    const levelFilter:Partial<ILevelEntity>= { domainId };
+    if(unBlockedLevels) levelFilter.isBlocked=false;
     const levelsData = await this._levelRepository.findWhole(levelFilter);
     const levels = plainToInstance(LevelResDTO, levelsData, {
       excludeExtraneousValues: true,

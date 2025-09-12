@@ -49,6 +49,14 @@ export class CommonRoutes {
       authMiddleware.verifyAuth.bind(authMiddleware),
       commonDomainController.getDomainNamesAndId.bind(commonDomainController)
     );
+
+   this._router.get(
+      "/wallet",
+      authMiddleware.verifyAuth.bind(authMiddleware),
+      authMiddleware.verifyAuthRole([ROLES.MENTOR, ROLES.ADMIN, ROLES.USER]),
+      authMiddleware.blockChecker.bind(authMiddleware),
+      commonController.getWalletAndTransactions.bind(commonController)
+    );
   }
 
   getRouter(): Router {

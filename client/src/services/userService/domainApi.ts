@@ -1,6 +1,6 @@
 import { userAxiosInstance } from "@/config/axiosConfig/userAxiosConfig";
 import type {
-    GetDomainForStudRes,
+  GetDomainForStudRes,
   GetDomainsForStudRes,
   GetEnrolledDomainsRes,
 } from "@/types/response/domain";
@@ -34,12 +34,17 @@ export const getSpecificDomain = async (
   }
 };
 
-export const enrollDomain = async (
-  domainId: string
-): Promise<MutationApiResponse> => {
+export const enrollDomain = async ({
+  domainId,
+  fullCourse,
+  selectedLevelsId,
+}: {
+  domainId: string;
+  fullCourse: boolean;
+  selectedLevelsId?: string[]|undefined;
+}): Promise<MutationApiResponse> => {
   try {
-    console.log(domainId);
-    const response = await userAxiosInstance.post(`/domains/${domainId}`);
+    const response = await userAxiosInstance.post(`/domains/${domainId}`,{fullCourse,selectedLevelsId});
     return response.data;
   } catch (error: any) {
     throw error?.response?.data || error;

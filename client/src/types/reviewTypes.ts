@@ -71,6 +71,7 @@ export type MentorReviewCard = {
   practical: number;
   commissionAmount: number;
   mentorEarning: number;
+  isRescheduledOnce:boolean
   slot: ReviewSlotType;
 };
 
@@ -82,6 +83,7 @@ export type GetReviewsForMentorResponse = {
 export type GetStudentReviewResponseDTO = {
   _id: string;
   mentor: {
+    _id:string
     name: string;
     profileImage: string;
   };
@@ -96,6 +98,7 @@ export type GetStudentReviewResponseDTO = {
     status: PAYMENT_STATUS;
   };
   feedBack: string;
+  isRescheduledOnce:boolean
   slot: ReviewSlotType;
 };
 

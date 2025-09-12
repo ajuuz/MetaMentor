@@ -16,6 +16,7 @@ import type { MentorCardType } from "@/types/mentorType";
 import { Card, CardContent } from "../ui/card";
 import { ScrollArea } from "../ui/scroll-area";
 import RazorPayButton from "./RazorPayButton";
+import { config } from "@/config/configuration";
 
 type Props = {
   sheetOpen: boolean;
@@ -248,7 +249,7 @@ const Callender = ({
                 <div className="flex items-center gap-4">
                   {selectedMentor.profileImage && (
                     <img
-                      src={selectedMentor.profileImage}
+                      src={selectedMentor.profileImage.startsWith('http')?selectedMentor.profileImage.split('=')[0]:config.IMAGE_BASE_URL+selectedMentor.profileImage}
                       alt={selectedMentor.name}
                       width={80}
                       height={80}

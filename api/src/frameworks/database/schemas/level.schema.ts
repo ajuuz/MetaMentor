@@ -13,10 +13,6 @@ const taskSchema = new mongoose.Schema({
     type:String,
     required:true,
   },
-  isCompleted:{
-    type:Boolean,
-    default:false
-  }
 });
 
 export const levelSchema = new mongoose.Schema<ILevelModel>({
@@ -40,5 +36,9 @@ export const levelSchema = new mongoose.Schema<ILevelModel>({
   tasks:{
     type:[taskSchema],
     default:[]
+  },
+  isBlocked:{
+    type:Boolean,
+    default:false
   }
 });

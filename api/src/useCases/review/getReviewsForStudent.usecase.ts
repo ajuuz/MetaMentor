@@ -47,6 +47,10 @@ export class GetReviewsForStudentUsecase
         filter.status = [REVIEW_STATUS.CANCELLED];
         break;
 
+      case REVIEW_FILTER_STATUS.RESCHEDULED:
+        filter.status = [REVIEW_STATUS.RESCHEDULED];
+        break;
+
       default:
         filter.status = [REVIEW_STATUS.PENDING];
         break;

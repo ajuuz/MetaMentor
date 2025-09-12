@@ -23,7 +23,7 @@ export class VerifyOtpUsecase implements IVerifyOtpUsecase {
     private _studentRepository: IStudentRepository,
 
     @inject("IWalletRepository")
-    private _walletRepository: IWalletRepository
+    private _walletRepository: IWalletRepository,
   ) {}
 
   async execute(email: string, otp: string): Promise<void> {

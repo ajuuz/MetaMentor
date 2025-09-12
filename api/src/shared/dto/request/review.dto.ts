@@ -9,6 +9,7 @@ import {
   Min,
   MinLength,
   ValidateIf,
+  ValidateNested,
 } from "class-validator";
 import { FilterReqDTO } from "./pagination.dto";
 import {
@@ -18,6 +19,8 @@ import {
   REVIEW_FILTER_STATUS,
   REVIEW_STATUS,
 } from "shared/constants";
+import { ReviewSlotReqDTO } from "./payment.dto";
+import { Type } from "class-transformer";
 
 export class GetAllReviewsForStudReqDTO extends FilterReqDTO {
   @IsEnum(REVIEW_FILTER_STATUS)
@@ -46,6 +49,24 @@ export class CancelReviewByStudReqDTO {
   reviewId!: string;
 }
 
+export class RescheduleReviewByStudReqDTO {
+  @IsString()
+  @IsNotEmpty()
+  studentText!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  reviewId!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  mentorId!: string;
+
+  @ValidateNested()
+  @Type(() => ReviewSlotReqDTO)
+  slot!: ReviewSlotReqDTO;
+}
+
 export class GetAllDomainReviewsForStudReqDTO {}
 
 //mentors
@@ -59,6 +80,11 @@ export class GetReviewsForMentorReqDTO extends FilterReqDTO {
   @ValidateIf((o) => o.status === REVIEW_FILTER_STATUS.PENDING)
   @IsEnum(PENDING_REVIEW_STATE)
   pendingReviewState?: PENDING_REVIEW_STATE | undefined;
+}
+
+export class GetReviewByDayForMentReqDTO {
+  @IsISO8601()
+  date!: string;
 }
 
 export class GetReviewForMentorReqDTO {
@@ -89,10 +115,10 @@ export class SubmitReviewResultReqDTO {
   @IsNumber()
   @Min(0)
   @Max(10)
-  theory!:number
+  theory!: number;
 
   @IsNumber()
   @Min(0)
   @Max(10)
-  practical!:number
+  practical!: number;
 }

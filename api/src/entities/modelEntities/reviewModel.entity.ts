@@ -31,9 +31,10 @@ export interface IReviewEntity {
   practical:number;
   feedBack: string;
   bookedAt: Date;
+  isRescheduledOnce:boolean
 }
 
-export interface ICreateReview extends Omit<IReviewEntity,'_id'|"status"|"slot"|"theory"|"practical"|"feedBack"|"bookedAt">{
+export interface ICreateReview extends Omit<IReviewEntity,'_id'|"status"|"slot"|"theory"|"practical"|"feedBack"|"bookedAt"|'isRescheduledOnce'>{
   slot:Omit<ReviewSlot,'_id'>
 }
 
@@ -67,6 +68,7 @@ export interface IGetReviewsForStud {
     taskFile: string;
   };
   mentor: {
+    _id:string,
     name: string;
     profileImage: string;
   };

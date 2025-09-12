@@ -17,6 +17,10 @@ export const mentorSchema = new mongoose.Schema<IMentorModel>({
     required: true,
     unique: true,
   },
+  seq:{
+    type:Number,
+    default:null
+  },
   about: {
     type: String,
     required: true,

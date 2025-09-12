@@ -9,16 +9,19 @@ export class GetStudentsForAdminResDTO {
   userId!: string;
 
   @Expose()
+  seq!: number;
+
+  @Expose()
   isBlocked!: false;
 
   @Expose()
-  point!: 0;
-
+  point!: number;
+  
   @Expose()
   isPremium!: false;
 
   @Expose()
-  name!: "AJMAL_EA";
+  name!: string;
 
   @Expose()
   country!: null;

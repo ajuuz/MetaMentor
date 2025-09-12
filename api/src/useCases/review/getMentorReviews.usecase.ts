@@ -25,6 +25,7 @@ export class GetMentorReviewsUsecase implements IGetMentorReviewsUsecase {
     limit: number,
     pendingReviewState?: PENDING_REVIEW_STATE | undefined
   ): Promise<{ reviews: GetReviewsForMentResDTO[]; totalPages: number }> {
+    console.log("usecase working")
     const skip: number = (currentPage - 1) * limit;
     let filter: any = { mentorId };
     switch (status) {
@@ -42,6 +43,10 @@ export class GetMentorReviewsUsecase implements IGetMentorReviewsUsecase {
 
       case REVIEW_FILTER_STATUS.CANCELLED:
         filter.status = [REVIEW_STATUS.CANCELLED];
+        break;
+
+      case REVIEW_FILTER_STATUS.RESCHEDULED:
+        filter.status = [REVIEW_STATUS.RESCHEDULED];
         break;
 
       default:

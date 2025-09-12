@@ -30,7 +30,7 @@ const Profile = () => {
       },
     });
   if (isLoading) {
-    return <div></div>;
+    return <div>Loading</div>;
   }
 
   if (isError) {

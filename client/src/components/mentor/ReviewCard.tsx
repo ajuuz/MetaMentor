@@ -15,6 +15,10 @@ import { cancelReviewByMentor } from "@/services/mentorService.ts/reviewApi";
 import { toast } from "sonner";
 import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
 import ContentViewerModal from "../common/ContentViewerModal";
+import MentorRescheduleSheet from "../review/reschedule/MentorRescheduleSheet";
+import { useState } from "react";
+import { REVIEW_STATUS } from "@/utils/constants";
+import RescheduleDialog from "../review/reviewCard/RescheduleDialog";
 
 type Props = {
   review: MentorReviewCard;
@@ -28,6 +32,7 @@ const statusColorMap: Record<string, string> = {
   pending: "bg-yellow-500 text-black",
 };
 const ReviewCard = ({ review, isNotOver }: Props) => {
+  const [sheetOpen, setSheetOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const { mutate: cancelReviewMutation, isPending: isLoading } = useMutation({
@@ -45,21 +50,33 @@ const ReviewCard = ({ review, isNotOver }: Props) => {
     cancelReviewMutation(reviewId);
   };
 
-  let isCancelAvailable;
+  let isCancelOrRescheduleAllowed;
   if (isNotOver) {
-    const isCancelAvailableChecker = () => {
-      if (!isNotOver || !review.slot?.start) return false;
+    const checker = () => {
+      if (!isNotOver || !review?.slot?.start) return false;
+
       const currentDate = new Date();
       const startTime = new Date(review.slot.start);
-      const diffInMs = startTime.getTime() - currentDate.getTime();
-      const diffInHours = diffInMs / (1000 * 60 * 60);
-      return diffInHours >= 2;
+      const diffInDays =
+        (startTime.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24);
+
+      console.log("Difference in days:", diffInDays);
+
+      return diffInDays >= 2;
     };
-    isCancelAvailable = isCancelAvailableChecker();
+
+    isCancelOrRescheduleAllowed = checker();
   }
 
   return (
     <div className=" max-w-6xl border rounded-lg bg-white shadow flex gap-2 ">
+      {sheetOpen && (
+        <MentorRescheduleSheet
+          reviewId={review._id}
+          sheetOpen={sheetOpen}
+          setSheetOpen={setSheetOpen}
+        />
+      )}
       <div className="flex flex-col justify-center items-center gap-4 py-3 flex-1 rounded-l-md bg-gradient-to-br from-slate-900 to-slate-800">
         <div className="flex items-center gap-2 text-slate-300">
           <User className="w-4 h-4" />
@@ -146,12 +163,21 @@ const ReviewCard = ({ review, isNotOver }: Props) => {
             <Badge className={`p-2 px-5 ${statusColorMap[review.status]}`}>
               {review.status}
             </Badge>
-            {isCancelAvailable && (
-              <AlertDialogComponent
-                alertTriggerer={<Button disabled={isLoading}>Cancel</Button>}
-                alertDescription="Are you sure you are going to cancel the reivew"
-                handleClick={handleCancelReview}
-              />
+            {isCancelOrRescheduleAllowed && (
+              <div className="flex gap-2">
+                <AlertDialogComponent
+                  alertTriggerer={<Button disabled={isLoading}>Cancel</Button>}
+                  alertDescription="Are you sure you are going to cancel the reivew"
+                  handleClick={handleCancelReview}
+                />
+               {!review.isRescheduledOnce && <Button onClick={() => setSheetOpen(true)}>Reschedule</Button>}
+              </div>
+            )}
+          </div>
+
+          <div className="flex gap-3">
+            {review.status == REVIEW_STATUS.RESCHEDULED &&  (
+             <RescheduleDialog reviewId={review._id}/>
             )}
           </div>
         </div>

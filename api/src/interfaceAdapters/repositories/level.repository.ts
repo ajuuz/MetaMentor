@@ -15,8 +15,16 @@ export class LevelRepository extends BaseRepository<ILevelEntity,ILevelModel> im
         await levelModel.insertMany(levels);
     }
 
+    async replaceLevel(levelId:string,levelData:Omit<ILevelEntity,'_id'>):Promise<void>{
+        await levelModel.replaceOne({_id:levelId},levelData);
+    }
+
     async getNextLevel(domainId:string,skip:number):Promise<ILevelModel[]>{
         const levels= await levelModel.find({domainId}).skip(skip).limit(2)
         return levels
     }
+
+    async updateStatus(id: string, status: boolean): Promise<void> {
+    await this.model.updateOne({ _id: id }, { isBlocked: status });
+  }
 }

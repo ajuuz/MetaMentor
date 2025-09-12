@@ -1,24 +1,23 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Lock, FileText } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import type { StudentReviewCard } from "@/types/reviewTypes";
 import type { DomainEntity } from "@/types/domainTypes";
-import type { LevelType } from "@/types/levelTypes";
 import { useEnrolledDomainQuery } from "@/hooks/tanstack/domain";
-import ContentViewerModal from "@/components/common/ContentViewerModal";
 import CompletedLevelCard from "@/components/user/domainInsight/CompletedLevelCard";
+import { config } from "@/config/configuration";
+import type { EnrolledLevelRes } from "@/types/response/enrolledLevel";
+import NextLevelsCard from "@/components/user/domainInsight/NextLevelsCard";
+import LockedCard from "@/components/user/domainInsight/LockedCard";
 
 const DomainInsight = () => {
   const [reviews, setReviews] = useState<StudentReviewCard[]>([]);
   const [noOfLevelPassed, setNoOfLevelPassed] = useState<number>(0);
   const [domain, setDomain] = useState<Omit<DomainEntity, "isBlocked">>();
-  const [nextLevels, setNextLevels] = useState<LevelType[]>();
+  const [nextLevels, setNextLevels] = useState<EnrolledLevelRes[]>();
   const { domainId } = useParams();
 
-  const navigate = useNavigate();
 
   if (!domainId) {
     return <div>NO Domain ID Recieved</div>;
@@ -30,9 +29,7 @@ const DomainInsight = () => {
     if (enrolledDomain) {
       const { reviews, domain, nextLevels } = enrolledDomain;
       setReviews(reviews);
-      console.log(reviews);
       setDomain(domain);
-      console.log(reviews, noOfLevelPassed, nextLevels);
       setNoOfLevelPassed(noOfLevelPassed);
       setNextLevels(nextLevels);
     }
@@ -54,9 +51,9 @@ const DomainInsight = () => {
         <p className="max-w-3xl mx-auto text-sm">{domain?.description}</p>
         <div className="mx-auto flex justify-center">
           <img
-            src={domain?.image}
+            src={config.IMAGE_BASE_URL + domain?.image}
             alt="MERN Stack"
-            className="w-28 h-28 object-contain"
+            className="w-24 h-24 rounded-full object-cover"
           />
         </div>
         <div className="bg-gray-800 p-2 rounded-xl w-full max-w-md mx-auto">
@@ -89,68 +86,20 @@ const DomainInsight = () => {
         {/* Locked Card */}
         {nextLevels?.map((nextLevel, index) =>
           index === 0 && reviews?.[reviews.length - 1]?.status !== "pending" ? (
-            <Card key={index} className="text-black">
-              <CardContent className="p-4 space-y-2">
-                <div className="flex justify-between items-center">
-                  <h2 className="font-bold text-lg">
-                    LEVEL {noOfLevelPassed + index + 1}: {nextLevel.name}
-                  </h2>
-                </div>
-                <p className="text-sm">{nextLevel.description}</p>
-                <p className="text-sm">Reviewer:</p>
-                {/* <p className="text-sm">Attempt: {item.attempt}</p> */}
-                <Button
-                  onClick={() =>
-                    navigate(`/review/schedule/${domainId}/${nextLevel._id}`)
-                  }
-                >
-                  Schedule Review
-                </Button>
-                <div className="flex gap-2">
-                  <ContentViewerModal
-                    triggerer={
-                      <Button
-                        size="sm"
-                        className="gap-2 cursor-pointer bg-black"
-                      >
-                        <FileText className="w-4 h-4" />
-                        Task File
-                      </Button>
-                    }
-                    title="Task File"
-                    description="Task File"
-                    content={nextLevel.taskFile}
-                  />
-                </div>
-                <div className="bg-violet-200 text-sm rounded p-1">
-                  Remark: Upcoming
-                </div>
-              </CardContent>
-            </Card>
+            <NextLevelsCard
+              domainId={domainId}
+              index={index}
+              noOfLevelPassed={noOfLevelPassed}
+              nextLevel={nextLevel}
+            />
           ) : (
-            <Card className="opacity-60 relative">
-              <CardContent className="p-4 text-center">
-                <Lock className="mx-auto text-black" size={32} />
-                <p className="mt-2 font-semibold">
-                  LEVEL {noOfLevelPassed + index + 2}: {nextLevel.name}
-                </p>
-                <p className="text-sm">Complete The Previous Level To Unlock</p>
-              </CardContent>
-            </Card>
+            <LockedCard
+              index={index}
+              noOfLevelPassed={noOfLevelPassed}
+              nextLevel={nextLevel}
+            />
           )
         )}
-      </div>
-
-      {/* Timeline & Review */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* <Card>
-          <CardContent className="p-4 space-y-2 text-black">
-            <h3 className="font-semibold">Course Time Line</h3>
-            <p>Start Date: May 1, 2025</p>
-            <p>Expected Completion: Jan 27, 2026</p>
-            <Button>Challenges</Button>
-          </CardContent>
-        </Card> */}
       </div>
     </div>
   );

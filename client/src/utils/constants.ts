@@ -7,7 +7,7 @@ export type PAYMENT_METHOD = 'upi'|'wallet'
 export type PAYMENT_STATUS = 'success'|'failed'
 
 
-export type REVIEW_FILTER_STATUS = 'pass'|'fail'|'pending'|'cancelled'|'completed'
+export type REVIEW_FILTER_STATUS = 'pass'|'fail'|'pending'|'cancelled'|'completed'|'rescheduled'
 
 export type DATE_RANGE= 'today' | 'week' | 'month' | 'all'
 
@@ -23,7 +23,8 @@ export const REVIEW_STATUS={
     PASS:'pass',
     FAIL:'fail',
     PENDING:'pending',
-    CANCELLED:'cancelled'
+    CANCELLED:'cancelled',
+    RESCHEDULED:'rescheduled'
 } as const;
 
 export type ReviewStatus = typeof REVIEW_STATUS[keyof typeof REVIEW_STATUS];

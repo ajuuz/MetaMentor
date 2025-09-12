@@ -46,6 +46,9 @@ export class GetMentorsForAdminResDTO extends MentorBaseDTO {
   userId!: string;
 
   @Expose()
+  seq!: number;
+
+  @Expose()
   mobileNumber!: number | null;
 
   @Expose()
@@ -79,6 +82,9 @@ export class GetMentorForAdminResDTO extends MentorBaseDTO {
 //=------------user----------------//
 @Exclude()
 export class MentorPreviewDTO {
+  @Expose()
+  @Transform(({ obj }) => obj._id.toString())
+  _id!: string;
   @Expose()
   name!: string;
   @Expose()

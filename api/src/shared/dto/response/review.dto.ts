@@ -66,6 +66,9 @@ export class ReviewBaseDTO {
 
   @Expose()
   practical!: number;
+
+  @Expose()
+  isRescheduledOnce!:boolean
 }
 
 //students

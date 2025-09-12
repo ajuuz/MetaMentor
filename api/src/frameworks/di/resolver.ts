@@ -43,6 +43,14 @@ import { ICommonDomainController } from "entities/controllerInterfaces/common/do
 import { CommonDomainController } from "interfaceAdapters/controllers/common/domain.controller";
 import { IUserMentorController } from "entities/controllerInterfaces/user/mentorController.interface";
 import { UserMentorController } from "interfaceAdapters/controllers/user/mentor.controller";
+import { IAdminLevelController } from "entities/controllerInterfaces/admin/levelController.interface";
+import { AdminLevelController } from "interfaceAdapters/controllers/admin/level.controller";
+import { IUserEnrolledLevelController } from "entities/controllerInterfaces/user/enrolledLevelController.interface";
+import { UserEnrolledLevelController } from "interfaceAdapters/controllers/user/enrolledLevel.controller";
+import { IUserNotificationController } from "entities/controllerInterfaces/user/notificationController.interface";
+import { UserNotificationController } from "interfaceAdapters/controllers/user/notification.controller";
+import { IUserRescheduledReviewController } from "entities/controllerInterfaces/user/rescheduledReviewController.interface";
+import { UserRescheduledReviewController } from "interfaceAdapters/controllers/user/rescheduledReview.controller";
 
 DependencyInjection.registerAll()
 
@@ -54,6 +62,7 @@ export const authController = container.resolve<IAuthController>(AuthController)
 export const adminStudentController = container.resolve<IAdminStudentController>(AdminStudentController)
 export const adminMentorController = container.resolve<IAdminMentorController>(AdminMentorController);
 export const adminDomainController = container.resolve<IAdminDomainController>(AdminDomainController);
+export const adminLevelController = container.resolve<IAdminLevelController>(AdminLevelController);
 export const adminCommunityController = container.resolve<IAdminCommunityController>(AdminCommunityController);
 
 
@@ -69,9 +78,13 @@ export const userMentorController = container.resolve<IUserMentorController>(Use
 export const userSlotController = container.resolve<IUserSlotController>(UserSlotController)
 export const userReviewController = container.resolve<IUserReviewController>(UserReviewController)
 export const userCommunityController = container.resolve<IUserCommunityController>(UserCommunityController)
+export const userEnrolledLevelController = container.resolve<IUserEnrolledLevelController>(UserEnrolledLevelController)
+export const userNotificationController = container.resolve<IUserNotificationController>(UserNotificationController)
+export const userRescheduledReviewController = container.resolve<IUserRescheduledReviewController>(UserRescheduledReviewController)
 
 //paymentController
 export const paymentController = container.resolve<IPaymentController>(PaymentController)
+
 
 //commomController
 export const commonController = container.resolve<ICommonController>(CommonController)

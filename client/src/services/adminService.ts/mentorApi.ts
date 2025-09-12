@@ -22,7 +22,7 @@ export const getAllMentors=async({
     }:GetAllMentorArgumentType
     ):Promise<GetAllMentorResponseType>=>{
     try{
-        console.log(selectedDomains)
+        console.log(limit)
         const response = await adminAxiosInstance.get(`/mentors?currentPage=${currentPage}&limit=${limit}&isVerified=${isVerified}&sortBy=${sortBy}&searchTerm=${searchTerm}&selectedDomains=${selectedDomains.join(',')}`);
         return response.data;
     }

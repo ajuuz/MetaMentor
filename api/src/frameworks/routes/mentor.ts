@@ -15,8 +15,11 @@ import {
   GetReviewsForMentorReqDTO,
   GetReviewForMentorReqDTO,
   SubmitReviewResultReqDTO,
+  GetReviewByDayForMentReqDTO,
 } from "shared/dto/request/review.dto";
 import {
+  GetSlotsOfADayForMentReqDTO,
+  SlotValidityCheckForMentReqDTO,
   UpdateSlotReqDTO,
   UpdateSlotStatusReqDTO,
 } from "shared/dto/request/slot.dto";
@@ -49,12 +52,11 @@ export class MentorRoutes {
       authMiddleware.blockChecker.bind(authMiddleware)
     );
 
-
     //mentor
     this._router.get(
       "/details/professional",
       mentorController.getProfessionalDetails.bind(mentorController)
-    )
+    );
 
     //slots
     this._router.patch(
@@ -66,10 +68,20 @@ export class MentorRoutes {
       "/slots",
       mentorSlotController.getSlots.bind(mentorSlotController)
     );
+    this._router.get(
+      "/slots/:day",
+      validationMiddleware(GetSlotsOfADayForMentReqDTO),
+      mentorSlotController.getSlotsForADay.bind(mentorSlotController)
+    );
     this._router.patch(
       "/slots/:day/:slotId",
       validationMiddleware(UpdateSlotStatusReqDTO),
       mentorSlotController.updateSlotStatus.bind(mentorSlotController)
+    );
+    this._router.post(
+      "/slots/:date/:slotId",
+      validationMiddleware(SlotValidityCheckForMentReqDTO),
+      mentorSlotController.slotValidityChecker.bind(mentorSlotController)
     );
 
     //reviews
@@ -77,6 +89,11 @@ export class MentorRoutes {
       "/reviews",
       validationMiddleware(GetReviewsForMentorReqDTO),
       mentorReviewController.getAllReviews.bind(mentorReviewController)
+    );
+    this._router.get(
+      "/reviews/:date/date",
+      validationMiddleware(GetReviewByDayForMentReqDTO),
+      mentorReviewController.getReviewsByDay.bind(mentorReviewController)
     );
     this._router.get(
       "/reviews/:reviewId",
@@ -92,6 +109,12 @@ export class MentorRoutes {
       "/reviews/:reviewId/result",
       validationMiddleware(SubmitReviewResultReqDTO),
       mentorReviewController.submitReviewResult.bind(mentorReviewController)
+    );
+
+
+    this._router.patch(
+      "/reviews/:reviewId/reschedule/submit",
+      mentorReviewController.rescheduleReviewSubmit.bind(mentorReviewController)
     );
   }
 

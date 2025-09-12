@@ -39,7 +39,6 @@ export class UserMentorController implements IUserMentorController {
   async updateMentorApplication(req: Request, res: Response): Promise<void> {
     const mentorDetails: UpdateMentorApplicationReqDTO = req.verifiedData;
     const mentorId = (req as ModifiedRequest).user.id;
-    console.log(mentorDetails);
      await this._updateMentorApplicationUsecase.execute(
       mentorId,
       mentorDetails

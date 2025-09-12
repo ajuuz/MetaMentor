@@ -53,7 +53,6 @@ export class BaseRepository<T, D extends Document>
     for(let {field,value} of filters){
       mongoFilter[field]=value
     }
-    console.log("working in repository")
     await this.model.updateOne(mongoFilter as FilterQuery<D>,updationFields as UpdateQuery<D>);
   }
 

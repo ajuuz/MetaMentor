@@ -23,6 +23,10 @@ export const notificationSchema = new mongoose.Schema<INotificationModel>({
         type:String,
         required:true,
     },
+    navigate:{
+        type:String,
+        default:null
+    },
     isRead:{
         type:Boolean,
         defualt:false

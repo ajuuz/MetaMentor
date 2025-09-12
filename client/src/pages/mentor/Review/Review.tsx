@@ -11,7 +11,7 @@ import Waiting from '@/components/mentor/review/Waiting'
 import Completed from '@/components/mentor/review/Completed'
 
 
-const ReviewPage = () => {
+const ReviewsPage = () => {
   const { reviewId } = useParams<{ reviewId: string }>()
   const [currentTime, setCurrentTime] = useState(new Date())
   const {data:review,error,isLoading:loading}=useGetReviewForMentorQuery(reviewId!)
@@ -129,4 +129,4 @@ const ReviewPage = () => {
   )
 }
 
-export default ReviewPage
+export default ReviewsPage

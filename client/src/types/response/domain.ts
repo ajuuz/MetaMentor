@@ -12,6 +12,7 @@ export type DomainPreviewType = { _id: string; name: string; image: string };
 export type GetDomainsForAdminRes = DomainResBase & {
   isBlocked: boolean;
 };
+export type GetDomainForAdminRes = DomainResBase;
 
 //=====students=====//
 //multiple

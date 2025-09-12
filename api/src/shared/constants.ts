@@ -30,6 +30,7 @@ export enum REVIEW_STATUS {
   FAIL = "fail",
   PENDING = "pending",
   CANCELLED = "cancelled",
+  RESCHEDULED = "rescheduled",
 }
 export enum REVIEW_FILTER_STATUS {
   PASS = "pass",
@@ -37,6 +38,7 @@ export enum REVIEW_FILTER_STATUS {
   PENDING = "pending",
   CANCELLED = "cancelled",
   COMPLETED = "completed",
+  RESCHEDULED = "rescheduled",
 }
 
 export enum DATE_RANGE {
@@ -93,10 +95,15 @@ export const SUCCESS_MESSAGE = {
   },
   DOMAINS: {
     CREATED: "Domain created successfully",
+    UPDATED: "Domain updated successfully",
     ENROLL: "Successfully enrolled in domain",
     FETCH_ALL: "Fetched all Domains successfully",
     FETCH_SINGLE: "Domain fetched successfully",
     UPDATE_STATUS: "Updated domain status successfully",
+  },
+  LEVEL: {
+    UPDATE_STATUS: "Updated domain status successfully",
+    SUBMIT_ASSIGNMENT: "Assignment submitted successfully",
   },
   COMMUNITY: {
     FETCH_ALL: "Fetched all Communities successfully",
@@ -106,6 +113,7 @@ export const SUCCESS_MESSAGE = {
   REVIEWS: {
     CANCEL_REVIEW_BY_MENTOR: "Review cancelled successfully",
     UPDATE_STATUS: "Updated Review status successfully",
+    RESCHEDULE:'Reschedule request has been sent successfully',
     CANCEL_REVIEW_BY_STUDENT:
       "Platform fee has been debited from your amount. Balance is credited to your wallet",
   },
@@ -114,6 +122,7 @@ export const SUCCESS_MESSAGE = {
 export const ERROR_MESSAGE = {
   UNAUTHORIZED_ACCESS_NOT_LOGIN: "Unauthorized access. You have'nt Logged in",
   UNAUTHORIZED_ACCESS: "Unauthorized access.",
+  UNAUTHORIZED_ROLE: "Your role is not allowed.",
   INVALID_TOKEN: "Access Denied due to Invalid token",
   TOKEN_EXPIRED_FORGOT: "Link Validity Expired. Try verify email once more",
   TOKEN_EXPIRED_ACCESS: "Access Token time out",
@@ -163,6 +172,7 @@ export enum NOTIFICATION_TITLE {
   REVIEW_BOOKED = "REVIEW BOOKED",
   REVIEW_CANCEL = "REVIEW CANCEL",
   REVIEW_RESCHEDULE = "REVIEW RESCHEDULE",
+  REVIEW_RESCHEDULE_ACCEPTED = "REVIEW RESCHEDULE ACCEPTED",
   REVIEW_FEEDBACK_UPDATED = "REVIEW FEEDBACK UPDATED",
 }
 export enum NOTIFICATION_MESSAGE {
@@ -171,17 +181,17 @@ export enum NOTIFICATION_MESSAGE {
   REVIEW_BOOKED = "Review Booked Successfully",
   REVIEW_CANCEL_MENTOR = "Your Review has been cancelled! Review amount has been credited to your wallet",
   REVIEW_CANCEL_STUDENT = "Your Review has been cancelled by the student",
-  REVIEW_RECHEDULE = "Your Review slot has been reschedule",
+  REVIEW_RECHEDULE = "You have a review reschedule request",
+  REVIEW_RESCHEDULE_ACCEPTED="Your reschedule request has been accepted",
   REVIEW_FEEDBACK_UPDATED = "Your Review's feedback has been updated. Please check it",
 }
 
-
-export enum SORT_ORDER{
-  ASC='asc',
-  DESC='desc'
+export enum SORT_ORDER {
+  ASC = "asc",
+  DESC = "desc",
 }
 
-export enum LEVEL_TASK_TYPE{
-  LINK='link',
-  TEXT='text'
+export enum LEVEL_TASK_TYPE {
+  LINK = "link",
+  TEXT = "text",
 }

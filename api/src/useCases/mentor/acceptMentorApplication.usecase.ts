@@ -1,13 +1,15 @@
 import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
+import { ISequenceNumberRepository } from "entities/repositoryInterfaces/sequenceNumberRepository.interface";
 import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IPushNotificationService } from "entities/serviceInterfaces/pushNotificationService.interface";
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
 import { ICreateNotificationUsecase } from "entities/usecaseInterfaces/notification/createNotificationUsecase.interface";
-import { EVENT_EMITTER_TYPE, MAIL_CONTENT_PURPOSE, NOTIFICATION_MESSAGE, NOTIFICATION_TITLE, ROLES } from "shared/constants";
+import { EVENT_EMITTER_TYPE, HTTP_STATUS, MAIL_CONTENT_PURPOSE, NOTIFICATION_MESSAGE, NOTIFICATION_TITLE, ROLES } from "shared/constants";
 import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/mailContentProvider";
+import { CustomError } from "shared/utils/error/customError";
 import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
 
@@ -26,6 +28,9 @@ export class AcceptMentorApplicationUsecase implements IAcceptMentorApplicationU
         @inject('ICreateNotificationUsecase')
         private _createNotificationUsecase:ICreateNotificationUsecase,
 
+            @inject("ISequenceNumberRepository")
+            private _sequenceNumberRepository: ISequenceNumberRepository,
+
         @inject('IPushNotificationService')
         private _pushNotificationService:IPushNotificationService,
     ){}
@@ -41,7 +46,9 @@ export class AcceptMentorApplicationUsecase implements IAcceptMentorApplicationU
         
         const mentorFilter:{field:keyof IMentorEntity,value:string|boolean|number}[]=[];
         mentorFilter.push({field:"userId",value:mentorId})
-        const mentorUpdate={isVerified:true}
+        const seq=await this._sequenceNumberRepository.findAndUpdate('mentorSeq');
+        if(!seq) throw new CustomError(HTTP_STATUS.INTERNAL_SERVER_ERROR,'Cannot assign sequence number')
+        const mentorUpdate={isVerified:true,seq}
 
         asyncOperations.push(this._mentorRepository.updateOne(mentorFilter,mentorUpdate))
         asyncOperations.push(this._slotRepository.createSlots(mentorId))

@@ -3,7 +3,6 @@ import { ICreateOrderUsecase } from "entities/usecaseInterfaces/payment/createOr
 import { IVerifyPaymentUsecase } from "entities/usecaseInterfaces/payment/verifyPaymentUsecase.interface";
 import { Request, Response } from "express";
 import { RazorPayCreateOrderReqDTO, VerifyPaymentReqDTO } from "shared/dto/request/payment.dto";
-import { ValidationError } from "shared/utils/error/validationError";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 

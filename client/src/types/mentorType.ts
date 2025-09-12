@@ -21,6 +21,7 @@ export type MentorRegistrationErrorType = {
 
 export type MentorDataType = {
   name: string;
+  seq:number,
   profileImage: string | null;
   country: string | null;
   domains: Pick<DomainEntity, "_id" | "name" | "image">[];

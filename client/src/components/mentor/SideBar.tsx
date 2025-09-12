@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useMemo } from "react";
-import { Home, Calendar, DollarSign, UserCheck, User } from "lucide-react";
+import { Home, Calendar, DollarSign, User } from "lucide-react";
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -11,12 +11,7 @@ const SideBar = () => {
   const links = [
     { label: "Profile", icon: <User />, path: "/mentor" },
     { label: "Dashboard", icon: <Home />, path: "/mentor/dashboard" },
-    { label: "Upcoming", icon: <Calendar />, path: "/mentor/reviews/upcoming" },
-    {
-      label: "Completed",
-      icon: <UserCheck />,
-      path: "/mentor/reviews/completed",
-    },
+    { label: "Reviews", icon: <Calendar />, path: "/mentor/reviews" },
     { label: "Slots", icon: <Calendar />, path: "/mentor/slots" },
     { label: "Wallet", icon: <DollarSign />, path: "/mentor/wallet" },
   ];

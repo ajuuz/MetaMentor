@@ -3,8 +3,7 @@ import { INotificationModel } from "frameworks/database/models/notification.mode
 
 import { IBaseRepository } from "./baseRepository.interface";
 
-
-
-export interface INotificationRepository extends IBaseRepository<INotificationEntity,INotificationModel>{
-    
+export interface INotificationRepository
+  extends IBaseRepository<INotificationEntity, INotificationModel> {
+  updateMany(userId: string): Promise<void>;
 }

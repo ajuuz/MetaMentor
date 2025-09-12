@@ -2,6 +2,7 @@ import { ObjectId } from "mongoose";
 
 export interface IStudentEntity {
   userId: ObjectId;
+  seq:number,
   domains: ISelectedDomain[];
   isBlocked: boolean;
   point: number;
@@ -18,6 +19,7 @@ export interface ISelectedDomain {
 
 export interface IGetStudentsForAdmin {
   userId: string;
+  seq:number,
   isBlocked: boolean;
   point: number;
   isPremium: boolean;

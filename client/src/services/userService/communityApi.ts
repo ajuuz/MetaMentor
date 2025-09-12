@@ -1,6 +1,6 @@
 import { userAxiosInstance } from "@/config/axiosConfig/userAxiosConfig";
 import type { CreateCommunityPostDTO } from "@/types/communityPostTypes";
-import type { GetAllDomains } from "@/types/domainTypes";
+import type { DomainEntity } from "@/types/domainTypes";
 import type { MutationApiResponse } from "@/types/responseType";
 
 
@@ -15,7 +15,7 @@ export const createCommunityPost=async (communityPostData:CreateCommunityPostDTO
     }
 }
 
-export const getEnrolledCommunities=async(currentPage:number,limit:number):Promise<GetAllDomains>=>{
+export const getEnrolledCommunities=async(currentPage:number,limit:number):Promise<DomainEntity>=>{
      try{
         const response = await userAxiosInstance.get(`/communities?currentPage=${currentPage}&limit=${limit}`)
         return response.data;

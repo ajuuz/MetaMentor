@@ -115,6 +115,22 @@ import { UpdateMentorApplicationUsecase } from "useCases/mentor/updateMentorAppl
 import { IUpdateMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/updateMentorApplicationUsecase.interface";
 import { IGetProfessionalDetailsUsecase } from "entities/usecaseInterfaces/mentor/getProfessionalDetailsUsecase.interface";
 import { GetProfessionalDetailsUsecase } from "useCases/mentor/getProfessionalDetails.usecase";
+import { IEditDomainUsecase } from "entities/usecaseInterfaces/domain/editDomainUsecase";
+import { EditDomainUsecase } from "useCases/domain/editDomain.usecase";
+import { IUpdateLevelStatusUsecase } from "entities/usecaseInterfaces/level/updateLevelStatusUsecase.interface";
+import { UpdateLevelStatusUsecase } from "useCases/level/updateLevelStatus.usecase";
+import { ISaveLevelAssignmentUsecase } from "entities/usecaseInterfaces/enrolledLevel/saveLevelAssignmentUsecase.interface";
+import { SaveLevelAssignmentUsecase } from "useCases/enrolledLevel/saveLevelAssignment.usecase";
+import { IRescheduleReviewByStudentUsecase } from "entities/usecaseInterfaces/review/rescheduleReviewByStudentUsecase.interface";
+import { RescheduleReviewByStudentUsecase } from "useCases/review/rescheduleReviewByStudent.usecase";
+import { IGetNotificationUsecase } from "entities/usecaseInterfaces/notification/getNotificationUsecase.interface";
+import { GetNotificationUsecase } from "useCases/notification/getNotifications.usecase";
+import { IMarkAsReadUsecase } from "entities/usecaseInterfaces/notification/markAsReadUsecase.interface";
+import { MarkAsReadUsecase } from "useCases/notification/markAsRead.usecase";
+import { IGetRescheduledReviewUsecase } from "entities/usecaseInterfaces/rescheduledReview/getRescheduledReviewUsecase.interface";
+import { GetRescheduledReviewUsecase } from "useCases/rescheduledReview/getRescheduledReview.usecase";
+import { IRescheduleReviewSubmitByMentor } from "entities/usecaseInterfaces/review/rescheduleReviewSubmitByMentorUsecase.interface";
+import { RescheduleReviewSubmitByMentor } from "useCases/review/rescheduleReviewSubmitByMentor.usecase";
 
 export class UseCaseRegistory {
   static registerUsecases(): void {
@@ -189,7 +205,7 @@ export class UseCaseRegistory {
         useClass: CreateMentorApplicationUsecase,
       }
     );
-    
+
     container.register<IGetProfessionalDetailsUsecase>(
       "IGetProfessionalDetailsUsecase",
       {
@@ -251,41 +267,58 @@ export class UseCaseRegistory {
     container.register<IAddDomainUsecase>("IAddDomainUsecase", {
       useClass: AddDomainUsecase,
     });
+
+    container.register<IEditDomainUsecase>("IEditDomainUsecase", {
+      useClass: EditDomainUsecase,
+    });
+
     container.register<IGetAllDomainsUsecase>("IGetAllDomainsUsecase", {
       useClass: GetAllDomainsUsecase,
     });
+
     container.register<IGetUnblockedDomainsUsecase>(
       "IGetUnblockedDomainsUsecase",
       {
         useClass: GetUnblockedDomainsUsecase,
       }
     );
+
     container.register<IGetAllDomainsNameAndIdUsecase>(
       "IGetAllDomainsNameAndIdUsecase",
       {
         useClass: GetAllDomainsNameAndIdUsecase,
       }
     );
+
     container.register<IGetSpecificDomainUsecase>("IGetSpecificDomainUsecase", {
       useClass: GetSpecificDomainUsecase,
     });
+
     container.register<IUpdateDomainStatusUsecase>(
       "IUpdateDomainStatusUsecase",
       {
         useClass: UpdateDomainStatusUsecase,
       }
     );
+
     container.register<IEnrollDomainUsecase>("IEnrollDomainUsecase", {
       useClass: EnrollDomainUsecase,
     });
+
     container.register<IGetEnrolledDomainsUsecase>(
       "IGetEnrolledDomainsUsecase",
       {
         useClass: GetEnrolledDomainsUsecase,
       }
     );
+
     container.register<IGetDomainInsightUsecase>("IGetDomainInsightUsecase", {
       useClass: GetDomainInsightUsecase,
+    });
+
+    //levels
+    container.register<IUpdateLevelStatusUsecase>("IUpdateLevelStatusUsecase", {
+      useClass: UpdateLevelStatusUsecase,
     });
 
     //community usecase
@@ -384,10 +417,23 @@ export class UseCaseRegistory {
         useClass: CancelReviewByStudentUsecase,
       }
     );
+    container.register<IRescheduleReviewByStudentUsecase>(
+      "IRescheduleReviewByStudentUsecase",
+      {
+        useClass: RescheduleReviewByStudentUsecase,
+      }
+    );
     container.register<IGetReviewByDayForStudUsecase>(
       "IGetReviewByDayForStudUsecase",
       {
         useClass: GetReviewByDayForStudUsecase,
+      }
+    );
+
+    container.register<IGetRescheduledReviewUsecase>(
+      "IGetRescheduledReviewUsecase",
+      {
+        useClass: GetRescheduledReviewUsecase,
       }
     );
 
@@ -403,11 +449,34 @@ export class UseCaseRegistory {
         useClass: CreateNotificationUsecase,
       }
     );
+    container.register<IGetNotificationUsecase>("IGetNotificationUsecase", {
+      useClass: GetNotificationUsecase,
+    });
+    container.register<IMarkAsReadUsecase>("IMarkAsReadUsecase", {
+      useClass: MarkAsReadUsecase,
+    });
 
     //fcmToken usecase
     container.register<ISaveFcmTokenUsecase>("ISaveFcmTokenUsecase", {
       useClass: SaveFcmTokenUsecase,
     });
+
+    //enrolled Level
+    container.register<ISaveLevelAssignmentUsecase>(
+      "ISaveLevelAssignmentUsecase",
+      {
+        useClass: SaveLevelAssignmentUsecase,
+      }
+    );
+
+
+    container.register<IRescheduleReviewSubmitByMentor>(
+      "IRescheduleReviewSubmitByMentor",
+      {
+        useClass: RescheduleReviewSubmitByMentor,
+      }
+    );
+    
 
     //common usecase
     container.register<IUploadImageUsecase>("IUploadImageUsecase", {

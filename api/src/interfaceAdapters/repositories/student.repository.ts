@@ -42,7 +42,18 @@ export class StudentRepository
       if (type === "direct") mongoFilter[field] = value;
       else {
         if (field === "searchTerm" && typeof value === "string") {
-          mongoFilter["user.name"] = { $regex: value, $options: "i" };
+          if (!isNaN(Number(value))) {
+            console.log('working')
+            mongoFilter["$expr"] = {
+              $regexMatch: {
+                input: { $toString: "$seq" },
+                regex: value,
+                options: "i",
+              },
+            };
+          } else {
+            mongoFilter["user.name"] = { $regex: value, $options: "i" };
+          }
         }
       }
     });
@@ -78,6 +89,7 @@ export class StudentRepository
       $project: {
         _id: 0,
         userId: 1,
+        seq: 1,
         isBlocked: 1,
         point: 1,
         isPremium: 1,
@@ -112,7 +124,6 @@ export class StudentRepository
     const { data, totalDocuments } = response[0];
     return { data, totalDocuments };
   }
-
 
   async updateStatus(userId: string, status: boolean): Promise<number> {
     const update = await studentModel.updateOne(

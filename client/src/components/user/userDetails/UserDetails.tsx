@@ -21,10 +21,10 @@ import { userDetailSchema } from "@/utils/validations/user";
 import { config } from "@/config/configuration";
 import type { UserDetailsRes } from "@/types/response/user";
 
-type Props={
-  profileData:UserDetailsRes
-}
-const UserDetails = ({profileData}:Props) => {
+type Props = {
+  profileData: UserDetailsRes;
+};
+const UserDetails = ({ profileData }: Props) => {
   const [isViewMode, setIsViewMode] = useState(true);
   const [profileImage, setProfileImage] = useState<File | null>(null);
 
@@ -39,18 +39,17 @@ const UserDetails = ({profileData}:Props) => {
   } = useForm<UserDetailsReq>({
     resolver: zodResolver(userDetailSchema),
     defaultValues: {
-      name: profileData.name||"",
-      profileImage: profileData?.profileImage||null,
-      country: profileData?.country||null,
-      gender: profileData?.gender||null,
-      mobileNumber:profileData?.mobileNumber|| null,
-      email:profileData?.email ||"",
+      name: profileData.name || "",
+      profileImage: profileData?.profileImage || null,
+      country: profileData?.country || null,
+      gender: profileData?.gender || null,
+      mobileNumber: profileData?.mobileNumber || null,
+      email: profileData?.email || "",
     },
   });
 
-
   // --------------- Mutation ----------------
-  const { mutate: updateProfileMutation , isPending:loading} = useMutation({
+  const { mutate: updateProfileMutation, isPending: loading } = useMutation({
     mutationFn: updateProfile,
     onSuccess: (response) => {
       setIsViewMode(true);
@@ -66,9 +65,12 @@ const UserDetails = ({profileData}:Props) => {
   const onSubmit = async (data: UserDetailsReq) => {
     const formData = new FormData();
     if (data.name !== profileData?.name) formData.append("name", data.name);
-    if (data.mobileNumber && data.mobileNumber !== profileData?.mobileNumber) formData.append("mobileNumber", data.mobileNumber);
-    if (data.country && data.country !== profileData?.country) formData.append("country", data.country);
-    if (data.gender && data.gender !== profileData?.gender) formData.append("gender", data.gender);
+    if (data.mobileNumber && data.mobileNumber !== profileData?.mobileNumber)
+      formData.append("mobileNumber", data.mobileNumber);
+    if (data.country && data.country !== profileData?.country)
+      formData.append("country", data.country);
+    if (data.gender && data.gender !== profileData?.gender)
+      formData.append("gender", data.gender);
     if (profileImage) formData.append("image", profileImage);
 
     updateProfileMutation(formData);
@@ -78,7 +80,7 @@ const UserDetails = ({profileData}:Props) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
     setProfileImage(file);
-    setValue("profileImage", file); 
+    setValue("profileImage", file);
   };
 
   return (
@@ -97,7 +99,11 @@ const UserDetails = ({profileData}:Props) => {
         typeof profileData?.profileImage === "string" ? (
           <div className="bg-black/30 border-5 text-white rounded-[50%] p-3 text-[0.6rem] relative flex justify-center font-medium">
             <img
-              src={profileData.profileImage.startsWith('http')?profileData.profileImage.split('=')[0]:config.IMAGE_BASE_URL+profileData.profileImage}
+              src={
+                profileData.profileImage.startsWith("http")
+                  ? profileData.profileImage.split("=")[0]
+                  : config.IMAGE_BASE_URL + profileData.profileImage
+              }
               className="rounded-4xl"
               alt={`${profileData.name}'s profile pic`}
             />
@@ -163,7 +169,11 @@ const UserDetails = ({profileData}:Props) => {
         {/* Mobile */}
         <div className="col-span-2 flex flex-col gap-2">
           <Label>Mobile Number</Label>
-          <Input type="text" {...register("mobileNumber")} disabled={isViewMode} />
+          <Input
+            type="text"
+            {...register("mobileNumber")}
+            disabled={isViewMode}
+          />
           <p className="text-red-400 text-xs">{errors.mobileNumber?.message}</p>
         </div>
 
@@ -173,7 +183,7 @@ const UserDetails = ({profileData}:Props) => {
           <SelectComponent
             disabled={isViewMode}
             selectKey="country"
-            placeHolder={profileData?.country??"Country"}
+            placeHolder={profileData?.country ?? "Country"}
             handleSelectChange={(key, value) =>
               setValue(key as keyof UserDetailsReq, value)
             }
@@ -187,7 +197,7 @@ const UserDetails = ({profileData}:Props) => {
           <SelectComponent
             disabled={isViewMode}
             selectKey="gender"
-            placeHolder={profileData?.gender??"Gender"}
+            placeHolder={profileData?.gender ?? "Gender"}
             handleSelectChange={(key, value) =>
               setValue(key as keyof UserDetailsReq, value)
             }

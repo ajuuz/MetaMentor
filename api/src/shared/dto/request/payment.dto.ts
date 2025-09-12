@@ -36,7 +36,7 @@ class RazorPayVerifyDetailsReqDTO {
   razorpay_signature!: string;
 }
 
-class ReviewSlotReqDTO {
+export class ReviewSlotReqDTO {
   @IsISO8601()
   start!: Date;
 
