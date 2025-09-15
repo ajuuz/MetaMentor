@@ -1,5 +1,5 @@
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
-import { IPushNotificationService } from "entities/serviceInterfaces/pushNotificationService.interface";
+import { IPushNotificationService } from "application/interfaces/service/pushNotificationService.interface";
 import { ISubmitReviewResultUsecase } from "application/usecase/interfaces/review/submitReviewFeedBackUsecase.interface";
 import { NOTIFICATION_MESSAGE, NOTIFICATION_TITLE } from "shared/constants";
 import { SubmitReviewResultReqDTO } from "shared/dto/request/review.dto";

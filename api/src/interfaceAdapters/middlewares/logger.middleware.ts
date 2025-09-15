@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { NextFunction, Request, Response } from "express";
-import { ILoggerService } from "entities/serviceInterfaces/loggerService.interface";
+import { ILoggerService } from "application/interfaces/service/loggerService.interface";
 import { ILoggerMiddleware } from "application/interfaces/middleware/loggerMiddleware.interface";
 
 @injectable()

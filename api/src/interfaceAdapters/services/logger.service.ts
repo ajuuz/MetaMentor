@@ -1,11 +1,9 @@
-import { ILoggerService } from "entities/serviceInterfaces/loggerService.interface";
+import { ILoggerService } from "application/interfaces/service/loggerService.interface";
 import { logger } from "frameworks/logger/winston.logger";
 import { injectable } from "tsyringe";
 
-
 @injectable()
-export class LoggerService implements ILoggerService{
-
+export class LoggerService implements ILoggerService {
   info(message: string, meta?: Record<string, any>) {
     logger.info(message, meta);
   }

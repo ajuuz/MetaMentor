@@ -3,7 +3,7 @@ import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.
 import { ISequenceNumberRepository } from "domain/repositoryInterfaces/sequenceNumberRepository.interface";
 import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
-import { IPushNotificationService } from "entities/serviceInterfaces/pushNotificationService.interface";
+import { IPushNotificationService } from "application/interfaces/service/pushNotificationService.interface";
 import { IAcceptMentorApplicationUsecase } from "application/usecase/interfaces/mentor/acceptMentorApplicationUsecase.interface";
 import { ICreateNotificationUsecase } from "application/usecase/interfaces/notification/createNotificationUsecase.interface";
 import {

@@ -2,7 +2,7 @@ import { INotificationEntity } from "domain/entities/notificationModel.entity";
 import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
 import { IRescheduleReviewRepository } from "domain/repositoryInterfaces/rescheduleReviewRepository.interface";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
-import { IPushNotificationService } from "entities/serviceInterfaces/pushNotificationService.interface";
+import { IPushNotificationService } from "application/interfaces/service/pushNotificationService.interface";
 import { IRescheduleReviewSubmitByMentor } from "application/usecase/interfaces/review/rescheduleReviewSubmitByMentorUsecase.interface";
 import { ICreateTransactionUsecase } from "application/usecase/interfaces/transaction/createTransactionUsecase.interface";
 import { ICreditWalletUsecase } from "application/usecase/interfaces/wallet/creditWalletUsecase.inteface";

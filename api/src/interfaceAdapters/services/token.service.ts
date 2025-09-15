@@ -1,4 +1,4 @@
-import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
+import { ITokenService } from "application/interfaces/service/tokenService.interface";
 import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import { ObjectId } from "mongoose";
 import ms from "ms";

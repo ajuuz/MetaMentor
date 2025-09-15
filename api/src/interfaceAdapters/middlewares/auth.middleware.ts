@@ -1,7 +1,7 @@
 import { IAuthMiddleware } from "application/interfaces/middleware/authMiddleware.interface";
 import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
-import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
+import { ITokenService } from "application/interfaces/service/tokenService.interface";
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { ERROR_MESSAGE, HTTP_STATUS, ROLES } from "shared/constants";

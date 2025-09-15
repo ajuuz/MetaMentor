@@ -3,7 +3,7 @@ import { IRescheduleReviewEntity } from "domain/entities/rescheduleReviewModel.e
 import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
 import { IRescheduleReviewRepository } from "domain/repositoryInterfaces/rescheduleReviewRepository.interface";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
-import { IPushNotificationService } from "entities/serviceInterfaces/pushNotificationService.interface";
+import { IPushNotificationService } from "application/interfaces/service/pushNotificationService.interface";
 import { IRescheduleReviewByStudentUsecase } from "application/usecase/interfaces/review/rescheduleReviewByStudentUsecase.interface";
 import {
   ERROR_MESSAGE,

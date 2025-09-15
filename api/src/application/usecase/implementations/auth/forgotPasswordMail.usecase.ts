@@ -1,6 +1,6 @@
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
-import { IEmailService } from "entities/serviceInterfaces/email-service.interface";
-import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
+import { IEmailService } from "application/interfaces/service/email-service.interface";
+import { ITokenService } from "application/interfaces/service/tokenService.interface";
 import { IForgotPasswordSendMailUsecase } from "application/usecase/interfaces/auth/forgotPasswordMailUsecase.interface";
 import { MAIL_CONTENT_PURPOSE } from "shared/constants";
 import { mailContentProvider } from "shared/mailContentProvider";

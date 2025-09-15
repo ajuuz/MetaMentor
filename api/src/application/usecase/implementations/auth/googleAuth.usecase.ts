@@ -1,7 +1,7 @@
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
 import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
-import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
+import { ITokenService } from "application/interfaces/service/tokenService.interface";
 import { IGoogleAuthUsecase } from "application/usecase/interfaces/auth/googleAuthUsecase.interface";
 import { FirebaseAdminConfig } from "frameworks/firebase/firebaseAdmin";
 import { JwtPayload } from "jsonwebtoken";

@@ -1,6 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
-import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
+import { ITokenService } from "application/interfaces/service/tokenService.interface";
 import { ILoginUsecase } from "application/usecase/interfaces/auth/loginUsecase.interface";
 import { ROLES } from "shared/constants";
 import { LoginResDTO } from "shared/dto/response/auth.dto";
