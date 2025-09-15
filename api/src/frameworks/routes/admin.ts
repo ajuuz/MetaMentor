@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { upload } from "frameworks/cloudinary/cloudinary";
+import { upload } from "infrastructure/config/cloudinary/cloudinary.config";
 import {
   adminCommunityController,
   adminDomainController,

@@ -3,7 +3,7 @@ import { ITransactionRepository } from "domain/repositoryInterfaces/transactionR
 import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
 import { IUploadImageUsecase } from "application/usecase/interfaces/common/uploadImageUsecase.interface";
 import { NextFunction, Request, Response } from "express";
-import sseClientManager from "frameworks/SSE/sseClientManager";
+import sseClientManager from "infrastructure/config/sse/sseClientManager.config";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 

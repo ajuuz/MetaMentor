@@ -1,6 +1,6 @@
 import { IFcmTokenRepository } from "domain/repositoryInterfaces/fcmTokenRepository.interface";
 import { IPushNotificationService } from "application/interfaces/service/pushNotificationService.interface";
-import { FirebaseAdminConfig } from "frameworks/firebase/firebaseAdmin";
+import { FirebaseAdminConfig } from "infrastructure/config/firebase/firebaseAdmin.config";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

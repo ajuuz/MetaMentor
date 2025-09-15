@@ -5,7 +5,7 @@ import { IGetMentorApplicationDetailsUsecase } from "application/usecase/interfa
 import { IRejectMentorApplicationUsecase } from "application/usecase/interfaces/mentor/rejectMentorApplication.interface";
 import { IUpdateMentorStatusUsecase } from "application/usecase/interfaces/mentor/updateMentorStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
-import sseClientManager from "frameworks/SSE/sseClientManager";
+import sseClientManager from "infrastructure/config/sse/sseClientManager.config";
 import { HTTP_STATUS, MENTOR_APPLICATION_STATUS } from "shared/constants";
 import {
   GetAllMentorsReqDTO,

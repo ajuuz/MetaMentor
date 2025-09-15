@@ -3,7 +3,7 @@ import { IUserRespository } from "domain/repositoryInterfaces/user-repository.in
 import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
 import { ITokenService } from "application/interfaces/service/tokenService.interface";
 import { IGoogleAuthUsecase } from "application/usecase/interfaces/auth/googleAuthUsecase.interface";
-import { FirebaseAdminConfig } from "frameworks/firebase/firebaseAdmin";
+import { FirebaseAdminConfig } from "infrastructure/config/firebase/firebaseAdmin.config";
 import { JwtPayload } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
 import { AuthError } from "domain/errors/authError";

@@ -1,5 +1,5 @@
 import { ILoggerService } from "application/interfaces/service/loggerService.interface";
-import { logger } from "frameworks/logger/winston.logger";
+import { logger } from "infrastructure/config/logger/winston.logger.config";
 import { injectable } from "tsyringe";
 
 @injectable()

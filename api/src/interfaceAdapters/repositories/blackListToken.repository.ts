@@ -1,5 +1,5 @@
 import { IBlackListTokenRepository } from "domain/repositoryInterfaces/blackListTokenRepository.interface";
-import { RedisClient } from "frameworks/redis/redisClient";
+import { RedisClient } from "infrastructure/config/redis/redisClient.config";
 import { injectable } from "tsyringe";
 
 @injectable()

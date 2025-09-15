@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { upload } from "frameworks/cloudinary/cloudinary";
+import { upload } from "infrastructure/config/cloudinary/cloudinary.config";
 import {
   authMiddleware,
   mentorController,
@@ -110,7 +110,6 @@ export class MentorRoutes {
       validationMiddleware(SubmitReviewResultReqDTO),
       mentorReviewController.submitReviewResult.bind(mentorReviewController)
     );
-
 
     this._router.patch(
       "/reviews/:reviewId/reschedule/submit",

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { upload } from "frameworks/cloudinary/cloudinary";
+import { upload } from "infrastructure/config/cloudinary/cloudinary.config";
 import {
   authMiddleware,
   commonController,
@@ -50,7 +50,7 @@ export class CommonRoutes {
       commonDomainController.getDomainNamesAndId.bind(commonDomainController)
     );
 
-   this._router.get(
+    this._router.get(
       "/wallet",
       authMiddleware.verifyAuth.bind(authMiddleware),
       authMiddleware.verifyAuthRole([ROLES.MENTOR, ROLES.ADMIN, ROLES.USER]),
