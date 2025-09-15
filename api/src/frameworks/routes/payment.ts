@@ -3,7 +3,7 @@ import {
   authMiddleware,
   paymentController,
 } from "infrastructure/dependencyInjection/resolver";
-import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
+import { validationMiddleware } from "presentation/middleware/validation.middleware";
 import { ROLES } from "shared/constants";
 import {
   RazorPayCreateOrderReqDTO,

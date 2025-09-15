@@ -26,13 +26,13 @@ import { UserController } from "presentation/controller/user/user.controller";
 import { UserDomainController } from "presentation/controller/user/domain.controller";
 import { UserReviewController } from "presentation/controller/user/review.controller";
 import { UserSlotController } from "presentation/controller/user/slot.controller";
-import { AuthMiddleware } from "interfaceAdapters/middlewares/auth.middleware";
-import { ErrorMiddleware } from "interfaceAdapters/middlewares/error.middleware";
+import { AuthMiddleware } from "presentation/middleware/auth.middleware";
+import { ErrorMiddleware } from "presentation/middleware/error.middleware";
 import { container } from "tsyringe";
 
 import { DependencyInjection } from ".";
 import { ILoggerMiddleware } from "application/interfaces/middleware/loggerMiddleware.interface";
-import { LoggerMiddleware } from "interfaceAdapters/middlewares/logger.middleware";
+import { LoggerMiddleware } from "presentation/middleware/logger.middleware";
 import { IMentorReviewController } from "application/interfaces/controller/mentor/reviewController.interface";
 import { MentorReviewController } from "presentation/controller/mentor/review.controller";
 import { IUserCommunityController } from "application/interfaces/controller/user/communityController.interface";

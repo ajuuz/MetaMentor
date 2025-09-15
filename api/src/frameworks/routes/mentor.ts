@@ -6,8 +6,8 @@ import {
   mentorReviewController,
   mentorSlotController,
 } from "infrastructure/dependencyInjection/resolver";
-import { formDataParserFormatter } from "interfaceAdapters/middlewares/imageFormatter.middleware";
-import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
+import { formDataParserFormatter } from "presentation/middleware/imageFormatter.middleware";
+import { validationMiddleware } from "presentation/middleware/validation.middleware";
 import { ROLES } from "shared/constants";
 import { CreateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
 import {
