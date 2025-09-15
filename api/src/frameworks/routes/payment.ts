@@ -1,8 +1,14 @@
 import { Router } from "express";
-import { authMiddleware, paymentController } from "frameworks/di/resolver";
+import {
+  authMiddleware,
+  paymentController,
+} from "infrastructure/dependencyInjection/resolver";
 import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
 import { ROLES } from "shared/constants";
-import { RazorPayCreateOrderReqDTO, VerifyPaymentReqDTO } from "shared/dto/request/payment.dto";
+import {
+  RazorPayCreateOrderReqDTO,
+  VerifyPaymentReqDTO,
+} from "shared/dto/request/payment.dto";
 
 export class PaymentRoutes {
   private _router: Router;

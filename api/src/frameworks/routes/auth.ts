@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { authController, authMiddleware } from "frameworks/di/resolver";
+import {
+  authController,
+  authMiddleware,
+} from "infrastructure/dependencyInjection/resolver";
 import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
 import {
   ForgotPasswordResetReqDTO,
@@ -36,9 +39,11 @@ export class AuthRoutes {
       }
     );
 
-    this._router.post("/login",
-        validationMiddleware(LoginReqDTO),
-        authController.login.bind(authController));
+    this._router.post(
+      "/login",
+      validationMiddleware(LoginReqDTO),
+      authController.login.bind(authController)
+    );
 
     this._router.post(
       "/googleAuth",

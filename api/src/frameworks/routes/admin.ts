@@ -7,7 +7,7 @@ import {
   adminMentorController,
   adminStudentController,
   authMiddleware,
-} from "frameworks/di/resolver";
+} from "infrastructure/dependencyInjection/resolver";
 import { formDataParserFormatter } from "interfaceAdapters/middlewares/imageFormatter.middleware";
 import { validationMiddleware } from "interfaceAdapters/middlewares/validation.middleware";
 import { ROLES } from "shared/constants";

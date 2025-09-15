@@ -5,7 +5,7 @@ import {
   commonController,
   commonDomainController,
   fcmTokenController,
-} from "frameworks/di/resolver";
+} from "infrastructure/dependencyInjection/resolver";
 import { ROLES } from "shared/constants";
 
 interface MulterRequest extends Request {
