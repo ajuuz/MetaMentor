@@ -1,7 +1,7 @@
 import { IMentorEntity } from "domain/entities/mentor-model.entity";
 import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
 import { IUpdateMentorApplicationUsecase } from "application/usecase/interfaces/mentor/updateMentorApplicationUsecase.interface";
-import { UpdateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
+import { UpdateMentorApplicationReqDTO } from "application/dto/requset/mentor.dto";
 import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
 

@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 import {
   RazorPayCreateOrderReqDTO,
   VerifyPaymentReqDTO,
-} from "shared/dto/request/payment.dto";
+} from "application/dto/requset/payment.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 

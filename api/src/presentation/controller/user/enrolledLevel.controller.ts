@@ -2,7 +2,7 @@ import { IUserEnrolledLevelController } from "application/interfaces/controller/
 import { ISaveLevelAssignmentUsecase } from "application/usecase/interfaces/enrolledLevel/saveLevelAssignmentUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
-import { SaveAssignmentReqDTO } from "shared/dto/request/enrolledLevel.dto";
+import { SaveAssignmentReqDTO } from "application/dto/requset/enrolledLevel.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

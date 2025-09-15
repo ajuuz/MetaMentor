@@ -12,7 +12,7 @@ import {
   GetAllDomainsForAdminReqDTO,
   GetDomainForAdminReqDTO,
   UpdateDomainStatusDTO,
-} from "shared/dto/request/domain.dto";
+} from "application/dto/requset/domain.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

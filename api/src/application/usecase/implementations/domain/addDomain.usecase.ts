@@ -5,7 +5,7 @@ import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepos
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
 import { IAddDomainUsecase } from "application/usecase/interfaces/domain/addDomainUsecase.interface";
-import { CreateDomainReqDTO } from "shared/dto/request/domain.dto";
+import { CreateDomainReqDTO } from "application/dto/requset/domain.dto";
 import { inject, injectable } from "tsyringe";
 
 type CreateCommunity = Omit<ICommunityEntity, "_id" | "isBlocked">;

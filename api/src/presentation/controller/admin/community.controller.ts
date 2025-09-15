@@ -6,7 +6,7 @@ import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import {
   GetCommunitiesForAdminReqDTO,
   UpdateCommunityStatusDTO,
-} from "shared/dto/request/community.dto";
+} from "application/dto/requset/community.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

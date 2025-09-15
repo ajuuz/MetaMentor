@@ -14,25 +14,25 @@ import { ROLES } from "shared/constants";
 import {
   GetCommunitiesForAdminReqDTO,
   UpdateCommunityStatusDTO,
-} from "shared/dto/request/community.dto";
+} from "application/dto/requset/community.dto";
 import {
   CreateDomainReqDTO,
   EditDomainReqDTO,
   GetAllDomainsForAdminReqDTO,
   GetDomainForAdminReqDTO,
   UpdateDomainStatusDTO,
-} from "shared/dto/request/domain.dto";
-import { UpdateLevelStatusDTO } from "shared/dto/request/level.dto";
+} from "application/dto/requset/domain.dto";
+import { UpdateLevelStatusDTO } from "application/dto/requset/level.dto";
 import {
   GetAllMentorsReqDTO,
   GetSpecificMentorReqDTO,
   MentorApplicationVerificationReqDTO,
   UpdateMentorStatusReqDTO,
-} from "shared/dto/request/mentor.dto";
+} from "application/dto/requset/mentor.dto";
 import {
   GetAllStudentReqDTO,
   UpdateStudentStatusReqDTO,
-} from "shared/dto/request/student.dto";
+} from "application/dto/requset/student.dto";
 
 export class AdminRoutes {
   private _router: Router;

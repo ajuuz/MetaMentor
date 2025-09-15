@@ -1,7 +1,7 @@
 import { plainToInstance } from "class-transformer";
 import { IGetMentorsUsecase } from "application/usecase/interfaces/mentor/getMentorsUsecase.interface";
 import { IGetMentorsForAdminUsecase } from "application/usecase/interfaces/mentor/getMentorsForAdmin.interface";
-import { GetMentorsForAdminResDTO } from "shared/dto/response/mentor.dto";
+import { GetMentorsForAdminResDTO } from "application/dto/response/mentor.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

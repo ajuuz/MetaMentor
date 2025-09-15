@@ -6,7 +6,7 @@ import {
   DomainSlotsResponseDTO,
   SlotDTO,
   WeekSlotsRequestDTO,
-} from "shared/dto/slotDTO";
+} from "application/dto/slotDTO";
 
 export interface ISlotRepository
   extends BaseRepository<ISlotEntity, ISlotModel> {

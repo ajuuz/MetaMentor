@@ -3,7 +3,7 @@ import { IGetSpecificUserUsecase } from "application/usecase/interfaces/user/get
 import { IUpdateUserUsecase } from "application/usecase/interfaces/user/updateUserUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
-import { UpdateUserDetailsReqDTO } from "shared/dto/request/user.dto";
+import { UpdateUserDetailsReqDTO } from "application/dto/requset/user.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 

@@ -1,4 +1,4 @@
-import { GetEnrolledDomainsResDTO } from "shared/dto/response/domain.dto";
+import { GetEnrolledDomainsResDTO } from "application/dto/response/domain.dto";
 
 export interface IGetEnrolledDomainsUsecase {
   execute(

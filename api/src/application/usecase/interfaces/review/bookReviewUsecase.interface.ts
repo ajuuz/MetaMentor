@@ -1,6 +1,6 @@
 import { IReviewEntity } from "domain/entities/reviewModel.entity";
 import { IReviewModel } from "infrastructure/database/models/bookedSlot.model";
-import { BookReviewReqDTO } from "shared/dto/request/payment.dto";
+import { BookReviewReqDTO } from "application/dto/requset/payment.dto";
 
 type ReviewDetails = Omit<IReviewEntity, "">;
 

@@ -6,7 +6,7 @@ import { HTTP_STATUS } from "shared/constants";
 import {
   GetMentorsForStudReqDTO,
   UpdateMentorApplicationReqDTO,
-} from "shared/dto/request/mentor.dto";
+} from "application/dto/requset/mentor.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 import { IUpdateMentorApplicationUsecase } from "application/usecase/interfaces/mentor/updateMentorApplicationUsecase.interface";

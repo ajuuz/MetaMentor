@@ -1,8 +1,8 @@
-import { GetAllStudentReqDTO } from "shared/dto/request/student.dto";
-import { GetStudentsForAdminResDTO } from "shared/dto/response/student.dto";
+import { GetAllStudentReqDTO } from "application/dto/requset/student.dto";
+import { GetStudentsForAdminResDTO } from "application/dto/response/student.dto";
 
 export interface IGetAllStudentsUsecase {
   execute(
-    fetchDetails:GetAllStudentReqDTO
+    fetchDetails: GetAllStudentReqDTO
   ): Promise<{ students: GetStudentsForAdminResDTO[]; totalPages: number }>;
 }

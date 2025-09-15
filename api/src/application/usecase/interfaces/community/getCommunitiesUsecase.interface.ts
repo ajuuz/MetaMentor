@@ -1,4 +1,4 @@
-import { GetCommunitiesForAdminResDTO } from "shared/dto/response/community.dto";
+import { GetCommunitiesForAdminResDTO } from "application/dto/response/community.dto";
 
 export interface IGetCommunitiesUsecase {
   execute(

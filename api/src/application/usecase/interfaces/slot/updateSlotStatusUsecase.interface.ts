@@ -1,4 +1,4 @@
-import { UpdateSlotStatusReqDTO } from "shared/dto/request/slot.dto";
+import { UpdateSlotStatusReqDTO } from "application/dto/requset/slot.dto";
 
 export interface IUpdateSlotStatusUsecase {
   execute(

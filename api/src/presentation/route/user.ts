@@ -15,31 +15,31 @@ import {
 import { formDataParserFormatter } from "presentation/middleware/imageFormatter.middleware";
 import { validationMiddleware } from "presentation/middleware/validation.middleware";
 import { ROLES } from "shared/constants";
-import { GetCommunitiesForStudReqDTO } from "shared/dto/request/community.dto";
+import { GetCommunitiesForStudReqDTO } from "application/dto/requset/community.dto";
 import {
   EnrollDomainReqDTO,
   GetAllDomainsForStudReqDTO,
   GetDomainDashboardForStudReqDTO,
   GetDomainInsightReqDTO,
   GetSpecificDomainForStudReqDTO,
-} from "shared/dto/request/domain.dto";
-import { SaveAssignmentReqDTO } from "shared/dto/request/enrolledLevel.dto";
+} from "application/dto/requset/domain.dto";
+import { SaveAssignmentReqDTO } from "application/dto/requset/enrolledLevel.dto";
 import {
   GetMentorsForStudReqDTO,
   UpdateMentorApplicationReqDTO,
-} from "shared/dto/request/mentor.dto";
+} from "application/dto/requset/mentor.dto";
 import {
   CancelReviewByStudReqDTO,
   GetAllReviewsForStudReqDTO,
   GetReviewByDayForStudReqDTO,
   RescheduleReviewByStudReqDTO,
-} from "shared/dto/request/review.dto";
+} from "application/dto/requset/review.dto";
 import {
   GetDomainSlotsForStudReqDTO,
   GetSlotsForStudReqDTO,
   SlotValidityCheckReqDTO,
-} from "shared/dto/request/slot.dto";
-import { UpdateUserDetailsReqDTO } from "shared/dto/request/user.dto";
+} from "application/dto/requset/slot.dto";
+import { UpdateUserDetailsReqDTO } from "application/dto/requset/user.dto";
 
 export class UserRoutes {
   private _router: Router;

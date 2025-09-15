@@ -8,7 +8,7 @@ import { Request, Response } from "express";
 import {
   UpdateSlotReqDTO,
   UpdateSlotStatusReqDTO,
-} from "shared/dto/request/slot.dto";
+} from "application/dto/requset/slot.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 

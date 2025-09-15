@@ -1,4 +1,4 @@
-import { LoginResDTO } from "shared/dto/response/auth.dto";
+import { LoginResDTO } from "application/dto/response/auth.dto";
 
 export interface IGoogleAuthUsecase {
   execute(idToken: string): Promise<{

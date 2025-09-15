@@ -1,7 +1,7 @@
 import { plainToInstance } from "class-transformer";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
 import { IGetSpecificUserUsecase } from "application/usecase/interfaces/user/getSpecificUserUsecase.interface";
-import { GetUserDetailsResDTO } from "shared/dto/response/user.dto";
+import { GetUserDetailsResDTO } from "application/dto/response/user.dto";
 import { NotFoundError } from "domain/errors/notFounError";
 import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";

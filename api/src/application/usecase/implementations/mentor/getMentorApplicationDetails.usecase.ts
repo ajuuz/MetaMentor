@@ -1,7 +1,7 @@
 import { plainToInstance } from "class-transformer";
 import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
 import { IGetMentorApplicationDetailsUsecase } from "application/usecase/interfaces/mentor/getMentorApplicationDetailsUsecase.interface";
-import { GetMentorApplicationResDTO } from "shared/dto/response/mentor.dto";
+import { GetMentorApplicationResDTO } from "application/dto/response/mentor.dto";
 import { NotFoundError } from "domain/errors/notFounError";
 import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";

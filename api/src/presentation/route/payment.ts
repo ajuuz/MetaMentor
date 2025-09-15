@@ -8,7 +8,7 @@ import { ROLES } from "shared/constants";
 import {
   RazorPayCreateOrderReqDTO,
   VerifyPaymentReqDTO,
-} from "shared/dto/request/payment.dto";
+} from "application/dto/requset/payment.dto";
 
 export class PaymentRoutes {
   private _router: Router;

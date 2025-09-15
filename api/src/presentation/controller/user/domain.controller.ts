@@ -14,7 +14,7 @@ import {
   GetDomainDashboardForStudReqDTO,
   GetDomainInsightReqDTO,
   GetSpecificDomainForStudReqDTO,
-} from "shared/dto/request/domain.dto";
+} from "application/dto/requset/domain.dto";
 
 @injectable()
 export class UserDomainController implements IUserDomainController {

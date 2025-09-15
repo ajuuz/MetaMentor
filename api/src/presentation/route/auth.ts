@@ -12,7 +12,7 @@ import {
   OtpReqDTO,
   ResendOtpReqDTO,
   UserRegisterDTO,
-} from "shared/dto/request/auth.dto";
+} from "application/dto/requset/auth.dto";
 
 export class AuthRoutes {
   private _router: Router;

@@ -7,7 +7,7 @@ import {
   GetDomainSlotsForStudReqDTO,
   GetSlotsForStudReqDTO,
   SlotValidityCheckReqDTO,
-} from "shared/dto/request/slot.dto";
+} from "application/dto/requset/slot.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

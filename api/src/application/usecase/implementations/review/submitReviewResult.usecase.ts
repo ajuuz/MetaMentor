@@ -2,7 +2,7 @@ import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.
 import { IPushNotificationService } from "application/interfaces/service/pushNotificationService.interface";
 import { ISubmitReviewResultUsecase } from "application/usecase/interfaces/review/submitReviewFeedBackUsecase.interface";
 import { NOTIFICATION_MESSAGE, NOTIFICATION_TITLE } from "shared/constants";
-import { SubmitReviewResultReqDTO } from "shared/dto/request/review.dto";
+import { SubmitReviewResultReqDTO } from "application/dto/requset/review.dto";
 import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
 

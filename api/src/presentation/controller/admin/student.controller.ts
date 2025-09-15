@@ -6,7 +6,7 @@ import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import {
   GetAllStudentReqDTO,
   UpdateStudentStatusReqDTO,
-} from "shared/dto/request/student.dto";
+} from "application/dto/requset/student.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

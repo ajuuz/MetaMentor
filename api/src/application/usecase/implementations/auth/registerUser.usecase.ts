@@ -7,7 +7,7 @@ import {
   HTTP_STATUS,
   MAIL_CONTENT_PURPOSE,
 } from "shared/constants";
-import { UserRegisterDTO } from "shared/dto/request/auth.dto";
+import { UserRegisterDTO } from "application/dto/requset/auth.dto";
 import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/mailContentProvider";
 import { hashPassword } from "shared/utils/bcryptHelper";

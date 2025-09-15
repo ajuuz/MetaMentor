@@ -3,7 +3,7 @@ import { ICreateLevelEntity } from "domain/entities/levelModel.entity";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
 import { IEditDomainUsecase } from "application/usecase/interfaces/domain/editDomainUsecase";
-import { EditDomainReqDTO } from "shared/dto/request/domain.dto";
+import { EditDomainReqDTO } from "application/dto/requset/domain.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

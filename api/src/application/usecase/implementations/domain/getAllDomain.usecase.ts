@@ -3,7 +3,7 @@ import { IDomainEntity } from "domain/entities/domainModel.entity";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import { IGetAllDomainsUsecase } from "application/usecase/interfaces/domain/getDomainUsecase.interface";
 import { SORT_ORDER } from "shared/constants";
-import { GetDomainsForAdminResDTO } from "shared/dto/response/domain.dto";
+import { GetDomainsForAdminResDTO } from "application/dto/response/domain.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

@@ -12,7 +12,7 @@ import {
   GetReviewsForMentorReqDTO,
   GetReviewForMentorReqDTO,
   SubmitReviewResultReqDTO,
-} from "shared/dto/request/review.dto";
+} from "application/dto/requset/review.dto";
 import { IGetReviewByDayForStudUsecase } from "application/usecase/interfaces/review/getReviewByDayForStudUsecase.interface";
 import { IRescheduleReviewSubmitByMentor } from "application/usecase/interfaces/review/rescheduleReviewSubmitByMentorUsecase.interface";
 

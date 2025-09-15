@@ -10,7 +10,7 @@ import {
   GetAllReviewsForStudReqDTO,
   GetReviewByDayForStudReqDTO,
   RescheduleReviewByStudReqDTO,
-} from "shared/dto/request/review.dto";
+} from "application/dto/requset/review.dto";
 import { IGetReviewByDayForStudUsecase } from "application/usecase/interfaces/review/getReviewByDayForStudUsecase.interface";
 import { IRescheduleReviewByStudentUsecase } from "application/usecase/interfaces/review/rescheduleReviewByStudentUsecase.interface";
 

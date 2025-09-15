@@ -9,20 +9,20 @@ import {
 import { formDataParserFormatter } from "presentation/middleware/imageFormatter.middleware";
 import { validationMiddleware } from "presentation/middleware/validation.middleware";
 import { ROLES } from "shared/constants";
-import { CreateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
+import { CreateMentorApplicationReqDTO } from "application/dto/requset/mentor.dto";
 import {
   CancelReviewByMentorReqDTO,
   GetReviewsForMentorReqDTO,
   GetReviewForMentorReqDTO,
   SubmitReviewResultReqDTO,
   GetReviewByDayForMentReqDTO,
-} from "shared/dto/request/review.dto";
+} from "application/dto/requset/review.dto";
 import {
   GetSlotsOfADayForMentReqDTO,
   SlotValidityCheckForMentReqDTO,
   UpdateSlotReqDTO,
   UpdateSlotStatusReqDTO,
-} from "shared/dto/request/slot.dto";
+} from "application/dto/requset/slot.dto";
 
 export class MentorRoutes {
   private _router: Router;

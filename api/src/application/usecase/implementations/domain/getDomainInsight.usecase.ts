@@ -6,9 +6,9 @@ import { IEnrolledLevelRepository } from "domain/repositoryInterfaces/enrolledLe
 import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IGetDomainInsightUsecase } from "application/usecase/interfaces/domain/getDomainInsightUsecase.interface";
-import { GetDomainResDTO } from "shared/dto/response/domain.dto";
-import { EnrolledLevelResDTO } from "shared/dto/response/enrolledLevel.dto";
-import { GetReviewsForStudAndDomainResDTO } from "shared/dto/response/review.dto";
+import { GetDomainResDTO } from "application/dto/response/domain.dto";
+import { EnrolledLevelResDTO } from "application/dto/response/enrolledLevel.dto";
+import { GetReviewsForStudAndDomainResDTO } from "application/dto/response/review.dto";
 import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
 

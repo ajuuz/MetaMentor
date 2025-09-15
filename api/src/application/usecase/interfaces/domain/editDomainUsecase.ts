@@ -1,7 +1,5 @@
-import {  EditDomainReqDTO } from "shared/dto/request/domain.dto";
+import { EditDomainReqDTO } from "application/dto/requset/domain.dto";
 
-
-
-export interface IEditDomainUsecase{
-    execute(updationDetails:EditDomainReqDTO):Promise<void>
+export interface IEditDomainUsecase {
+  execute(updationDetails: EditDomainReqDTO): Promise<void>;
 }

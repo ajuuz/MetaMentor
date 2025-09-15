@@ -1,4 +1,4 @@
-import { GetMentorsForAdminResDTO } from "shared/dto/response/mentor.dto";
+import { GetMentorsForAdminResDTO } from "application/dto/response/mentor.dto";
 
 export interface IGetMentorsForAdminUsecase {
   execute(

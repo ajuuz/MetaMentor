@@ -1,7 +1,7 @@
 import { plainToInstance } from "class-transformer";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IGetReviewForMentorUsecase } from "application/usecase/interfaces/review/getReviewForMentorUsecase.interface";
-import { GetReviewForMentResDTO } from "shared/dto/response/review.dto";
+import { GetReviewForMentResDTO } from "application/dto/response/review.dto";
 import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
 

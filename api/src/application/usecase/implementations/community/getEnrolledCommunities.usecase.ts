@@ -1,9 +1,9 @@
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
 import { IGetEnrolledCommunitiesUsecase } from "application/usecase/interfaces/community/getEnrolledCommunitiesUsecase.interface";
-import { GetAllDomainsResponseDTO } from "shared/dto/domainDTO";
 import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
+import { IDomainEntity } from "domain/entities/domainModel.entity";
 
 @injectable()
 export class GetEnrolledCommunitiesUsecase
@@ -21,7 +21,10 @@ export class GetEnrolledCommunitiesUsecase
     userId: string,
     currentPage: number,
     limit: number
-  ): Promise<Omit<GetAllDomainsResponseDTO, "totalDocuments">> {
+  ): Promise<{
+    domains: IDomainEntity[];
+    totalPages: number;
+  }> {
     const filter = { userId };
     const student = await this._studentRepository.findOne(filter);
     if (!student) throw new NotFoundError("User not found");

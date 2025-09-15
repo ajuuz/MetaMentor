@@ -1,6 +1,5 @@
-import { GetProfessionalDetailsResDTO } from "shared/dto/response/mentor.dto";
+import { GetProfessionalDetailsResDTO } from "application/dto/response/mentor.dto";
 
-
-export interface IGetProfessionalDetailsUsecase{
-    execute(userId: string): Promise<GetProfessionalDetailsResDTO>
+export interface IGetProfessionalDetailsUsecase {
+  execute(userId: string): Promise<GetProfessionalDetailsResDTO>;
 }

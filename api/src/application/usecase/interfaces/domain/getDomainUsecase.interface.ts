@@ -1,4 +1,4 @@
-import { GetDomainsForAdminResDTO } from "shared/dto/response/domain.dto";
+import { GetDomainsForAdminResDTO } from "application/dto/response/domain.dto";
 
 export interface IGetAllDomainsUsecase {
   execute(

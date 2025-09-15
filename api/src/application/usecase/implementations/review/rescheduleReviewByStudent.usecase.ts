@@ -15,7 +15,7 @@ import {
   ROLES,
   TRANSACTION_TYPE,
 } from "shared/constants";
-import { RescheduleReviewByStudReqDTO } from "shared/dto/request/review.dto";
+import { RescheduleReviewByStudReqDTO } from "application/dto/requset/review.dto";
 import { CustomError } from "domain/errors/customError";
 import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";

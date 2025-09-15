@@ -9,7 +9,7 @@ import {
   DomainSlotsResponseDTO,
   SlotDTO,
   WeekSlotsRequestDTO,
-} from "shared/dto/slotDTO";
+} from "application/dto/slotDTO";
 
 import { BaseRepository } from "./base.repository";
 import { DAYS } from "shared/constants";

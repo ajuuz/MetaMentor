@@ -3,7 +3,7 @@ import { ICreateMentorApplicationUsecase } from "application/usecase/interfaces/
 import { IGetProfessionalDetailsUsecase } from "application/usecase/interfaces/mentor/getProfessionalDetailsUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
-import { CreateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
+import { CreateMentorApplicationReqDTO } from "application/dto/requset/mentor.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 

@@ -12,7 +12,7 @@ import {
   GetSpecificMentorReqDTO,
   MentorApplicationVerificationReqDTO,
   UpdateMentorStatusReqDTO,
-} from "shared/dto/request/mentor.dto";
+} from "application/dto/requset/mentor.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

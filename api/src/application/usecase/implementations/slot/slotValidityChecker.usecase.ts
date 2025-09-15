@@ -2,7 +2,7 @@ import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.
 import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
 import { ISlotValidityCheckerUsecase } from "application/usecase/interfaces/slot/slotValidityCheckerUsecase.interface";
 import { ERROR_MESSAGE, HTTP_STATUS } from "shared/constants";
-import { SlotDTO } from "shared/dto/slotDTO";
+import { SlotDTO } from "application/dto/slotDTO";
 import { CustomError } from "domain/errors/customError";
 import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";

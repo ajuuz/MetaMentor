@@ -5,7 +5,7 @@ import {
   userModel,
 } from "infrastructure/database/models/user.model";
 import { FilterQuery } from "mongoose";
-import { IuserRegisterData } from "shared/dto/request/auth.dto";
+import { IuserRegisterData } from "application/dto/requset/auth.dto";
 import { injectable } from "tsyringe";
 
 @injectable()

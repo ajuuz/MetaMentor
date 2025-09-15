@@ -1,5 +1,8 @@
-import { VerifyPaymentReqDTO } from "shared/dto/request/payment.dto";
+import { VerifyPaymentReqDTO } from "application/dto/requset/payment.dto";
 
-export interface IVerifyPaymentUsecase{
-    execute(studentId:string,paymentAndReviewDetails:VerifyPaymentReqDTO):Promise<void>
+export interface IVerifyPaymentUsecase {
+  execute(
+    studentId: string,
+    paymentAndReviewDetails: VerifyPaymentReqDTO
+  ): Promise<void>;
 }

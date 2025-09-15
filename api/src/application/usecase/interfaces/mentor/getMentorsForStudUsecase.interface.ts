@@ -1,4 +1,4 @@
-import { GetMentorsForStudResDTO } from "shared/dto/response/mentor.dto";
+import { GetMentorsForStudResDTO } from "application/dto/response/mentor.dto";
 
 export interface IGetMentorsForStudUsecase {
   execute(
@@ -6,6 +6,6 @@ export interface IGetMentorsForStudUsecase {
     searchTerm: string,
     selectedDomains: string,
     currentPage: number,
-    limit: number,
-  ): Promise<{ mentors: GetMentorsForStudResDTO[]; totalPages: number }> ;
+    limit: number
+  ): Promise<{ mentors: GetMentorsForStudResDTO[]; totalPages: number }>;
 }

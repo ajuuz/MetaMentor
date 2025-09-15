@@ -6,7 +6,7 @@ import {
   REVIEW_FILTER_STATUS,
   REVIEW_STATUS,
 } from "shared/constants";
-import { GetReviewsForMentResDTO } from "shared/dto/response/review.dto";
+import { GetReviewsForMentResDTO } from "application/dto/response/review.dto";
 import { dateRangeCalculator } from "shared/utils/dateRangeCalculator";
 import { inject, injectable } from "tsyringe";
 

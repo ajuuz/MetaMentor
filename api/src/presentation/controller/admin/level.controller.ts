@@ -2,7 +2,7 @@ import { IAdminLevelController } from "application/interfaces/controller/admin/l
 import { IUpdateLevelStatusUsecase } from "application/usecase/interfaces/level/updateLevelStatusUsecase.interface";
 import { Request, Response } from "express";
 import { SUCCESS_MESSAGE } from "shared/constants";
-import { UpdateLevelStatusDTO } from "shared/dto/request/level.dto";
+import { UpdateLevelStatusDTO } from "application/dto/requset/level.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

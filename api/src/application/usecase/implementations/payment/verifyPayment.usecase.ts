@@ -7,7 +7,7 @@ import { ICreateTransactionUsecase } from "application/usecase/interfaces/transa
 import { ICreditWalletUsecase } from "application/usecase/interfaces/wallet/creditWalletUsecase.inteface";
 import { config } from "shared/config";
 import { HTTP_STATUS, TRANSACTION_TYPE } from "shared/constants";
-import { VerifyPaymentReqDTO } from "shared/dto/request/payment.dto";
+import { VerifyPaymentReqDTO } from "application/dto/requset/payment.dto";
 import { CustomError } from "domain/errors/customError";
 import { inject, injectable } from "tsyringe";
 

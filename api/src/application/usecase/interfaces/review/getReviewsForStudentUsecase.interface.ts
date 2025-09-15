@@ -1,5 +1,5 @@
 import { PENDING_REVIEW_STATE, REVIEW_FILTER_STATUS } from "shared/constants";
-import { GetReviewsForStudResDTO } from "shared/dto/response/review.dto";
+import { GetReviewsForStudResDTO } from "application/dto/response/review.dto";
 
 export interface IGetReviewsForStudentUsecase {
   execute(

@@ -2,7 +2,7 @@ import { plainToInstance } from "class-transformer";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
 import { IGetEnrolledDomainsUsecase } from "application/usecase/interfaces/domain/getDomainDashboardUsecase.interface";
-import { GetEnrolledDomainsResDTO } from "shared/dto/response/domain.dto";
+import { GetEnrolledDomainsResDTO } from "application/dto/response/domain.dto";
 import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
 

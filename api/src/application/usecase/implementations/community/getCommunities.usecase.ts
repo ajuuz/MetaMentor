@@ -2,7 +2,7 @@ import { plainToInstance } from "class-transformer";
 import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
 import { IGetCommunitiesUsecase } from "application/usecase/interfaces/community/getCommunitiesUsecase.interface";
 import { SORT_ORDER } from "shared/constants";
-import { GetCommunitiesForAdminResDTO } from "shared/dto/response/community.dto";
+import { GetCommunitiesForAdminResDTO } from "application/dto/response/community.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

@@ -9,10 +9,10 @@ import { inject, injectable } from "tsyringe";
 import { AuthError } from "domain/errors/authError";
 import { CustomError } from "domain/errors/customError";
 import { NotFoundError } from "domain/errors/notFounError";
-import { IGoogleRegisterData } from "shared/dto/request/auth.dto";
+import { IGoogleRegisterData } from "application/dto/requset/auth.dto";
 import { HTTP_STATUS } from "shared/constants";
 import { plainToInstance } from "class-transformer";
-import { LoginResDTO } from "shared/dto/response/auth.dto";
+import { LoginResDTO } from "application/dto/response/auth.dto";
 
 @injectable()
 export class GoogleAuthUsecase implements IGoogleAuthUsecase {

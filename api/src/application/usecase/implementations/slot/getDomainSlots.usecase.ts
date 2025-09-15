@@ -2,8 +2,8 @@ import { plainToInstance } from "class-transformer";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
 import { IGetDomainSlotsUsecase } from "application/usecase/interfaces/slot/getDomainSlotsUsecase.interface";
-import { GetBookedReviewSlotsResDTO } from "shared/dto/response/review.dto";
-import { GetSlotsForStudResDTO } from "shared/dto/response/slot.dto";
+import { GetBookedReviewSlotsResDTO } from "application/dto/response/review.dto";
+import { GetSlotsForStudResDTO } from "application/dto/response/slot.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

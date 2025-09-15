@@ -1,6 +1,8 @@
-import { UpdateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
+import { UpdateMentorApplicationReqDTO } from "application/dto/requset/mentor.dto";
 
-
-export interface IUpdateMentorApplicationUsecase{
-    execute(userId:string,mentorDetails:UpdateMentorApplicationReqDTO):Promise<void>
+export interface IUpdateMentorApplicationUsecase {
+  execute(
+    userId: string,
+    mentorDetails: UpdateMentorApplicationReqDTO
+  ): Promise<void>;
 }
