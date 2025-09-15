@@ -2,10 +2,10 @@ import { IEmailService } from "application/interfaces/service/email-service.inte
 import { ILoggerService } from "application/interfaces/service/loggerService.interface";
 import { IPushNotificationService } from "application/interfaces/service/pushNotificationService.interface";
 import { ITokenService } from "application/interfaces/service/tokenService.interface";
-import { EmailService } from "interfaceAdapters/services/email.service";
-import { LoggerService } from "interfaceAdapters/services/logger.service";
-import { PushNotificationService } from "interfaceAdapters/services/pushNotification.service";
-import { TokenService } from "interfaceAdapters/services/token.service";
+import { EmailService } from "infrastructure/service/email.service";
+import { LoggerService } from "infrastructure/service/logger.service";
+import { PushNotificationService } from "infrastructure/service/pushNotification.service";
+import { TokenService } from "infrastructure/service/token.service";
 import { container } from "tsyringe";
 
 export class ServiceRegistory {
