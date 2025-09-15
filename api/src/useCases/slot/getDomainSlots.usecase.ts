@@ -1,6 +1,6 @@
 import { plainToInstance } from "class-transformer";
-import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
-import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
+import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
 import { IGetDomainSlotsUsecase } from "entities/usecaseInterfaces/slot/getDomainSlotsUsecase.interface";
 import { GetBookedReviewSlotsResDTO } from "shared/dto/response/review.dto";
 import { GetSlotsForStudResDTO } from "shared/dto/response/slot.dto";
@@ -16,9 +16,7 @@ export class GetDomainSlotsUsecase implements IGetDomainSlotsUsecase {
     private _reviewRepository: IReviewRepository
   ) {}
 
-  async execute(
-    domainId: string
-  ): Promise<{
+  async execute(domainId: string): Promise<{
     domainSlots: GetSlotsForStudResDTO[];
     bookedSlots: GetBookedReviewSlotsResDTO[];
   }> {

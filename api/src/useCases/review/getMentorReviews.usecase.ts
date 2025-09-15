@@ -1,5 +1,5 @@
 import { plainToInstance } from "class-transformer";
-import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IGetMentorReviewsUsecase } from "entities/usecaseInterfaces/review/getMentorReviewsUsecase.interface";
 import {
   PENDING_REVIEW_STATE,
@@ -25,7 +25,7 @@ export class GetMentorReviewsUsecase implements IGetMentorReviewsUsecase {
     limit: number,
     pendingReviewState?: PENDING_REVIEW_STATE | undefined
   ): Promise<{ reviews: GetReviewsForMentResDTO[]; totalPages: number }> {
-    console.log("usecase working")
+    console.log("usecase working");
     const skip: number = (currentPage - 1) * limit;
     let filter: any = { mentorId };
     switch (status) {

@@ -1,5 +1,5 @@
 import { ISlotEntity, ISlotTime } from "domain/entities/slotModel.entity";
-import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
+import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
 import { ISlotModel, slotModel } from "frameworks/database/models/slot.model";
 import mongoose from "mongoose";
 import {

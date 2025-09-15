@@ -1,22 +1,22 @@
-import { IBlackListTokenRepository } from "entities/repositoryInterfaces/blackListTokenRepository.interface";
-import { ICommentRepository } from "entities/repositoryInterfaces/commentRepository.interface";
-import { ICommunityPostRepository } from "entities/repositoryInterfaces/communityPostRepository.interface";
-import { ICommunityRepository } from "entities/repositoryInterfaces/communityRepository.interface";
-import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
-import { IEnrolledLevelRepository } from "entities/repositoryInterfaces/enrolledLevelRepository.interface";
-import { IFcmTokenRepository } from "entities/repositoryInterfaces/fcmTokenRepository.interface";
-import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
-import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
-import { INotificationRepository } from "entities/repositoryInterfaces/notificationRepository.interface";
-import { IOtpRespository } from "entities/repositoryInterfaces/otp-repository.interface";
-import { IRescheduleReviewRepository } from "entities/repositoryInterfaces/rescheduleReviewRepository.interface";
-import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
-import { ISequenceNumberRepository } from "entities/repositoryInterfaces/sequenceNumberRepository.interface";
-import { ISlotLockRepository } from "entities/repositoryInterfaces/slotLockRepository.interface";
-import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
-import { ITransactionRepository } from "entities/repositoryInterfaces/transactionRepository.interface";
-import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
-import { IWalletRepository } from "entities/repositoryInterfaces/walletRepository.inteface";
+import { IBlackListTokenRepository } from "domain/repositoryInterfaces/blackListTokenRepository.interface";
+import { ICommentRepository } from "domain/repositoryInterfaces/commentRepository.interface";
+import { ICommunityPostRepository } from "domain/repositoryInterfaces/communityPostRepository.interface";
+import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
+import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
+import { IEnrolledLevelRepository } from "domain/repositoryInterfaces/enrolledLevelRepository.interface";
+import { IFcmTokenRepository } from "domain/repositoryInterfaces/fcmTokenRepository.interface";
+import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
+import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
+import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
+import { IOtpRespository } from "domain/repositoryInterfaces/otp-repository.interface";
+import { IRescheduleReviewRepository } from "domain/repositoryInterfaces/rescheduleReviewRepository.interface";
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
+import { ISequenceNumberRepository } from "domain/repositoryInterfaces/sequenceNumberRepository.interface";
+import { ISlotLockRepository } from "domain/repositoryInterfaces/slotLockRepository.interface";
+import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
+import { ITransactionRepository } from "domain/repositoryInterfaces/transactionRepository.interface";
+import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
+import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
 import { BlackListTokenRepository } from "interfaceAdapters/repositories/blackListToken.repository";
 import { CommentRepository } from "interfaceAdapters/repositories/comment.repository";
 import { CommunityRepository } from "interfaceAdapters/repositories/community.repository";
@@ -119,8 +119,11 @@ export class RepositoryRegistry {
     });
 
     //reschedule review
-    container.register<IRescheduleReviewRepository>("IRescheduleReviewRepository", {
-      useClass: RescheduleReviewRepository,
-    });
+    container.register<IRescheduleReviewRepository>(
+      "IRescheduleReviewRepository",
+      {
+        useClass: RescheduleReviewRepository,
+      }
+    );
   }
 }

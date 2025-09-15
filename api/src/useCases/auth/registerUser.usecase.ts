@@ -1,6 +1,6 @@
 import { IUserEntity } from "domain/entities/user-model.entity";
-import { IOtpRespository } from "entities/repositoryInterfaces/otp-repository.interface";
-import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
+import { IOtpRespository } from "domain/repositoryInterfaces/otp-repository.interface";
+import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
 import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
 import {
   EVENT_EMITTER_TYPE,
@@ -11,7 +11,7 @@ import { UserRegisterDTO } from "shared/dto/request/auth.dto";
 import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/mailContentProvider";
 import { hashPassword } from "shared/utils/bcryptHelper";
-import { CustomError } from "shared/utils/error/customError";
+import { CustomError } from "domain/errors/customError";
 import {
   ISuccessResponseHandler,
   successResponseHandler,

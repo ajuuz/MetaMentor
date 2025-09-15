@@ -1,11 +1,11 @@
 import { plainToInstance } from "class-transformer";
 import { ILevelEntity } from "domain/entities/levelModel.entity";
-import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
-import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
+import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
+import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
 import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/getSpecificDomainUsecase.interface";
 import { GetDomainResDTO } from "shared/dto/response/domain.dto";
 import { LevelResDTO } from "shared/dto/response/level.dto";
-import { NotFoundError } from "shared/utils/error/notFounError";
+import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
 
 type ReturnType = GetDomainResDTO & { levels: LevelResDTO[] };

@@ -1,8 +1,8 @@
 import { plainToInstance } from "class-transformer";
-import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
+import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
 import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
 import { WeekSlotDTO } from "shared/dto/response/slot.dto";
-import { NotFoundError } from "shared/utils/error/notFounError";
+import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -17,8 +17,8 @@ export class GetMentorSlotsUsecase implements IGetMentorSlotsUsecase {
     const slot = await this._slotRepository.findOne(fitler);
     if (!slot) throw new NotFoundError("slots not found");
     const weekSlots = plainToInstance(WeekSlotDTO, slot.weekSlots, {
-        excludeExtraneousValues:true
+      excludeExtraneousValues: true,
     });
-    return weekSlots
+    return weekSlots;
   }
 }

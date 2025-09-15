@@ -1,4 +1,4 @@
-import { ISlotLockRepository } from "entities/repositoryInterfaces/slotLockRepository.interface";
+import { ISlotLockRepository } from "domain/repositoryInterfaces/slotLockRepository.interface";
 import { RedisClient } from "frameworks/redis/redisClient";
 import { injectable } from "tsyringe";
 
@@ -18,15 +18,15 @@ export class SlotLockRepository implements ISlotLockRepository {
       const key = `slotId:${slotId[i]}`;
       const redisClient = await RedisClient.getClient();
       const value = await redisClient.get(key);
-      if(value === "locked"){
-        if(i===0) whichSlot='first';
-        else{
-            if(whichSlot==='first') whichSlot='both'
-            else whichSlot ='second'
+      if (value === "locked") {
+        if (i === 0) whichSlot = "first";
+        else {
+          if (whichSlot === "first") whichSlot = "both";
+          else whichSlot = "second";
         }
       }
     }
-    return whichSlot
+    return whichSlot;
   }
 
   async unlockSlot(slotId: string): Promise<void> {

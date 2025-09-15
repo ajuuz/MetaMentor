@@ -1,5 +1,5 @@
 import { plainToInstance } from "class-transformer";
-import { ICommunityRepository } from "entities/repositoryInterfaces/communityRepository.interface";
+import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
 import { IGetCommunitiesUsecase } from "entities/usecaseInterfaces/community/getCommunitiesUsecase.interface";
 import { SORT_ORDER } from "shared/constants";
 import { GetCommunitiesForAdminResDTO } from "shared/dto/response/community.dto";
@@ -17,7 +17,10 @@ export class GetCommunitiesUsecase implements IGetCommunitiesUsecase {
     limit: number,
     sortBy: string,
     searchTerm: string
-  ): Promise<{communities:GetCommunitiesForAdminResDTO[],totalPages:number}> {
+  ): Promise<{
+    communities: GetCommunitiesForAdminResDTO[];
+    totalPages: number;
+  }> {
     const filter: Record<string, string | string[]> = {};
     const skip: number = (currentPage - 1) * limit;
 

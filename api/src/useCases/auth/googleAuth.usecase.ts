@@ -1,14 +1,14 @@
-import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
-import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
-import { IWalletRepository } from "entities/repositoryInterfaces/walletRepository.inteface";
+import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
+import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
+import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { IGoogleAuthUsecase } from "entities/usecaseInterfaces/auth/googleAuthUsecase.interface";
 import { FirebaseAdminConfig } from "frameworks/firebase/firebaseAdmin";
 import { JwtPayload } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
-import { AuthError } from "shared/utils/error/authError";
-import { CustomError } from "shared/utils/error/customError";
-import { NotFoundError } from "shared/utils/error/notFounError";
+import { AuthError } from "domain/errors/authError";
+import { CustomError } from "domain/errors/customError";
+import { NotFoundError } from "domain/errors/notFounError";
 import { IGoogleRegisterData } from "shared/dto/request/auth.dto";
 import { HTTP_STATUS } from "shared/constants";
 import { plainToInstance } from "class-transformer";
@@ -30,9 +30,7 @@ export class GoogleAuthUsecase implements IGoogleAuthUsecase {
     private _walletRepository: IWalletRepository
   ) {}
 
-  async execute(
-    idToken: string
-  ): Promise<{
+  async execute(idToken: string): Promise<{
     userData: LoginResDTO;
     accessToken: string;
     refreshToken: string;

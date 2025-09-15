@@ -4,7 +4,7 @@ import {
   IRescheduleReviewModel,
   RescheduleReviewModel,
 } from "frameworks/database/models/rescheduleReview.model";
-import { IRescheduleReviewRepository } from "entities/repositoryInterfaces/rescheduleReviewRepository.interface";
+import { IRescheduleReviewRepository } from "domain/repositoryInterfaces/rescheduleReviewRepository.interface";
 
 export class RescheduleReviewRepository
   extends BaseRepository<IRescheduleReviewEntity, IRescheduleReviewModel>

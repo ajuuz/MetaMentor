@@ -5,7 +5,7 @@ import {
   commentModel,
   ICommentModel,
 } from "frameworks/database/models/comment.model";
-import { ICommentRepository } from "entities/repositoryInterfaces/commentRepository.interface";
+import { ICommentRepository } from "domain/repositoryInterfaces/commentRepository.interface";
 
 @injectable()
 export class CommentRepository

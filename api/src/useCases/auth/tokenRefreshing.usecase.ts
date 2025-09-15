@@ -2,7 +2,7 @@ import { ITokenService } from "entities/serviceInterfaces/tokenService.interface
 import { ITokenRefreshingUsecase } from "entities/usecaseInterfaces/auth/tokenRefreshing.interface";
 import { JwtPayload } from "jsonwebtoken";
 import { ERROR_MESSAGE, HTTP_STATUS, ROLES } from "shared/constants";
-import { AuthError } from "shared/utils/error/authError";
+import { AuthError } from "domain/errors/authError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

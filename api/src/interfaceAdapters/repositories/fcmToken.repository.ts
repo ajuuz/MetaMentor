@@ -1,5 +1,5 @@
 import { IFcmTokenEntity } from "domain/entities/fcmTokenModel.entity";
-import { IFcmTokenRepository } from "entities/repositoryInterfaces/fcmTokenRepository.interface";
+import { IFcmTokenRepository } from "domain/repositoryInterfaces/fcmTokenRepository.interface";
 import {
   fcmTokenModel,
   IFcmTokenModel,

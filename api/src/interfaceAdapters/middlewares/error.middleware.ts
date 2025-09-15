@@ -2,9 +2,9 @@ import { IErrorMiddleware } from "entities/middlewareInterfaces/error-middleware
 import { ILoggerService } from "entities/serviceInterfaces/loggerService.interface";
 import { NextFunction, Request, Response } from "express";
 import { ERROR_MESSAGE, HTTP_STATUS } from "shared/constants";
-import { CustomError } from "shared/utils/error/customError";
-import { NotFoundError } from "shared/utils/error/notFounError";
-import { ValidationError } from "shared/utils/error/validationError";
+import { CustomError } from "domain/errors/customError";
+import { NotFoundError } from "domain/errors/notFounError";
+import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -20,7 +20,7 @@ export class ErrorMiddleware implements IErrorMiddleware {
     res: Response,
     next: NextFunction
   ): void {
-    console.log(err)
+    console.log(err);
     let statusCode = HTTP_STATUS.INTERNAL_SERVER_ERROR;
     let message = ERROR_MESSAGE.SERVER_ERROR;
     if (err instanceof CustomError) {

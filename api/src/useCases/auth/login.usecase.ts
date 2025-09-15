@@ -1,13 +1,13 @@
 import { plainToInstance } from "class-transformer";
-import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
+import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
 import { ROLES } from "shared/constants";
 import { LoginResDTO } from "shared/dto/response/auth.dto";
 import { comparePassword } from "shared/utils/bcryptHelper";
-import { CustomError } from "shared/utils/error/customError";
-import { NotFoundError } from "shared/utils/error/notFounError";
-import { ValidationError } from "shared/utils/error/validationError";
+import { CustomError } from "domain/errors/customError";
+import { NotFoundError } from "domain/errors/notFounError";
+import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -17,13 +17,12 @@ export class LoginUsecase implements ILoginUsecase {
     private _userRepository: IUserRespository,
 
     @inject("ITokenService")
-    private _tokenService: ITokenService,
-
+    private _tokenService: ITokenService
   ) {}
 
   async execute(
     email: string,
-    password: string,
+    password: string
   ): Promise<{
     userData: LoginResDTO;
     accessToken: string;

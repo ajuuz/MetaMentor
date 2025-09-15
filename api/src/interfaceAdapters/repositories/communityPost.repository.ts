@@ -1,6 +1,6 @@
 import { injectable } from "tsyringe";
 import { BaseRepository } from "./base.repository";
-import { ICommunityPostRepository } from "entities/repositoryInterfaces/communityPostRepository.interface";
+import { ICommunityPostRepository } from "domain/repositoryInterfaces/communityPostRepository.interface";
 import {
   communityPostModel,
   ICommunityPostModel,

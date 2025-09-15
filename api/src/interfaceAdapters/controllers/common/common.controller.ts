@@ -1,6 +1,6 @@
 import { ICommonController } from "entities/controllerInterfaces/common/commonController.interface";
-import { ITransactionRepository } from "entities/repositoryInterfaces/transactionRepository.interface";
-import { IWalletRepository } from "entities/repositoryInterfaces/walletRepository.inteface";
+import { ITransactionRepository } from "domain/repositoryInterfaces/transactionRepository.interface";
+import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
 import { IUploadImageUsecase } from "entities/usecaseInterfaces/common/uploadImageUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import sseClientManager from "frameworks/SSE/sseClientManager";
@@ -57,12 +57,9 @@ export class CommonController implements ICommonController {
     });
   }
 
-  async getWalletAndTransactions(
-    req: Request,
-    res: Response
-  ): Promise<void> {
+  async getWalletAndTransactions(req: Request, res: Response): Promise<void> {
     const walletId = (req as ModifiedRequest).user.id;
-    console.log(walletId)
+    console.log(walletId);
     const { currentPage = "1", limit = "10" } = req.query;
     const page = parseInt(currentPage as string, 10);
     const perPage = parseInt(limit as string, 10);

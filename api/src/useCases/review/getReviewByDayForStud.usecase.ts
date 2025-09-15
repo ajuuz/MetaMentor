@@ -1,5 +1,5 @@
 import { IGetBookedSlotsForStud } from "domain/entities/reviewModel.entity";
-import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IGetReviewByDayForStudUsecase } from "entities/usecaseInterfaces/review/getReviewByDayForStudUsecase.interface";
 import { inject, injectable } from "tsyringe";
 

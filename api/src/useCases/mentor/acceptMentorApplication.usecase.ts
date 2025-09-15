@@ -1,8 +1,8 @@
 import { IMentorEntity } from "domain/entities/mentor-model.entity";
-import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
-import { ISequenceNumberRepository } from "entities/repositoryInterfaces/sequenceNumberRepository.interface";
-import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
-import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
+import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
+import { ISequenceNumberRepository } from "domain/repositoryInterfaces/sequenceNumberRepository.interface";
+import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
+import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
 import { IPushNotificationService } from "entities/serviceInterfaces/pushNotificationService.interface";
 import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
 import { ICreateNotificationUsecase } from "entities/usecaseInterfaces/notification/createNotificationUsecase.interface";
@@ -16,8 +16,8 @@ import {
 } from "shared/constants";
 import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/mailContentProvider";
-import { CustomError } from "shared/utils/error/customError";
-import { ValidationError } from "shared/utils/error/validationError";
+import { CustomError } from "domain/errors/customError";
+import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

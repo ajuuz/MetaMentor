@@ -1,9 +1,9 @@
 import { IMentorEntity } from "domain/entities/mentor-model.entity";
-import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
+import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
 import { ICreateMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/createMentorApplicationUsecase.interface";
 import { HTTP_STATUS } from "shared/constants";
 import { CreateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
-import { CustomError } from "shared/utils/error/customError";
+import { CustomError } from "domain/errors/customError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

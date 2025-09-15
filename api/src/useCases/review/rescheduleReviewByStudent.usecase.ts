@@ -1,8 +1,8 @@
 import { INotificationEntity } from "domain/entities/notificationModel.entity";
 import { IRescheduleReviewEntity } from "domain/entities/rescheduleReviewModel.entity";
-import { INotificationRepository } from "entities/repositoryInterfaces/notificationRepository.interface";
-import { IRescheduleReviewRepository } from "entities/repositoryInterfaces/rescheduleReviewRepository.interface";
-import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
+import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
+import { IRescheduleReviewRepository } from "domain/repositoryInterfaces/rescheduleReviewRepository.interface";
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IPushNotificationService } from "entities/serviceInterfaces/pushNotificationService.interface";
 import { IRescheduleReviewByStudentUsecase } from "entities/usecaseInterfaces/review/rescheduleReviewByStudentUsecase.interface";
 import {
@@ -16,8 +16,8 @@ import {
   TRANSACTION_TYPE,
 } from "shared/constants";
 import { RescheduleReviewByStudReqDTO } from "shared/dto/request/review.dto";
-import { CustomError } from "shared/utils/error/customError";
-import { NotFoundError } from "shared/utils/error/notFounError";
+import { CustomError } from "domain/errors/customError";
+import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

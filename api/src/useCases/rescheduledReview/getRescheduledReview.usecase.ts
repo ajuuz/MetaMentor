@@ -1,7 +1,7 @@
 import { IRescheduleReviewEntity } from "domain/entities/rescheduleReviewModel.entity";
-import { IRescheduleReviewRepository } from "entities/repositoryInterfaces/rescheduleReviewRepository.interface";
+import { IRescheduleReviewRepository } from "domain/repositoryInterfaces/rescheduleReviewRepository.interface";
 import { IGetRescheduledReviewUsecase } from "entities/usecaseInterfaces/rescheduledReview/getRescheduledReviewUsecase.interface";
-import { NotFoundError } from "shared/utils/error/notFounError";
+import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

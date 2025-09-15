@@ -1,9 +1,9 @@
-import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IPushNotificationService } from "entities/serviceInterfaces/pushNotificationService.interface";
 import { ISubmitReviewResultUsecase } from "entities/usecaseInterfaces/review/submitReviewFeedBackUsecase.interface";
 import { NOTIFICATION_MESSAGE, NOTIFICATION_TITLE } from "shared/constants";
 import { SubmitReviewResultReqDTO } from "shared/dto/request/review.dto";
-import { NotFoundError } from "shared/utils/error/notFounError";
+import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

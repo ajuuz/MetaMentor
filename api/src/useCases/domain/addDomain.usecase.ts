@@ -1,9 +1,9 @@
 import { ICommunityEntity } from "domain/entities/communityModel.entity";
 import { IDomainEntity } from "domain/entities/domainModel.entity";
 import { ICreateLevelEntity } from "domain/entities/levelModel.entity";
-import { ICommunityRepository } from "entities/repositoryInterfaces/communityRepository.interface";
-import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
-import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
+import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
+import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
+import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
 import { IAddDomainUsecase } from "entities/usecaseInterfaces/domain/addDomainUsecase.interface";
 import { CreateDomainReqDTO } from "shared/dto/request/domain.dto";
 import { inject, injectable } from "tsyringe";

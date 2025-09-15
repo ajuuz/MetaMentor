@@ -1,17 +1,15 @@
-import { IWalletRepository } from "entities/repositoryInterfaces/walletRepository.inteface";
+import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
 import { ICreditWalletUsecase } from "entities/usecaseInterfaces/wallet/creditWalletUsecase.inteface";
 import { inject, injectable } from "tsyringe";
 
-
 @injectable()
-export class CreditWalletUsecase implements ICreditWalletUsecase{
+export class CreditWalletUsecase implements ICreditWalletUsecase {
+  constructor(
+    @inject("IWalletRepository")
+    private _walletRepository: IWalletRepository
+  ) {}
 
-    constructor(
-         @inject('IWalletRepository')
-         private _walletRepository:IWalletRepository
-    ){}
-
-    async execute(userId:string,amount:number):Promise<void>{
-        await this._walletRepository.creditAmount(userId,amount)
-    }
+  async execute(userId: string, amount: number): Promise<void> {
+    await this._walletRepository.creditAmount(userId, amount);
+  }
 }

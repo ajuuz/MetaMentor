@@ -1,4 +1,4 @@
-import { INotificationRepository } from "entities/repositoryInterfaces/notificationRepository.interface";
+import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
 import { IMarkAsReadUsecase } from "entities/usecaseInterfaces/notification/markAsReadUsecase.interface";
 import { inject, injectable } from "tsyringe";
 

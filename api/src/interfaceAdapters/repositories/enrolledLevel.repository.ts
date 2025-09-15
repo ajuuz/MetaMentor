@@ -1,5 +1,5 @@
 import { BaseRepository } from "./base.repository";
-import { IEnrolledLevelRepository } from "entities/repositoryInterfaces/enrolledLevelRepository.interface";
+import { IEnrolledLevelRepository } from "domain/repositoryInterfaces/enrolledLevelRepository.interface";
 import {
   IEnrolledLevelEntity,
   IGetEnrolledLevel,

@@ -1,5 +1,5 @@
 import { IUserEntity } from "domain/entities/user-model.entity";
-import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
+import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
 import { IUserModel, userModel } from "frameworks/database/models/user.model";
 import { FilterQuery } from "mongoose";
 import { IuserRegisterData } from "shared/dto/request/auth.dto";

@@ -1,5 +1,5 @@
 import { ICommunityEntity } from "domain/entities/communityModel.entity";
-import { ICommunityRepository } from "entities/repositoryInterfaces/communityRepository.interface";
+import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
 import {
   communityModel,
   ICommunityModel,

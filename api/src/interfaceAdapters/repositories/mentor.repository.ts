@@ -4,7 +4,7 @@ import {
   IGetMentors,
   IMentorEntity,
 } from "domain/entities/mentor-model.entity";
-import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
+import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
 import {
   IMentorModel,
   mentorModel,

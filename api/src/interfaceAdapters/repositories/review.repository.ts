@@ -6,7 +6,7 @@ import {
   IGetReviewsForStudAndDomain,
   IReviewEntity,
 } from "domain/entities/reviewModel.entity";
-import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import {
   reviewModel,
   IReviewModel,

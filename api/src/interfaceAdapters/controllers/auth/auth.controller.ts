@@ -24,7 +24,7 @@ import {
   setAccessCookie,
   setCookie,
 } from "shared/utils/cookeHelper";
-import { ValidationError } from "shared/utils/error/validationError";
+import { ValidationError } from "domain/errors/validationError";
 import { ISuccessResponseHandler } from "shared/utils/successResponseHandler";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";

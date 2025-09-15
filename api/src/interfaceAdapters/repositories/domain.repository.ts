@@ -1,5 +1,5 @@
 import { IDomainEntity } from "domain/entities/domainModel.entity";
-import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
+import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import {
   domainModel,
   IDomainModel,

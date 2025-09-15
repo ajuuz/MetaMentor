@@ -4,7 +4,7 @@ import { ObjectId } from "mongoose";
 import ms from "ms";
 import { config } from "shared/config";
 import { ERROR_MESSAGE, HTTP_STATUS, ROLES } from "shared/constants";
-import { CustomError } from "shared/utils/error/customError";
+import { CustomError } from "domain/errors/customError";
 import { injectable } from "tsyringe";
 
 @injectable()

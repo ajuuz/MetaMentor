@@ -1,6 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import { IDomainEntity } from "domain/entities/domainModel.entity";
-import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
+import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import { IGetAllDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainUsecase.interface";
 import { SORT_ORDER } from "shared/constants";
 import { GetDomainsForAdminResDTO } from "shared/dto/response/domain.dto";

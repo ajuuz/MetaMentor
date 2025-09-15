@@ -1,13 +1,13 @@
 import { IUserEntity } from "domain/entities/user-model.entity";
-import { IOtpRespository } from "entities/repositoryInterfaces/otp-repository.interface";
-import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
-import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
-import { IWalletRepository } from "entities/repositoryInterfaces/walletRepository.inteface";
+import { IOtpRespository } from "domain/repositoryInterfaces/otp-repository.interface";
+import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
+import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
+import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
 import { IVerifyOtpUsecase } from "entities/usecaseInterfaces/auth/verifyOtpUsecase.interface";
 import { IUserModel } from "frameworks/database/models/user.model";
-import { CustomError } from "shared/utils/error/customError";
-import { NotFoundError } from "shared/utils/error/notFounError";
-import { ValidationError } from "shared/utils/error/validationError";
+import { CustomError } from "domain/errors/customError";
+import { NotFoundError } from "domain/errors/notFounError";
+import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

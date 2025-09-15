@@ -1,4 +1,4 @@
-import { IBaseRepository } from "entities/repositoryInterfaces/baseRepository.interface";
+import { IBaseRepository } from "domain/repositoryInterfaces/baseRepository.interface";
 import {
   ClientSession,
   Document,
@@ -46,28 +46,34 @@ export class BaseRepository<T, D extends Document>
     await this.model.create(newDocument);
   }
   async updateOne(
-    filters:{field:keyof T,value:string|boolean|number}[],
-    updationFields:Partial<T>
+    filters: { field: keyof T; value: string | boolean | number }[],
+    updationFields: Partial<T>
   ): Promise<void> {
-    const mongoFilter:Partial<Record<keyof T,string|boolean|number>>={};
-    for(let {field,value} of filters){
-      mongoFilter[field]=value
+    const mongoFilter: Partial<Record<keyof T, string | boolean | number>> = {};
+    for (let { field, value } of filters) {
+      mongoFilter[field] = value;
     }
-    await this.model.updateOne(mongoFilter as FilterQuery<D>,updationFields as UpdateQuery<D>);
+    await this.model.updateOne(
+      mongoFilter as FilterQuery<D>,
+      updationFields as UpdateQuery<D>
+    );
   }
 
   async find(
     filter: Partial<T> = {},
     skip = 0,
     limit = 10,
-    sort?: { field:string; order:SORT_ORDER }
+    sort?: { field: string; order: SORT_ORDER }
   ) {
     const mongoFilter = filter as unknown as FilterQuery<D>;
-    
+
     const sortOption = sort
-      ? ({ [sort.field]: sort.order === "asc" ? 1 : -1 } as Record<string,SortOrder>)
+      ? ({ [sort.field]: sort.order === "asc" ? 1 : -1 } as Record<
+          string,
+          SortOrder
+        >)
       : {};
-    
+
     const [items, totalDocuments] = await Promise.all([
       this.model
         .find(mongoFilter)

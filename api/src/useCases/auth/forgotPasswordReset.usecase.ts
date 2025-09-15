@@ -1,14 +1,14 @@
-import { IBlackListTokenRepository } from "entities/repositoryInterfaces/blackListTokenRepository.interface";
-import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
+import { IBlackListTokenRepository } from "domain/repositoryInterfaces/blackListTokenRepository.interface";
+import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
 import { IForgotPasswordResetUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordResetUsecase.interface";
 import { JwtPayload } from "jsonwebtoken";
 import { ERROR_MESSAGE, HTTP_STATUS } from "shared/constants";
 import { hashPassword } from "shared/utils/bcryptHelper";
-import { AuthError } from "shared/utils/error/authError";
-import { CustomError } from "shared/utils/error/customError";
-import { NotFoundError } from "shared/utils/error/notFounError";
-import { ValidationError } from "shared/utils/error/validationError";
+import { AuthError } from "domain/errors/authError";
+import { CustomError } from "domain/errors/customError";
+import { NotFoundError } from "domain/errors/notFounError";
+import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

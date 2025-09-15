@@ -1,5 +1,5 @@
 import { plainToInstance } from "class-transformer";
-import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IGetReviewsForStudentUsecase } from "entities/usecaseInterfaces/review/getReviewsForStudentUsecase.interface";
 import {
   PENDING_REVIEW_STATE,
@@ -16,8 +16,7 @@ export class GetReviewsForStudentUsecase
 {
   constructor(
     @inject("IReviewRepository")
-    private _reviewRepository: IReviewRepository,
-
+    private _reviewRepository: IReviewRepository
   ) {}
 
   async execute(
@@ -27,7 +26,7 @@ export class GetReviewsForStudentUsecase
     currentPage: number,
     limit: number,
     pendingReviewState?: PENDING_REVIEW_STATE | undefined
-  ): Promise<{reviews:GetReviewsForStudResDTO[],totalPages:number}> {
+  ): Promise<{ reviews: GetReviewsForStudResDTO[]; totalPages: number }> {
     const skip: number = (currentPage - 1) * limit;
     let filter: any = { studentId };
     switch (status) {

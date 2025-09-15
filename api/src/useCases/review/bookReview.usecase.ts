@@ -1,5 +1,5 @@
 import { IReviewEntity } from "domain/entities/reviewModel.entity";
-import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReviewUsecase.interface";
 import { IReviewModel } from "frameworks/database/models/bookedSlot.model";
 import { PAYMENT_METHOD, PAYMENT_STATUS } from "shared/constants";

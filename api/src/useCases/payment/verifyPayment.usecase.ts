@@ -8,7 +8,7 @@ import { ICreditWalletUsecase } from "entities/usecaseInterfaces/wallet/creditWa
 import { config } from "shared/config";
 import { HTTP_STATUS, TRANSACTION_TYPE } from "shared/constants";
 import { VerifyPaymentReqDTO } from "shared/dto/request/payment.dto";
-import { CustomError } from "shared/utils/error/customError";
+import { CustomError } from "domain/errors/customError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

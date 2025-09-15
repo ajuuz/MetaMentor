@@ -1,15 +1,15 @@
 import { plainToInstance } from "class-transformer";
 import { IDomainEntity } from "domain/entities/domainModel.entity";
 import { IGetReviewsForStudAndDomain } from "domain/entities/reviewModel.entity";
-import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
-import { IEnrolledLevelRepository } from "entities/repositoryInterfaces/enrolledLevelRepository.interface";
-import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
-import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
+import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
+import { IEnrolledLevelRepository } from "domain/repositoryInterfaces/enrolledLevelRepository.interface";
+import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IGetDomainInsightUsecase } from "entities/usecaseInterfaces/domain/getDomainInsightUsecase.interface";
 import { GetDomainResDTO } from "shared/dto/response/domain.dto";
 import { EnrolledLevelResDTO } from "shared/dto/response/enrolledLevel.dto";
 import { GetReviewsForStudAndDomainResDTO } from "shared/dto/response/review.dto";
-import { NotFoundError } from "shared/utils/error/notFounError";
+import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

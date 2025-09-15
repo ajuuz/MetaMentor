@@ -1,5 +1,5 @@
 import { IMentorEntity } from "domain/entities/mentor-model.entity";
-import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
+import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
 import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
 import { EVENT_EMITTER_TYPE, MAIL_CONTENT_PURPOSE } from "shared/constants";
 import { eventBus } from "shared/eventBus";

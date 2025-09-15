@@ -2,7 +2,7 @@ import {
   IGetStudentsForAdmin,
   IStudentEntity,
 } from "domain/entities/student-model.entity";
-import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
+import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
 import {
   IStudentModel,
   studentModel,

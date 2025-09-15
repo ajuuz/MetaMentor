@@ -1,5 +1,5 @@
 import { plainToInstance } from "class-transformer";
-import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
+import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
 import { IGetAllStudentsUsecase } from "entities/usecaseInterfaces/student/getAllStudentsUsecase.interface";
 import { SORT_ORDER } from "shared/constants";
 import { GetAllStudentReqDTO } from "shared/dto/request/student.dto";
@@ -24,10 +24,12 @@ export class GetAllStudentsUsecase implements IGetAllStudentsUsecase {
       field: string;
       value: string | boolean;
       type: "direct" | "complex";
-    }[]=[];
+    }[] = [];
 
-    if(isPremium) filters.push({field:'isPremium',value:isPremium,type:'direct'})
-    if (searchTerm) filters.push({field:'searchTerm',value:searchTerm,type:'complex'})
+    if (isPremium)
+      filters.push({ field: "isPremium", value: isPremium, type: "direct" });
+    if (searchTerm)
+      filters.push({ field: "searchTerm", value: searchTerm, type: "complex" });
 
     //sort
     const [field, order] = sortBy!.split("-");
