@@ -1,4 +1,4 @@
-import { IMentorController } from "entities/controllerInterfaces/mentor/mentorController.interface";
+import { IMentorController } from "application/interfaces/controller/mentor/mentorController.interface";
 import { ICreateMentorApplicationUsecase } from "application/usecase/interfaces/mentor/createMentorApplicationUsecase.interface";
 import { IGetProfessionalDetailsUsecase } from "application/usecase/interfaces/mentor/getProfessionalDetailsUsecase.interface";
 import { Request, Response } from "express";

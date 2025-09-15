@@ -1,4 +1,4 @@
-import { IUserSlotController } from "entities/controllerInterfaces/user/userSlotController.interface";
+import { IUserSlotController } from "application/interfaces/controller/user/userSlotController.interface";
 import { IGetDomainSlotsUsecase } from "application/usecase/interfaces/slot/getDomainSlotsUsecase.interface";
 import { IGetSlotsForStudUsecase } from "application/usecase/interfaces/slot/getSlotsForStudUsecase.interface";
 import { ISlotValidityCheckerUsecase } from "application/usecase/interfaces/slot/slotValidityCheckerUsecase.interface";

@@ -1,4 +1,4 @@
-import { IUserCommunityController } from "entities/controllerInterfaces/user/communityController.interface";
+import { IUserCommunityController } from "application/interfaces/controller/user/communityController.interface";
 import { IGetEnrolledCommunitiesUsecase } from "application/usecase/interfaces/community/getEnrolledCommunitiesUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";

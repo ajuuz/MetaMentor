@@ -1,4 +1,4 @@
-import { IUserEnrolledLevelController } from "entities/controllerInterfaces/user/enrolledLevelController.interface";
+import { IUserEnrolledLevelController } from "application/interfaces/controller/user/enrolledLevelController.interface";
 import { ISaveLevelAssignmentUsecase } from "application/usecase/interfaces/enrolledLevel/saveLevelAssignmentUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
@@ -21,11 +21,9 @@ export class UserEnrolledLevelController
       enrolledLevelId,
       assignments
     );
-    res
-      .status(HTTP_STATUS.OK)
-      .json({
-        success: true,
-        message: SUCCESS_MESSAGE.LEVEL.SUBMIT_ASSIGNMENT,
-      });
+    res.status(HTTP_STATUS.OK).json({
+      success: true,
+      message: SUCCESS_MESSAGE.LEVEL.SUBMIT_ASSIGNMENT,
+    });
   }
 }

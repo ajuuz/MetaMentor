@@ -1,4 +1,4 @@
-import { IMentorSlotController } from "entities/controllerInterfaces/mentor/slotController.inteface";
+import { IMentorSlotController } from "application/interfaces/controller/mentor/slotController.inteface";
 import { IGetMentorSlotsUsecase } from "application/usecase/interfaces/slot/getMentorSlotsUsecase.interface";
 import { IGetSlotsForStudUsecase } from "application/usecase/interfaces/slot/getSlotsForStudUsecase.interface";
 import { ISlotValidityCheckerUsecase } from "application/usecase/interfaces/slot/slotValidityCheckerUsecase.interface";

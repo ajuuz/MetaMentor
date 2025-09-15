@@ -1,4 +1,4 @@
-import { IUserRescheduledReviewController } from "entities/controllerInterfaces/user/rescheduledReviewController.interface";
+import { IUserRescheduledReviewController } from "application/interfaces/controller/user/rescheduledReviewController.interface";
 import { IGetRescheduledReviewUsecase } from "application/usecase/interfaces/rescheduledReview/getRescheduledReviewUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";

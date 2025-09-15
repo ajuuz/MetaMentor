@@ -1,4 +1,4 @@
-import { IAdminMentorController } from "entities/controllerInterfaces/admin/adminMentorController.interface";
+import { IAdminMentorController } from "application/interfaces/controller/admin/adminMentorController.interface";
 import { IAcceptMentorApplicationUsecase } from "application/usecase/interfaces/mentor/acceptMentorApplicationUsecase.interface";
 import { IGetMentorsForAdminUsecase } from "application/usecase/interfaces/mentor/getMentorsForAdmin.interface";
 import { IGetMentorApplicationDetailsUsecase } from "application/usecase/interfaces/mentor/getMentorApplicationDetailsUsecase.interface";

@@ -1,4 +1,4 @@
-import { IFcmTokenController } from "entities/controllerInterfaces/common/fcmTokenController.interface";
+import { IFcmTokenController } from "application/interfaces/controller/common/fcmTokenController.interface";
 import { ISaveFcmTokenUsecase } from "application/usecase/interfaces/fcmToken/saveFcmTokenUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";

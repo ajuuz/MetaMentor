@@ -1,4 +1,4 @@
-import { IUserReviewController } from "entities/controllerInterfaces/user/userReviewController.interface";
+import { IUserReviewController } from "application/interfaces/controller/user/userReviewController.interface";
 import { ICancelReviewByStudentUsecase } from "application/usecase/interfaces/review/cancelReviewByStudentUsecase.interface";
 import { IGetReviewsForStudentUsecase } from "application/usecase/interfaces/review/getReviewsForStudentUsecase.interface";
 import { Request, Response } from "express";

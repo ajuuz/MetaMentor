@@ -1,4 +1,4 @@
-import { IPaymentController } from "entities/controllerInterfaces/payment/paymentController";
+import { IPaymentController } from "application/interfaces/controller/payment/paymentController";
 import { ICreateOrderUsecase } from "application/usecase/interfaces/payment/createOrderUsecase.interface";
 import { IVerifyPaymentUsecase } from "application/usecase/interfaces/payment/verifyPaymentUsecase.interface";
 import { Request, Response } from "express";

@@ -1,4 +1,4 @@
-import { ICommonController } from "entities/controllerInterfaces/common/commonController.interface";
+import { ICommonController } from "application/interfaces/controller/common/commonController.interface";
 import { ITransactionRepository } from "domain/repositoryInterfaces/transactionRepository.interface";
 import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
 import { IUploadImageUsecase } from "application/usecase/interfaces/common/uploadImageUsecase.interface";

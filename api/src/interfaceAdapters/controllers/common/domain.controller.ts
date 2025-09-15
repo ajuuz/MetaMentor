@@ -1,4 +1,4 @@
-import { ICommonDomainController } from "entities/controllerInterfaces/common/domainController.interface";
+import { ICommonDomainController } from "application/interfaces/controller/common/domainController.interface";
 import { IGetAllDomainsNameAndIdUsecase } from "application/usecase/interfaces/domain/getDomainsNameAndIdUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";

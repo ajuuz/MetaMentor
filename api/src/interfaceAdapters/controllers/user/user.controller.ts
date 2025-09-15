@@ -1,4 +1,4 @@
-import { IUserController } from "entities/controllerInterfaces/user/userController.interface";
+import { IUserController } from "application/interfaces/controller/user/userController.interface";
 import { IGetSpecificUserUsecase } from "application/usecase/interfaces/user/getSpecificUserUsecase.interface";
 import { IUpdateUserUsecase } from "application/usecase/interfaces/user/updateUserUsecase.interface";
 import { Request, Response } from "express";

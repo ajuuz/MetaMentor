@@ -1,4 +1,4 @@
-import { IAdminCommunityController } from "entities/controllerInterfaces/admin/communityController.interface";
+import { IAdminCommunityController } from "application/interfaces/controller/admin/communityController.interface";
 import { IGetCommunitiesUsecase } from "application/usecase/interfaces/community/getCommunitiesUsecase.interface";
 import { IUpdateCommunityStatusUsecase } from "application/usecase/interfaces/community/updateCommunityUsecase.interface";
 import { Request, Response } from "express";

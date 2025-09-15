@@ -1,4 +1,4 @@
-import { IAdminDomainController } from "entities/controllerInterfaces/admin/adminDomainController.interface";
+import { IAdminDomainController } from "application/interfaces/controller/admin/adminDomainController.interface";
 import { IAddDomainUsecase } from "application/usecase/interfaces/domain/addDomainUsecase.interface";
 import { IEditDomainUsecase } from "application/usecase/interfaces/domain/editDomainUsecase";
 import { IGetAllDomainsUsecase } from "application/usecase/interfaces/domain/getDomainUsecase.interface";

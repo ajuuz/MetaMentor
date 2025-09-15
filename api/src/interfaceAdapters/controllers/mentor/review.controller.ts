@@ -1,4 +1,4 @@
-import { IMentorReviewController } from "entities/controllerInterfaces/mentor/reviewController.interface";
+import { IMentorReviewController } from "application/interfaces/controller/mentor/reviewController.interface";
 import { IGetMentorReviewsUsecase } from "application/usecase/interfaces/review/getMentorReviewsUsecase.interface";
 import { IGetReviewForMentorUsecase } from "application/usecase/interfaces/review/getReviewForMentorUsecase.interface";
 import { ISubmitReviewResultUsecase } from "application/usecase/interfaces/review/submitReviewFeedBackUsecase.interface";

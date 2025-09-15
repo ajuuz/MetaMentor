@@ -1,4 +1,4 @@
-import { IUserMentorController } from "entities/controllerInterfaces/user/mentorController.interface";
+import { IUserMentorController } from "application/interfaces/controller/user/mentorController.interface";
 import { IGetMentorsForStudUsecase } from "application/usecase/interfaces/mentor/getMentorsForStudUsecase.interface";
 import { IGetMentorApplicationDetailsUsecase } from "application/usecase/interfaces/mentor/getMentorApplicationDetailsUsecase.interface";
 import { Request, Response } from "express";

@@ -1,4 +1,4 @@
-import { IAdminLevelController } from "entities/controllerInterfaces/admin/levelController.interface";
+import { IAdminLevelController } from "application/interfaces/controller/admin/levelController.interface";
 import { IUpdateLevelStatusUsecase } from "application/usecase/interfaces/level/updateLevelStatusUsecase.interface";
 import { Request, Response } from "express";
 import { SUCCESS_MESSAGE } from "shared/constants";

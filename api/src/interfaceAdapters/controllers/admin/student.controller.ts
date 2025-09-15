@@ -1,4 +1,4 @@
-import { IAdminStudentController } from "entities/controllerInterfaces/admin/adminStudentController.interface";
+import { IAdminStudentController } from "application/interfaces/controller/admin/adminStudentController.interface";
 import { IGetAllStudentsUsecase } from "application/usecase/interfaces/student/getAllStudentsUsecase.interface";
 import { IUpdateStudentStatusUsecase } from "application/usecase/interfaces/student/updateStudentStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";

@@ -1,4 +1,4 @@
-import { IUserDomainController } from "entities/controllerInterfaces/user/userDomainController.interface";
+import { IUserDomainController } from "application/interfaces/controller/user/userDomainController.interface";
 import { IEnrollDomainUsecase } from "application/usecase/interfaces/domain/enrollDomainUsecase.interface";
 import { IGetEnrolledDomainsUsecase } from "application/usecase/interfaces/domain/getDomainDashboardUsecase.interface";
 import { IGetDomainInsightUsecase } from "application/usecase/interfaces/domain/getDomainInsightUsecase.interface";
