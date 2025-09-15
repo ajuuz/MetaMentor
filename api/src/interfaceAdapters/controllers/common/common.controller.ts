@@ -1,7 +1,7 @@
 import { ICommonController } from "entities/controllerInterfaces/common/commonController.interface";
 import { ITransactionRepository } from "domain/repositoryInterfaces/transactionRepository.interface";
 import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
-import { IUploadImageUsecase } from "entities/usecaseInterfaces/common/uploadImageUsecase.interface";
+import { IUploadImageUsecase } from "application/usecase/interfaces/common/uploadImageUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import sseClientManager from "frameworks/SSE/sseClientManager";
 import { inject, injectable } from "tsyringe";

@@ -1,5 +1,5 @@
 import { IUserCommunityController } from "entities/controllerInterfaces/user/communityController.interface";
-import { IGetEnrolledCommunitiesUsecase } from "entities/usecaseInterfaces/community/getEnrolledCommunitiesUsecase.interface";
+import { IGetEnrolledCommunitiesUsecase } from "application/usecase/interfaces/community/getEnrolledCommunitiesUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
 import { inject, injectable } from "tsyringe";
@@ -12,11 +12,8 @@ export class UserCommunityController implements IUserCommunityController {
     private _getEnrolledCommunitiesUsecase: IGetEnrolledCommunitiesUsecase
   ) {}
 
-  async getAllCommunities(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
-    const {currentPage,limit}=req.verifiedData;
+  async getAllCommunities(req: Request, res: Response): Promise<void> {
+    const { currentPage, limit } = req.verifiedData;
     const userId = (req as ModifiedRequest).user.id;
     const data = await this._getEnrolledCommunitiesUsecase.execute(
       userId,

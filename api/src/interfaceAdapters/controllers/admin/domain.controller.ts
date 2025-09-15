@@ -1,9 +1,9 @@
 import { IAdminDomainController } from "entities/controllerInterfaces/admin/adminDomainController.interface";
-import { IAddDomainUsecase } from "entities/usecaseInterfaces/domain/addDomainUsecase.interface";
-import { IEditDomainUsecase } from "entities/usecaseInterfaces/domain/editDomainUsecase";
-import { IGetAllDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainUsecase.interface";
-import { IGetSpecificDomainUsecase } from "entities/usecaseInterfaces/domain/getSpecificDomainUsecase.interface";
-import { IUpdateDomainStatusUsecase } from "entities/usecaseInterfaces/domain/updateDomainStatusUsecase.interface";
+import { IAddDomainUsecase } from "application/usecase/interfaces/domain/addDomainUsecase.interface";
+import { IEditDomainUsecase } from "application/usecase/interfaces/domain/editDomainUsecase";
+import { IGetAllDomainsUsecase } from "application/usecase/interfaces/domain/getDomainUsecase.interface";
+import { IGetSpecificDomainUsecase } from "application/usecase/interfaces/domain/getSpecificDomainUsecase.interface";
+import { IUpdateDomainStatusUsecase } from "application/usecase/interfaces/domain/updateDomainStatusUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import {

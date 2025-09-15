@@ -1,6 +1,6 @@
 import { IUserMentorController } from "entities/controllerInterfaces/user/mentorController.interface";
-import { IGetMentorsForStudUsecase } from "entities/usecaseInterfaces/mentor/getMentorsForStudUsecase.interface";
-import { IGetMentorApplicationDetailsUsecase } from "entities/usecaseInterfaces/mentor/getMentorApplicationDetailsUsecase.interface";
+import { IGetMentorsForStudUsecase } from "application/usecase/interfaces/mentor/getMentorsForStudUsecase.interface";
+import { IGetMentorApplicationDetailsUsecase } from "application/usecase/interfaces/mentor/getMentorApplicationDetailsUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
 import {
@@ -9,7 +9,7 @@ import {
 } from "shared/dto/request/mentor.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
-import { IUpdateMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/updateMentorApplicationUsecase.interface";
+import { IUpdateMentorApplicationUsecase } from "application/usecase/interfaces/mentor/updateMentorApplicationUsecase.interface";
 
 @injectable()
 export class UserMentorController implements IUserMentorController {
@@ -39,16 +39,11 @@ export class UserMentorController implements IUserMentorController {
   async updateMentorApplication(req: Request, res: Response): Promise<void> {
     const mentorDetails: UpdateMentorApplicationReqDTO = req.verifiedData;
     const mentorId = (req as ModifiedRequest).user.id;
-     await this._updateMentorApplicationUsecase.execute(
-      mentorId,
-      mentorDetails
-    );
-    res
-      .status(HTTP_STATUS.OK)
-      .json({
-        success: true,
-        message: "mentor Application Updated successfully",
-      });
+    await this._updateMentorApplicationUsecase.execute(mentorId, mentorDetails);
+    res.status(HTTP_STATUS.OK).json({
+      success: true,
+      message: "mentor Application Updated successfully",
+    });
   }
 
   async getMentorsForStud(req: Request, res: Response): Promise<void> {

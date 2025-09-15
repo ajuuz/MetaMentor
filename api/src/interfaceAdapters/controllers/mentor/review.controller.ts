@@ -1,8 +1,8 @@
 import { IMentorReviewController } from "entities/controllerInterfaces/mentor/reviewController.interface";
-import { IGetMentorReviewsUsecase } from "entities/usecaseInterfaces/review/getMentorReviewsUsecase.interface";
-import { IGetReviewForMentorUsecase } from "entities/usecaseInterfaces/review/getReviewForMentorUsecase.interface";
-import { ISubmitReviewResultUsecase } from "entities/usecaseInterfaces/review/submitReviewFeedBackUsecase.interface";
-import { ICancelReviewByMentorUsecase } from "entities/usecaseInterfaces/review/cancelReviewByMentorUsecase.interface";
+import { IGetMentorReviewsUsecase } from "application/usecase/interfaces/review/getMentorReviewsUsecase.interface";
+import { IGetReviewForMentorUsecase } from "application/usecase/interfaces/review/getReviewForMentorUsecase.interface";
+import { ISubmitReviewResultUsecase } from "application/usecase/interfaces/review/submitReviewFeedBackUsecase.interface";
+import { ICancelReviewByMentorUsecase } from "application/usecase/interfaces/review/cancelReviewByMentorUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { inject, injectable } from "tsyringe";
@@ -13,8 +13,8 @@ import {
   GetReviewForMentorReqDTO,
   SubmitReviewResultReqDTO,
 } from "shared/dto/request/review.dto";
-import { IGetReviewByDayForStudUsecase } from "entities/usecaseInterfaces/review/getReviewByDayForStudUsecase.interface";
-import { IRescheduleReviewSubmitByMentor } from "entities/usecaseInterfaces/review/rescheduleReviewSubmitByMentorUsecase.interface";
+import { IGetReviewByDayForStudUsecase } from "application/usecase/interfaces/review/getReviewByDayForStudUsecase.interface";
+import { IRescheduleReviewSubmitByMentor } from "application/usecase/interfaces/review/rescheduleReviewSubmitByMentorUsecase.interface";
 
 @injectable()
 export class MentorReviewController implements IMentorReviewController {
@@ -34,7 +34,7 @@ export class MentorReviewController implements IMentorReviewController {
     @inject("ISubmitReviewResultUsecase")
     private _submitReviewResultUsecase: ISubmitReviewResultUsecase,
     @inject("IRescheduleReviewSubmitByMentor")
-    private _rescheduleReviewSubmitByMentor: IRescheduleReviewSubmitByMentor,
+    private _rescheduleReviewSubmitByMentor: IRescheduleReviewSubmitByMentor
   ) {}
 
   async getAllReviews(req: Request, res: Response): Promise<void> {
@@ -47,7 +47,7 @@ export class MentorReviewController implements IMentorReviewController {
     }: GetReviewsForMentorReqDTO = req.verifiedData;
     const mentorId = (req as ModifiedRequest).user.id;
 
-    console.log('fsjlkd')
+    console.log("fsjlkd");
     const data = await this._getMentorReviewsUsecase.execute(
       mentorId,
       status,
@@ -96,10 +96,10 @@ export class MentorReviewController implements IMentorReviewController {
   }
 
   async rescheduleReviewSubmit(req: Request, res: Response): Promise<void> {
-    const status:'accept'|'cancel'=req.body.status
-    const {reviewId}=req.params
+    const status: "accept" | "cancel" = req.body.status;
+    const { reviewId } = req.params;
     try {
-      await this._rescheduleReviewSubmitByMentor.execute(reviewId,status);
+      await this._rescheduleReviewSubmitByMentor.execute(reviewId, status);
       res.status(HTTP_STATUS.OK).json({
         success: true,
         message: "Updated Successfully",

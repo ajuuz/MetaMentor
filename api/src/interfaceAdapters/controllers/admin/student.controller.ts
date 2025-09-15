@@ -1,6 +1,6 @@
 import { IAdminStudentController } from "entities/controllerInterfaces/admin/adminStudentController.interface";
-import { IGetAllStudentsUsecase } from "entities/usecaseInterfaces/student/getAllStudentsUsecase.interface";
-import { IUpdateStudentStatusUsecase } from "entities/usecaseInterfaces/student/updateStudentStatusUsecase.interface";
+import { IGetAllStudentsUsecase } from "application/usecase/interfaces/student/getAllStudentsUsecase.interface";
+import { IUpdateStudentStatusUsecase } from "application/usecase/interfaces/student/updateStudentStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import {

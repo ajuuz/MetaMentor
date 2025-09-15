@@ -1,9 +1,9 @@
 import { IMentorSlotController } from "entities/controllerInterfaces/mentor/slotController.inteface";
-import { IGetMentorSlotsUsecase } from "entities/usecaseInterfaces/slot/getMentorSlotsUsecase.interface";
-import { IGetSlotsForStudUsecase } from "entities/usecaseInterfaces/slot/getSlotsForStudUsecase.interface";
-import { ISlotValidityCheckerUsecase } from "entities/usecaseInterfaces/slot/slotValidityCheckerUsecase.interface";
-import { IUpdateSlotStatusUsecase } from "entities/usecaseInterfaces/slot/updateSlotStatusUsecase.interface";
-import { IUpdateSlotUsecase } from "entities/usecaseInterfaces/slot/updateSlotUsecase.interface";
+import { IGetMentorSlotsUsecase } from "application/usecase/interfaces/slot/getMentorSlotsUsecase.interface";
+import { IGetSlotsForStudUsecase } from "application/usecase/interfaces/slot/getSlotsForStudUsecase.interface";
+import { ISlotValidityCheckerUsecase } from "application/usecase/interfaces/slot/slotValidityCheckerUsecase.interface";
+import { IUpdateSlotStatusUsecase } from "application/usecase/interfaces/slot/updateSlotStatusUsecase.interface";
+import { IUpdateSlotUsecase } from "application/usecase/interfaces/slot/updateSlotUsecase.interface";
 import { Request, Response } from "express";
 import {
   UpdateSlotReqDTO,
@@ -70,7 +70,7 @@ export class MentorSlotController implements IMentorSlotController {
 
   async slotValidityChecker(req: Request, res: Response): Promise<void> {
     const { date, slotId } = req.verifiedData;
-    const mentorId=(req as ModifiedRequest).user.id;
+    const mentorId = (req as ModifiedRequest).user.id;
     await this._slotValidityCheckerUsecase.execute(mentorId, date, slotId);
     res.status(200).json({ success: true, message: "Slot is Valid" });
   }

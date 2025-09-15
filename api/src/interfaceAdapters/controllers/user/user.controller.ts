@@ -1,6 +1,6 @@
 import { IUserController } from "entities/controllerInterfaces/user/userController.interface";
-import { IGetSpecificUserUsecase } from "entities/usecaseInterfaces/user/getSpecificUserUsecase.interface";
-import { IUpdateUserUsecase } from "entities/usecaseInterfaces/user/updateUserUsecase.interface";
+import { IGetSpecificUserUsecase } from "application/usecase/interfaces/user/getSpecificUserUsecase.interface";
+import { IUpdateUserUsecase } from "application/usecase/interfaces/user/updateUserUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
 import { UpdateUserDetailsReqDTO } from "shared/dto/request/user.dto";

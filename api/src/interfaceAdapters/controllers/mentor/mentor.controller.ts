@@ -1,6 +1,6 @@
 import { IMentorController } from "entities/controllerInterfaces/mentor/mentorController.interface";
-import { ICreateMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/createMentorApplicationUsecase.interface";
-import { IGetProfessionalDetailsUsecase } from "entities/usecaseInterfaces/mentor/getProfessionalDetailsUsecase.interface";
+import { ICreateMentorApplicationUsecase } from "application/usecase/interfaces/mentor/createMentorApplicationUsecase.interface";
+import { IGetProfessionalDetailsUsecase } from "application/usecase/interfaces/mentor/getProfessionalDetailsUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
 import { CreateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
@@ -25,10 +25,9 @@ export class MentorController implements IMentorController {
       .json({ success: true, message: "mentor registered successfully" });
   }
 
-
-  async getProfessionalDetails(req:Request,res:Response):Promise<void>{
-    const userId=(req as ModifiedRequest).user.id;
-    const data=await this._getProfessionalDetailsUsecase.execute(userId)
+  async getProfessionalDetails(req: Request, res: Response): Promise<void> {
+    const userId = (req as ModifiedRequest).user.id;
+    const data = await this._getProfessionalDetailsUsecase.execute(userId);
     res.status(201).json(data);
   }
 }

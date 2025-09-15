@@ -1,9 +1,9 @@
 import { IAdminMentorController } from "entities/controllerInterfaces/admin/adminMentorController.interface";
-import { IAcceptMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/acceptMentorApplicationUsecase.interface";
-import { IGetMentorsForAdminUsecase } from "entities/usecaseInterfaces/mentor/getMentorsForAdmin.interface";
-import { IGetMentorApplicationDetailsUsecase } from "entities/usecaseInterfaces/mentor/getMentorApplicationDetailsUsecase.interface";
-import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
-import { IUpdateMentorStatusUsecase } from "entities/usecaseInterfaces/mentor/updateMentorStatusUsecase.interface";
+import { IAcceptMentorApplicationUsecase } from "application/usecase/interfaces/mentor/acceptMentorApplicationUsecase.interface";
+import { IGetMentorsForAdminUsecase } from "application/usecase/interfaces/mentor/getMentorsForAdmin.interface";
+import { IGetMentorApplicationDetailsUsecase } from "application/usecase/interfaces/mentor/getMentorApplicationDetailsUsecase.interface";
+import { IRejectMentorApplicationUsecase } from "application/usecase/interfaces/mentor/rejectMentorApplication.interface";
+import { IUpdateMentorStatusUsecase } from "application/usecase/interfaces/mentor/updateMentorStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import sseClientManager from "frameworks/SSE/sseClientManager";
 import { HTTP_STATUS, MENTOR_APPLICATION_STATUS } from "shared/constants";

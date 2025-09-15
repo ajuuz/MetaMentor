@@ -1,6 +1,6 @@
 import { IAdminCommunityController } from "entities/controllerInterfaces/admin/communityController.interface";
-import { IGetCommunitiesUsecase } from "entities/usecaseInterfaces/community/getCommunitiesUsecase.interface";
-import { IUpdateCommunityStatusUsecase } from "entities/usecaseInterfaces/community/updateCommunityUsecase.interface";
+import { IGetCommunitiesUsecase } from "application/usecase/interfaces/community/getCommunitiesUsecase.interface";
+import { IUpdateCommunityStatusUsecase } from "application/usecase/interfaces/community/updateCommunityUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import {

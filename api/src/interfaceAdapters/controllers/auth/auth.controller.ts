@@ -1,13 +1,13 @@
 import { IAuthController } from "entities/controllerInterfaces/auth/authController.interface";
-import { IForgotPasswordSendMailUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordMailUsecase.interface";
-import { IForgotPasswordResetUsecase } from "entities/usecaseInterfaces/auth/forgotPasswordResetUsecase.interface";
-import { IGoogleAuthUsecase } from "entities/usecaseInterfaces/auth/googleAuthUsecase.interface";
-import { ILoginUsecase } from "entities/usecaseInterfaces/auth/loginUsecase.interface";
-import { ILogoutUsecase } from "entities/usecaseInterfaces/auth/logoutUsecase.interface";
-import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";
-import { IResendOtpUsecase } from "entities/usecaseInterfaces/auth/resendOtpUsecase.interface";
-import { ITokenRefreshingUsecase } from "entities/usecaseInterfaces/auth/tokenRefreshing.interface";
-import { IVerifyOtpUsecase } from "entities/usecaseInterfaces/auth/verifyOtpUsecase.interface";
+import { IForgotPasswordSendMailUsecase } from "application/usecase/interfaces/auth/forgotPasswordMailUsecase.interface";
+import { IForgotPasswordResetUsecase } from "application/usecase/interfaces/auth/forgotPasswordResetUsecase.interface";
+import { IGoogleAuthUsecase } from "application/usecase/interfaces/auth/googleAuthUsecase.interface";
+import { ILoginUsecase } from "application/usecase/interfaces/auth/loginUsecase.interface";
+import { ILogoutUsecase } from "application/usecase/interfaces/auth/logoutUsecase.interface";
+import { IRegisterUserUsecase } from "application/usecase/interfaces/auth/registerUsecase.interface";
+import { IResendOtpUsecase } from "application/usecase/interfaces/auth/resendOtpUsecase.interface";
+import { ITokenRefreshingUsecase } from "application/usecase/interfaces/auth/tokenRefreshing.interface";
+import { IVerifyOtpUsecase } from "application/usecase/interfaces/auth/verifyOtpUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import {

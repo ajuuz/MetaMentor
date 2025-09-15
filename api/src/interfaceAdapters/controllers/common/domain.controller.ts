@@ -1,11 +1,11 @@
 import { ICommonDomainController } from "entities/controllerInterfaces/common/domainController.interface";
-import { IGetAllDomainsNameAndIdUsecase } from "entities/usecaseInterfaces/domain/getDomainsNameAndIdUsecase.interface";
+import { IGetAllDomainsNameAndIdUsecase } from "application/usecase/interfaces/domain/getDomainsNameAndIdUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
-export class CommonDomainController implements ICommonDomainController{
+export class CommonDomainController implements ICommonDomainController {
   constructor(
     @inject("IGetAllDomainsNameAndIdUsecase")
     private _getAllDomainsNameAndIdUsecase: IGetAllDomainsNameAndIdUsecase

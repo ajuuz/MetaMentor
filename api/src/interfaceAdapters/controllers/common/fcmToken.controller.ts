@@ -1,6 +1,6 @@
 import { IFcmTokenController } from "entities/controllerInterfaces/common/fcmTokenController.interface";
-import { ISaveFcmTokenUsecase } from "entities/usecaseInterfaces/fcmToken/saveFcmTokenUsecase.interface";
-import {  Request, Response } from "express";
+import { ISaveFcmTokenUsecase } from "application/usecase/interfaces/fcmToken/saveFcmTokenUsecase.interface";
+import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
@@ -11,10 +11,7 @@ export class FcmTokenController implements IFcmTokenController {
     @inject("ISaveFcmTokenUsecase")
     private _saveFcmTokenUsecase: ISaveFcmTokenUsecase
   ) {}
-  async saveFcmToken(
-    req: Request,
-    res: Response,
-  ): Promise<void> {
+  async saveFcmToken(req: Request, res: Response): Promise<void> {
     const userId: string = (req as ModifiedRequest).user.id;
     const fcmToken: string = req.body.fcmToken;
 

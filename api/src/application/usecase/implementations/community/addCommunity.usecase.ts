@@ -1,0 +1,26 @@
+import { ICommunityEntity } from "domain/entities/communityModel.entity";
+import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
+import { IAddCommunityUsecase } from "application/usecase/interfaces/community/addCommunityUsecase.interface";
+import { ValidationError } from "domain/errors/validationError";
+import { inject, injectable } from "tsyringe";
+
+@injectable()
+export class AddCommunityUsecase implements IAddCommunityUsecase {
+  constructor(
+    @inject("ICommunityRepository")
+    private _communityRepository: ICommunityRepository
+  ) {}
+
+  async execute(domainId: string, name: string): Promise<void> {
+    if (!domainId || !name)
+      throw new ValidationError(
+        "Required field for community creation is not recieved"
+      );
+
+    const domainDetails: Omit<ICommunityEntity, "_id" | "isBlocked"> = {
+      communityId: domainId,
+      name,
+    };
+    this._communityRepository.insertOne(domainDetails);
+  }
+}
