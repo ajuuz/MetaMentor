@@ -6,12 +6,12 @@ import {
   errorMiddleware,
   loggerMiddleware,
 } from "infrastructure/dependencyInjection/resolver";
-import { AdminRoutes } from "frameworks/routes/admin";
-import { AuthRoutes } from "frameworks/routes/auth";
-import { CommonRoutes } from "frameworks/routes/common";
-import { MentorRoutes } from "frameworks/routes/mentor";
-import { PaymentRoutes } from "frameworks/routes/payment";
-import { UserRoutes } from "frameworks/routes/user";
+import { AdminRoutes } from "presentation/route/admin";
+import { AuthRoutes } from "presentation/route/auth";
+import { CommonRoutes } from "presentation/route/common";
+import { MentorRoutes } from "presentation/route/mentor";
+import { PaymentRoutes } from "presentation/route/payment";
+import { UserRoutes } from "presentation/route/user";
 import { config } from "shared/config";
 export class App {
   private _app: Application;
