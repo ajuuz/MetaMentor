@@ -1,6 +1,6 @@
 import { plainToInstance } from "class-transformer";
-import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
-import { IGetReviewsForStudAndDomain } from "entities/modelEntities/reviewModel.entity";
+import { IDomainEntity } from "domain/entities/domainModel.entity";
+import { IGetReviewsForStudAndDomain } from "domain/entities/reviewModel.entity";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { IEnrolledLevelRepository } from "entities/repositoryInterfaces/enrolledLevelRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
@@ -67,9 +67,13 @@ export class GetDomainInsightUsecase implements IGetDomainInsightUsecase {
       excludeExtraneousValues: true,
     });
 
-    const reviews = plainToInstance(GetReviewsForStudAndDomainResDTO, reviewsData, {
-      excludeExtraneousValues: true,
-    });
+    const reviews = plainToInstance(
+      GetReviewsForStudAndDomainResDTO,
+      reviewsData,
+      {
+        excludeExtraneousValues: true,
+      }
+    );
 
     if (noOfLevelPassed !== 0 && !noOfLevelPassed) {
       throw new NotFoundError("Domain Not found");
@@ -80,7 +84,6 @@ export class GetDomainInsightUsecase implements IGetDomainInsightUsecase {
       domainId,
       noOfLevelPassed
     );
-    
 
     const nextLevels = plainToInstance(EnrolledLevelResDTO, nextLevelsData, {
       excludeExtraneousValues: true,

@@ -1,5 +1,5 @@
-import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
-import { ICreateLevelEntity } from "entities/modelEntities/levelModel.entity";
+import { IDomainEntity } from "domain/entities/domainModel.entity";
+import { ICreateLevelEntity } from "domain/entities/levelModel.entity";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
 import { IEditDomainUsecase } from "entities/usecaseInterfaces/domain/editDomainUsecase";
@@ -53,7 +53,7 @@ export class EditDomainUsecase implements IEditDomainUsecase {
         name: level.name,
         description: level.description,
         taskFile: level.taskFile,
-        tasks: level.tasks.map((task,index) => ({
+        tasks: level.tasks.map((task, index) => ({
           type: task.type,
           content: task.content,
         })),

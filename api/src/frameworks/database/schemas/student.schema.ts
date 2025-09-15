@@ -1,4 +1,4 @@
-import { ISelectedDomain } from "entities/modelEntities/student-model.entity";
+import { ISelectedDomain } from "domain/entities/student-model.entity";
 import mongoose from "mongoose";
 
 import { IStudentModel } from "../models/student.model";
@@ -27,9 +27,9 @@ export const studentSchema = new mongoose.Schema<IStudentModel>({
     required: true,
     unique: true,
   },
-  seq:{
-    type:Number,
-    default:null
+  seq: {
+    type: Number,
+    default: null,
   },
   domains: {
     type: [domainSchema],
@@ -64,15 +64,14 @@ export const studentSchema = new mongoose.Schema<IStudentModel>({
   },
 });
 
-
-studentSchema.pre('save', async function (next) {
+studentSchema.pre("save", async function (next) {
   if (this.isNew) {
     const studentSequenceDocument = await SequenceNumberModel.findOneAndUpdate(
-      { name: 'studentSeq' },
+      { name: "studentSeq" },
       { $inc: { seq: 1 } },
-      { new: true, upsert: true } 
+      { new: true, upsert: true }
     );
-    this.seq =studentSequenceDocument.seq;
+    this.seq = studentSequenceDocument.seq;
   }
   next();
 });

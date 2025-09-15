@@ -3,7 +3,7 @@ import {
   IGetMentorProfessionalDetails,
   IGetMentors,
   IMentorEntity,
-} from "entities/modelEntities/mentor-model.entity";
+} from "domain/entities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import {
   IMentorModel,

@@ -1,4 +1,4 @@
-import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
+import { IDomainEntity } from "domain/entities/domainModel.entity";
 
 export type GetAllDomainsResponseDTO = {
   domains: IDomainEntity[];

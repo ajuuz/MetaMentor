@@ -1,7 +1,7 @@
 import {
   IGetStudentsForAdmin,
   IStudentEntity,
-} from "entities/modelEntities/student-model.entity";
+} from "domain/entities/student-model.entity";
 import { IStudentModel } from "frameworks/database/models/student.model";
 import { ObjectId } from "mongoose";
 

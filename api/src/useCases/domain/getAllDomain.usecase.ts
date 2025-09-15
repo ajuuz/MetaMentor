@@ -1,5 +1,5 @@
 import { plainToInstance } from "class-transformer";
-import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
+import { IDomainEntity } from "domain/entities/domainModel.entity";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { IGetAllDomainsUsecase } from "entities/usecaseInterfaces/domain/getDomainUsecase.interface";
 import { SORT_ORDER } from "shared/constants";
@@ -29,13 +29,14 @@ export class GetAllDomainsUsecase implements IGetAllDomainsUsecase {
     const sortingOrder = splittedSortBy[1] as SORT_ORDER;
     const sort = { field: sortingField, order: sortingOrder };
 
-    const { items, totalDocuments } = await this._domainRepository.findWithFilterAndPaginated(
-      searchTerm,
-      filter,
-      skip,
-      limit,
-      sort
-    );
+    const { items, totalDocuments } =
+      await this._domainRepository.findWithFilterAndPaginated(
+        searchTerm,
+        filter,
+        skip,
+        limit,
+        sort
+      );
 
     const domains = plainToInstance(GetDomainsForAdminResDTO, items, {
       excludeExtraneousValues: true,

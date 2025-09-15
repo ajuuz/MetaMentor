@@ -1,4 +1,4 @@
-import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
+import { IMentorEntity } from "domain/entities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { IUpdateMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/updateMentorApplicationUsecase.interface";
 import { UpdateMentorApplicationReqDTO } from "shared/dto/request/mentor.dto";
@@ -44,14 +44,15 @@ export class UpdateMentorApplicationUsecase
     if (mentorDetails.about) mappedUpdationFields.about = mentorDetails.about;
     if (mentorDetails.domains)
       mappedUpdationFields.domains = mentorDetails.domains;
-    
-    if(mentorDetails.imageIndexMap?.length && mentorDetails.images?.length){
-      const imageIndexMap=mentorDetails.imageIndexMap
-      const images=mentorDetails.images
-      imageIndexMap.forEach((item,index)=>{
-        if(item==='cv') mappedUpdationFields.cv = images[index];
-        if(item==='experienceCirtificate') mappedUpdationFields.experienceCirtificate = images[index];
-      })
+
+    if (mentorDetails.imageIndexMap?.length && mentorDetails.images?.length) {
+      const imageIndexMap = mentorDetails.imageIndexMap;
+      const images = mentorDetails.images;
+      imageIndexMap.forEach((item, index) => {
+        if (item === "cv") mappedUpdationFields.cv = images[index];
+        if (item === "experienceCirtificate")
+          mappedUpdationFields.experienceCirtificate = images[index];
+      });
     }
     if (mentorDetails.skills)
       mappedUpdationFields.skills = mentorDetails.skills;
@@ -61,7 +62,7 @@ export class UpdateMentorApplicationUsecase
 
     if (mentorDetails.fee) mappedUpdationFields.fee = mentorDetails.fee;
 
-    console.log(mappedFilterFields,mappedUpdationFields)
+    console.log(mappedFilterFields, mappedUpdationFields);
     await this._mentorRepository.updateOne(
       mappedFilterFields,
       mappedUpdationFields

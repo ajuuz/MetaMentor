@@ -1,7 +1,7 @@
 import {
   IGetStudentsForAdmin,
   IStudentEntity,
-} from "entities/modelEntities/student-model.entity";
+} from "domain/entities/student-model.entity";
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
 import {
   IStudentModel,
@@ -43,7 +43,7 @@ export class StudentRepository
       else {
         if (field === "searchTerm" && typeof value === "string") {
           if (!isNaN(Number(value))) {
-            console.log('working')
+            console.log("working");
             mongoFilter["$expr"] = {
               $regexMatch: {
                 input: { $toString: "$seq" },

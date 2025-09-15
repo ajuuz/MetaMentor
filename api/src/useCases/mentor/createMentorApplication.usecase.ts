@@ -1,4 +1,4 @@
-import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
+import { IMentorEntity } from "domain/entities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { ICreateMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/createMentorApplicationUsecase.interface";
 import { HTTP_STATUS } from "shared/constants";
@@ -25,7 +25,7 @@ export class CreateMentorApplicationUsecase
     }
     const mappedDetails: Pick<
       IMentorEntity,
-      "userId"
+      | "userId"
       | "about"
       | "domains"
       | "cv"

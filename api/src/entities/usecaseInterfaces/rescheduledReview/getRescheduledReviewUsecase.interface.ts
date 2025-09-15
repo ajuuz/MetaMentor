@@ -1,6 +1,5 @@
-import { IRescheduleReviewEntity } from "entities/modelEntities/rescheduleReviewModel.entity";
+import { IRescheduleReviewEntity } from "domain/entities/rescheduleReviewModel.entity";
 
-
-export interface IGetRescheduledReviewUsecase{
-    execute(reviewId:string):Promise<IRescheduleReviewEntity>
+export interface IGetRescheduledReviewUsecase {
+  execute(reviewId: string): Promise<IRescheduleReviewEntity>;
 }

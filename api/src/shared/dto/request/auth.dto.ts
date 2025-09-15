@@ -7,7 +7,7 @@ import {
   IsString,
   Matches,
 } from "class-validator";
-import { IUserEntity } from "entities/modelEntities/user-model.entity";
+import { IUserEntity } from "domain/entities/user-model.entity";
 import { GENDER } from "shared/constants";
 import { ValidationError } from "shared/utils/error/validationError";
 

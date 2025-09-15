@@ -1,4 +1,4 @@
-import { IGetMentors } from "entities/modelEntities/mentor-model.entity";
+import { IGetMentors } from "domain/entities/mentor-model.entity";
 
 export interface IGetMentorsUsecase {
   execute(

@@ -1,5 +1,5 @@
-import { INotificationEntity } from "entities/modelEntities/notificationModel.entity";
-import { IRescheduleReviewEntity } from "entities/modelEntities/rescheduleReviewModel.entity";
+import { INotificationEntity } from "domain/entities/notificationModel.entity";
+import { IRescheduleReviewEntity } from "domain/entities/rescheduleReviewModel.entity";
 import { INotificationRepository } from "entities/repositoryInterfaces/notificationRepository.interface";
 import { IRescheduleReviewRepository } from "entities/repositoryInterfaces/rescheduleReviewRepository.interface";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";

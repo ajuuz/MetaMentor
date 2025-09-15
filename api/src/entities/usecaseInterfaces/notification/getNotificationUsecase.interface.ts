@@ -1,5 +1,8 @@
-import { INotificationEntity } from "entities/modelEntities/notificationModel.entity";
+import { INotificationEntity } from "domain/entities/notificationModel.entity";
 
 export interface IGetNotificationUsecase {
-  execute(userId:string,filter: "all" | "unRead"): Promise<INotificationEntity[]>;
+  execute(
+    userId: string,
+    filter: "all" | "unRead"
+  ): Promise<INotificationEntity[]>;
 }

@@ -1,4 +1,4 @@
-import { IMentorEntity } from "entities/modelEntities/mentor-model.entity";
+import { IMentorEntity } from "domain/entities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { IRejectMentorApplicationUsecase } from "entities/usecaseInterfaces/mentor/rejectMentorApplication.interface";
 import { EVENT_EMITTER_TYPE, MAIL_CONTENT_PURPOSE } from "shared/constants";
@@ -6,25 +6,38 @@ import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/mailContentProvider";
 import { inject, injectable } from "tsyringe";
 
-
 @injectable()
-export class RejectMentorApplicationUsecase implements IRejectMentorApplicationUsecase{
+export class RejectMentorApplicationUsecase
+  implements IRejectMentorApplicationUsecase
+{
+  constructor(
+    @inject("IMentorRepository")
+    private _mentorRepository: IMentorRepository
+  ) {}
+  async execute(
+    mentorId: string,
+    email: string,
+    reason: string
+  ): Promise<void> {
+    const filter: {
+      field: keyof IMentorEntity;
+      value: string | boolean | number;
+    }[] = [];
+    filter.push({ field: "userId", value: mentorId });
+    const update: Pick<IMentorEntity, "isRejected"> = { isRejected: true };
 
-    constructor(
-        @inject('IMentorRepository')
-        private _mentorRepository:IMentorRepository,
+    await this._mentorRepository.updateOne(filter, update);
 
-    ){}
-    async execute(mentorId:string,email:string,reason:string):Promise<void>{
+    const html = mailContentProvider(
+      MAIL_CONTENT_PURPOSE.MENTOR_REJECTION,
+      reason
+    );
 
-        const filter:{field:keyof IMentorEntity,value:string|boolean|number}[]=[];
-        filter.push({field:"userId",value:mentorId})
-        const update:Pick<IMentorEntity,'isRejected'>={isRejected:true}
-
-        await this._mentorRepository.updateOne(filter,update)
-
-        const html = mailContentProvider(MAIL_CONTENT_PURPOSE.MENTOR_REJECTION,reason)
-        
-        eventBus.emit(EVENT_EMITTER_TYPE.SENDMAIL,email,"Application Rejected",html)
-    }
+    eventBus.emit(
+      EVENT_EMITTER_TYPE.SENDMAIL,
+      email,
+      "Application Rejected",
+      html
+    );
+  }
 }

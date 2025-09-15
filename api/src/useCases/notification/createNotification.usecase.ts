@@ -1,4 +1,4 @@
-import { INotificationEntity } from "entities/modelEntities/notificationModel.entity";
+import { INotificationEntity } from "domain/entities/notificationModel.entity";
 import { INotificationRepository } from "entities/repositoryInterfaces/notificationRepository.interface";
 import { ICreateNotificationUsecase } from "entities/usecaseInterfaces/notification/createNotificationUsecase.interface";
 import { inject, injectable } from "tsyringe";

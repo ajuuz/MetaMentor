@@ -1,15 +1,18 @@
 import { injectable } from "tsyringe";
 import { BaseRepository } from "./base.repository";
 import { ICommunityPostRepository } from "entities/repositoryInterfaces/communityPostRepository.interface";
-import { communityPostModel, ICommunityPostModel } from "frameworks/database/models/communityPost.model";
-import { ICommunityPostEntity } from "entities/modelEntities/communityPostModel.entity";
-
+import {
+  communityPostModel,
+  ICommunityPostModel,
+} from "frameworks/database/models/communityPost.model";
+import { ICommunityPostEntity } from "domain/entities/communityPostModel.entity";
 
 @injectable()
-export class CommunityPostRepository extends BaseRepository<ICommunityPostEntity,ICommunityPostModel> implements ICommunityPostRepository{
-
-    constructor(){
-        super(communityPostModel)
-    }
-
+export class CommunityPostRepository
+  extends BaseRepository<ICommunityPostEntity, ICommunityPostModel>
+  implements ICommunityPostRepository
+{
+  constructor() {
+    super(communityPostModel);
+  }
 }

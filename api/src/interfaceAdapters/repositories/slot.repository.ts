@@ -1,4 +1,4 @@
-import { ISlotEntity, ISlotTime } from "entities/modelEntities/slotModel.entity";
+import { ISlotEntity, ISlotTime } from "domain/entities/slotModel.entity";
 import { ISlotRepository } from "entities/repositoryInterfaces/slotRepository.interface";
 import { ISlotModel, slotModel } from "frameworks/database/models/slot.model";
 import mongoose from "mongoose";
@@ -129,11 +129,11 @@ export class SlotRepository
 
   async findAllSlotsOfaDay(mentorId: string, day: DAYS): Promise<ISlotTime[]> {
     const result = await slotModel.aggregate([
-        {$match:{mentorId:new mongoose.Types.ObjectId(mentorId) }},
-        {$project:{slot:`$weekSlots.${day}`,_id:0}}
-    ])
+      { $match: { mentorId: new mongoose.Types.ObjectId(mentorId) } },
+      { $project: { slot: `$weekSlots.${day}`, _id: 0 } },
+    ]);
 
-    console.log("dsfdfdf",result);
-    return result[0].slot
+    console.log("dsfdfdf", result);
+    return result[0].slot;
   }
 }

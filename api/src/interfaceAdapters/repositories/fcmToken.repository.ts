@@ -1,4 +1,4 @@
-import { IFcmTokenEntity } from "entities/modelEntities/fcmTokenModel.entity";
+import { IFcmTokenEntity } from "domain/entities/fcmTokenModel.entity";
 import { IFcmTokenRepository } from "entities/repositoryInterfaces/fcmTokenRepository.interface";
 import {
   fcmTokenModel,
@@ -7,7 +7,6 @@ import {
 
 import { BaseRepository } from "./base.repository";
 import { injectable } from "tsyringe";
-
 
 @injectable()
 export class FcmTokenRepository
@@ -21,7 +20,11 @@ export class FcmTokenRepository
   async createFcmToken(userId: string, fcmToken: string): Promise<void> {
     //  const newFcmToken=new this.model({userId,fcmToken});
     //  await newFcmToken.save()
-     await this.model.updateOne({userId},{$set:{fcmToken}},{upsert:true})
+    await this.model.updateOne(
+      { userId },
+      { $set: { fcmToken } },
+      { upsert: true }
+    );
   }
 
   async delete(userId: string): Promise<void> {

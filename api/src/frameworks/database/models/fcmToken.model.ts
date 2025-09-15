@@ -1,11 +1,11 @@
-import { IFcmTokenEntity } from "entities/modelEntities/fcmTokenModel.entity";
+import { IFcmTokenEntity } from "domain/entities/fcmTokenModel.entity";
 import mongoose, { Document, ObjectId } from "mongoose";
 
 import { fcmTokenSchema } from "../schemas/fcmToken.schema";
 
 export interface IFcmTokenModel
   extends Omit<IFcmTokenEntity, "userId">,
-    Document<ObjectId>{
+    Document<ObjectId> {
   userId: ObjectId;
 }
 

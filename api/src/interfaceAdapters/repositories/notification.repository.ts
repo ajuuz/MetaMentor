@@ -1,4 +1,4 @@
-import { INotificationEntity } from "entities/modelEntities/notificationModel.entity";
+import { INotificationEntity } from "domain/entities/notificationModel.entity";
 import { INotificationRepository } from "entities/repositoryInterfaces/notificationRepository.interface";
 import {
   INotificationModel,
@@ -15,7 +15,10 @@ export class NotificationRepository
     super(notificationModel);
   }
 
-  async updateMany(userId:string):Promise<void>{
-     await notificationModel.updateMany({userId,isRead:false},{isRead:true})
+  async updateMany(userId: string): Promise<void> {
+    await notificationModel.updateMany(
+      { userId, isRead: false },
+      { isRead: true }
+    );
   }
 }

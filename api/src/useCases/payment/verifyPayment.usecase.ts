@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { ITransactionEntity } from "entities/modelEntities/transactionModel.entity";
+import { ITransactionEntity } from "domain/entities/transactionModel.entity";
 
 import { IVerifyPaymentUsecase } from "entities/usecaseInterfaces/payment/verifyPaymentUsecase.interface";
 import { IBookReviewUsecase } from "entities/usecaseInterfaces/review/bookReviewUsecase.interface";

@@ -3,7 +3,7 @@ import {
   IGetMentorProfessionalDetails,
   IGetMentors,
   IMentorEntity,
-} from "entities/modelEntities/mentor-model.entity";
+} from "domain/entities/mentor-model.entity";
 import { SORT_ORDER } from "shared/constants";
 import { IBaseRepository } from "./baseRepository.interface";
 import { IMentorModel } from "frameworks/database/models/mentor.model";

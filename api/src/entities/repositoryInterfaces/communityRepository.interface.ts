@@ -1,4 +1,4 @@
-import { ICommunityEntity } from "entities/modelEntities/communityModel.entity";
+import { ICommunityEntity } from "domain/entities/communityModel.entity";
 import { ICommunityModel } from "frameworks/database/models/community.model";
 
 import { IBaseRepository } from "./baseRepository.interface";

@@ -1,4 +1,4 @@
-import { IGetMentors } from "entities/modelEntities/mentor-model.entity";
+import { IGetMentors } from "domain/entities/mentor-model.entity";
 import { IMentorRepository } from "entities/repositoryInterfaces/mentorRepository.interface";
 import { IGetMentorsUsecase } from "entities/usecaseInterfaces/mentor/getMentorsUsecase.interface";
 import { SORT_ORDER } from "shared/constants";

@@ -1,30 +1,40 @@
-import { ICreateLevelEntity, ILevelEntity } from "entities/modelEntities/levelModel.entity";
+import {
+  ICreateLevelEntity,
+  ILevelEntity,
+} from "domain/entities/levelModel.entity";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
-import { ILevelModel, levelModel } from "frameworks/database/models/level.model";
+import {
+  ILevelModel,
+  levelModel,
+} from "frameworks/database/models/level.model";
 
 import { BaseRepository } from "./base.repository";
 
+export class LevelRepository
+  extends BaseRepository<ILevelEntity, ILevelModel>
+  implements ILevelRepository
+{
+  constructor() {
+    super(levelModel);
+  }
 
-export class LevelRepository extends BaseRepository<ILevelEntity,ILevelModel> implements ILevelRepository{
+  async inserManyLevels(levels: ICreateLevelEntity[]): Promise<void> {
+    await levelModel.insertMany(levels);
+  }
 
-    constructor(){
-        super(levelModel)
-    }
+  async replaceLevel(
+    levelId: string,
+    levelData: Omit<ILevelEntity, "_id">
+  ): Promise<void> {
+    await levelModel.replaceOne({ _id: levelId }, levelData);
+  }
 
-    async inserManyLevels(levels:ICreateLevelEntity[]):Promise<void>{
-        await levelModel.insertMany(levels);
-    }
+  async getNextLevel(domainId: string, skip: number): Promise<ILevelModel[]> {
+    const levels = await levelModel.find({ domainId }).skip(skip).limit(2);
+    return levels;
+  }
 
-    async replaceLevel(levelId:string,levelData:Omit<ILevelEntity,'_id'>):Promise<void>{
-        await levelModel.replaceOne({_id:levelId},levelData);
-    }
-
-    async getNextLevel(domainId:string,skip:number):Promise<ILevelModel[]>{
-        const levels= await levelModel.find({domainId}).skip(skip).limit(2)
-        return levels
-    }
-
-    async updateStatus(id: string, status: boolean): Promise<void> {
+  async updateStatus(id: string, status: boolean): Promise<void> {
     await this.model.updateOne({ _id: id }, { isBlocked: status });
   }
 }

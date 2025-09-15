@@ -1,4 +1,4 @@
-import { ISlotEntity } from "entities/modelEntities/slotModel.entity";
+import { ISlotEntity } from "domain/entities/slotModel.entity";
 import mongoose, { Document, ObjectId } from "mongoose";
 
 import { slotSchema } from "../schemas/slot.schema";
@@ -10,7 +10,12 @@ export interface ISlotModel
   weekSlots: {
     Monday: { _id: ObjectId; start: number; end: number; enabled: boolean }[];
     Tuesday: { _id: ObjectId; start: number; end: number; enabled: boolean }[];
-    Wednesday: {_id: ObjectId;start: number; end: number;enabled: boolean;}[];
+    Wednesday: {
+      _id: ObjectId;
+      start: number;
+      end: number;
+      enabled: boolean;
+    }[];
     Thursday: { _id: ObjectId; start: number; end: number; enabled: boolean }[];
     Friday: { _id: ObjectId; start: number; end: number; enabled: boolean }[];
     Saturday: { _id: ObjectId; start: number; end: number; enabled: boolean }[];

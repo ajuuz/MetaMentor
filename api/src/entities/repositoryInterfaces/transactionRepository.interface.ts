@@ -1,4 +1,4 @@
-import { ITransactionEntity } from "entities/modelEntities/transactionModel.entity";
+import { ITransactionEntity } from "domain/entities/transactionModel.entity";
 
 export interface ITransactionRepository {
   createTransaction(

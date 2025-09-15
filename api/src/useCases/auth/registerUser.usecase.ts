@@ -1,4 +1,4 @@
-import { IUserEntity } from "entities/modelEntities/user-model.entity";
+import { IUserEntity } from "domain/entities/user-model.entity";
 import { IOtpRespository } from "entities/repositoryInterfaces/otp-repository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
 import { IRegisterUserUsecase } from "entities/usecaseInterfaces/auth/registerUsecase.interface";

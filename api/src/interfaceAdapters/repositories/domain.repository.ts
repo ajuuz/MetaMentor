@@ -1,4 +1,4 @@
-import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
+import { IDomainEntity } from "domain/entities/domainModel.entity";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import {
   domainModel,
@@ -19,23 +19,31 @@ export class DomainRepository
 
   async findWithFilterAndPaginated(
     searchTerm: string,
-    filter:Partial<IDomainEntity> = {},
+    filter: Partial<IDomainEntity> = {},
     skip: number = 0,
     limit: number = 10,
     sort: { field: string; order: SORT_ORDER }
-  ):Promise<{items:IDomainModel[],totalDocuments:number}> {
+  ): Promise<{ items: IDomainModel[]; totalDocuments: number }> {
     const mongoFilter = filter as unknown as FilterQuery<IDomainModel>;
 
-    if(searchTerm){
-        mongoFilter['name']={ $regex: searchTerm, $options: "i" }
+    if (searchTerm) {
+      mongoFilter["name"] = { $regex: searchTerm, $options: "i" };
     }
 
     const sortOption = sort
-      ? ({ [sort.field]: sort.order === "asc" ? 1 : -1 } as Record<string,SortOrder>)
+      ? ({ [sort.field]: sort.order === "asc" ? 1 : -1 } as Record<
+          string,
+          SortOrder
+        >)
       : {};
 
     const [items, totalDocuments] = await Promise.all([
-      domainModel.find(mongoFilter).skip(skip).sort(sortOption).limit(limit).lean(),
+      domainModel
+        .find(mongoFilter)
+        .skip(skip)
+        .sort(sortOption)
+        .limit(limit)
+        .lean(),
       domainModel.countDocuments(mongoFilter),
     ]);
     return { items, totalDocuments };

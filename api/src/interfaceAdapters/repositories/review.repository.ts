@@ -5,7 +5,7 @@ import {
   IGetReviewsForStud,
   IGetReviewsForStudAndDomain,
   IReviewEntity,
-} from "entities/modelEntities/reviewModel.entity";
+} from "domain/entities/reviewModel.entity";
 import { IReviewRepository } from "entities/repositoryInterfaces/reviewRepository.interface";
 import {
   reviewModel,
@@ -243,7 +243,7 @@ export class ReviewRepository
             status: 1,
             payment: { method: "$payment.method", status: "$payment.status" },
             feedBack: 1,
-            isRescheduledOnce:1,
+            isRescheduledOnce: 1,
             slot: 1,
           },
         },
@@ -329,7 +329,7 @@ export class ReviewRepository
             status: 1,
             payment: { method: "$payment.method", status: "$payment.status" },
             feedBack: 1,
-            isRescheduledOnce:1,
+            isRescheduledOnce: 1,
             slot: 1,
           },
         },
@@ -471,6 +471,9 @@ export class ReviewRepository
     reviewId: string,
     slot: { start: Date; end: Date }
   ): Promise<void> {
-    await reviewModel.updateOne({ _id: reviewId }, { $set: { slot,status:'pending',isRescheduledOnce:true } });
+    await reviewModel.updateOne(
+      { _id: reviewId },
+      { $set: { slot, status: "pending", isRescheduledOnce: true } }
+    );
   }
 }

@@ -1,6 +1,6 @@
-import { ICommunityEntity } from "entities/modelEntities/communityModel.entity";
-import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
-import { ICreateLevelEntity } from "entities/modelEntities/levelModel.entity";
+import { ICommunityEntity } from "domain/entities/communityModel.entity";
+import { IDomainEntity } from "domain/entities/domainModel.entity";
+import { ICreateLevelEntity } from "domain/entities/levelModel.entity";
 import { ICommunityRepository } from "entities/repositoryInterfaces/communityRepository.interface";
 import { IDomainRepository } from "entities/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";

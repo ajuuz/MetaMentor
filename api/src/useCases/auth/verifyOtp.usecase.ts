@@ -1,4 +1,4 @@
-import { IUserEntity } from "entities/modelEntities/user-model.entity";
+import { IUserEntity } from "domain/entities/user-model.entity";
 import { IOtpRespository } from "entities/repositoryInterfaces/otp-repository.interface";
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
 import { IUserRespository } from "entities/repositoryInterfaces/user-repository.interface";
@@ -23,7 +23,7 @@ export class VerifyOtpUsecase implements IVerifyOtpUsecase {
     private _studentRepository: IStudentRepository,
 
     @inject("IWalletRepository")
-    private _walletRepository: IWalletRepository,
+    private _walletRepository: IWalletRepository
   ) {}
 
   async execute(email: string, otp: string): Promise<void> {

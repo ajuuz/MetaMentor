@@ -1,4 +1,4 @@
-import { ICommunityEntity } from "entities/modelEntities/communityModel.entity";
+import { ICommunityEntity } from "domain/entities/communityModel.entity";
 import { ICommunityRepository } from "entities/repositoryInterfaces/communityRepository.interface";
 import {
   communityModel,
@@ -83,7 +83,7 @@ export class CommunityRepository
       },
     ]);
     const { items, totalDocuments } = data[0];
-    console.log(items)
+    console.log(items);
     return { items, totalDocuments };
   }
 }

@@ -1,4 +1,4 @@
-import { IEnrolledLevelEntity } from "entities/modelEntities/enrolledLevelModel";
+import { IEnrolledLevelEntity } from "domain/entities/enrolledLevelModel";
 import { IEnrolledLevelRepository } from "entities/repositoryInterfaces/enrolledLevelRepository.interface";
 import { ILevelRepository } from "entities/repositoryInterfaces/levelRepository.interface";
 import { IStudentRepository } from "entities/repositoryInterfaces/student-repository.interface";
@@ -25,33 +25,40 @@ export class EnrollDomainUsecase implements IEnrollDomainUsecase {
     fullCourse: boolean,
     selectedLevelsId?: string[]
   ): Promise<void> {
-    let transformedLevelData: Omit<IEnrolledLevelEntity, "_id" | "assignments">[];
+    let transformedLevelData: Omit<
+      IEnrolledLevelEntity,
+      "_id" | "assignments"
+    >[];
 
     if (fullCourse) {
-      const levelFilter = { domainId,isBlocked:false };
+      const levelFilter = { domainId, isBlocked: false };
       const levelsData = await this._levelRepository.findWhole(levelFilter);
-      transformedLevelData=levelsData.map((level)=>{
+      transformedLevelData = levelsData.map((level) => {
         return {
-            studentId,
-            domainId,
-            levelId:level._id,
-        }
-      })
+          studentId,
+          domainId,
+          levelId: level._id,
+        };
+      });
     } else {
-        if(!selectedLevelsId) throw new ValidationError();
+      if (!selectedLevelsId) throw new ValidationError();
 
-        transformedLevelData=selectedLevelsId?.map((levelId)=>{
-            return {
-                studentId,
-                domainId,
-                levelId
-            }
-        })
+      transformedLevelData = selectedLevelsId?.map((levelId) => {
+        return {
+          studentId,
+          domainId,
+          levelId,
+        };
+      });
     }
 
-    const asyncOperations=[]
-    asyncOperations.push(this._studentRepository.pushDomain(studentId, domainId))
-    asyncOperations.push(this._enrolledLevelRepository.insertMany(transformedLevelData))
+    const asyncOperations = [];
+    asyncOperations.push(
+      this._studentRepository.pushDomain(studentId, domainId)
+    );
+    asyncOperations.push(
+      this._enrolledLevelRepository.insertMany(transformedLevelData)
+    );
     await Promise.all(asyncOperations);
   }
 }

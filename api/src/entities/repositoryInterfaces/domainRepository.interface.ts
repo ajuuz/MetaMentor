@@ -1,4 +1,4 @@
-import { IDomainEntity } from "entities/modelEntities/domainModel.entity";
+import { IDomainEntity } from "domain/entities/domainModel.entity";
 import { IDomainModel } from "frameworks/database/models/domain.model";
 
 import { IBaseRepository } from "./baseRepository.interface";

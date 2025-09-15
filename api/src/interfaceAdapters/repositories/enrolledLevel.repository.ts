@@ -1,6 +1,9 @@
 import { BaseRepository } from "./base.repository";
 import { IEnrolledLevelRepository } from "entities/repositoryInterfaces/enrolledLevelRepository.interface";
-import { IEnrolledLevelEntity, IGetEnrolledLevel } from "entities/modelEntities/enrolledLevelModel";
+import {
+  IEnrolledLevelEntity,
+  IGetEnrolledLevel,
+} from "domain/entities/enrolledLevelModel";
 import {
   EnrolledLevelModel,
   IEnrolledLevelModel,
@@ -27,8 +30,8 @@ export class EnrolledLevelRepository
           studentId: new mongoose.Types.ObjectId(studentId),
         },
       },
-      {$skip:skip},
-      {$limit:2},
+      { $skip: skip },
+      { $limit: 2 },
       {
         $lookup: {
           from: "levels",
@@ -41,21 +44,26 @@ export class EnrolledLevelRepository
         $unwind: "$levelData",
       },
       {
-        $project:{
-            name:'$levelData.name',
-            levelId:1,
-            description:'$levelData.description',
-            taskFile:'$levelData.taskFile',
-            tasks:'$levelData.tasks',
-            assignments:1
-        }
+        $project: {
+          name: "$levelData.name",
+          levelId: 1,
+          description: "$levelData.description",
+          taskFile: "$levelData.taskFile",
+          tasks: "$levelData.tasks",
+          assignments: 1,
+        },
       },
     ]);
     return levels;
   }
 
-
-  async saveLevelAssignments(enrolledLevelId:string,assignments:string[]):Promise<void>{
-     await EnrolledLevelModel.updateOne({_id:enrolledLevelId},{assignments})
+  async saveLevelAssignments(
+    enrolledLevelId: string,
+    assignments: string[]
+  ): Promise<void> {
+    await EnrolledLevelModel.updateOne(
+      { _id: enrolledLevelId },
+      { assignments }
+    );
   }
 }
