@@ -11,8 +11,8 @@ import { IUserController } from "application/interfaces/controller/user/userCont
 import { IUserDomainController } from "application/interfaces/controller/user/userDomainController.interface";
 import { IUserReviewController } from "application/interfaces/controller/user/userReviewController.interface";
 import { IUserSlotController } from "application/interfaces/controller/user/userSlotController.interface";
-import { IAuthMiddleware } from "entities/middlewareInterfaces/authMiddleware.interface";
-import { IErrorMiddleware } from "entities/middlewareInterfaces/error-middleware.interface";
+import { IAuthMiddleware } from "application/interfaces/middleware/authMiddleware.interface";
+import { IErrorMiddleware } from "application/interfaces/middleware/error-middleware.interface";
 import { AdminCommunityController } from "interfaceAdapters/controllers/admin/community.controller";
 import { AdminDomainController } from "interfaceAdapters/controllers/admin/domain.controller";
 import { AdminMentorController } from "interfaceAdapters/controllers/admin/mentor.controller";
@@ -31,7 +31,7 @@ import { ErrorMiddleware } from "interfaceAdapters/middlewares/error.middleware"
 import { container } from "tsyringe";
 
 import { DependencyInjection } from ".";
-import { ILoggerMiddleware } from "entities/middlewareInterfaces/loggerMiddleware.interface";
+import { ILoggerMiddleware } from "application/interfaces/middleware/loggerMiddleware.interface";
 import { LoggerMiddleware } from "interfaceAdapters/middlewares/logger.middleware";
 import { IMentorReviewController } from "application/interfaces/controller/mentor/reviewController.interface";
 import { MentorReviewController } from "interfaceAdapters/controllers/mentor/review.controller";

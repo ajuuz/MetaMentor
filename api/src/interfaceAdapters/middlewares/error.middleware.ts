@@ -1,4 +1,4 @@
-import { IErrorMiddleware } from "entities/middlewareInterfaces/error-middleware.interface";
+import { IErrorMiddleware } from "application/interfaces/middleware/error-middleware.interface";
 import { ILoggerService } from "entities/serviceInterfaces/loggerService.interface";
 import { NextFunction, Request, Response } from "express";
 import { ERROR_MESSAGE, HTTP_STATUS } from "shared/constants";

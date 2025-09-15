@@ -1,4 +1,4 @@
-import { IAuthMiddleware } from "entities/middlewareInterfaces/authMiddleware.interface";
+import { IAuthMiddleware } from "application/interfaces/middleware/authMiddleware.interface";
 import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
 import { ITokenService } from "entities/serviceInterfaces/tokenService.interface";
