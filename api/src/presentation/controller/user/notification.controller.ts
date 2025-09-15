@@ -1,5 +1,4 @@
 import { IUserNotificationController } from "application/interfaces/controller/user/notificationController.interface";
-import { ISaveLevelAssignmentUsecase } from "application/usecase/interfaces/enrolledLevel/saveLevelAssignmentUsecase.interface";
 import { IGetNotificationUsecase } from "application/usecase/interfaces/notification/getNotificationUsecase.interface";
 import { IMarkAsReadUsecase } from "application/usecase/interfaces/notification/markAsReadUsecase.interface";
 import { Request, Response } from "express";

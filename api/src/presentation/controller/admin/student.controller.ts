@@ -3,10 +3,6 @@ import { IGetAllStudentsUsecase } from "application/usecase/interfaces/student/g
 import { IUpdateStudentStatusUsecase } from "application/usecase/interfaces/student/updateStudentStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
-import {
-  GetAllStudentReqDTO,
-  UpdateStudentStatusReqDTO,
-} from "application/dto/requset/student.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -25,7 +21,7 @@ export class AdminStudentController implements IAdminStudentController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const fetchDetails: GetAllStudentReqDTO = req.verifiedData;
+      const fetchDetails= req.verifiedData;
       const data = await this._getAllStudentsUsecase.execute(fetchDetails);
       res.status(HTTP_STATUS.OK).json(data);
     } catch (error) {
@@ -38,7 +34,7 @@ export class AdminStudentController implements IAdminStudentController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { userId, status }: UpdateStudentStatusReqDTO = req.verifiedData;
+    const { userId, status } = req.verifiedData;
     try {
       await this._updateStudentStatusUsecase.execute(userId, status);
       res.status(HTTP_STATUS.OK).json({

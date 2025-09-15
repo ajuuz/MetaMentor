@@ -3,10 +3,6 @@ import { IGetCommunitiesUsecase } from "application/usecase/interfaces/community
 import { IUpdateCommunityStatusUsecase } from "application/usecase/interfaces/community/updateCommunityUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
-import {
-  GetCommunitiesForAdminReqDTO,
-  UpdateCommunityStatusDTO,
-} from "application/dto/requset/community.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -20,12 +16,7 @@ export class AdminCommunityController implements IAdminCommunityController {
   ) {}
 
   async getAllCommunities(req: Request, res: Response): Promise<void> {
-    const {
-      currentPage,
-      limit,
-      sortBy,
-      searchTerm,
-    }: GetCommunitiesForAdminReqDTO = req.verifiedData;
+    const { currentPage, limit, sortBy, searchTerm } = req.verifiedData;
 
     const data = await this._getCommunitiesUsecase.execute(
       currentPage,
@@ -37,7 +28,7 @@ export class AdminCommunityController implements IAdminCommunityController {
   }
 
   async updateCommunityStatus(req: Request, res: Response): Promise<void> {
-    const { communityId, status }: UpdateCommunityStatusDTO = req.verifiedData;
+    const { communityId, status }= req.verifiedData;
     await this._updateCommunityStatusUsecase.execute(communityId, status);
     res.status(200).json({
       success: true,

@@ -7,12 +7,6 @@ import { IUpdateMentorStatusUsecase } from "application/usecase/interfaces/mento
 import { NextFunction, Request, Response } from "express";
 import sseClientManager from "infrastructure/config/sse/sseClientManager.config";
 import { HTTP_STATUS, MENTOR_APPLICATION_STATUS } from "shared/constants";
-import {
-  GetAllMentorsReqDTO,
-  GetSpecificMentorReqDTO,
-  MentorApplicationVerificationReqDTO,
-  UpdateMentorStatusReqDTO,
-} from "application/dto/requset/mentor.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -46,7 +40,7 @@ export class AdminMentorController implements IAdminMentorController {
       sortBy,
       searchTerm,
       selectedDomains,
-    }: GetAllMentorsReqDTO = req.verifiedData;
+    } = req.verifiedData;
     try {
       const data = await this._getMentorsForAdminUsecase.execute(
         isVerified,
@@ -67,7 +61,7 @@ export class AdminMentorController implements IAdminMentorController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { mentorId }: GetSpecificMentorReqDTO = req.verifiedData;
+    const { mentorId } = req.verifiedData;
     try {
       const data = await this._getMentorApplicationDetailsUsecase.execute(
         mentorId
@@ -82,12 +76,7 @@ export class AdminMentorController implements IAdminMentorController {
     req: Request,
     res: Response
   ): Promise<void> {
-    const {
-      mentorId,
-      applicationStatus,
-      email,
-      reason,
-    }: MentorApplicationVerificationReqDTO = req.verifiedData;
+    const { mentorId, applicationStatus, email, reason } = req.verifiedData;
 
     if (applicationStatus === MENTOR_APPLICATION_STATUS.ACCEPTED) {
       await this._acceptMentorApplicationUsecase.execute(mentorId, email);
@@ -113,7 +102,7 @@ export class AdminMentorController implements IAdminMentorController {
   }
 
   async updateMentorStatus(req: Request, res: Response): Promise<void> {
-    const { mentorId, status }: UpdateMentorStatusReqDTO = req.verifiedData;
+    const { mentorId, status } = req.verifiedData;
     await this._updateMentorStatusUsecase.execute(mentorId, status);
     res.status(200).json({
       success: true,

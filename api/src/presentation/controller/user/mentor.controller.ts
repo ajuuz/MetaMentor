@@ -3,10 +3,6 @@ import { IGetMentorsForStudUsecase } from "application/usecase/interfaces/mentor
 import { IGetMentorApplicationDetailsUsecase } from "application/usecase/interfaces/mentor/getMentorApplicationDetailsUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
-import {
-  GetMentorsForStudReqDTO,
-  UpdateMentorApplicationReqDTO,
-} from "application/dto/requset/mentor.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 import { IUpdateMentorApplicationUsecase } from "application/usecase/interfaces/mentor/updateMentorApplicationUsecase.interface";
@@ -37,7 +33,7 @@ export class UserMentorController implements IUserMentorController {
   }
 
   async updateMentorApplication(req: Request, res: Response): Promise<void> {
-    const mentorDetails: UpdateMentorApplicationReqDTO = req.verifiedData;
+    const mentorDetails = req.verifiedData;
     const mentorId = (req as ModifiedRequest).user.id;
     await this._updateMentorApplicationUsecase.execute(mentorId, mentorDetails);
     res.status(HTTP_STATUS.OK).json({
@@ -47,13 +43,8 @@ export class UserMentorController implements IUserMentorController {
   }
 
   async getMentorsForStud(req: Request, res: Response): Promise<void> {
-    const {
-      currentPage,
-      limit,
-      sortBy,
-      searchTerm,
-      selectedDomains,
-    }: GetMentorsForStudReqDTO = req.verifiedData;
+    const { currentPage, limit, sortBy, searchTerm, selectedDomains } =
+      req.verifiedData;
 
     const data = await this._getMentorsForStudUsecase.execute(
       sortBy,

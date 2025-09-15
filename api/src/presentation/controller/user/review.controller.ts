@@ -5,12 +5,6 @@ import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { ModifiedRequest } from "type/types";
 import { inject, injectable } from "tsyringe";
-import {
-  CancelReviewByStudReqDTO,
-  GetAllReviewsForStudReqDTO,
-  GetReviewByDayForStudReqDTO,
-  RescheduleReviewByStudReqDTO,
-} from "application/dto/requset/review.dto";
 import { IGetReviewByDayForStudUsecase } from "application/usecase/interfaces/review/getReviewByDayForStudUsecase.interface";
 import { IRescheduleReviewByStudentUsecase } from "application/usecase/interfaces/review/rescheduleReviewByStudentUsecase.interface";
 
@@ -37,7 +31,7 @@ export class UserReviewController implements IUserReviewController {
       dateRange,
       currentPage,
       limit,
-    }: GetAllReviewsForStudReqDTO = req.verifiedData;
+    } = req.verifiedData;
 
     const studentId = (req as ModifiedRequest).user.id;
 
@@ -53,7 +47,7 @@ export class UserReviewController implements IUserReviewController {
   }
 
   async getReviewsByDay(req: Request, res: Response): Promise<void> {
-    const { mentorId, date }: GetReviewByDayForStudReqDTO = req.verifiedData;
+    const { mentorId, date } = req.verifiedData;
     const data = await this._getReviewByDayForStudUsecase.execute(
       mentorId,
       date
@@ -62,7 +56,7 @@ export class UserReviewController implements IUserReviewController {
   }
 
   async cancelReview(req: Request, res: Response): Promise<void> {
-    const { reviewId }: CancelReviewByStudReqDTO = req.verifiedData;
+    const { reviewId } = req.verifiedData;
     const studentId: string = (req as ModifiedRequest)?.user?.id;
 
     await this._cancelReviewByStudentUsecase.execute(studentId, reviewId);
@@ -73,7 +67,7 @@ export class UserReviewController implements IUserReviewController {
   }
 
   async rescheduleReview(req: Request, res: Response): Promise<void> {
-    const rescheduleDetails: RescheduleReviewByStudReqDTO = req.verifiedData;
+    const rescheduleDetails = req.verifiedData;
     const studentId: string = (req as ModifiedRequest)?.user?.id;
 
     await this._rescheduleReviewByStudentUsecase.execute(

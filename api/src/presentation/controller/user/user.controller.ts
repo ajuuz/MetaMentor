@@ -3,7 +3,6 @@ import { IGetSpecificUserUsecase } from "application/usecase/interfaces/user/get
 import { IUpdateUserUsecase } from "application/usecase/interfaces/user/updateUserUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
-import { UpdateUserDetailsReqDTO } from "application/dto/requset/user.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 
@@ -24,7 +23,7 @@ export class UserController implements IUserController {
   }
 
   async updateUser(req: Request, res: Response): Promise<void> {
-    const updationData: UpdateUserDetailsReqDTO = req.verifiedData;
+    const updationData = req.verifiedData;
     const userId: string = (req as ModifiedRequest).user.id;
     await this._updateUserUsecase.execute(userId, updationData);
     res

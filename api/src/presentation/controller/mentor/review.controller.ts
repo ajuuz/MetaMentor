@@ -7,12 +7,6 @@ import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
-import {
-  CancelReviewByMentorReqDTO,
-  GetReviewsForMentorReqDTO,
-  GetReviewForMentorReqDTO,
-  SubmitReviewResultReqDTO,
-} from "application/dto/requset/review.dto";
 import { IGetReviewByDayForStudUsecase } from "application/usecase/interfaces/review/getReviewByDayForStudUsecase.interface";
 import { IRescheduleReviewSubmitByMentor } from "application/usecase/interfaces/review/rescheduleReviewSubmitByMentorUsecase.interface";
 
@@ -44,7 +38,7 @@ export class MentorReviewController implements IMentorReviewController {
       dateRange,
       currentPage,
       limit,
-    }: GetReviewsForMentorReqDTO = req.verifiedData;
+    }= req.verifiedData;
     const mentorId = (req as ModifiedRequest).user.id;
 
     console.log("fsjlkd");
@@ -70,7 +64,7 @@ export class MentorReviewController implements IMentorReviewController {
   }
 
   async getReview(req: Request, res: Response): Promise<void> {
-    const { reviewId }: GetReviewForMentorReqDTO = req.verifiedData;
+    const { reviewId } = req.verifiedData;
 
     const mentorId: string = (req as ModifiedRequest)?.user?.id;
 
@@ -82,7 +76,7 @@ export class MentorReviewController implements IMentorReviewController {
   }
 
   async cancelReview(req: Request, res: Response): Promise<void> {
-    const { reviewId }: CancelReviewByMentorReqDTO = req.verifiedData;
+    const { reviewId }= req.verifiedData;
     const mentorId: string = (req as ModifiedRequest).user.id;
     try {
       await this._cancelReviewByMentorUsecase.execute(mentorId, reviewId);
@@ -111,7 +105,7 @@ export class MentorReviewController implements IMentorReviewController {
 
   async submitReviewResult(req: Request, res: Response): Promise<void> {
     const mentorId: string = (req as ModifiedRequest)?.user?.id;
-    const reviewResultDetails: SubmitReviewResultReqDTO = req.verifiedData;
+    const reviewResultDetails= req.verifiedData;
     console.log(reviewResultDetails);
 
     await this._submitReviewResultUsecase.execute(

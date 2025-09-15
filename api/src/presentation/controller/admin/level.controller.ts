@@ -2,7 +2,6 @@ import { IAdminLevelController } from "application/interfaces/controller/admin/l
 import { IUpdateLevelStatusUsecase } from "application/usecase/interfaces/level/updateLevelStatusUsecase.interface";
 import { Request, Response } from "express";
 import { SUCCESS_MESSAGE } from "shared/constants";
-import { UpdateLevelStatusDTO } from "application/dto/requset/level.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -13,8 +12,7 @@ export class AdminLevelController implements IAdminLevelController {
   ) {}
 
   async updateLevelStatus(req: Request, res: Response): Promise<void> {
-    console.log("controller working");
-    const { levelId, status }: UpdateLevelStatusDTO = req.verifiedData;
+    const { levelId, status } = req.verifiedData;
     await this._updateLevelStatusUsecase.execute(levelId, status);
     res
       .status(200)

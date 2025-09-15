@@ -5,10 +5,6 @@ import { ISlotValidityCheckerUsecase } from "application/usecase/interfaces/slot
 import { IUpdateSlotStatusUsecase } from "application/usecase/interfaces/slot/updateSlotStatusUsecase.interface";
 import { IUpdateSlotUsecase } from "application/usecase/interfaces/slot/updateSlotUsecase.interface";
 import { Request, Response } from "express";
-import {
-  UpdateSlotReqDTO,
-  UpdateSlotStatusReqDTO,
-} from "application/dto/requset/slot.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 
@@ -32,7 +28,7 @@ export class MentorSlotController implements IMentorSlotController {
   ) {}
 
   async updateSlot(req: Request, res: Response): Promise<void> {
-    const weekSlots: UpdateSlotReqDTO = req.verifiedData;
+    const weekSlots = req.verifiedData;
     const mentorId = (req as ModifiedRequest).user.id;
 
     await this._updateSlotUsecase.execute(mentorId, weekSlots);
@@ -56,7 +52,7 @@ export class MentorSlotController implements IMentorSlotController {
   }
 
   async updateSlotStatus(req: Request, res: Response): Promise<void> {
-    const slotStatusUpdationDetails: UpdateSlotStatusReqDTO = req.verifiedData;
+    const slotStatusUpdationDetails = req.verifiedData;
     const mentorId = (req as ModifiedRequest).user.id;
 
     await this._updateSlotStatusUsecase.execute(

@@ -8,13 +8,6 @@ import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import { ModifiedRequest } from "type/types";
 import { inject, injectable } from "tsyringe";
-import {
-  EnrollDomainReqDTO,
-  GetAllDomainsForStudReqDTO,
-  GetDomainDashboardForStudReqDTO,
-  GetDomainInsightReqDTO,
-  GetSpecificDomainForStudReqDTO,
-} from "application/dto/requset/domain.dto";
 
 @injectable()
 export class UserDomainController implements IUserDomainController {
@@ -36,12 +29,7 @@ export class UserDomainController implements IUserDomainController {
   ) {}
 
   async getAllDomains(req: Request, res: Response): Promise<void> {
-    const {
-      currentPage,
-      limit,
-      sortBy,
-      searchTerm,
-    }: GetAllDomainsForStudReqDTO = req.verifiedData;
+    const { currentPage, limit, sortBy, searchTerm } = req.verifiedData;
     console.log(req.verifiedData);
     const data = await this._getUnblockedDomainsUsecase.execute(
       currentPage,
@@ -54,7 +42,7 @@ export class UserDomainController implements IUserDomainController {
 
   async getSpecificDomain(req: Request, res: Response): Promise<void> {
     console.log(req.verifiedData);
-    const { domainId }: GetSpecificDomainForStudReqDTO = req.verifiedData;
+    const { domainId } = req.verifiedData;
     const unBlockedLevels = true;
     const domain = await this._getSpecificDomainUsecase.execute(
       domainId,
@@ -64,8 +52,7 @@ export class UserDomainController implements IUserDomainController {
   }
 
   async enrollDomain(req: Request, res: Response): Promise<void> {
-    const { domainId, fullCourse, selectedLevelsId }: EnrollDomainReqDTO =
-      req.verifiedData;
+    const { domainId, fullCourse, selectedLevelsId } = req.verifiedData;
     const userId = (req as ModifiedRequest).user.id;
     await this._enrollDomainUsecase.execute(
       userId,
@@ -79,8 +66,7 @@ export class UserDomainController implements IUserDomainController {
   }
 
   async getDomainDashboard(req: Request, res: Response): Promise<void> {
-    const { currentPage, limit }: GetDomainDashboardForStudReqDTO =
-      req.verifiedData;
+    const { currentPage, limit } = req.verifiedData;
     const userId = (req as ModifiedRequest).user.id;
 
     const data = await this._getEnrolledDomainsUsecase.execute(
@@ -92,7 +78,7 @@ export class UserDomainController implements IUserDomainController {
   }
 
   async getDomainInsight(req: Request, res: Response): Promise<void> {
-    const { domainId }: GetDomainInsightReqDTO = req.verifiedData;
+    const { domainId } = req.verifiedData;
     const studentId = (req as ModifiedRequest).user.id;
 
     const domainInsight = await this._getDomainInsightUsecase.execute(

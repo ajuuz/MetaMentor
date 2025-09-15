@@ -6,13 +6,6 @@ import { IGetSpecificDomainUsecase } from "application/usecase/interfaces/domain
 import { IUpdateDomainStatusUsecase } from "application/usecase/interfaces/domain/updateDomainStatusUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
-import {
-  CreateDomainReqDTO,
-  EditDomainReqDTO,
-  GetAllDomainsForAdminReqDTO,
-  GetDomainForAdminReqDTO,
-  UpdateDomainStatusDTO,
-} from "application/dto/requset/domain.dto";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -35,7 +28,7 @@ export class AdminDomainController implements IAdminDomainController {
   ) {}
 
   async addDomain(req: Request, res: Response): Promise<void> {
-    const domainDetails: CreateDomainReqDTO = req.verifiedData;
+    const domainDetails = req.verifiedData;
     await this._addDomainUsecase.execute(domainDetails);
     res
       .status(HTTP_STATUS.CREATED)
@@ -43,7 +36,7 @@ export class AdminDomainController implements IAdminDomainController {
   }
 
   async editDomain(req: Request, res: Response): Promise<void> {
-    const updationDetails: EditDomainReqDTO = req.verifiedData;
+    const updationDetails = req.verifiedData;
     await this._editDomainUsecase.execute(updationDetails);
     res
       .status(HTTP_STATUS.CREATED)
@@ -51,12 +44,7 @@ export class AdminDomainController implements IAdminDomainController {
   }
 
   async getAllDomains(req: Request, res: Response): Promise<void> {
-    const {
-      currentPage,
-      limit,
-      sortBy,
-      searchTerm,
-    }: GetAllDomainsForAdminReqDTO = req.verifiedData;
+    const { currentPage, limit, sortBy, searchTerm } = req.verifiedData;
 
     const data = await this._getAllDomainsUsecase.execute(
       currentPage,
@@ -68,13 +56,13 @@ export class AdminDomainController implements IAdminDomainController {
   }
 
   async getDomain(req: Request, res: Response): Promise<void> {
-    const { domainId }: GetDomainForAdminReqDTO = req.verifiedData;
+    const { domainId } = req.verifiedData;
     const data = await this._getSpecificDomainUsecase.execute(domainId);
     res.status(HTTP_STATUS.OK).json(data);
   }
 
   async updateDomainStatus(req: Request, res: Response): Promise<void> {
-    const { domainId, status }: UpdateDomainStatusDTO = req.verifiedData;
+    const { domainId, status } = req.verifiedData;
     await this._updateDomainStatusUsecase.execute(domainId, status);
     res
       .status(200)

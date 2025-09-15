@@ -2,10 +2,6 @@ import { IPaymentController } from "application/interfaces/controller/payment/pa
 import { ICreateOrderUsecase } from "application/usecase/interfaces/payment/createOrderUsecase.interface";
 import { IVerifyPaymentUsecase } from "application/usecase/interfaces/payment/verifyPaymentUsecase.interface";
 import { Request, Response } from "express";
-import {
-  RazorPayCreateOrderReqDTO,
-  VerifyPaymentReqDTO,
-} from "application/dto/requset/payment.dto";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 
@@ -20,7 +16,7 @@ export class PaymentController implements IPaymentController {
   ) {}
 
   async createOrder(req: Request, res: Response): Promise<void> {
-    const { amount, slotId }: RazorPayCreateOrderReqDTO = req.verifiedData;
+    const { amount, slotId } = req.verifiedData;
     const order = await this._createOrderUsecase.execute(slotId, amount);
     res.status(200).json({
       success: true,
@@ -30,7 +26,7 @@ export class PaymentController implements IPaymentController {
   }
 
   async verifyPayment(req: Request, res: Response): Promise<void> {
-    const paymentAndReviewDetails: VerifyPaymentReqDTO = req.verifiedData;
+    const paymentAndReviewDetails = req.verifiedData;
     console.log(paymentAndReviewDetails);
     const studentId = (req as ModifiedRequest).user.id;
 

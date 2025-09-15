@@ -11,15 +11,6 @@ import { IVerifyOtpUsecase } from "application/usecase/interfaces/auth/verifyOtp
 import { NextFunction, Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
 import {
-  ForgotPasswordResetReqDTO,
-  ForgotPasswordSendMailReqDTO,
-  GoogleRegisterDTO,
-  LoginReqDTO,
-  OtpReqDTO,
-  ResendOtpReqDTO,
-  UserRegisterDTO,
-} from "application/dto/requset/auth.dto";
-import {
   clearCookies,
   setAccessCookie,
   setCookie,
@@ -62,7 +53,7 @@ export class AuthController implements IAuthController {
 
   async signup(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const formData: UserRegisterDTO = req.verifiedData;
+      const formData = req.verifiedData;
       const response: ISuccessResponseHandler =
         await this._RegisterUserUsecase.execute(formData);
       res.status(response.statusCode).json(response.content);
@@ -77,7 +68,7 @@ export class AuthController implements IAuthController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { email, otp }: OtpReqDTO = req.verifiedData;
+      const { email, otp } = req.verifiedData;
 
       await this._VerifyOtpUsecase.execute(email, otp);
       res
@@ -89,7 +80,7 @@ export class AuthController implements IAuthController {
   }
 
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { email, password }: LoginReqDTO = req.verifiedData;
+    const { email, password } = req.verifiedData;
     const details = await this._LoginUsecase.execute(email, password);
     const { userData: user, accessToken, refreshToken } = details;
     setCookie(res, accessToken, refreshToken);
@@ -105,7 +96,7 @@ export class AuthController implements IAuthController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { idToken }: GoogleRegisterDTO = req.verifiedData;
+    const { idToken } = req.verifiedData;
 
     try {
       const details = await this._googleAuthUsecase.execute(idToken);
@@ -135,7 +126,7 @@ export class AuthController implements IAuthController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { email }: ResendOtpReqDTO = req.verifiedData;
+    const { email } = req.verifiedData;
 
     await this._resendOtpUsecase.execute(email);
     res
@@ -148,7 +139,7 @@ export class AuthController implements IAuthController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { email }: ForgotPasswordSendMailReqDTO = req.body;
+    const { email } = req.body;
 
     await this._forgotPasswordSendMailUsecase.execute(email);
     res.status(200).json({
@@ -162,7 +153,7 @@ export class AuthController implements IAuthController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { password, token }: ForgotPasswordResetReqDTO = req.verifiedData;
+    const { password, token }= req.verifiedData;
     await this._forgotPasswordResetUsecase.execute(password, token);
     res
       .status(200)
