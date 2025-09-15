@@ -10,7 +10,7 @@ import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.
 import {
   reviewModel,
   IReviewModel,
-} from "frameworks/database/models/bookedSlot.model";
+} from "infrastructure/database/models/bookedSlot.model";
 import mongoose, { FilterQuery, UpdateQuery } from "mongoose";
 import { PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
 

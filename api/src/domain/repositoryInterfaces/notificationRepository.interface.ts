@@ -1,5 +1,5 @@
 import { INotificationEntity } from "domain/entities/notificationModel.entity";
-import { INotificationModel } from "frameworks/database/models/notification.model";
+import { INotificationModel } from "infrastructure/database/models/notification.model";
 
 import { IBaseRepository } from "./baseRepository.interface";
 

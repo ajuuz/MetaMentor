@@ -3,7 +3,7 @@ import mongoose, { ObjectId } from "mongoose";
 
 import { otpSchema } from "../schemas/otp.schema";
 export interface IOtpModel extends IOtpEntity, Document {
-    _id: ObjectId;
+  _id: ObjectId;
 }
 
-export const otpModel = mongoose.model<IOtpModel>('otps',otpSchema);
+export const otpModel = mongoose.model<IOtpModel>("otps", otpSchema);

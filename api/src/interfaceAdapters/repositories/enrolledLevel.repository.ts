@@ -7,7 +7,7 @@ import {
 import {
   EnrolledLevelModel,
   IEnrolledLevelModel,
-} from "frameworks/database/models/enrolledLevel.model";
+} from "infrastructure/database/models/enrolledLevel.model";
 import mongoose from "mongoose";
 
 export class EnrolledLevelRepository

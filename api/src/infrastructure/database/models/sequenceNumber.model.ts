@@ -6,6 +6,7 @@ export interface ISequenceNumberModel
   extends Omit<ISequenceNumberEntity, "_id">,
     Document<ObjectId> {}
 
-
-
-export const SequenceNumberModel = mongoose.model('SequenceNumber',sequenceNumberSchema)
+export const SequenceNumberModel = mongoose.model(
+  "SequenceNumber",
+  sequenceNumberSchema
+);

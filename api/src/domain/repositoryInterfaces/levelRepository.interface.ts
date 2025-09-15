@@ -2,7 +2,7 @@ import {
   ICreateLevelEntity,
   ILevelEntity,
 } from "domain/entities/levelModel.entity";
-import { ILevelModel } from "frameworks/database/models/level.model";
+import { ILevelModel } from "infrastructure/database/models/level.model";
 
 import { IBaseRepository } from "./baseRepository.interface";
 

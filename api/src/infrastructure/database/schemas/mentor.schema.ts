@@ -2,13 +2,14 @@ import mongoose from "mongoose";
 
 import { IMentorModel } from "../models/mentor.model";
 
-
-const ratingSchema = new mongoose.Schema({
-  star:{type:Number,default:0,min:0,max:5},
-  totalStars: { type: Number, default: 0 },
-  noOfRaters: { type: Number, default: 0 },
-}, { _id: false });
-
+const ratingSchema = new mongoose.Schema(
+  {
+    star: { type: Number, default: 0, min: 0, max: 5 },
+    totalStars: { type: Number, default: 0 },
+    noOfRaters: { type: Number, default: 0 },
+  },
+  { _id: false }
+);
 
 export const mentorSchema = new mongoose.Schema<IMentorModel>({
   userId: {
@@ -17,9 +18,9 @@ export const mentorSchema = new mongoose.Schema<IMentorModel>({
     required: true,
     unique: true,
   },
-  seq:{
-    type:Number,
-    default:null
+  seq: {
+    type: Number,
+    default: null,
   },
   about: {
     type: String,
@@ -28,9 +29,9 @@ export const mentorSchema = new mongoose.Schema<IMentorModel>({
   domains: {
     type: [
       {
-        type:mongoose.Schema.ObjectId,
-        ref:'domains'
-      }
+        type: mongoose.Schema.ObjectId,
+        ref: "domains",
+      },
     ],
   },
   isBlocked: {
@@ -45,9 +46,9 @@ export const mentorSchema = new mongoose.Schema<IMentorModel>({
     type: String,
     required: true,
   },
-  rating:{
-    type:ratingSchema,
-    default: () => ({})
+  rating: {
+    type: ratingSchema,
+    default: () => ({}),
   },
   skills: {
     type: [String],
@@ -59,12 +60,12 @@ export const mentorSchema = new mongoose.Schema<IMentorModel>({
     type: Boolean,
     default: false,
   },
-  isRejected:{
-    type:Boolean,
-    default:false
+  isRejected: {
+    type: Boolean,
+    default: false,
   },
-  fee:{
-    type:Number,
-    default:0
-  }
+  fee: {
+    type: Number,
+    default: 0,
+  },
 });

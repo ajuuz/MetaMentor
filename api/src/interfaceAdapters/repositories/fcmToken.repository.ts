@@ -3,7 +3,7 @@ import { IFcmTokenRepository } from "domain/repositoryInterfaces/fcmTokenReposit
 import {
   fcmTokenModel,
   IFcmTokenModel,
-} from "frameworks/database/models/fcmToken.model";
+} from "infrastructure/database/models/fcmToken.model";
 
 import { BaseRepository } from "./base.repository";
 import { injectable } from "tsyringe";

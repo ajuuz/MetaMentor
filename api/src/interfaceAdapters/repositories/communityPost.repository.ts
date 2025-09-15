@@ -4,7 +4,7 @@ import { ICommunityPostRepository } from "domain/repositoryInterfaces/communityP
 import {
   communityPostModel,
   ICommunityPostModel,
-} from "frameworks/database/models/communityPost.model";
+} from "infrastructure/database/models/communityPost.model";
 import { ICommunityPostEntity } from "domain/entities/communityPostModel.entity";
 
 @injectable()

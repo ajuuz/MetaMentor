@@ -6,7 +6,7 @@ import {
 } from "domain/entities/mentor-model.entity";
 import { SORT_ORDER } from "shared/constants";
 import { IBaseRepository } from "./baseRepository.interface";
-import { IMentorModel } from "frameworks/database/models/mentor.model";
+import { IMentorModel } from "infrastructure/database/models/mentor.model";
 
 export interface IMentorRepository
   extends IBaseRepository<IMentorEntity, IMentorModel> {

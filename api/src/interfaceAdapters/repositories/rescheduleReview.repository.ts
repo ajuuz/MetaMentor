@@ -3,7 +3,7 @@ import { IRescheduleReviewEntity } from "domain/entities/rescheduleReviewModel.e
 import {
   IRescheduleReviewModel,
   RescheduleReviewModel,
-} from "frameworks/database/models/rescheduleReview.model";
+} from "infrastructure/database/models/rescheduleReview.model";
 import { IRescheduleReviewRepository } from "domain/repositoryInterfaces/rescheduleReviewRepository.interface";
 
 export class RescheduleReviewRepository

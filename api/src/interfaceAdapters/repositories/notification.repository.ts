@@ -3,7 +3,7 @@ import { INotificationRepository } from "domain/repositoryInterfaces/notificatio
 import {
   INotificationModel,
   notificationModel,
-} from "frameworks/database/models/notification.model";
+} from "infrastructure/database/models/notification.model";
 
 import { BaseRepository } from "./base.repository";
 

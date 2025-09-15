@@ -6,7 +6,7 @@ import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.in
 import {
   ILevelModel,
   levelModel,
-} from "frameworks/database/models/level.model";
+} from "infrastructure/database/models/level.model";
 
 import { BaseRepository } from "./base.repository";
 

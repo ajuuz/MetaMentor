@@ -2,7 +2,7 @@ import {
   IGetStudentsForAdmin,
   IStudentEntity,
 } from "domain/entities/student-model.entity";
-import { IStudentModel } from "frameworks/database/models/student.model";
+import { IStudentModel } from "infrastructure/database/models/student.model";
 import { ObjectId } from "mongoose";
 
 import { IBaseRepository } from "./baseRepository.interface";

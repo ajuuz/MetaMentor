@@ -1,7 +1,7 @@
 import { IReviewEntity } from "domain/entities/reviewModel.entity";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IBookReviewUsecase } from "application/usecase/interfaces/review/bookReviewUsecase.interface";
-import { IReviewModel } from "frameworks/database/models/bookedSlot.model";
+import { IReviewModel } from "infrastructure/database/models/bookedSlot.model";
 import { PAYMENT_METHOD, PAYMENT_STATUS } from "shared/constants";
 import { BookReviewReqDTO } from "shared/dto/request/payment.dto";
 import { inject, injectable } from "tsyringe";

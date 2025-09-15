@@ -1,5 +1,5 @@
 import { ISequenceNumberRepository } from "domain/repositoryInterfaces/sequenceNumberRepository.interface";
-import { SequenceNumberModel } from "frameworks/database/models/sequenceNumber.model";
+import { SequenceNumberModel } from "infrastructure/database/models/sequenceNumber.model";
 
 export class SequenceNumberRepository implements ISequenceNumberRepository {
   async findAndUpdate(name: string): Promise<number | null> {

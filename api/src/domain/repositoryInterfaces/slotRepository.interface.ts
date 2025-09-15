@@ -1,5 +1,5 @@
 import { ISlotEntity, ISlotTime } from "domain/entities/slotModel.entity";
-import { ISlotModel } from "frameworks/database/models/slot.model";
+import { ISlotModel } from "infrastructure/database/models/slot.model";
 import { BaseRepository } from "interfaceAdapters/repositories/base.repository";
 import { DAYS } from "shared/constants";
 import {

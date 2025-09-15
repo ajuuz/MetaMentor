@@ -3,7 +3,7 @@ import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepos
 import {
   communityModel,
   ICommunityModel,
-} from "frameworks/database/models/community.model";
+} from "infrastructure/database/models/community.model";
 
 import { BaseRepository } from "./base.repository";
 import { SORT_ORDER } from "shared/constants";

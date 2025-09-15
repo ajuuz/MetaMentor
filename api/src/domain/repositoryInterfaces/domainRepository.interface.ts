@@ -1,5 +1,5 @@
 import { IDomainEntity } from "domain/entities/domainModel.entity";
-import { IDomainModel } from "frameworks/database/models/domain.model";
+import { IDomainModel } from "infrastructure/database/models/domain.model";
 
 import { IBaseRepository } from "./baseRepository.interface";
 import { SORT_ORDER } from "shared/constants";

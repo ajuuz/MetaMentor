@@ -6,7 +6,7 @@ import { IStudentRepository } from "domain/repositoryInterfaces/student-reposito
 import {
   IStudentModel,
   studentModel,
-} from "frameworks/database/models/student.model";
+} from "infrastructure/database/models/student.model";
 import { FilterQuery, ObjectId, SortOrder, Types } from "mongoose";
 
 import { BaseRepository } from "./base.repository";

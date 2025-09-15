@@ -4,7 +4,7 @@ import { ICommentEntity } from "domain/entities/commentModel.entity";
 import {
   commentModel,
   ICommentModel,
-} from "frameworks/database/models/comment.model";
+} from "infrastructure/database/models/comment.model";
 import { ICommentRepository } from "domain/repositoryInterfaces/commentRepository.interface";
 
 @injectable()

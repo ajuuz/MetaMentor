@@ -1,5 +1,5 @@
 import { ICommunityEntity } from "domain/entities/communityModel.entity";
-import { ICommunityModel } from "frameworks/database/models/community.model";
+import { ICommunityModel } from "infrastructure/database/models/community.model";
 
 import { IBaseRepository } from "./baseRepository.interface";
 import { SORT_ORDER } from "shared/constants";

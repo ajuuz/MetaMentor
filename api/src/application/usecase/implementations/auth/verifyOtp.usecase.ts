@@ -4,7 +4,7 @@ import { IStudentRepository } from "domain/repositoryInterfaces/student-reposito
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
 import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
 import { IVerifyOtpUsecase } from "application/usecase/interfaces/auth/verifyOtpUsecase.interface";
-import { IUserModel } from "frameworks/database/models/user.model";
+import { IUserModel } from "infrastructure/database/models/user.model";
 import { CustomError } from "domain/errors/customError";
 import { NotFoundError } from "domain/errors/notFounError";
 import { ValidationError } from "domain/errors/validationError";

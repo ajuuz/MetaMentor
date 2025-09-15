@@ -3,7 +3,7 @@ import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.
 import {
   domainModel,
   IDomainModel,
-} from "frameworks/database/models/domain.model";
+} from "infrastructure/database/models/domain.model";
 
 import { BaseRepository } from "./base.repository";
 import { SORT_ORDER } from "shared/constants";

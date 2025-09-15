@@ -2,7 +2,7 @@ import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.
 import {
   IWalletModel,
   walletModel,
-} from "frameworks/database/models/wallet.model";
+} from "infrastructure/database/models/wallet.model";
 
 import { BaseRepository } from "./base.repository";
 import { IWalletEntity } from "domain/entities/walletModel.entity";

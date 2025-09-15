@@ -8,7 +8,7 @@ import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.
 import {
   IMentorModel,
   mentorModel,
-} from "frameworks/database/models/mentor.model";
+} from "infrastructure/database/models/mentor.model";
 import mongoose, { FilterQuery, Types } from "mongoose";
 import { SORT_ORDER } from "shared/constants";
 import { injectable } from "tsyringe";

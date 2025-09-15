@@ -1,4 +1,4 @@
-import { IWalletModel } from "frameworks/database/models/wallet.model";
+import { IWalletModel } from "infrastructure/database/models/wallet.model";
 
 import { IWalletEntity } from "domain/entities/walletModel.entity";
 import { IBaseRepository } from "./baseRepository.interface";
