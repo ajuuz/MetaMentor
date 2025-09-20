@@ -1,0 +1,71 @@
+import mongoose from "mongoose";
+
+import { IMentorModel } from "../models/mentor.model";
+
+const ratingSchema = new mongoose.Schema(
+  {
+    star: { type: Number, default: 0, min: 0, max: 5 },
+    totalStars: { type: Number, default: 0 },
+    noOfRaters: { type: Number, default: 0 },
+  },
+  { _id: false }
+);
+
+export const mentorSchema = new mongoose.Schema<IMentorModel>({
+  userId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "users",
+    required: true,
+    unique: true,
+  },
+  seq: {
+    type: Number,
+    default: null,
+  },
+  about: {
+    type: String,
+    required: true,
+  },
+  domains: {
+    type: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "domains",
+      },
+    ],
+  },
+  isBlocked: {
+    type: Boolean,
+    default: false,
+  },
+  cv: {
+    type: String,
+    required: true,
+  },
+  experienceCirtificate: {
+    type: String,
+    required: true,
+  },
+  rating: {
+    type: ratingSchema,
+    default: () => ({}),
+  },
+  skills: {
+    type: [String],
+  },
+  workedAt: {
+    type: [String],
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  isRejected: {
+    type: Boolean,
+    default: false,
+  },
+  fee: {
+    type: Number,
+    default: 0,
+  },
+});

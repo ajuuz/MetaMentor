@@ -1,0 +1,32 @@
+import { IMentorController } from "application/interfaces/controller/mentor/mentorController.interface";
+import { ICreateMentorApplicationUsecase } from "application/usecase/interfaces/mentor/createMentorApplicationUsecase.interface";
+import { IGetProfessionalDetailsUsecase } from "application/usecase/interfaces/mentor/getProfessionalDetailsUsecase.interface";
+import { Request, Response } from "express";
+import { HTTP_STATUS } from "shared/constants";
+import { inject, injectable } from "tsyringe";
+import { ModifiedRequest } from "type/types";
+
+@injectable()
+export class MentorController implements IMentorController {
+  constructor(
+    @inject("ICreateMentorApplicationUsecase")
+    private _createMentorApplicationUsecase: ICreateMentorApplicationUsecase,
+
+    @inject("IGetProfessionalDetailsUsecase")
+    private _getProfessionalDetailsUsecase: IGetProfessionalDetailsUsecase
+  ) {}
+  async registerForm(req: Request, res: Response): Promise<void> {
+    const mentorDetails= req.verifiedData;
+    const userId = (req as ModifiedRequest).user.id;
+    await this._createMentorApplicationUsecase.execute(userId, mentorDetails);
+    res
+      .status(HTTP_STATUS.CREATED)
+      .json({ success: true, message: "mentor registered successfully" });
+  }
+
+  async getProfessionalDetails(req: Request, res: Response): Promise<void> {
+    const userId = (req as ModifiedRequest).user.id;
+    const data = await this._getProfessionalDetailsUsecase.execute(userId);
+    res.status(201).json(data);
+  }
+}

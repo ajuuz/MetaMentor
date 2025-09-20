@@ -1,0 +1,65 @@
+import { NextFunction, Request, Response, Router } from "express";
+import { upload } from "infrastructure/config/cloudinary/cloudinary.config";
+import {
+  authMiddleware,
+  commonController,
+  commonDomainController,
+  fcmTokenController,
+} from "infrastructure/dependencyInjection/resolver";
+import { ROLES } from "shared/constants";
+
+interface MulterRequest extends Request {
+  files: Express.Multer.File[];
+}
+
+export class CommonRoutes {
+  private _router: Router;
+
+  constructor() {
+    this._router = Router();
+    this.configureRoutes();
+  }
+
+  configureRoutes(): void {
+    this._router.post(
+      "/images/upload",
+      authMiddleware.verifyAuth.bind(authMiddleware),
+      authMiddleware.blockChecker.bind(authMiddleware),
+      upload.array("image", 5),
+      (req: Request, res: Response, next: NextFunction) => {
+        commonController.uploadImage(req as MulterRequest, res, next);
+      }
+    );
+
+    this._router.get(
+      "/eventSource/:email",
+      commonController.eventSource.bind(commonController)
+    );
+
+    this._router.post(
+      "/fcmTokens",
+      authMiddleware.verifyAuth.bind(authMiddleware),
+      authMiddleware.verifyAuthRole([ROLES.MENTOR, ROLES.ADMIN, ROLES.USER]),
+      authMiddleware.blockChecker.bind(authMiddleware),
+      fcmTokenController.saveFcmToken.bind(fcmTokenController)
+    );
+
+    this._router.get(
+      "/domains",
+      authMiddleware.verifyAuth.bind(authMiddleware),
+      commonDomainController.getDomainNamesAndId.bind(commonDomainController)
+    );
+
+    this._router.get(
+      "/wallet",
+      authMiddleware.verifyAuth.bind(authMiddleware),
+      authMiddleware.verifyAuthRole([ROLES.MENTOR, ROLES.ADMIN, ROLES.USER]),
+      authMiddleware.blockChecker.bind(authMiddleware),
+      commonController.getWalletAndTransactions.bind(commonController)
+    );
+  }
+
+  getRouter(): Router {
+    return this._router;
+  }
+}
