@@ -17,26 +17,26 @@ import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.inte
 import { ITransactionRepository } from "domain/repositoryInterfaces/transactionRepository.interface";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
 import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
-import { BlackListTokenRepository } from "interfaceAdapters/repositories/blackListToken.repository";
-import { CommentRepository } from "interfaceAdapters/repositories/comment.repository";
-import { CommunityRepository } from "interfaceAdapters/repositories/community.repository";
-import { CommunityPostRepository } from "interfaceAdapters/repositories/communityPost.repository";
-import { DomainRepository } from "interfaceAdapters/repositories/domain.repository";
-import { EnrolledLevelRepository } from "interfaceAdapters/repositories/enrolledLevel.repository";
-import { FcmTokenRepository } from "interfaceAdapters/repositories/fcmToken.repository";
-import { LevelRepository } from "interfaceAdapters/repositories/level.repository";
-import { MentorRepository } from "interfaceAdapters/repositories/mentor.repository";
-import { NotificationRepository } from "interfaceAdapters/repositories/notification.repository";
-import { OtpRepository } from "interfaceAdapters/repositories/otp.repository";
-import { RescheduleReviewRepository } from "interfaceAdapters/repositories/rescheduleReview.repository";
-import { ReviewRepository } from "interfaceAdapters/repositories/review.repository";
-import { SequenceNumberRepository } from "interfaceAdapters/repositories/sequenceNumber.repository";
-import { SlotRepository } from "interfaceAdapters/repositories/slot.repository";
-import { SlotLockRepository } from "interfaceAdapters/repositories/slotLock.repository";
-import { StudentRepository } from "interfaceAdapters/repositories/student.repository";
-import { TransactionRepository } from "interfaceAdapters/repositories/transaction.repository";
-import { UserRepository } from "interfaceAdapters/repositories/user.repository";
-import { WalletRepository } from "interfaceAdapters/repositories/wallet.repository";
+import { BlackListTokenRepository } from "infrastructure/repository/blackListToken.repository";
+import { CommentRepository } from "infrastructure/repository/comment.repository";
+import { CommunityRepository } from "infrastructure/repository/community.repository";
+import { CommunityPostRepository } from "infrastructure/repository/communityPost.repository";
+import { DomainRepository } from "infrastructure/repository/domain.repository";
+import { EnrolledLevelRepository } from "infrastructure/repository/enrolledLevel.repository";
+import { FcmTokenRepository } from "infrastructure/repository/fcmToken.repository";
+import { LevelRepository } from "infrastructure/repository/level.repository";
+import { MentorRepository } from "infrastructure/repository/mentor.repository";
+import { NotificationRepository } from "infrastructure/repository/notification.repository";
+import { OtpRepository } from "infrastructure/repository/otp.repository";
+import { RescheduleReviewRepository } from "infrastructure/repository/rescheduleReview.repository";
+import { ReviewRepository } from "infrastructure/repository/review.repository";
+import { SequenceNumberRepository } from "infrastructure/repository/sequenceNumber.repository";
+import { SlotRepository } from "infrastructure/repository/slot.repository";
+import { SlotLockRepository } from "infrastructure/repository/slotLock.repository";
+import { StudentRepository } from "infrastructure/repository/student.repository";
+import { TransactionRepository } from "infrastructure/repository/transaction.repository";
+import { UserRepository } from "infrastructure/repository/user.repository";
+import { WalletRepository } from "infrastructure/repository/wallet.repository";
 import { container } from "tsyringe";
 
 export class RepositoryRegistry {
@@ -66,7 +66,7 @@ export class RepositoryRegistry {
     });
 
     container.register<IDomainRepository>("IDomainRepository", {
-      useClass: DomainRepository,
+      useClass: DomainRepository, 
     });
 
     container.register<ILevelRepository>("ILevelRepository", {
