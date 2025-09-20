@@ -19,7 +19,7 @@ export class GetUnblockedDomainsUsecase implements IGetUnblockedDomainsUsecase {
     searchTerm: string
   ): Promise<{ domains: GetDomainsForStudResDTO[]; totalPages: number }> {
     //filter
-    const filter: Partial<IDomainEntity> = {};
+    const filter: Partial<IDomainEntity> = {isBlocked:false};
     const skip = (currentPage - 1) * limit;
 
     //sort
