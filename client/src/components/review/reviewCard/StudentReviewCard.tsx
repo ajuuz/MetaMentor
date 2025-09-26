@@ -1,15 +1,11 @@
 import { Clock, FileText, MessageSquare, User } from "lucide-react";
-import type { GetStudentReviewResponseDTO } from "@/types/reviewTypes";
+import type { PopulatedReviewEntity } from "@/types/reviewTypes";
 import {
   getDayFromISO,
   getFormattedDayWithMonthAndYear,
   isoStringToLocalTime,
 } from "@/utils/helperFunctions/toTimeString";
 import { useNavigate } from "react-router-dom";
-import { cancelReviewByStudent } from "@/services/userService/reviewApi";
-import { toast } from "sonner";
-import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
-import { useMutation } from "@tanstack/react-query";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,8 +15,10 @@ import StudentRescheduleSheet from "../reschedule/StudentRescheduleSheet";
 import { useState } from "react";
 
 type Props = {
-  review: GetStudentReviewResponseDTO;
+  review: PopulatedReviewEntity;
   isNotOver?: boolean;
+  handleCancelReview: (reviewId: string) => void;
+  isLoading:boolean
 };
 
 const statusColorMap: Record<string, string> = {
@@ -30,25 +28,14 @@ const statusColorMap: Record<string, string> = {
   pending: "bg-blue-500 text-white",
 };
 
-const StudentReviewCard = ({ review, isNotOver }: Props) => {
+const StudentReviewCard = ({
+  review,
+  isNotOver,
+  handleCancelReview,
+  isLoading
+}: Props) => {
   const [sheetOpen, setSheetOpen] = useState<boolean>(false);
   const navigate = useNavigate();
-
-  const { mutate: cancelReviewMutation, isPending: isLoading } = useMutation({
-    mutationFn: cancelReviewByStudent,
-    onSuccess: (response) => {
-      toast.success(response.message);
-      queryClient.invalidateQueries({ queryKey: ["getReviewsForStudent"] });
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  const handleCancelReview = () => {
-    const reviewId = review._id;
-    cancelReviewMutation(reviewId);
-  };
 
   let isCancelOrRescheduleAllowed;
   if (isNotOver) {
@@ -73,15 +60,14 @@ const StudentReviewCard = ({ review, isNotOver }: Props) => {
   const day = getDayFromISO(review.slot.start);
   return (
     <div className="w-5xl border rounded-lg bg-white shadow flex gap-2">
-      {
-        sheetOpen &&
+      {sheetOpen && (
         <StudentRescheduleSheet
-          mentorId={review.mentor._id}
+          mentorId={review.otherAttendee._id}
           reviewId={review._id}
           sheetOpen={sheetOpen}
           setSheetOpen={setSheetOpen}
         />
-      }
+      )}
       <div className="flex flex-col justify-center items-center gap-4 py-3 flex-1 rounded-l-md bg-gradient-to-br from-emerald-900 to-teal-800">
         <div className="flex items-center gap-2 text-emerald-300">
           <User className="w-4 h-4" />
@@ -89,14 +75,14 @@ const StudentReviewCard = ({ review, isNotOver }: Props) => {
         </div>
         <Avatar className="w-20 h-20 border-4 border-white/20 shadow-2xl">
           <AvatarFallback className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-2xl font-bold">
-            {review.mentor.name[0]}
+            {review.otherAttendee.name[0]}
           </AvatarFallback>
         </Avatar>
         <p className="text-lg font-medium font-serif text-white">
-          {review.mentor.name || "Mentor"}
+          {review.otherAttendee.name || "Mentor"}
         </p>
         <Button
-          onClick={() => navigate(`/student/reviews/${review._id}`)}
+          onClick={() => navigate(`/reviews/${review._id}`)}
           className="bg-gradient-to-br from-emerald-500 to-teal-600 px-9 hover:from-emerald-600 hover:to-teal-700"
         >
           View
@@ -182,9 +168,11 @@ const StudentReviewCard = ({ review, isNotOver }: Props) => {
                     </Button>
                   }
                   alertDescription="Are you sure you want to cancel this review?"
-                  handleClick={handleCancelReview}
+                  handleClick={()=>handleCancelReview(review._id)}
                 />
-                {!review.isRescheduledOnce && <Button onClick={() => setSheetOpen(true)}>Reschedule</Button>}
+                {!review.isRescheduledOnce && (
+                  <Button onClick={() => setSheetOpen(true)}>Reschedule</Button>
+                )}
               </div>
             )}
           </div>

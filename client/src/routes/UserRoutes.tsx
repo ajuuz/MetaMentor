@@ -23,6 +23,8 @@ import CreateMentorApplication from "@/pages/user/Application/Create";
 import EditMentorApplication from "@/pages/user/Application/Edit";
 import StudentReviewsPage from "@/pages/user/reviews/Reviews";
 import UserWallet from "@/pages/user/wallet/UserWallet";
+import ReviewsPage from "@/pages/user/review/Review";
+import VideoCallPage from "@/pages/user/videoCall/VideoCallPage";
 
 const UserRoutes = () => {
   return (
@@ -77,6 +79,7 @@ const UserRoutes = () => {
             <Route element={<UserProfileLayout />}>
               <Route path="/profile" element={<Profile />} />
               <Route path="/reviews" element={<StudentReviewsPage />} />
+              <Route path="/reviews/:reviewId" element={<ReviewsPage />} />
               <Route path="/wallet" element={<UserWallet />} />
             </Route>
           </Route>
@@ -94,6 +97,9 @@ const UserRoutes = () => {
           <Route path="/registration" element={<CreateMentorApplication />} />
           <Route path="/registration/edit" element={<EditMentorApplication />} />
         </Route>
+
+
+        <Route path='/call/:roomId' element={<VideoCallPage/>}/>
 
 
       </Routes>

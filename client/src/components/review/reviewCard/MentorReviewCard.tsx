@@ -1,27 +1,27 @@
 import { Clock, FileText, MessageSquare, User } from "lucide-react";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import type { MentorReviewCard } from "@/types/reviewTypes";
+import { Avatar, AvatarFallback } from "../../ui/avatar";
+import { Badge } from "../../ui/badge";
+import { Button } from "../../ui/button";
+import type { PopulatedReviewEntity } from "@/types/reviewTypes";
 import {
   getDayFromISO,
   getFormattedDayWithMonthAndYear,
   isoStringToLocalTime,
 } from "@/utils/helperFunctions/toTimeString";
 import { useNavigate } from "react-router-dom";
-import AlertDialogComponent from "../common/AlertDialogComponent";
+import AlertDialogComponent from "../../common/AlertDialogComponent";
 import { useMutation } from "@tanstack/react-query";
 import { cancelReviewByMentor } from "@/services/mentorService.ts/reviewApi";
 import { toast } from "sonner";
 import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
-import ContentViewerModal from "../common/ContentViewerModal";
-import MentorRescheduleSheet from "../review/reschedule/MentorRescheduleSheet";
+import ContentViewerModal from "../../common/ContentViewerModal";
+import MentorRescheduleSheet from "../reschedule/MentorRescheduleSheet";
 import { useState } from "react";
 import { REVIEW_STATUS } from "@/utils/constants";
-import RescheduleDialog from "../review/reviewCard/RescheduleDialog";
+import RescheduleDialog from "./RescheduleDialog";
 
 type Props = {
-  review: MentorReviewCard;
+  review: PopulatedReviewEntity;
   isNotOver?: boolean;
 };
 
@@ -31,7 +31,7 @@ const statusColorMap: Record<string, string> = {
   cancelled: "bg-gray-500 text-white",
   pending: "bg-yellow-500 text-black",
 };
-const ReviewCard = ({ review, isNotOver }: Props) => {
+const MentorReviewCard = ({ review, isNotOver }: Props) => {
   const [sheetOpen, setSheetOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -84,11 +84,11 @@ const ReviewCard = ({ review, isNotOver }: Props) => {
         </div>
         <Avatar className="w-20 h-20 border-4 border-white/20 shadow-2xl">
           <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-2xl font-bold">
-            {review.student.name[0]}
+            {review.otherAttendee.name[0]}
           </AvatarFallback>
         </Avatar>
         <p className="text-lg font-medium font-serif text-white">
-          {review.student.name || "Student"}
+          {review.otherAttendee.name || "Student"}
         </p>
         <Button
           onClick={() => navigate(`/mentor/reviews/${review._id}`)}
@@ -170,14 +170,16 @@ const ReviewCard = ({ review, isNotOver }: Props) => {
                   alertDescription="Are you sure you are going to cancel the reivew"
                   handleClick={handleCancelReview}
                 />
-               {!review.isRescheduledOnce && <Button onClick={() => setSheetOpen(true)}>Reschedule</Button>}
+                {!review.isRescheduledOnce && (
+                  <Button onClick={() => setSheetOpen(true)}>Reschedule</Button>
+                )}
               </div>
             )}
           </div>
 
           <div className="flex gap-3">
-            {review.status == REVIEW_STATUS.RESCHEDULED &&  (
-             <RescheduleDialog reviewId={review._id}/>
+            {review.status == REVIEW_STATUS.RESCHEDULED && (
+              <RescheduleDialog reviewId={review._id} />
             )}
           </div>
         </div>
@@ -215,4 +217,4 @@ const ReviewCard = ({ review, isNotOver }: Props) => {
   );
 };
 
-export default ReviewCard;
+export default MentorReviewCard;

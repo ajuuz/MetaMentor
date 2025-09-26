@@ -16,7 +16,7 @@ export class GetStudentsForAdminResDTO {
 
   @Expose()
   point!: number;
-  
+
   @Expose()
   isPremium!: false;
 
@@ -30,10 +30,4 @@ export class GetStudentsForAdminResDTO {
   mobileNumber!: null;
 }
 
-@Exclude()
-export class StudentPreviewDTO {
-  @Expose()
-  name!: string;
-  @Expose()
-  profileImage!: string;
-}
+

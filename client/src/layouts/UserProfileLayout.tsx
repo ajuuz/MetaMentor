@@ -5,8 +5,8 @@ import { X } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { logout } from "@/services/authService.ts/authApi";
 import { useUserStore } from "@/zustand/userStore";
-import toast from "react-hot-toast";
 import "./layoutStyle.css";
+import { toast } from "sonner";
 
 const UserProfileLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

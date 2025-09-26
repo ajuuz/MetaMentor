@@ -6,8 +6,7 @@ import {
   REVIEW_STATUS,
 } from "shared/constants";
 import { LevelPreviewDTO } from "./level.dto";
-import { MentorPreviewDTO } from "./mentor.dto";
-import { StudentPreviewDTO } from "./student.dto";
+import { UserPreviewDTO } from "./user.dto";
 
 ///-----Helper DTOS-----///
 @Exclude()
@@ -25,7 +24,7 @@ export class ReviewSlotResDTO {
 
   @Expose()
   end!: Date;
-  
+
   @Expose()
   @Transform(({ obj }) => obj._id.toString())
   _id!: string;
@@ -42,18 +41,14 @@ export class ReviewBaseDTO {
   level!: LevelPreviewDTO;
 
   @Expose()
-  @Type(() => ReviewSlotResDTO)
-  slot!: ReviewSlotResDTO;
-
-  @Expose()
-  feedBack!: string;
+  status!: REVIEW_STATUS;
 
   @Expose()
   @Type(() => ReviewPaymentDTO)
   payment!: ReviewPaymentDTO;
 
   @Expose()
-  status!: REVIEW_STATUS;
+  feedBack!: string;
 
   @Expose()
   mentorEarning!: number;
@@ -62,13 +57,17 @@ export class ReviewBaseDTO {
   commissionAmount!: number;
 
   @Expose()
+  isRescheduledOnce!: boolean;
+
+  @Expose()
+  @Type(() => ReviewSlotResDTO)
+  slot!: ReviewSlotResDTO;
+
+  @Expose()
   theory!: number;
 
   @Expose()
   practical!: number;
-
-  @Expose()
-  isRescheduledOnce!:boolean
 }
 
 //students
@@ -76,16 +75,6 @@ export class ReviewBaseDTO {
 export class GetReviewsForStudAndDomainResDTO extends ReviewBaseDTO {
   @Expose()
   mentorName!: string;
-}
-
-@Exclude()
-export class GetReviewsForStudResDTO extends ReviewBaseDTO {
-  @Expose()
-  @Type(() => MentorPreviewDTO)
-  mentor!: MentorPreviewDTO;
-
-  @Expose()
-  domainName!: string;
 }
 
 export class GetBookedReviewSlotsResDTO {
@@ -98,16 +87,24 @@ export class GetBookedReviewSlotsResDTO {
   slots!: ReviewSlotResDTO;
 }
 
-//mentors
-
 @Exclude()
-export class GetReviewsForMentResDTO extends ReviewBaseDTO {
+export class GetReviewsForStudResDTO extends ReviewBaseDTO {
   @Expose()
-  @Type(() => StudentPreviewDTO)
-  student!: StudentPreviewDTO;
+  @Type(() => UserPreviewDTO)
+  me!: UserPreviewDTO;
+
+  @Expose()
+  @Type(() => UserPreviewDTO)
+  otherAttendee!: UserPreviewDTO;
 
   @Expose()
   domainName!: string;
 }
+export class GetReviewForStudResDTO extends GetReviewsForStudResDTO {}
 
-export class GetReviewForMentResDTO extends GetReviewsForMentResDTO {}
+//mentors
+
+@Exclude()
+export class GetReviewsForMentResDTO extends GetReviewsForStudResDTO {}
+
+export class GetReviewForMentResDTO extends GetReviewsForStudResDTO {}

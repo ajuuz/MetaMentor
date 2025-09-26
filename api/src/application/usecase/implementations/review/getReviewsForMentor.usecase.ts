@@ -1,6 +1,6 @@
 import { plainToInstance } from "class-transformer";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
-import { IGetMentorReviewsUsecase } from "application/usecase/interfaces/review/getMentorReviewsUsecase.interface";
+import { IGetMentorReviewsUsecase } from "application/usecase/interfaces/review/getReviewsForMentorUsecase.interface";
 import {
   PENDING_REVIEW_STATE,
   REVIEW_FILTER_STATUS,
@@ -65,6 +65,7 @@ export class GetMentorReviewsUsecase implements IGetMentorReviewsUsecase {
 
     const { data, totalDocuments } =
       await this._reviewRepository.findReviewsForMentor(filter, skip, limit);
+    console.log(data);
     const reviews = plainToInstance(GetReviewsForMentResDTO, data, {
       excludeExtraneousValues: true,
     });

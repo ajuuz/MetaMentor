@@ -4,13 +4,13 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import PaginationComponent from "@/components/common/PaginationComponent";
 import SelectComponent from "@/components/common/SelectComponent";
 import { Label } from "@/components/ui/label";
-import type { MentorReviewCard } from "@/types/reviewTypes";
+import type { PopulatedReviewEntity } from "@/types/reviewTypes";
 import type {
   DATE_RANGE,
   REVIEW_FILTER_STATUS,
   PENDING_REVIEW_STATE,
 } from "@/utils/constants";
-import ReviewCard from "@/components/mentor/ReviewCard";
+import MentorReviewCard from "@/components/review/reviewCard/MentorReviewCard";
 import { useGetReviewsForMentorQuery } from "@/hooks/tanstack/review";
 
 const TABS = ["completed", "pending", "rescheduled", "cancelled"] as const;
@@ -20,6 +20,10 @@ const MentorReviewsPage = () => {
   const initialTab =
     (searchParams.get("tab") as (typeof TABS)[number]) || "completed";
 
+  const initialPendingState =
+    (searchParams.get("pendingReviewState") as PENDING_REVIEW_STATE) ||
+    undefined;
+
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>(initialTab);
   const [dateRange, setDateRange] = useState<DATE_RANGE>("all");
   const [status, setStatus] = useState<REVIEW_FILTER_STATUS>(
@@ -27,10 +31,10 @@ const MentorReviewsPage = () => {
   );
   const [pendingReviewState, setPendingReviewState] = useState<
     PENDING_REVIEW_STATE | undefined
-  >("notOver");
+  >(initialPendingState);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [reviews, setReviews] = useState<MentorReviewCard[]>([]);
+  const [reviews, setReviews] = useState<PopulatedReviewEntity[]>([]);
 
   const { data: reviewResponse } = useGetReviewsForMentorQuery(
     status,
@@ -151,7 +155,7 @@ const MentorReviewsPage = () => {
                 </div>
               ) : (
                 reviews.map((review) => (
-                  <ReviewCard
+                  <MentorReviewCard
                     key={review._id}
                     review={review}
                     isNotOver={

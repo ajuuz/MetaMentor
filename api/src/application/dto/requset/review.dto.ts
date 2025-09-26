@@ -14,7 +14,6 @@ import {
 import { FilterReqDTO } from "./pagination.dto";
 import {
   DATE_RANGE,
-  DAYS,
   PENDING_REVIEW_STATE,
   REVIEW_FILTER_STATUS,
   REVIEW_STATUS,
@@ -33,6 +32,13 @@ export class GetAllReviewsForStudReqDTO extends FilterReqDTO {
   @IsEnum(PENDING_REVIEW_STATE)
   pendingReviewState?: PENDING_REVIEW_STATE | undefined;
 }
+
+export class GetReviewForStudReqDTO {
+  @IsString()
+  @IsNotEmpty()
+  reviewId!: string;
+}
+
 
 export class GetReviewByDayForStudReqDTO {
   @IsString()

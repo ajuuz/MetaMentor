@@ -1,8 +1,7 @@
 import {
   ICreateReview,
   IGetBookedSlotsForStud,
-  IGetReviewForMent,
-  IGetReviewsForStud,
+  IPopulatedReviewEntity,
   IGetReviewsForStudAndDomain,
   IReviewEntity,
 } from "domain/entities/reviewModel.entity";
@@ -20,6 +19,58 @@ export class ReviewRepository
   extends BaseRepository<IReviewEntity, IReviewModel>
   implements IReviewRepository
 {
+  private _lookupForDomain = {
+    $lookup: {
+      from: "domains",
+      localField: "domainId",
+      foreignField: "_id",
+      as: "domain",
+    },
+  };
+
+  private _lookupForLevel = {
+    $lookup: {
+      from: "levels",
+      localField: "levelId",
+      foreignField: "_id",
+      as: "level",
+    },
+  };
+  private _lookupForMentor = {
+    $lookup: {
+      from: "users",
+      localField: "mentorId",
+      foreignField: "_id",
+      as: "mentor",
+    },
+  };
+
+  private _lookupForStudent = {
+    $lookup: {
+      from: "users",
+      localField: "studentId",
+      foreignField: "_id",
+      as: "student",
+    },
+  };
+
+  private _populatedProject = {
+    domainName: "$domain.name",
+    level: {
+      name: "$level.name",
+      taskFile: "$level.taskFile",
+    },
+    status: 1,
+    payment: { method: "$payment.method", status: "$payment.status" },
+    feedBack: 1,
+    mentorEarning: 1,
+    commissionAmount: 1,
+    isRescheduledOnce: 1,
+    slot: 1,
+    theory: 1,
+    practical: 1,
+  };
+
   constructor() {
     super(reviewModel);
   }
@@ -171,7 +222,7 @@ export class ReviewRepository
     filter: any,
     skip: number,
     limit: number
-  ): Promise<{ data: IGetReviewsForStud[]; totalDocuments: number }> {
+  ): Promise<{ data: IPopulatedReviewEntity[]; totalDocuments: number }> {
     const studentIdObjectId = new mongoose.Types.ObjectId(filter.studentId);
     const mongoFilter: FilterQuery<IReviewEntity> = {
       studentId: studentIdObjectId,
@@ -201,50 +252,27 @@ export class ReviewRepository
         { $match: mongoFilter },
         { $skip: skip },
         { $limit: limit },
-        {
-          $lookup: {
-            from: "domains",
-            localField: "domainId",
-            foreignField: "_id",
-            as: "domain",
-          },
-        },
+        this._lookupForDomain,
         { $unwind: "$domain" },
-        {
-          $lookup: {
-            from: "levels",
-            localField: "levelId",
-            foreignField: "_id",
-            as: "level",
-          },
-        },
+        this._lookupForLevel,
         { $unwind: "$level" },
-        {
-          $lookup: {
-            from: "users",
-            localField: "mentorId",
-            foreignField: "_id",
-            as: "mentor",
-          },
-        },
+        this._lookupForMentor,
         { $unwind: "$mentor" },
+        this._lookupForStudent,
+        { $unwind: "$student" },
         {
           $project: {
-            mentor: {
+            ...this._populatedProject,
+            me: {
+              _id: "$student._id",
+              name: "$student.name",
+              profileImage: "$student.profileImage",
+            },
+            otherAttendee: {
               _id: "$mentor._id",
               name: "$mentor.name",
               profileImage: "$mentor.profileImage",
             },
-            domainName: "$domain.name",
-            level: {
-              name: "$level.name",
-              taskFile: "$level.taskFile",
-            },
-            status: 1,
-            payment: { method: "$payment.method", status: "$payment.status" },
-            feedBack: 1,
-            isRescheduledOnce: 1,
-            slot: 1,
           },
         },
       ]),
@@ -253,11 +281,51 @@ export class ReviewRepository
     return { data, totalDocuments };
   }
 
+  async findReviewForStudent(
+    studentId: string,
+    reviewId: string
+  ): Promise<IPopulatedReviewEntity | null> {
+    const studentObjectId = new mongoose.Types.ObjectId(studentId);
+    const reviewObjectId = new mongoose.Types.ObjectId(reviewId);
+    const reviews = await reviewModel.aggregate([
+      {
+        $match: { _id: reviewObjectId, studentId: studentObjectId },
+      },
+      {
+        $limit: 1,
+      },
+      this._lookupForDomain,
+      { $unwind: "$domain" },
+      this._lookupForLevel,
+      { $unwind: "$level" },
+      this._lookupForMentor,
+      { $unwind: "$mentor" },
+      this._lookupForStudent,
+      { $unwind: "$student" },
+      {
+        $project: {
+          ...this._populatedProject,
+          me: {
+            _id: "$student._id",
+            name: "$student.name",
+            profileImage: "$student.profileImage",
+          },
+          otherAttendee: {
+            _id: "$mentor._id",
+            name: "$mentor.name",
+            profileImage: "$mentor.profileImage",
+          },
+        },
+      },
+    ]);
+    return reviews[0];
+  }
+
   async findReviewsForMentor(
     filter: any,
     skip: number,
     limit: number
-  ): Promise<{ data: IGetReviewForMent[]; totalDocuments: number }> {
+  ): Promise<{ data: IPopulatedReviewEntity[]; totalDocuments: number }> {
     const mentorObjectId = new mongoose.Types.ObjectId(filter.mentorId);
     const mongoFilter: FilterQuery<IReviewEntity> = {
       mentorId: mentorObjectId,
@@ -276,9 +344,9 @@ export class ReviewRepository
     if (filter.pendingReviewState !== "undefined") {
       const currentDate = new Date();
       if (filter.pendingReviewState === PENDING_REVIEW_STATE.NOTOVER) {
-        mongoFilter["slot.start"] = { $gt: currentDate };
+        mongoFilter["slot.end"] = { $gte: currentDate };
       } else {
-        mongoFilter["slot.end"] = { $lt: currentDate };
+        mongoFilter["slot.end"] = { $lte: currentDate };
       }
     }
 
@@ -287,63 +355,39 @@ export class ReviewRepository
         { $match: mongoFilter },
         { $skip: skip },
         { $limit: limit },
-        {
-          $lookup: {
-            from: "domains",
-            localField: "domainId",
-            foreignField: "_id",
-            as: "domain",
-          },
-        },
+        this._lookupForDomain,
         { $unwind: "$domain" },
-        {
-          $lookup: {
-            from: "levels",
-            localField: "levelId",
-            foreignField: "_id",
-            as: "level",
-          },
-        },
+        this._lookupForLevel,
         { $unwind: "$level" },
-        {
-          $lookup: {
-            from: "users",
-            localField: "studentId",
-            foreignField: "_id",
-            as: "student",
-          },
-        },
+        this._lookupForStudent,
         { $unwind: "$student" },
+        this._lookupForMentor,
+        { $unwind: "$mentor" },
         {
           $project: {
-            mentorId: 1,
-            student: {
+            ...this._populatedProject,
+            me: {
+              _id: "$mentor._id",
+              name: "$mentor.name",
+              profileImage: "$mentor.profileImage",
+            },
+            otherAttendee: {
+              _id: "$student._id",
               name: "$student.name",
               profileImage: "$student.profileImage",
             },
-            domainName: "$domain.name",
-            level: {
-              name: "$level.name",
-              taskFile: "$level.taskFile",
-            },
-            status: 1,
-            payment: { method: "$payment.method", status: "$payment.status" },
-            feedBack: 1,
-            isRescheduledOnce: 1,
-            slot: 1,
           },
         },
       ]),
       reviewModel.countDocuments(mongoFilter),
     ]);
-    console.log("fdsfd", data);
     return { data, totalDocuments };
   }
 
   async findReviewForMentor(
     mentorId: string,
     reviewId: string
-  ): Promise<IGetReviewForMent | null> {
+  ): Promise<IPopulatedReviewEntity | null> {
     const mentorObjectId = new mongoose.Types.ObjectId(mentorId);
     const reviewObjectId = new mongoose.Types.ObjectId(reviewId);
     const reviews = await reviewModel.aggregate([
@@ -353,52 +397,27 @@ export class ReviewRepository
       {
         $limit: 1,
       },
-      {
-        $lookup: {
-          from: "domains",
-          localField: "domainId",
-          foreignField: "_id",
-          as: "domain",
-        },
-      },
+      this._lookupForDomain,
       { $unwind: "$domain" },
-      {
-        $lookup: {
-          from: "levels",
-          localField: "levelId",
-          foreignField: "_id",
-          as: "level",
-        },
-      },
+      this._lookupForLevel,
       { $unwind: "$level" },
-      {
-        $lookup: {
-          from: "users",
-          localField: "studentId",
-          foreignField: "_id",
-          as: "student",
-        },
-      },
+      this._lookupForStudent,
       { $unwind: "$student" },
+      this._lookupForMentor,
+      { $unwind: "$mentor" },
       {
         $project: {
-          student: {
+          ...this._populatedProject,
+          me: {
+            _id: "$mentor._id",
+            name: "$mentor.name",
+            profileImage: "$mentor.profileImage",
+          },
+          otherAttendee: {
+            _id: "$student._id",
             name: "$student.name",
             profileImage: "$student.profileImage",
           },
-          domainName: "$domain.name",
-          level: {
-            name: "$level.name",
-            taskFile: "$level.taskFile",
-          },
-          status: 1,
-          payment: 1,
-          feedBack: 1,
-          mentorEarning: 1,
-          commissionAmount: 1,
-          slot: 1,
-          theory: 1,
-          practical: 1,
         },
       },
     ]);

@@ -5,13 +5,17 @@ import PaginationComponent from "@/components/common/PaginationComponent";
 import SelectComponent from "@/components/common/SelectComponent";
 import { Label } from "@/components/ui/label";
 import { useGetReviewsForStudentQuery } from "@/hooks/tanstack/review";
-import type { GetStudentReviewResponseDTO } from "@/types/reviewTypes";
+import type { PopulatedReviewEntity } from "@/types/reviewTypes";
 import type {
   DATE_RANGE,
   REVIEW_FILTER_STATUS,
   PENDING_REVIEW_STATE,
 } from "@/utils/constants";
 import StudentReviewCard from "@/components/review/reviewCard/StudentReviewCard";
+import { useMutation } from "@tanstack/react-query";
+import { cancelReviewByStudent } from "@/services/userService/reviewApi";
+import { toast } from "sonner";
+import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
 
 const TABS = ["completed", "pending", "rescheduled", "cancelled"] as const;
 const StudentReviewsPage = () => {
@@ -19,6 +23,8 @@ const StudentReviewsPage = () => {
 
   const initialTab =
     (searchParams.get("tab") as (typeof TABS)[number]) || "completed";
+  const initialPendingState =
+    (searchParams.get("pendingReviewState") as PENDING_REVIEW_STATE) || undefined;
 
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>(initialTab);
   const [dateRange, setDateRange] = useState<DATE_RANGE>("all");
@@ -27,10 +33,10 @@ const StudentReviewsPage = () => {
   );
   const [pendingReviewState, setPendingReviewState] = useState<
     PENDING_REVIEW_STATE | undefined
-  >("notOver");
+  >(initialPendingState);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [reviews, setReviews] = useState<GetStudentReviewResponseDTO[]>([]);
+  const [reviews, setReviews] = useState<PopulatedReviewEntity[]>([]);
 
   const { data: reviewResponse } = useGetReviewsForStudentQuery(
     status,
@@ -47,32 +53,46 @@ const StudentReviewsPage = () => {
     }
   }, [reviewResponse]);
 
-const handleTabChange = (val: string) => {
-  const newTab = val as (typeof TABS)[number];
+  const { mutate: cancelReviewMutation,isPending:isLoading } = useMutation({
+    mutationFn: cancelReviewByStudent,
+    onSuccess: (response) => {
+      toast.success(response.message);
+      queryClient.invalidateQueries({ queryKey: ["getReviewsForStudent"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-  const data: Record<string, string> = {
-    tab: newTab,
-    dateRange: "all",
-    status: newTab,
-    currentPage: "1",
+  const handleCancelReview = (reviewId:string) => {
+    cancelReviewMutation(reviewId);
   };
 
-  // Reset pendingReviewState if the new tab is "upcoming"
-  if (newTab === "pending") {
-    setPendingReviewState("notOver");
-    data.pendingReviewState = "notOver";
-  }else{
-    setPendingReviewState(undefined)
-  }
+  const handleTabChange = (val: string) => {
+    const newTab = val as (typeof TABS)[number];
 
-  setActiveTab(newTab);
-  setDateRange("all");
-  setStatus(newTab);
-  setCurrentPage(1);
+    const data: Record<string, string> = {
+      tab: newTab,
+      dateRange: "all",
+      status: newTab,
+      currentPage: "1",
+    };
 
-  setSearchParams(data);
-};
+    // Reset pendingReviewState if the new tab is "upcoming"
+    if (newTab === "pending") {
+      setPendingReviewState("notOver");
+      data.pendingReviewState = "notOver";
+    } else {
+      setPendingReviewState(undefined);
+    }
 
+    setActiveTab(newTab);
+    setDateRange("all");
+    setStatus(newTab);
+    setCurrentPage(1);
+
+    setSearchParams(data);
+  };
 
   const handleSelectChange = (selectKey: string, value: string) => {
     const newParams = new URLSearchParams(searchParams.toString());
@@ -152,7 +172,15 @@ const handleTabChange = (val: string) => {
                 </div>
               ) : (
                 reviews.map((review) => (
-                  <StudentReviewCard key={review._id} review={review} isNotOver={status==='pending' && pendingReviewState==='notOver'}/>
+                  <StudentReviewCard
+                    key={review._id}
+                    review={review}
+                    isNotOver={
+                      status === "pending" && pendingReviewState === "notOver"
+                    }
+                    handleCancelReview={handleCancelReview}
+                    isLoading={isLoading}
+                  />
                 ))
               )}
             </div>
@@ -167,7 +195,6 @@ const handleTabChange = (val: string) => {
           </TabsContent>
         ))}
       </Tabs>
-      
     </div>
   );
 };

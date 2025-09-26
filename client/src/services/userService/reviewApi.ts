@@ -1,6 +1,9 @@
 import { userAxiosInstance } from "@/config/axiosConfig/userAxiosConfig";
 import type { MutationApiResponse } from "@/types/responseType";
-import type { GetStudentReviewResponseDTO } from "@/types/reviewTypes";
+import type {
+  GetStudentReviewResponseDTO,
+  PopulatedReviewEntity,
+} from "@/types/reviewTypes";
 import type {
   DATE_RANGE,
   PENDING_REVIEW_STATE,
@@ -12,6 +15,17 @@ export const getReviews = async (
 ): Promise<GetStudentReviewResponseDTO[]> => {
   try {
     const response = await userAxiosInstance.get(`/reviews?type=${type}`);
+    return response.data;
+  } catch (error: any) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const getReviewForStudent = async (
+  reviewId: string
+): Promise<PopulatedReviewEntity> => {
+  try {
+    const response = await userAxiosInstance.get(`/reviews/${reviewId}`);
     return response.data;
   } catch (error: any) {
     throw error?.response?.data || error;

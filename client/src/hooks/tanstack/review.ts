@@ -4,14 +4,13 @@ import {
   getSlotReviewsForMent,
 } from "@/services/mentorService.ts/reviewApi";
 import {
+  getReviewForStudent,
   getReviewsForStudent,
   getSlotReviewsForStudent,
 } from "@/services/userService/reviewApi";
 import type {
   GetDomainReviewSlotResponseDTO,
-  GetReviewsForMentorResponse,
-  GetReviewsForStudentResponse,
-  MentorReviewCard,
+  PopulatedReviewEntity,
 } from "@/types/reviewTypes";
 import type {
   DATE_RANGE,
@@ -20,6 +19,8 @@ import type {
 } from "@/utils/constants";
 import { useQuery } from "@tanstack/react-query";
 
+
+//////////////----------------mentor-------------------///////////////
 export const useGetReviewsForMentorQuery = (
   status: REVIEW_FILTER_STATUS,
   dateRange: DATE_RANGE,
@@ -27,7 +28,7 @@ export const useGetReviewsForMentorQuery = (
   limit: number,
   pendingReviewState?: PENDING_REVIEW_STATE
 ) => {
-  return useQuery<GetReviewsForMentorResponse>({
+  return useQuery<{reviews:PopulatedReviewEntity[],totalPages:number}>({
     queryKey: [
       "getReviewsForMentor",
       status,
@@ -48,12 +49,14 @@ export const useGetReviewsForMentorQuery = (
 };
 
 export const useGetReviewForMentorQuery = (reviewId: string) => {
-  return useQuery<MentorReviewCard>({
+  return useQuery<PopulatedReviewEntity>({
     queryKey: ["getReviewForMentor", reviewId],
     queryFn: () => getReviewForMentor(reviewId),
   });
 };
 
+
+//////////////////-----------------student-------------------------///////////////////
 export const useGetReviewsForStudentQuery = (
   status: REVIEW_FILTER_STATUS,
   dateRange: DATE_RANGE,
@@ -61,7 +64,7 @@ export const useGetReviewsForStudentQuery = (
   limit: number,
   pendingReviewState?: PENDING_REVIEW_STATE
 ) => {
-  return useQuery<GetReviewsForStudentResponse>({
+  return useQuery<{reviews:PopulatedReviewEntity[],totalPages:number}>({
     queryKey: [
       "getReviewsForStudent",
       status,
@@ -78,6 +81,13 @@ export const useGetReviewsForStudentQuery = (
         limit,
         pendingReviewState
       ),
+  });
+};
+
+export const useGetReviewForStudentQuery = (reviewId: string) => {
+  return useQuery<PopulatedReviewEntity>({
+    queryKey: ["getReviewForMentor", reviewId],
+    queryFn: () => getReviewForStudent(reviewId),
   });
 };
 

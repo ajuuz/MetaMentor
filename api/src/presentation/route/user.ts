@@ -32,6 +32,7 @@ import {
   CancelReviewByStudReqDTO,
   GetAllReviewsForStudReqDTO,
   GetReviewByDayForStudReqDTO,
+  GetReviewForStudReqDTO,
   RescheduleReviewByStudReqDTO,
 } from "application/dto/requset/review.dto";
 import {
@@ -72,7 +73,7 @@ export class UserRoutes {
       authMiddleware.blockChecker.bind(authMiddleware)
     );
 
-    //user
+    //////////===================user========================//////////////
     this._router.get("/user", userController.getDetails.bind(userController));
     this._router.patch(
       "/user",
@@ -82,7 +83,7 @@ export class UserRoutes {
       userController.updateUser.bind(userController)
     );
 
-    //domains
+    //====================domains==================///////////////
     this._router.post(
       "/domains/:domainId",
       validationMiddleware(EnrollDomainReqDTO),
@@ -99,7 +100,7 @@ export class UserRoutes {
       userDomainController.getDomainInsight.bind(userDomainController)
     );
 
-    // mentors
+    //================== mentors============================//////////
     this._router.get(
       "/application",
       authMiddleware.verifyAuthRole([ROLES.USER]),
@@ -122,7 +123,7 @@ export class UserRoutes {
       userMentorController.getMentorsForStud.bind(userMentorController)
     );
 
-    //slots
+    //==================slots======================//////////////
     this._router.get(
       "/slots/:domainId",
       validationMiddleware(GetDomainSlotsForStudReqDTO),
@@ -139,7 +140,7 @@ export class UserRoutes {
       userSlotController.slotValidityChecker.bind(userSlotController)
     );
 
-    //reviews
+    //=====================reviews=====================////////////////
     this._router.get(
       "/reviews",
       validationMiddleware(GetAllReviewsForStudReqDTO),
@@ -149,6 +150,11 @@ export class UserRoutes {
       "/reviews/:mentorId/:date",
       validationMiddleware(GetReviewByDayForStudReqDTO),
       userReviewController.getReviewsByDay.bind(userReviewController)
+    );
+    this._router.get(
+      "/reviews/:reviewId",
+      validationMiddleware(GetReviewForStudReqDTO),
+      userReviewController.getSpecificReview.bind(userReviewController)
     );
     this._router.patch(
       "/reviews/:reviewId",

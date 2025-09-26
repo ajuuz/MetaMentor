@@ -1,4 +1,4 @@
-import { Exclude, Expose } from "class-transformer"
+import { Exclude, Expose, Transform } from "class-transformer"
 
 @Exclude()
 export class GetUserDetailsResDTO{
@@ -19,4 +19,16 @@ export class GetUserDetailsResDTO{
 
     @Expose()
     email!: string
+}
+
+
+@Exclude()
+export class UserPreviewDTO {
+  @Expose()
+  @Transform(({ obj }) => obj._id.toString())
+  _id!: string;
+  @Expose()
+  name!: string;
+  @Expose()
+  profileImage!: string;
 }

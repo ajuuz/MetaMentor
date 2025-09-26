@@ -50,9 +50,15 @@ export type StudentReviewCard = {
   slot: ReviewSlotType;
 };
 
-export type MentorReviewCard = {
+export type PopulatedReviewEntity = {
   _id: string;
-  student: {
+  me: {
+    _id: string;
+    name: string;
+    profileImage: string;
+  };
+  otherAttendee: {
+    _id: string;
     name: string;
     profileImage: string;
   };
@@ -67,23 +73,18 @@ export type MentorReviewCard = {
     status: PAYMENT_STATUS;
   };
   feedBack: string;
+  mentorEarning: number;
+  commissionAmount: number;
+  isRescheduledOnce: boolean;
+  slot: ReviewSlotType;
   theory: number;
   practical: number;
-  commissionAmount: number;
-  mentorEarning: number;
-  isRescheduledOnce:boolean
-  slot: ReviewSlotType;
-};
-
-export type GetReviewsForMentorResponse = {
-  reviews: MentorReviewCard[];
-  totalPages: number;
 };
 
 export type GetStudentReviewResponseDTO = {
   _id: string;
   mentor: {
-    _id:string
+    _id: string;
     name: string;
     profileImage: string;
   };
@@ -98,13 +99,8 @@ export type GetStudentReviewResponseDTO = {
     status: PAYMENT_STATUS;
   };
   feedBack: string;
-  isRescheduledOnce:boolean
+  isRescheduledOnce: boolean;
   slot: ReviewSlotType;
-};
-
-export type GetReviewsForStudentResponse = {
-  reviews: GetStudentReviewResponseDTO[];
-  totalPages: number;
 };
 
 export type GetDomainReviewSlotResponseDTO = {

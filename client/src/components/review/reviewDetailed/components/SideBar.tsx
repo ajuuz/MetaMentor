@@ -3,19 +3,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import type { MentorReviewCard } from "@/types/reviewTypes"
-import { REVIEW_STATUS } from "@/utils/constants"
+import type {  PopulatedReviewEntity } from "@/types/reviewTypes"
+import { REVIEW_STATUS, type ROLES } from "@/utils/constants"
 import {  getDayFromISO, getFormattedDayWithMonthAndYear, isoStringToLocalTime } from "@/utils/helperFunctions/toTimeString"
 import { Separator } from "@radix-ui/react-select"
 import { Calendar, Clock, FileText, MessageSquare, User } from "lucide-react"
 
 
 type Props = {
-  review: MentorReviewCard
+  role:Exclude<ROLES,'admin'>
+  review: PopulatedReviewEntity
 }
 
 
-const SideBar = ({ review }: Props) => {
+const SideBar = ({role,review }: Props) => {
 
   const getStatusBadge = () => {
     switch (review.status) {
@@ -42,15 +43,15 @@ const SideBar = ({ review }: Props) => {
               <div className="flex flex-col items-center gap-4">
                 <div className="flex items-center gap-2 text-slate-300">
                   <User className="w-4 h-4" />
-                  <span className="text-sm">Student</span>
+                  <span className="text-sm">{role==='mentor'?"Student":"Mentor"}</span>
                 </div>
                 <Avatar className="w-16 h-16 border-4 border-white/20 shadow-2xl">
-                  <AvatarImage src={review.student.profileImage || "/placeholder.svg"} alt={review.student.name} />
+                  <AvatarImage src={review.otherAttendee.profileImage || "/placeholder.svg"} alt={review.otherAttendee.name} />
                   <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xl font-bold">
-                    {review.student.name[0]}
+                    {review.otherAttendee.name[0]}
                   </AvatarFallback>
                 </Avatar>
-                <h2 className="text-xl font-bold text-center">{review.student.name}</h2>
+                <h2 className="text-xl font-bold text-center">{review.otherAttendee.name}</h2>
               </div>
             </div>
 

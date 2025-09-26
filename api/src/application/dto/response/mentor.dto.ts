@@ -80,16 +80,6 @@ export class GetMentorForAdminResDTO extends MentorBaseDTO {
 }
 
 //=------------user----------------//
-@Exclude()
-export class MentorPreviewDTO {
-  @Expose()
-  @Transform(({ obj }) => obj._id.toString())
-  _id!: string;
-  @Expose()
-  name!: string;
-  @Expose()
-  profileImage!: string;
-}
 
 @Exclude()
 export class GetMentorsForStudResDTO extends MentorBaseDTO {
