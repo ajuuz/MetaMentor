@@ -6,7 +6,7 @@ import {
 
 //herper interfaces
 interface ReviewSlot {
-  _id:string,
+  _id: string;
   start: Date;
   end: Date;
 }
@@ -27,17 +27,27 @@ export interface IReviewEntity {
   payment: ReviewPayment;
   status: REVIEW_STATUS;
   slot: ReviewSlot;
-  theory:number;
-  practical:number;
+  theory: number;
+  practical: number;
   feedBack: string;
   bookedAt: Date;
-  isRescheduledOnce:boolean
+  isRescheduledOnce: boolean;
 }
 
-export interface ICreateReview extends Omit<IReviewEntity,'_id'|"status"|"slot"|"theory"|"practical"|"feedBack"|"bookedAt"|'isRescheduledOnce'>{
-  slot:Omit<ReviewSlot,'_id'>
+export interface ICreateReview
+  extends Omit<
+    IReviewEntity,
+    | "_id"
+    | "status"
+    | "slot"
+    | "theory"
+    | "practical"
+    | "feedBack"
+    | "bookedAt"
+    | "isRescheduledOnce"
+  > {
+  slot: Omit<ReviewSlot, "_id">;
 }
-
 
 //students
 export interface IGetReviewsForStudAndDomain {
@@ -50,8 +60,8 @@ export interface IGetReviewsForStudAndDomain {
     name: string;
     taskFile: string;
   };
-  theory:number,
-  practical:number,
+  theory: number;
+  practical: number;
   mentorName: string;
   mentorEarning: number;
   commissionAmount: number;
@@ -59,20 +69,25 @@ export interface IGetReviewsForStudAndDomain {
 
 export interface IGetReviewsForStud {
   _id: string;
-  slot: ReviewSlot;
-  feedBack: string;
-  payment: ReviewPayment;
-  status: REVIEW_STATUS;
-  level: {
-    name: string;
-    taskFile: string;
-  };
-  mentor: {
-    _id:string,
+  otherAttendee: {
+    _id: string;
     name: string;
     profileImage: string;
   };
   domainName: string;
+  level: {
+    name: string;
+    taskFile: string;
+  };
+  status: REVIEW_STATUS;
+  payment: ReviewPayment;
+  feedBack: string;
+  mentorEarning: number;
+  commissionAmount: number;
+  isRescheduledOnce: boolean;
+  slot: ReviewSlot;
+  theory: number;
+  practical: number;
 }
 
 export interface IGetBookedSlotsForStud {
@@ -81,21 +96,54 @@ export interface IGetBookedSlotsForStud {
 }
 
 //mentor
-export interface IGetReviewForMent {
+export interface IReviewEntityForMent {
   _id: string;
-  slot: ReviewSlot;
-  feedBack: string;
-  payment: ReviewPayment;
-  status: REVIEW_STATUS;
+  mentorId: 1;
+  otherAttendee: {
+    _id: string;
+    name: string;
+    profileImage: string;
+  };
+  domainName: string;
   level: {
     name: string;
     taskFile: string;
   };
-  student: {
+  status: REVIEW_STATUS;
+  payment: ReviewPayment;
+  feedBack: string;
+  mentorEarning: number;
+  commissionAmount: number;
+  isRescheduledOnce: boolean;
+  slot: ReviewSlot;
+  theory: number;
+  practical: number;
+}
+export interface IPopulatedReviewEntity {
+  _id: string;
+  mentorId: 1;
+  me:{
+    _id:string,
+    name:string,
+    profileImage:string
+  },
+  otherAttendee: {
+    _id: string;
     name: string;
     profileImage: string;
   };
-  practical:number,
-  mentorName: string;
   domainName: string;
+  level: {
+    name: string;
+    taskFile: string;
+  };
+  status: REVIEW_STATUS;
+  payment: ReviewPayment;
+  feedBack: string;
+  mentorEarning: number;
+  commissionAmount: number;
+  isRescheduledOnce: boolean;
+  slot: ReviewSlot;
+  theory: number;
+  practical: number;
 }

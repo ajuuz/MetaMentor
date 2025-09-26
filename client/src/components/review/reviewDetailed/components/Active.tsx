@@ -1,14 +1,27 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import type { ROLES } from '@/utils/constants'
 import { isoStringToLocalTime } from '@/utils/helperFunctions/toTimeString'
 import { MessageSquare, Video } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 type Props={
+    role: Exclude<ROLES, "admin">;
     end:string,
-    now:Date
+    now:Date,
+    reviewId:string
 }
-const Active = ({end,now}:Props) => {
+const Active = ({role,end,now,reviewId}:Props) => {
+
+
+  let navigationString='';
+  if(role==='mentor'){
+    navigationString=`/mentor/call/${reviewId}`
+  }else{
+    navigationString=`/call/${reviewId}`
+  }
   const endTime=new Date(end);
+  const navigate=useNavigate()
   return (
      <Card>
             <CardHeader className="text-center">
@@ -27,7 +40,7 @@ const Active = ({end,now}:Props) => {
               </div>
               
               <div className="flex gap-4">
-                <Button size="lg" className="bg-green-600 hover:bg-green-700 gap-2">
+                <Button onClick={()=>navigate(navigationString)} size="lg" className="bg-green-600 hover:bg-green-700 gap-2">
                   <Video className="w-5 h-5" />
                   Join Call
                 </Button>

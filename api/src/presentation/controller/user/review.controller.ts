@@ -7,12 +7,16 @@ import { ModifiedRequest } from "type/types";
 import { inject, injectable } from "tsyringe";
 import { IGetReviewByDayForStudUsecase } from "application/usecase/interfaces/review/getReviewByDayForStudUsecase.interface";
 import { IRescheduleReviewByStudentUsecase } from "application/usecase/interfaces/review/rescheduleReviewByStudentUsecase.interface";
+import { IGetReviewForStudentUsecase } from "application/usecase/interfaces/review/getReviewForStudentUsecase.interface";
 
 @injectable()
 export class UserReviewController implements IUserReviewController {
   constructor(
     @inject("IGetReviewsForStudentUsecase")
     private _getReviewsForStudentUsecase: IGetReviewsForStudentUsecase,
+
+    @inject("IGetReviewForStudentUsecase")
+    private _getReviewForStudentUsecase: IGetReviewForStudentUsecase,
 
     @inject("IGetReviewByDayForStudUsecase")
     private _getReviewByDayForStudUsecase: IGetReviewByDayForStudUsecase,
@@ -25,13 +29,8 @@ export class UserReviewController implements IUserReviewController {
   ) {}
 
   async getAllReviews(req: Request, res: Response): Promise<void> {
-    const {
-      status,
-      pendingReviewState,
-      dateRange,
-      currentPage,
-      limit,
-    } = req.verifiedData;
+    const { status, pendingReviewState, dateRange, currentPage, limit } =
+      req.verifiedData;
 
     const studentId = (req as ModifiedRequest).user.id;
 
@@ -44,6 +43,18 @@ export class UserReviewController implements IUserReviewController {
       pendingReviewState
     );
     res.status(HTTP_STATUS.OK).json(data);
+  }
+
+  async getSpecificReview(req: Request, res: Response): Promise<void> {
+    const { reviewId } = req.verifiedData;
+
+    const studentId: string = (req as ModifiedRequest)?.user?.id;
+
+    const review = await this._getReviewForStudentUsecase.execute(
+      studentId,
+      reviewId
+    );
+    res.status(HTTP_STATUS.OK).json(review);
   }
 
   async getReviewsByDay(req: Request, res: Response): Promise<void> {

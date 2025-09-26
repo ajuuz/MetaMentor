@@ -1,9 +1,20 @@
 import "reflect-metadata";
+import https from "https";
 import { MongoConnect } from "infrastructure/config/database/mongoConnect.config.js";
 import { App } from "infrastructure/config/server/server.config.js";
 import { RedisClient } from "infrastructure/config/redis/redisClient.config";
 import { config } from "shared/config.js";
-const app = new App();
+import { SocketConfig } from "infrastructure/config/socket/socket.config";
+import fs from 'fs';
+
+const options = {
+  key: fs.readFileSync("../certs/192.168.29.148-key.pem"),
+  cert: fs.readFileSync("../certs/192.168.29.148.pem"),
+};
+const app = new App().getApp();
+const server = https.createServer(options,app);
+SocketConfig.init(server);
+
 const mongoConnect = new MongoConnect();
 
 mongoConnect
@@ -15,8 +26,6 @@ RedisClient.connectRedis()
   .then(() => console.log("redis connected"))
   .catch((error) => console.log(error));
 
-app
-  .getApp()
-  .listen(config.server.PORT, () =>
-    console.log(`server running at port ${config.server.PORT}`)
-  );
+server.listen(Number(config.server.PORT),"0.0.0.0", () =>
+  console.log(`server running at port ${config.server.PORT}`)
+);

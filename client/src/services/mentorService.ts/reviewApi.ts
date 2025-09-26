@@ -1,6 +1,6 @@
 import { mentorInstance } from "@/config/axiosConfig/mentorAxiosConfig";
 import type { MutationApiResponse } from "@/types/responseType";
-import type { MentorReviewCard } from "@/types/reviewTypes";
+import type { PopulatedReviewEntity } from "@/types/reviewTypes";
 import type {
   DATE_RANGE,
   PENDING_REVIEW_STATE,
@@ -16,7 +16,6 @@ export const getReviewsForMentor = async (
   pendingReviewState?: PENDING_REVIEW_STATE
 ) => {
   try {
-    console.log("working");
     const response = await mentorInstance.get(
       `/reviews?status=${status}&dateRange=${dateRange}&currentPage=${currentPage}&limit=${limit}&pendingReviewState=${pendingReviewState}`
     );
@@ -28,7 +27,7 @@ export const getReviewsForMentor = async (
 
 export const getReviewForMentor = async (
   reviewId: string
-): Promise<MentorReviewCard> => {
+): Promise<PopulatedReviewEntity> => {
   try {
     const response = await mentorInstance.get(`/reviews/${reviewId}`);
     return response.data;

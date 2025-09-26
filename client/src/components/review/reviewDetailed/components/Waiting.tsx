@@ -1,17 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { ROLES } from "@/utils/constants";
 import {
   getFormattedDayWithMonthAndYear,
   isoStringToLocalTime,
 } from "@/utils/helperFunctions/toTimeString";
 import { Calendar, Clock, Timer, Video } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
+  role: Exclude<ROLES, "admin">;
+  reviewId:string
   start: string;
   now: Date;
 };
-const Waiting = ({ start,now }: Props) => {
+const Waiting = ({ role,reviewId,start,now }: Props) => {
+  const navigate=useNavigate()
   const startTime= new Date(start)
+
   const getTimeUntilStart = () => {
     const diff = startTime.getTime() - now.getTime();
     const minutes = Math.floor(diff / (1000 * 60));
@@ -23,6 +29,18 @@ const Waiting = ({ start,now }: Props) => {
     if (minutes > 0) return `${minutes} minute${minutes > 1 ? "s" : ""}`;
     return "Starting soon...";
   };
+
+  const isJoinButtonDisabled=():boolean=>{
+    const diff=startTime.getTime()-now.getTime();
+    return diff >= (60 * 60 * 1000)
+  }
+
+  let navigationString='';
+  if(role==='mentor'){
+    navigationString=`/mentor/call/${reviewId}`
+  }else{
+    navigationString=`/call/${reviewId}`
+  }
   return (
     <Card className="h-full">
       <CardHeader className="text-center">
@@ -56,8 +74,8 @@ const Waiting = ({ start,now }: Props) => {
           </p>
         </div>
 
-        <Button disabled className="gap-2">
-          <Video className="w-5 h-5" />
+        <Button onClick={()=>navigate(navigationString)} disabled={isJoinButtonDisabled()} className="gap-2">
+          <Video  className="w-5 h-5" />
           Join Call (Not Available Yet)
         </Button>
       </CardContent>

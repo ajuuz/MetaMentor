@@ -34,11 +34,11 @@ export const HeroSection1 = () => {
                         xmlns="http://www.w3.org/2000/svg"
                       >
 
-                          <text x="0" y="200" font-size="10" fill="#888">0%</text>
-                          <text x="0" y="150" font-size="10" fill="#888">25%</text>
-                          <text x="0" y="100" font-size="10" fill="#888">50%</text>
-                          <text x="0" y="50" font-size="10" fill="#888">75%</text>
-                          <text x="0" y="10" font-size="10" fill="#888">100%</text>
+                          <text x="0" y="200" fontSize="10" fill="#888">0%</text>
+                          <text x="0" y="150" fontSize="10" fill="#888">25%</text>
+                          <text x="0" y="100" fontSize="10" fill="#888">50%</text>
+                          <text x="0" y="50" fontSize="10" fill="#888">75%</text>
+                          <text x="0" y="10" fontSize="10" fill="#888">100%</text>
                           
                         <defs>
                           <linearGradient id="growthGradient" x1="0%" y1="0%" x2="100%" y2="0%">

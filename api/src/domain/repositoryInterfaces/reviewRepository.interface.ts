@@ -1,13 +1,12 @@
 import {
   ICreateReview,
   IGetBookedSlotsForStud,
-  IGetReviewForMent,
-  IGetReviewsForStud,
   IGetReviewsForStudAndDomain,
+  IPopulatedReviewEntity,
   IReviewEntity,
 } from "domain/entities/reviewModel.entity";
 import { IReviewModel } from "infrastructure/database/models/bookedSlot.model";
-import { BaseRepository } from "interfaceAdapters/repositories/base.repository";
+import { BaseRepository } from "infrastructure/repository/base.repository";
 
 export interface IReviewRepository
   extends BaseRepository<IReviewEntity, IReviewModel> {
@@ -22,8 +21,12 @@ export interface IReviewRepository
     filter: any,
     skip: number,
     limit: number
-  ): Promise<{ data: IGetReviewsForStud[]; totalDocuments: number }>;
+  ): Promise<{ data: IPopulatedReviewEntity[]; totalDocuments: number }>;
 
+  findReviewForStudent(
+    studentId: string,
+    reviewId: string
+  ): Promise<IPopulatedReviewEntity | null>;
   findByDomain(domainId: string): Promise<IGetBookedSlotsForStud[]>;
 
   findByMentorAndDay(
@@ -36,12 +39,12 @@ export interface IReviewRepository
     filter: any,
     skip: number,
     limit: number
-  ): Promise<{ data: IGetReviewForMent[]; totalDocuments: number }>;
+  ): Promise<{ data: IPopulatedReviewEntity[]; totalDocuments: number }>;
 
   findReviewForMentor(
     mentorId: string,
     reviewId: string
-  ): Promise<IGetReviewForMent | null>;
+  ): Promise<IPopulatedReviewEntity | null>;
 
   createReview(reviewDetails: ICreateReview): Promise<IReviewModel>;
 
