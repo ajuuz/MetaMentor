@@ -1,7 +1,10 @@
 import {
+  MessageCircle,
+  MessageCircleOff,
   Mic,
   MicOff,
   ScreenShare,
+  Send,
   Video,
   VideoOff,
   VideoOffIcon,
@@ -10,6 +13,11 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useSocket } from "@/context/socketContext";
+import { AnimatePresence, motion } from "framer-motion";
+import { ScrollArea } from "../ui/scroll-area";
+import { Input } from "../ui/input";
+import OutgoingMessage from "./videoCallChat/OutgoingMessage";
+import IncomingMessage from "./videoCallChat/IncomingMessage";
 
 type Props = {
   myUserKey: string;
@@ -42,6 +50,12 @@ const VideoCall = ({ myUserKey }: Props) => {
   const localStreamRef = useRef<MediaStream | null>(null);
 
   const remoteUsersRef = useRef(remoteUsers);
+  const [isChatBarOpen, setIsChatBarOpen] = useState<boolean>(false);
+  const [chatMessages, setChatMessages] = useState<
+    { userName: string; message: string; createdAt: string }[]
+  >([]);
+  const [yourMessage, setYourMessage] = useState<string>("");
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const { roomId } = useParams();
   if (!roomId) {
@@ -63,6 +77,14 @@ const VideoCall = ({ myUserKey }: Props) => {
       }
       return newMap;
     });
+  }
+
+  function handleSetChatMessages(
+    userName: string,
+    message: string,
+    createdAt: string
+  ) {
+    setChatMessages((prev) => [...prev, { userName, message, createdAt }]);
   }
 
   const setupPeerConnection = (
@@ -239,6 +261,29 @@ const VideoCall = ({ myUserKey }: Props) => {
         handleTrackOfRemoteUsers(userKey, "screenStream", status);
       }
     );
+    socket.on(
+      "video-call:chat-messages",
+      (
+        messages: { userName: string; message: string; createdAt: string }[]
+      ) => {
+        setChatMessages(messages);
+      }
+    );
+
+    socket.on(
+      "video-call:message",
+      ({
+        userName,
+        message,
+        createdAt,
+      }: {
+        userName: string;
+        message: string;
+        createdAt: string;
+      }) => {
+        handleSetChatMessages(userName, message, createdAt);
+      }
+    );
   };
 
   const setupLocalStream = async () => {
@@ -275,6 +320,10 @@ const VideoCall = ({ myUserKey }: Props) => {
   useEffect(() => {
     remoteUsersRef.current = remoteUsers; // keep ref updated on every render
   }, [remoteUsers]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatMessages]);
 
   const handleVideoTrack = async () => {
     if (!localStreamRef.current || !localVideoRef.current) return;
@@ -404,103 +453,172 @@ const VideoCall = ({ myUserKey }: Props) => {
     gridCols = "grid-cols-4";
   }
 
-  console.log("rendering ");
+  const handleSubmitMessage = () => {
+    if (!yourMessage.trim()) return;
+    const now = new Date();
+    const time = now.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    });
+    const me = myUserKey.split(".")[1];
+    handleSetChatMessages(me, yourMessage, time);
+    socket?.emit("video-call:message", {
+      userName: me,
+      message: yourMessage,
+      createdAt: time,
+    });
+  };
   return (
     <div className="h-screen flex flex-col bg-black text-white">
-      <main
-        className={`flex-1 my-5 gap-5 relative grid ${gridCols} gap-2 place-items-center`}
-      >
-        {/* Local video */}
-        <div
-          className={`${
-            remoteUsers.size === 1 ? "absolute bottom-5 right-5 w-35" : "h-full"
-          } rounded-lg overflow-hidden  `}
+      <div className="h-full pt-5 flex pe-10 items-center">
+        <main
+          className={`flex-1 h-full my-5 gap-5 relative grid ${gridCols} gap-2 place-items-center`}
         >
-          <video
-            ref={localVideoRef}
-            autoPlay
-            muted
-            playsInline
-            className="w-full h-full aspect-video object-cover rounded-2xl scale-x-[-1]"
-          />
-        </div>
-
-        {/* Local screen share */}
-        {screenStream && (
-          <div className="h-full rounded-lg overflow-hidden ">
+          {/* Local video */}
+          <div
+            className={`${
+              remoteUsers.size === 1
+                ? "absolute bottom-5 right-5 w-35"
+                : "h-full"
+            } rounded-lg overflow-hidden  `}
+          >
             <video
+              ref={localVideoRef}
               autoPlay
               muted
               playsInline
-              ref={(el) => {
-                if (el) el.srcObject = screenStream;
-              }}
-              className="w-full h-full object-cover aspect-video rounded-2xl "
+              className="w-full h-full aspect-video object-cover rounded-2xl scale-x-[-1]"
             />
           </div>
-        )}
 
-        {/* Remote videos */}
-        {[...remoteUsers.entries()].map(([username, user]) => (
-          <>
-            <div
-              onClick={() => console.log(user.screenStream)}
-              key={username}
-              className={`relative h-full  ${
-                (remoteUsers.size !== 1 || user.isCameraOff) && "w-full"
-              }`}
-            >
+          {/* Local screen share */}
+          {screenStream && (
+            <div className="h-full rounded-lg overflow-hidden ">
               <video
-                ref={(el) => {
-                  if (el) remoteVideoRef.current[username] = el;
-                }}
                 autoPlay
+                muted
                 playsInline
-                className={`${
-                  user.isCameraOff && "hidden"
-                } w-full h-full aspect-video object-cover rounded-2xl  scale-x-[-1]`}
+                ref={(el) => {
+                  if (el) el.srcObject = screenStream;
+                }}
+                className="w-full h-full object-cover aspect-video rounded-2xl "
               />
+            </div>
+          )}
+
+          {/* Remote videos */}
+          {[...remoteUsers.entries()].map(([username, user]) => (
+            <>
               <div
-                className={`${
-                  user.isCameraOff ? "block" : "hidden"
-                } w-full h-full bg-slate-900 flex items-center justify-center rounded-2xl`}
+                onClick={() => console.log(user.screenStream)}
+                key={username}
+                className={`relative h-full  ${
+                  (remoteUsers.size !== 1 || user.isCameraOff) && "w-full"
+                }`}
               >
+                <video
+                  ref={(el) => {
+                    if (el) remoteVideoRef.current[username] = el;
+                  }}
+                  autoPlay
+                  playsInline
+                  className={`${
+                    user.isCameraOff && "hidden"
+                  } w-full h-full aspect-video object-cover rounded-2xl  scale-x-[-1]`}
+                />
                 <div
-                  className={`absolute ${
-                    user.isMuted ? "top-6" : "top-3"
-                  } right-3 transition-all duration-700 p-1 rounded-full bg-slate-400/50 text-gray-400`}
+                  className={`${
+                    user.isCameraOff ? "block" : "hidden"
+                  } w-full h-full bg-slate-900 flex items-center justify-center rounded-2xl`}
                 >
-                  <VideoOff />
+                  <div
+                    className={`absolute ${
+                      user.isMuted ? "top-6" : "top-3"
+                    } right-3 transition-all duration-700 p-1 rounded-full bg-slate-400/50 text-gray-400`}
+                  >
+                    <VideoOff />
+                  </div>
+                  <div className="flex justify-center items-center  h-15 w-15 font-bold border-2 border-slate-400 text-xl rounded-full bg-slate-400/50 text-gray-400">
+                    {username}
+                  </div>
                 </div>
-                <div className="flex justify-center items-center  h-15 w-15 font-bold border-2 border-slate-400 text-xl rounded-full bg-slate-400/50 text-gray-400">
-                  {username}
-                </div>
+                {user.isMuted && (
+                  <div className="absolute top-3 right-3  p-1 rounded-full bg-slate-400/50 text-gray-400">
+                    <MicOff size={16} />
+                  </div>
+                )}
               </div>
-              {user.isMuted && (
-                <div className="absolute top-3 right-3  p-1 rounded-full bg-slate-400/50 text-gray-400">
-                  <MicOff size={16} />
+              {user.screenStream && (
+                <div className="h-full rounded-lg overflow-hidden border">
+                  <video
+                    autoPlay
+                    muted
+                    playsInline
+                    ref={(el) => {
+                      if (el) remoteScreenShareRef.current[username] = el;
+                    }}
+                    className="w-full h-full object-cover aspect-video rounded-2xl  scale-x-[-1]"
+                  />
                 </div>
               )}
-            </div>
-            {user.screenStream && (
-              <div className="h-full rounded-lg overflow-hidden border">
-                <video
-                  autoPlay
-                  muted
-                  playsInline
-                  ref={(el) => {
-                    if (el) remoteScreenShareRef.current[username] = el;
-                  }}
-                  className="w-full h-full object-cover aspect-video rounded-2xl  scale-x-[-1]"
-                />
+            </>
+          ))}
+        </main>
+        <AnimatePresence>
+          {isChatBarOpen && (
+            <motion.aside
+              initial={{ width: 0 }}
+              animate={{ width: 350 }}
+              exit={{ width: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white text-black flex flex-col gap-3 p-5 overflow-hidden h-full rounded-2xl"
+            >
+              <div className="bg-[#e9eef6] text-sm text-gray-700 font-serif p-5 rounded-2xl text-center">
+                <p>
+                  When you leave the call, you wont't be able to access this
+                  chat
+                </p>
               </div>
-            )}
-          </>
-        ))}
-      </main>
+              <div>
+                <ScrollArea className="h-100 rounded-md border">
+                  <div className="p-4 flex flex-col gap-5">
+                    {chatMessages.map((message) =>
+                      message.userName === myUserKey.split(".")[1] ? (
+                        <OutgoingMessage
+                          userName={message.userName}
+                          message={message.message}
+                          createdAt={message.createdAt}
+                        />
+                      ) : (
+                        <IncomingMessage
+                          userName={message.userName}
+                          message={message.message}
+                          createdAt={message.createdAt}
+                        />
+                      )
+                    )}
+                    <div ref={messagesEndRef} />
+                  </div>
+                </ScrollArea>
+              </div>
+              <div className="flex gap-4">
+                <Input
+                  type="text"
+                  onChange={(e) => setYourMessage(e.target.value)}
+                />
+                <Button onClick={handleSubmitMessage}>
+                  <Send />
+                </Button>
+              </div>
+            </motion.aside>
+          )}
+        </AnimatePresence>
+      </div>
 
       {/* Footer */}
-      <footer onClick={()=>console.log(remoteUsers)} className="p-4 text-center  text-2xl font-semibold  flex justify-center gap-5">
+      <footer className="p-4 text-center  text-2xl font-semibold  flex justify-center gap-5">
         <Button className=" w-13 py-5" onClick={handleAudioTrack}>
           {isAudioMuted ? <MicOff /> : <Mic />}
         </Button>
@@ -512,6 +630,12 @@ const VideoCall = ({ myUserKey }: Props) => {
           onClick={handleScreenShare}
         >
           {screenStream ? <ScreenShare /> : <ScreenShare />}
+        </Button>
+        <Button
+          className=" w-13 py-5"
+          onClick={() => setIsChatBarOpen((prev) => !prev)}
+        >
+          {isChatBarOpen ? <MessageCircle /> : <MessageCircleOff />}
         </Button>
       </footer>
     </div>

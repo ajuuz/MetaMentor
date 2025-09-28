@@ -1,4 +1,7 @@
-import { videoRooms } from "infrastructure/config/socket/context";
+import {
+  videoRooms,
+  videoRoomsChat,
+} from "infrastructure/config/socket/context";
 import { ModifiedSocket } from "type/types";
 import { Server as SocketIoServer } from "socket.io";
 export class SocketVideoCallController {
@@ -15,29 +18,32 @@ export class SocketVideoCallController {
     this._socket.on(
       "video-call:join",
       (payload: { userKey: string; roomId: string }) => {
-        console.log("video-call joined ");
         const { userKey, roomId } = payload;
         this._socket.roomId = roomId;
         const socketId = this._socket.id;
-        console.log(userKey, roomId);
         let users = videoRooms.get(roomId);
 
         if (!users) {
           users = [{ userKey, socketId }];
           videoRooms.set(roomId, users);
+          videoRoomsChat.set(roomId, []);
         } else {
           users.push({ userKey, socketId });
         }
 
+        console.log(videoRooms);
         this._socket.join(`video_call_${roomId}`);
 
-        console.log(videoRooms);
         const existingUsers = videoRooms
           .get(roomId)
           ?.filter((user) => user.socketId !== this._socket.id);
 
-        console.log(existingUsers);
         this._socket.emit("video-call:existing-users", existingUsers);
+
+        this._socket.emit(
+          "video-call:chat-messages",
+          videoRoomsChat.get(roomId)
+        );
 
         this._socket
           .to(`video_call_${roomId}`)
@@ -91,7 +97,23 @@ export class SocketVideoCallController {
       }
     );
 
-    
+    this._socket.on(
+      "video-call:message",
+      (messageData: {
+        userName: string;
+        message: string;
+        createdAt: string;
+      }) => {
+        console.log(this._socket.roomId);
+        if (!this._socket.roomId) return;
+        const messages = videoRoomsChat.get(this._socket.roomId);
+        messages?.push(messageData);
+        console.log(videoRoomsChat);
+        this._socket
+          .to(`video_call_${this._socket.roomId}`)
+          .emit("video-call:message", messageData);
+      }
+    );
 
     this._socket.on("video-call:leave", () => {
       console.log("Disconnected: ", this._socket.userName);
