@@ -5,6 +5,7 @@ import { SocketVideoCallController } from "presentation/socket/controller/socket
 import { socketAuthMiddleware } from "presentation/socket/middleware/auth.middleware";
 import { ModifiedSocket } from "type/types";
 import { UserRepository } from "infrastructure/repository/user.repository";
+import { videoRooms } from "./context";
 
 export class SocketConfig {
   private static _io: SocketIoServer;
@@ -14,7 +15,7 @@ export class SocketConfig {
       SocketConfig._io = new SocketIoServer(server, {
         path: "/api/socket.io",
         cors: {
-          origin: [ config.client.uri,"https://192.168.29.148:5173"],
+          origin: [config.client.uri, "https://192.168.29.148:5173"],
           credentials: true,
         },
       });
@@ -28,11 +29,11 @@ export class SocketConfig {
       if (!user) {
         return next(new Error("User not found")); // reject connection
       }
-      socket.userName=user.name;
+      socket.userName = user.name;
       next();
     });
 
-    SocketConfig._io.on("connection", (socket) => {
+    SocketConfig._io.on("connection", (socket: ModifiedSocket) => {
       console.log(`socket connected: ${socket.id}`);
 
       const videoCallController = new SocketVideoCallController(
@@ -41,8 +42,19 @@ export class SocketConfig {
       );
 
       videoCallController.registerVideoCallConnectionHandlers();
+
       socket.on("disconnect", () => {
-        console.log("socket disconnected:", socket.id);
+        console.log("Disconnected: ", socket.userName);
+        if (socket.roomId && videoRooms.has(socket.roomId)) {
+          const users = videoRooms.get(socket.roomId);
+          if (users) {
+            const updatedUsers = users.filter(
+              (user) => user.socketId !== socket.id
+            );
+            videoRooms.set(socket.roomId, updatedUsers);
+            if (updatedUsers.length === 0) videoRooms.delete(socket.roomId);
+          }
+        }
       });
     });
     return SocketConfig._io;
