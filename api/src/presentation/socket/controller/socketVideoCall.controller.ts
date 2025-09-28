@@ -82,7 +82,7 @@ export class SocketVideoCallController {
     this._socket.on(
       "video-call:screen-share",
       ({ userKey, status }: { userKey: string; status: boolean }) => {
-        this._socket.broadcast
+        this._socket
           .to(`video_call_${this._socket.roomId}`)
           .emit("video-call:screen-share", {
             userKey,
@@ -91,19 +91,7 @@ export class SocketVideoCallController {
       }
     );
 
-    this._socket.on("disconnect", () => {
-      console.log("Disconnected: ", this._socket.userName);
-      if (this._socket.roomId && videoRooms.has(this._socket.roomId)) {
-        const users = videoRooms.get(this._socket.roomId);
-        if (users) {
-          const updatedUsers = users.filter(
-            (user) => user.socketId !== this._socket.id
-          );
-          videoRooms.set(this._socket.roomId, updatedUsers);
-          if (updatedUsers.length === 0) videoRooms.delete(this._socket.roomId);
-        }
-      }
-    });
+    
 
     this._socket.on("video-call:leave", () => {
       console.log("Disconnected: ", this._socket.userName);

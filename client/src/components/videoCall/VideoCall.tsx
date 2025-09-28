@@ -15,14 +15,10 @@ type Props = {
   myUserKey: string;
 };
 
-type ModifiedTrack=MediaStreamTrack&{
-  isScreenStream:boolean
-}
-
 type RemoteUser = {
   isCameraOff: boolean;
   isMuted: boolean;
-  screenStream: MediaStream | null; // 👈 add this
+  screenStream: MediaStream | null | boolean; // 👈 add this
 };
 const VideoCall = ({ myUserKey }: Props) => {
   // Local state flags
@@ -32,11 +28,15 @@ const VideoCall = ({ myUserKey }: Props) => {
   const [isCameraOff, setIsCameraOff] = useState<boolean>(false);
   const [isAudioMuted, setIsAudioMuted] = useState<boolean>(false);
   const [screenStream, setScreenStream] = useState<MediaStream | null>(null);
-  const [isScreenShare, setIsScreenShare] = useState<boolean>(false);
   const userSocketMap = useRef<Record<string, string>>({});
+
   // Refs
   const localVideoRef = useRef<HTMLVideoElement | null>(null);
   const remoteVideoRef = useRef<Record<string, HTMLVideoElement | null>>({});
+  const remoteScreenShareRef = useRef<Record<string, HTMLVideoElement | null>>(
+    {}
+  );
+  const isRemotePeerSharingScreen = useRef<boolean>(false);
   const { socket } = useSocket();
   const pcRef = useRef<Record<string, RTCPeerConnection>>({});
   const localStreamRef = useRef<MediaStream | null>(null);
@@ -50,7 +50,7 @@ const VideoCall = ({ myUserKey }: Props) => {
 
   function handleTrackOfRemoteUsers(
     userKey: string,
-    media: "isCameraOff" | "isMuted",
+    media: "isCameraOff" | "isMuted" | "screenStream",
     status: boolean
   ) {
     setRemoteUsers((prev) => {
@@ -59,21 +59,6 @@ const VideoCall = ({ myUserKey }: Props) => {
         newMap.set(userKey, {
           ...newMap.get(userKey)!,
           [media]: status,
-        });
-      }
-      return newMap;
-    });
-  }
-  function handleScreenStreamOfRemoteUsers(
-    userKey: string,
-    stream: MediaStream | null
-  ) {
-    setRemoteUsers((prev) => {
-      const newMap = new Map(prev);
-      if (newMap.has(userKey)) {
-        newMap.set(userKey, {
-          ...newMap.get(userKey)!,
-          screenStream: stream,
         });
       }
       return newMap;
@@ -102,31 +87,18 @@ const VideoCall = ({ myUserKey }: Props) => {
     // Handle remote stream
     pc.ontrack = (event) => {
       const remoteStream = new MediaStream();
-      event.streams[0].getTracks().forEach((track, index) => {
-        remoteStream.addTrack(track);
-        if (track.kind === "video") {
-          const settings=track.getSettings()
-          console.log("modified track",(track as ModifiedTrack).isScreenStream)
-          const remote = remoteUsersRef.current.get(user.userKey);
-          const isScreenTrack = remote && remote.screenStream === null;
-          if (false) {
-            console.log("adding new screeen share track");
-            const newScreenStream = new MediaStream([track]);
-            handleScreenStreamOfRemoteUsers(user.userKey, newScreenStream);
+      const isScreenSharing = isRemotePeerSharingScreen.current;
 
-            // When screen share ends (user presses "Stop sharing")
-            track.onended = () => {
-              handleScreenStreamOfRemoteUsers(user.userKey, null);
-            };
-          } else {
-            console.log("replacing  video track screeen share track");
-            track.onmute = () =>
-              handleTrackOfRemoteUsers(user.userKey, "isCameraOff", true);
-            track.onunmute = () =>
-              handleTrackOfRemoteUsers(user.userKey, "isCameraOff", false);
-            track.onended = () =>
-              handleTrackOfRemoteUsers(user.userKey, "isCameraOff", true);
-          }
+      event.streams[0].getTracks().forEach((track) => {
+        remoteStream.addTrack(track);
+
+        if (track.kind === "video" && !isScreenSharing) {
+          track.onmute = () =>
+            handleTrackOfRemoteUsers(user.userKey, "isCameraOff", true);
+          track.onunmute = () =>
+            handleTrackOfRemoteUsers(user.userKey, "isCameraOff", false);
+          track.onended = () =>
+            handleTrackOfRemoteUsers(user.userKey, "isCameraOff", true);
         }
 
         if (track.kind === "audio") {
@@ -139,10 +111,18 @@ const VideoCall = ({ myUserKey }: Props) => {
         }
       });
 
-      // Assign the stream to the correct video element
-      const remoteVideoElement = remoteVideoRef.current[user.userKey];
-      if (remoteVideoElement) {
-        remoteVideoElement.srcObject = remoteStream;
+      if (isScreenSharing) {
+        const remoteScreenShareElement =
+          remoteScreenShareRef.current[user.userKey];
+        if (remoteScreenShareElement) {
+          remoteScreenShareElement.srcObject = remoteStream;
+        }
+        isRemotePeerSharingScreen.current = false;
+      } else {
+        const remoteVideoElement = remoteVideoRef.current[user.userKey];
+        if (remoteVideoElement) {
+          remoteVideoElement.srcObject = remoteStream;
+        }
       }
     };
 
@@ -183,7 +163,6 @@ const VideoCall = ({ myUserKey }: Props) => {
     socket.on(
       "video-call:existing-users",
       (users: { userKey: string; socketId: string }[]) => {
-
         const map = new Map();
         users.forEach((user) => {
           map.set(user.userKey, {
@@ -249,34 +228,17 @@ const VideoCall = ({ myUserKey }: Props) => {
     socket.on(
       "video-call:audio-status-change",
       ({ userKey, status }: { userKey: string; status: boolean }) => {
-        setRemoteUsers((prev) => {
-          const newMap = new Map(prev);
-          if (newMap.has(userKey)) {
-            newMap.set(userKey, {
-              ...newMap.get(userKey)!,
-              isMuted: status,
-            });
-          }
-          return newMap;
-        });
+        handleTrackOfRemoteUsers(userKey, "isMuted", status);
       }
     );
 
-    // socket.on(
-    //   "video-call:screen-share",
-    //   ({ userKey, status }: { userKey: string; status: boolean }) => {
-    //     setRemoteUsers((prev) => {
-    //       const newMap = new Map(prev);
-    //       if (newMap.has(userKey)) {
-    //         newMap.set(userKey, {
-    //           ...newMap.get(userKey)!,
-    //           screenStream: status,
-    //         });
-    //       }
-    //       return newMap;
-    //     });
-    //   }
-    // );
+    socket.on(
+      "video-call:screen-share",
+      ({ userKey, status }: { userKey: string; status: boolean }) => {
+        if (status === true) isRemotePeerSharingScreen.current = true;
+        handleTrackOfRemoteUsers(userKey, "screenStream", status);
+      }
+    );
   };
 
   const setupLocalStream = async () => {
@@ -378,6 +340,10 @@ const VideoCall = ({ myUserKey }: Props) => {
       screenStream.getTracks().forEach((t) => t.stop());
       setScreenStream(null);
 
+      socket?.emit("video-call:screen-share", {
+        userKey: myUserKey,
+        status: false,
+      });
       // Remove track from peer connections
       Object.values(pcRef.current).forEach((pc) => {
         const senders = pc
@@ -387,11 +353,6 @@ const VideoCall = ({ myUserKey }: Props) => {
           );
         senders.forEach((sender) => pc.removeTrack(sender));
       });
-
-      socket?.emit("video-call:screen-share", {
-        userKey: myUserKey,
-        status: false,
-      });
       return;
     }
 
@@ -400,8 +361,13 @@ const VideoCall = ({ myUserKey }: Props) => {
         video: true,
         audio: false,
       });
-      displayStream.getVideoTracks().forEach((track) => ((track as ModifiedTrack).isScreenStream = true));
+
       setScreenStream(displayStream);
+
+      socket?.emit("video-call:screen-share", {
+        userKey: myUserKey,
+        status: true,
+      });
 
       Object.entries(pcRef.current).forEach(async ([userKey, pc]) => {
         displayStream
@@ -412,7 +378,7 @@ const VideoCall = ({ myUserKey }: Props) => {
         const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
 
-        const targetSocketId = userSocketMap.current[userKey]; // <--- use this
+        const targetSocketId = userSocketMap.current[userKey];
         if (socket && targetSocketId) {
           socket.emit("signal", {
             userKey: myUserKey,
@@ -420,11 +386,6 @@ const VideoCall = ({ myUserKey }: Props) => {
             signal: pc.localDescription,
           });
         }
-      });
-
-      socket?.emit("video-call:screen-share", {
-        userKey: myUserKey,
-        status: true,
       });
     } catch (error) {
       console.error("Error sharing screen", error);
@@ -436,7 +397,6 @@ const VideoCall = ({ myUserKey }: Props) => {
     remoteUsers.size +
     [...remoteUsers.values()].filter((user) => user.screenStream).length;
 
-
   let gridCols = "grid-cols-1";
   if (totalTiles > 1 && totalTiles < 5) {
     gridCols = `grid-cols-${totalTiles}`;
@@ -444,10 +404,9 @@ const VideoCall = ({ myUserKey }: Props) => {
     gridCols = "grid-cols-4";
   }
 
+  console.log("rendering ");
   return (
-    <div
-      className="h-screen flex flex-col bg-black text-white"
-    >
+    <div className="h-screen flex flex-col bg-black text-white">
       <main
         className={`flex-1 my-5 gap-5 relative grid ${gridCols} gap-2 place-items-center`}
       >
@@ -455,7 +414,7 @@ const VideoCall = ({ myUserKey }: Props) => {
         <div
           className={`${
             remoteUsers.size === 1 ? "absolute bottom-5 right-5 w-35" : "h-full"
-          } rounded-lg overflow-hidden border `}
+          } rounded-lg overflow-hidden  `}
         >
           <video
             ref={localVideoRef}
@@ -468,7 +427,7 @@ const VideoCall = ({ myUserKey }: Props) => {
 
         {/* Local screen share */}
         {screenStream && (
-          <div className="h-full rounded-lg overflow-hidden border">
+          <div className="h-full rounded-lg overflow-hidden ">
             <video
               autoPlay
               muted
@@ -485,6 +444,7 @@ const VideoCall = ({ myUserKey }: Props) => {
         {[...remoteUsers.entries()].map(([username, user]) => (
           <>
             <div
+              onClick={() => console.log(user.screenStream)}
               key={username}
               className={`relative h-full  ${
                 (remoteUsers.size !== 1 || user.isCameraOff) && "w-full"
@@ -529,9 +489,9 @@ const VideoCall = ({ myUserKey }: Props) => {
                   muted
                   playsInline
                   ref={(el) => {
-                    if (el) el.srcObject = user.screenStream;
+                    if (el) remoteScreenShareRef.current[username] = el;
                   }}
-                  className="w-full h-full object-cover aspect-video rounded-2xl "
+                  className="w-full h-full object-cover aspect-video rounded-2xl  scale-x-[-1]"
                 />
               </div>
             )}
@@ -540,7 +500,7 @@ const VideoCall = ({ myUserKey }: Props) => {
       </main>
 
       {/* Footer */}
-      <footer className="p-4 text-center  text-2xl font-semibold  flex justify-center gap-5">
+      <footer onClick={()=>console.log(remoteUsers)} className="p-4 text-center  text-2xl font-semibold  flex justify-center gap-5">
         <Button className=" w-13 py-5" onClick={handleAudioTrack}>
           {isAudioMuted ? <MicOff /> : <Mic />}
         </Button>
@@ -548,12 +508,11 @@ const VideoCall = ({ myUserKey }: Props) => {
           {isCameraOff ? <VideoOffIcon /> : <Video />}
         </Button>
         <Button
-          className={`${isScreenShare && "bg-white text-black"} w-13 py-5`}
+          className={`${screenStream && "bg-white text-black"} w-13 py-5`}
           onClick={handleScreenShare}
         >
-          {isScreenShare ? <ScreenShare /> : <ScreenShare />}
+          {screenStream ? <ScreenShare /> : <ScreenShare />}
         </Button>
-        <div></div>
       </footer>
     </div>
   );
