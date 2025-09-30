@@ -16,10 +16,18 @@ export class WalletRepository
   }
 
   async creditAmount(userId: string, amount: number): Promise<void> {
+    console.log("credit", userId, amount);
+    const wallet = await walletModel.findOne({ userId });
+    console.log("credit", wallet);
     await walletModel.updateOne({ userId }, { $inc: { balance: amount } });
+    const walletAfter = await walletModel.findOne({ userId });
+    console.log("credit", walletAfter);
   }
 
   async debitAmount(userId: string, amount: number): Promise<void> {
+    console.log("debit", userId, amount);
+    const wallet = await walletModel.findOne({ userId });
+    console.log("credit", wallet);
     await walletModel.updateOne({ userId }, { $inc: { balance: -amount } });
   }
 

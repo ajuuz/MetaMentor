@@ -4,13 +4,14 @@ import {
   IPopulatedReviewEntity,
   IGetReviewsForStudAndDomain,
   IReviewEntity,
+  ICreateReviewPoplutedEntity,
 } from "domain/entities/reviewModel.entity";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import {
   reviewModel,
   IReviewModel,
 } from "infrastructure/database/models/bookedSlot.model";
-import mongoose, { FilterQuery, UpdateQuery } from "mongoose";
+import mongoose, { FilterQuery, ObjectId, UpdateQuery } from "mongoose";
 import { PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
 
 import { BaseRepository } from "./base.repository";
@@ -241,9 +242,9 @@ export class ReviewRepository
     if (filter.pendingReviewState !== "undefined") {
       const currentDate = new Date();
       if (filter.pendingReviewState === PENDING_REVIEW_STATE.NOTOVER) {
-        mongoFilter["slot.start"] = { $gt: currentDate };
+        mongoFilter["slot.end"] = { $gte: currentDate };
       } else {
-        mongoFilter["slot.end"] = { $lt: currentDate };
+        mongoFilter["slot.end"] = { $lte: currentDate };
       }
     }
 
@@ -422,6 +423,57 @@ export class ReviewRepository
       },
     ]);
     return reviews[0];
+  }
+
+  async createAReview(
+    reviewDetails: ICreateReview
+  ): Promise<ICreateReviewPoplutedEntity> {
+    console.log("student id", reviewDetails.studentId);
+    const studentId = new mongoose.Types.ObjectId(reviewDetails.studentId);
+    const mentorId = new mongoose.Types.ObjectId(reviewDetails.mentorId);
+    const levelId = new mongoose.Types.ObjectId(reviewDetails.levelId);
+    const domainId = new mongoose.Types.ObjectId(reviewDetails.domainId);
+    const newReview = new reviewModel({
+      ...reviewDetails,
+      studentId,
+      mentorId,
+      levelId,
+      domainId,
+    });
+    await newReview.save();
+    const populatedReview = await newReview.populate([
+      { path: "studentId", select: "_id name email" },
+      { path: "mentorId", select: "_d name email" },
+      { path: "levelId", select: "name" },
+      { path: "domainId", select: "name" },
+    ]);
+    const student = populatedReview.studentId as unknown as {
+      _id: ObjectId;
+      name: string;
+      email: string;
+    };
+    const mentor = populatedReview.mentorId as unknown as {
+      _id: ObjectId;
+      name: string;
+      email: string;
+    };
+    const level = populatedReview.levelId as unknown as { name: string };
+    const domain = populatedReview.domainId as unknown as { name: string };
+    const response = {
+      _id: populatedReview._id.toString(),
+      student: {
+        ...student,
+        _id: student._id.toString(),
+      },
+      mentor: {
+        ...mentor,
+        _id: mentor._id.toString(),
+      },
+      levelName: level.name,
+      domainName: domain.name,
+      slot: populatedReview.slot,
+    };
+    return response;
   }
 
   async createReview(reviewDetails: ICreateReview): Promise<IReviewModel> {

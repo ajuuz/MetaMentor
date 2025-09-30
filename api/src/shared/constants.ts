@@ -113,7 +113,7 @@ export const SUCCESS_MESSAGE = {
   REVIEWS: {
     CANCEL_REVIEW_BY_MENTOR: "Review cancelled successfully",
     UPDATE_STATUS: "Updated Review status successfully",
-    RESCHEDULE:'Reschedule request has been sent successfully',
+    RESCHEDULE: "Reschedule request has been sent successfully",
     CANCEL_REVIEW_BY_STUDENT:
       "Platform fee has been debited from your amount. Balance is credited to your wallet",
   },
@@ -148,7 +148,8 @@ export enum MENTOR_APPLICATION_STATUS {
 }
 
 export enum EVENT_EMITTER_TYPE {
-  SENDMAIL = "sendmail",
+  SEND_MAIL = "sendmail",
+  SEND_PUSH_NOTIFICATION = "sendNotification",
 }
 
 export enum MAIL_CONTENT_PURPOSE {
@@ -156,6 +157,7 @@ export enum MAIL_CONTENT_PURPOSE {
   MENTOR_ACCEPTANCE = "mentorAcceptance",
   MENTOR_REJECTION = "mentorRejection",
   FORGOT_PASSWORD = "forgotPassword",
+  REVIEW_REMINDER = "reviewReminder",
 }
 
 export enum NOTIFICATION_TYPE {
@@ -164,6 +166,10 @@ export enum NOTIFICATION_TYPE {
   SLOT_BOOKING = "slotBooking",
   SLOT_CANCEL = "slotCancel",
   SLOT_RESCHEDULE = "slotReschedule",
+  REVIEW_FEEDBACK_UPDATED = "ReviewFeedBackUpdated",
+  REVIEW_REMINDER = "reviewReminder",
+  MENTOR_EARNINGS_CREDITED='MentorEarningsCredited'
+
 }
 
 export enum NOTIFICATION_TITLE {
@@ -174,16 +180,21 @@ export enum NOTIFICATION_TITLE {
   REVIEW_RESCHEDULE = "REVIEW RESCHEDULE",
   REVIEW_RESCHEDULE_ACCEPTED = "REVIEW RESCHEDULE ACCEPTED",
   REVIEW_FEEDBACK_UPDATED = "REVIEW FEEDBACK UPDATED",
+  REVIEW_REMINDER = "REVIEW REMINDER",
+  MENTOR_EARNINGS_CREDITED='MENTOR EARNINGS CREDITED'
 }
 export enum NOTIFICATION_MESSAGE {
-  MENTOR_ACCEPTANCE = "Your Mentor Application Accepted Successfully",
-  MENTOR_REJECTION = "Your Mentor Application Rejected",
-  REVIEW_BOOKED = "Review Booked Successfully",
-  REVIEW_CANCEL_MENTOR = "Your Review has been cancelled! Review amount has been credited to your wallet",
-  REVIEW_CANCEL_STUDENT = "Your Review has been cancelled by the student",
-  REVIEW_RECHEDULE = "You have a review reschedule request",
-  REVIEW_RESCHEDULE_ACCEPTED="Your reschedule request has been accepted",
-  REVIEW_FEEDBACK_UPDATED = "Your Review's feedback has been updated. Please check it",
+  MENTOR_ACCEPTANCE = "Congratulations! Your mentor application has been accepted successfully.",
+  MENTOR_REJECTION = "We regret to inform you that your mentor application has been rejected.",
+  REVIEW_BOOKED = "Your review session has been successfully booked.",
+  REVIEW_CANCEL_MENTOR = "Your review has been cancelled. The review amount has been refunded to your wallet.",
+  REVIEW_CANCEL_STUDENT = "The student has cancelled your scheduled review session.",
+  REVIEW_RESCHEDULE = "You have a request to reschedule your upcoming review session.",
+  REVIEW_RESCHEDULE_ACCEPTED = "Your review reschedule request has been accepted successfully.",
+  REVIEW_FEEDBACK_UPDATED = "The feedback for your review session has been updated. Please check it.",
+  REVIEW_REMINDER = "Reminder: Your review session is scheduled to start in 30 minutes. Please be ready to join on time.",
+  MENTOR_EARNINGS_CREDITED = "Congratulations! Your earnings for the recent session have been successfully credited to your account."
+
 }
 
 export enum SORT_ORDER {

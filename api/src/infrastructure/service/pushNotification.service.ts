@@ -2,13 +2,24 @@ import { IFcmTokenRepository } from "domain/repositoryInterfaces/fcmTokenReposit
 import { IPushNotificationService } from "application/interfaces/service/pushNotificationService.interface";
 import { FirebaseAdminConfig } from "infrastructure/config/firebase/firebaseAdmin.config";
 import { inject, injectable } from "tsyringe";
+import { eventBus } from "shared/eventBus";
+import { EVENT_EMITTER_TYPE } from "shared/constants";
 
 @injectable()
 export class PushNotificationService implements IPushNotificationService {
   constructor(
     @inject("IFcmTokenRepository")
     private _fcmTokenRepository: IFcmTokenRepository
-  ) {}
+  ) {
+    this._registerEventListeners();
+  }
+
+  private _registerEventListeners(): void {
+    eventBus.on(
+      EVENT_EMITTER_TYPE.SEND_PUSH_NOTIFICATION,
+      this.sendNotification.bind(this)
+    );
+  }
 
   async sendNotification(
     userId: string,

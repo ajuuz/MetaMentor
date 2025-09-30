@@ -7,15 +7,20 @@ import { IDebitWalletUsecase } from "application/usecase/interfaces/wallet/debit
 import { config } from "shared/config";
 import {
   ERROR_MESSAGE,
+  EVENT_EMITTER_TYPE,
   HTTP_STATUS,
   NOTIFICATION_MESSAGE,
   NOTIFICATION_TITLE,
+  NOTIFICATION_TYPE,
   REVIEW_STATUS,
   TRANSACTION_TYPE,
 } from "shared/constants";
 import { CustomError } from "domain/errors/customError";
 import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
+import { eventBus } from "shared/eventBus";
+import { INotificationEntity } from "domain/entities/notificationModel.entity";
+import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
 
 @injectable()
 export class CancelReviewByStudentUsecase
@@ -26,9 +31,6 @@ export class CancelReviewByStudentUsecase
     @inject("IReviewRepository")
     private _reviewRepository: IReviewRepository,
 
-    @inject("IPushNotificationService")
-    private _pushNotificationService: IPushNotificationService,
-
     @inject("ICreateTransactionUsecase")
     private _createTransactionUsecase: ICreateTransactionUsecase,
 
@@ -36,7 +38,10 @@ export class CancelReviewByStudentUsecase
     private _creditWalletUsecase: ICreditWalletUsecase,
 
     @inject("IDebitWalletUsecase")
-    private _debitWalletUsecase: IDebitWalletUsecase
+    private _debitWalletUsecase: IDebitWalletUsecase,
+
+    @inject("INotificationRepository")
+    private _notificationRepository: INotificationRepository
   ) {
     this._adminId = config.ADMIN_ID!;
   }
@@ -72,13 +77,6 @@ export class CancelReviewByStudentUsecase
     }
     const mentorId = cancelledReview.mentorId.toString();
     const asyncOperations = [];
-    asyncOperations.push(
-      this._pushNotificationService.sendNotification(
-        mentorId,
-        NOTIFICATION_TITLE.REVIEW_CANCEL,
-        NOTIFICATION_MESSAGE.REVIEW_CANCEL_STUDENT
-      )
-    );
 
     const transactionAmount = cancelledReview.mentorEarning;
     const adminTransaction = {
@@ -111,6 +109,23 @@ export class CancelReviewByStudentUsecase
     asyncOperations.push(
       this._debitWalletUsecase.execute(this._adminId, transactionAmount)
     );
+
+    const notification: Partial<INotificationEntity> = {
+      userId: mentorId,
+      type: NOTIFICATION_TYPE.SLOT_CANCEL,
+      title: NOTIFICATION_TITLE.REVIEW_CANCEL,
+      body: NOTIFICATION_MESSAGE.REVIEW_CANCEL_STUDENT,
+      navigate: "/mentor/reviews?tab=cancelled",
+      isRead: false,
+    };
+    asyncOperations.push(this._notificationRepository.insertOne(notification));
     await Promise.all(asyncOperations);
+
+    eventBus.emit(
+      EVENT_EMITTER_TYPE.SEND_PUSH_NOTIFICATION,
+      mentorId,
+      NOTIFICATION_TITLE.REVIEW_CANCEL,
+      NOTIFICATION_MESSAGE.REVIEW_CANCEL_STUDENT
+    );
   }
 }

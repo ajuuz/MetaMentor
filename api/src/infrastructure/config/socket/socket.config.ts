@@ -15,7 +15,7 @@ export class SocketConfig {
       SocketConfig._io = new SocketIoServer(server, {
         path: "/api/socket.io",
         cors: {
-          origin: [config.client.uri, "https://192.168.29.148:5173"],
+          origin: [config.client.uri, "https://192.168.10.161:5173"],
           credentials: true,
         },
       });

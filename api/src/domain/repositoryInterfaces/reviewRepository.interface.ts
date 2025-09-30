@@ -1,5 +1,6 @@
 import {
   ICreateReview,
+  ICreateReviewPoplutedEntity,
   IGetBookedSlotsForStud,
   IGetReviewsForStudAndDomain,
   IPopulatedReviewEntity,
@@ -46,6 +47,10 @@ export interface IReviewRepository
     reviewId: string
   ): Promise<IPopulatedReviewEntity | null>;
 
+  createAReview(
+    reviewDetails: ICreateReview
+  ): Promise<ICreateReviewPoplutedEntity>;
+  
   createReview(reviewDetails: ICreateReview): Promise<IReviewModel>;
 
   saveReview(review: IReviewModel): Promise<void>;

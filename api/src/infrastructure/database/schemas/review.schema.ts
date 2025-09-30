@@ -11,7 +11,7 @@ export const reviewSchema: Schema<IReviewModel> =
   new mongoose.Schema<IReviewModel>({
     studentId: {
       type: mongoose.Schema.ObjectId,
-      ref: "students",
+      ref: "users",
       required: true,
     },
     mentorId: {

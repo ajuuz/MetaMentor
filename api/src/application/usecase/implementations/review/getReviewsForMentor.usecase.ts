@@ -25,7 +25,6 @@ export class GetMentorReviewsUsecase implements IGetMentorReviewsUsecase {
     limit: number,
     pendingReviewState?: PENDING_REVIEW_STATE | undefined
   ): Promise<{ reviews: GetReviewsForMentResDTO[]; totalPages: number }> {
-    console.log("usecase working");
     const skip: number = (currentPage - 1) * limit;
     let filter: any = { mentorId };
     switch (status) {
@@ -65,7 +64,6 @@ export class GetMentorReviewsUsecase implements IGetMentorReviewsUsecase {
 
     const { data, totalDocuments } =
       await this._reviewRepository.findReviewsForMentor(filter, skip, limit);
-    console.log(data);
     const reviews = plainToInstance(GetReviewsForMentResDTO, data, {
       excludeExtraneousValues: true,
     });

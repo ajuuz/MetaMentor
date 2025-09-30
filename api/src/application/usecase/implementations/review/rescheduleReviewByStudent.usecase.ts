@@ -7,6 +7,7 @@ import { IPushNotificationService } from "application/interfaces/service/pushNot
 import { IRescheduleReviewByStudentUsecase } from "application/usecase/interfaces/review/rescheduleReviewByStudentUsecase.interface";
 import {
   ERROR_MESSAGE,
+  EVENT_EMITTER_TYPE,
   HTTP_STATUS,
   NOTIFICATION_MESSAGE,
   NOTIFICATION_TITLE,
@@ -19,6 +20,7 @@ import { RescheduleReviewByStudReqDTO } from "application/dto/requset/review.dto
 import { CustomError } from "domain/errors/customError";
 import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
+import { eventBus } from "shared/eventBus";
 
 @injectable()
 export class RescheduleReviewByStudentUsecase
@@ -34,8 +36,7 @@ export class RescheduleReviewByStudentUsecase
     @inject("INotificationRepository")
     private _notificationRepository: INotificationRepository,
 
-    @inject("IPushNotificationService")
-    private _pushNotificationService: IPushNotificationService
+    
   ) {}
 
   async execute(
@@ -78,7 +79,7 @@ export class RescheduleReviewByStudentUsecase
       userId: mentorId,
       type: NOTIFICATION_TYPE.SLOT_RESCHEDULE,
       title: NOTIFICATION_TITLE.REVIEW_RESCHEDULE,
-      body: NOTIFICATION_MESSAGE.REVIEW_RECHEDULE,
+      body: NOTIFICATION_MESSAGE.REVIEW_RESCHEDULE,
       navigate: "/mentor/reviews?tab=rescheduled",
       isRead: false,
     };
@@ -96,12 +97,11 @@ export class RescheduleReviewByStudentUsecase
       this._rescheduleReviewRepository.insertOne(rescheduleReview)
     );
 
-    asyncOperations.push(
-      this._pushNotificationService.sendNotification(
-        mentorId,
-        NOTIFICATION_TITLE.REVIEW_RESCHEDULE,
-        NOTIFICATION_MESSAGE.REVIEW_RECHEDULE
-      )
+    eventBus.emit(
+      EVENT_EMITTER_TYPE.SEND_PUSH_NOTIFICATION,
+      mentorId,
+      NOTIFICATION_TITLE.REVIEW_RESCHEDULE,
+      NOTIFICATION_MESSAGE.REVIEW_RESCHEDULE
     );
 
     await Promise.all(asyncOperations);

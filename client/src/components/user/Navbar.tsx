@@ -36,6 +36,7 @@ const Navbar = () => {
   const { mutate: saveFcmTokenMutation } = useMutation({
     mutationFn: saveFcmToken,
     onSuccess: (response, token) => {
+      console.log(response)
       localStorage.setItem("fcmToken", token);
     },
     onError: (err) => console.error("Failed to save token:", err),
@@ -43,18 +44,21 @@ const Navbar = () => {
 
   const setupFCM = useCallback(async () => {
     if (!user || user.role === "admin") return;
+    console.log("setup fcm token")
     try {
       if (Notification.permission === "denied") return;
-
+      
       const cachedToken = localStorage.getItem("fcmToken");
       const token = await requestForToken();
-
+      
+      console.log("setup fcm token 2",token)
       if (token && token !== cachedToken) {
         saveFcmTokenMutation(token);
       }
 
       listenForForegroundMessages();
     } catch (error) {
+      console.log('error in creating fcm token')
       console.error("FCM setup error:", error);
     }
   }, [user, saveFcmTokenMutation]);
