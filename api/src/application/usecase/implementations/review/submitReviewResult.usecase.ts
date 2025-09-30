@@ -1,10 +1,19 @@
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IPushNotificationService } from "application/interfaces/service/pushNotificationService.interface";
 import { ISubmitReviewResultUsecase } from "application/usecase/interfaces/review/submitReviewFeedBackUsecase.interface";
-import { NOTIFICATION_MESSAGE, NOTIFICATION_TITLE } from "shared/constants";
+import {
+  EVENT_EMITTER_TYPE,
+  NOTIFICATION_MESSAGE,
+  NOTIFICATION_TITLE,
+  NOTIFICATION_TYPE,
+} from "shared/constants";
 import { SubmitReviewResultReqDTO } from "application/dto/requset/review.dto";
 import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
+import { eventBus } from "shared/eventBus";
+import { INotificationEntity } from "domain/entities/notificationModel.entity";
+import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
+import { IPaymentScheduleService } from "application/interfaces/service/paymentScheduleService.interface";
 
 @injectable()
 export class SubmitReviewResultUsecase implements ISubmitReviewResultUsecase {
@@ -12,8 +21,11 @@ export class SubmitReviewResultUsecase implements ISubmitReviewResultUsecase {
     @inject("IReviewRepository")
     private _reviewRepository: IReviewRepository,
 
-    @inject("IPushNotificationService")
-    private _pushNotificationService: IPushNotificationService
+    @inject("INotificationRepository")
+    private _notificationRepository: INotificationRepository,
+
+    @inject("IPaymentScheduleService")
+    private _paymentScheduleService: IPaymentScheduleService
   ) {}
 
   async execute(
@@ -35,7 +47,23 @@ export class SubmitReviewResultUsecase implements ISubmitReviewResultUsecase {
     }
 
     const userId = updatedReview.studentId.toString();
-    this._pushNotificationService.sendNotification(
+
+    const asyncOperations = [];
+    const notification: Partial<INotificationEntity> = {
+      userId,
+      type: NOTIFICATION_TYPE.REVIEW_FEEDBACK_UPDATED,
+      title: NOTIFICATION_TITLE.REVIEW_FEEDBACK_UPDATED,
+      body: NOTIFICATION_MESSAGE.REVIEW_FEEDBACK_UPDATED,
+      navigate: "/reviews?tab=completed",
+      isRead: false,
+    };
+    asyncOperations.push(this._notificationRepository.insertOne(notification));
+    asyncOperations.push(
+      this._paymentScheduleService.schedulePayment(reviewId, mentorId)
+    );
+    await Promise.all(asyncOperations);
+    eventBus.emit(
+      EVENT_EMITTER_TYPE.SEND_PUSH_NOTIFICATION,
       userId,
       NOTIFICATION_TITLE.REVIEW_FEEDBACK_UPDATED,
       NOTIFICATION_MESSAGE.REVIEW_FEEDBACK_UPDATED

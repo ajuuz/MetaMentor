@@ -3,7 +3,6 @@ import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.
 import { ISequenceNumberRepository } from "domain/repositoryInterfaces/sequenceNumberRepository.interface";
 import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
-import { IPushNotificationService } from "application/interfaces/service/pushNotificationService.interface";
 import { IAcceptMentorApplicationUsecase } from "application/usecase/interfaces/mentor/acceptMentorApplicationUsecase.interface";
 import { ICreateNotificationUsecase } from "application/usecase/interfaces/notification/createNotificationUsecase.interface";
 import {
@@ -12,13 +11,16 @@ import {
   MAIL_CONTENT_PURPOSE,
   NOTIFICATION_MESSAGE,
   NOTIFICATION_TITLE,
+  NOTIFICATION_TYPE,
   ROLES,
 } from "shared/constants";
 import { eventBus } from "shared/eventBus";
-import { mailContentProvider } from "shared/mailContentProvider";
+import { mailContentProvider } from "shared/contentProviders/mailContentProvider";
 import { CustomError } from "domain/errors/customError";
 import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";
+import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
+import { INotificationEntity } from "domain/entities/notificationModel.entity";
 
 @injectable()
 export class AcceptMentorApplicationUsecase
@@ -34,14 +36,11 @@ export class AcceptMentorApplicationUsecase
     @inject("ISlotRepository")
     private _slotRepository: ISlotRepository,
 
-    @inject("ICreateNotificationUsecase")
-    private _createNotificationUsecase: ICreateNotificationUsecase,
-
     @inject("ISequenceNumberRepository")
     private _sequenceNumberRepository: ISequenceNumberRepository,
 
-    @inject("IPushNotificationService")
-    private _pushNotificationService: IPushNotificationService
+    @inject("INotificationRepository")
+    private _notificationRepository: INotificationRepository
   ) {}
 
   async execute(mentorId: string, email: string): Promise<void> {
@@ -71,22 +70,34 @@ export class AcceptMentorApplicationUsecase
     asyncOperations.push(
       this._mentorRepository.updateOne(mentorFilter, mentorUpdate)
     );
+
     asyncOperations.push(this._slotRepository.createSlots(mentorId));
-    asyncOperations.push(
-      this._pushNotificationService.sendNotification(
-        mentorId,
-        NOTIFICATION_TITLE.MENTOR_ACCEPTANCE,
-        NOTIFICATION_MESSAGE.MENTOR_ACCEPTANCE
-      )
-    );
+
+    const notification: Partial<INotificationEntity> = {
+      userId: mentorId,
+      type: NOTIFICATION_TYPE.MENTOR_ACCEPTANCE,
+      title: NOTIFICATION_TITLE.MENTOR_ACCEPTANCE,
+      body: NOTIFICATION_MESSAGE.MENTOR_ACCEPTANCE,
+      navigate: null,
+      isRead: false,
+    };
+    asyncOperations.push(this._notificationRepository.insertOne(notification));
+
     await Promise.all(asyncOperations);
 
     const html = mailContentProvider(MAIL_CONTENT_PURPOSE.MENTOR_ACCEPTANCE);
     eventBus.emit(
-      EVENT_EMITTER_TYPE.SENDMAIL,
+      EVENT_EMITTER_TYPE.SEND_MAIL,
       email,
       "Accepted Application",
       html
+    );
+
+    eventBus.emit(
+      EVENT_EMITTER_TYPE.SEND_PUSH_NOTIFICATION,
+      mentorId,
+      NOTIFICATION_TITLE.MENTOR_ACCEPTANCE,
+      NOTIFICATION_MESSAGE.MENTOR_ACCEPTANCE
     );
   }
 }

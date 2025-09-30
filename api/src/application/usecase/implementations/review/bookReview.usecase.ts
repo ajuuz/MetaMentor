@@ -1,22 +1,27 @@
-import { IReviewEntity } from "domain/entities/reviewModel.entity";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { IBookReviewUsecase } from "application/usecase/interfaces/review/bookReviewUsecase.interface";
 import { IReviewModel } from "infrastructure/database/models/bookedSlot.model";
 import { PAYMENT_METHOD, PAYMENT_STATUS } from "shared/constants";
 import { BookReviewReqDTO } from "application/dto/requset/payment.dto";
 import { inject, injectable } from "tsyringe";
+import { IReminderScheduleService } from "application/interfaces/service/reminderScheduleService.interface";
 
 @injectable()
 export class BookReviewUsecase implements IBookReviewUsecase {
   constructor(
     @inject("IReviewRepository")
-    private _reviewRepository: IReviewRepository
+    private _reviewRepository: IReviewRepository,
+
+    @inject("IReminderScheduleService")
+    private _reminderScheduleService: IReminderScheduleService,
+
+  
   ) {}
 
   async create(
     studentId: string,
     reviewDetails: BookReviewReqDTO
-  ): Promise<IReviewModel> {
+  ): Promise<string> {
     const amount = reviewDetails.amount!;
     const commissionAmount = (amount * 10) / 100;
     const mentorEarning = amount - commissionAmount;
@@ -34,8 +39,10 @@ export class BookReviewUsecase implements IBookReviewUsecase {
       mentorEarning,
       payment,
     };
-    const review = await this._reviewRepository.createReview(bookingDetails);
-    return review;
+    const review = await this._reviewRepository.createAReview(bookingDetails);
+    await this._reminderScheduleService.scheduleReminder(review);
+    
+    return review._id;
   }
 
   async save(review: IReviewModel): Promise<void> {

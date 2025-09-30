@@ -48,6 +48,22 @@ export interface ICreateReview
   > {
   slot: Omit<ReviewSlot, "_id">;
 }
+export interface ICreateReviewPoplutedEntity {
+  _id: string;
+  student: {
+    _id:string,
+    name: string;
+    email: string;
+  };
+  mentor: {
+    _id:string,
+    name: string;
+    email: string;
+  };
+  levelName: string;
+  domainName: string;
+  slot:ReviewSlot
+}
 
 //students
 export interface IGetReviewsForStudAndDomain {
@@ -67,66 +83,21 @@ export interface IGetReviewsForStudAndDomain {
   commissionAmount: number;
 }
 
-export interface IGetReviewsForStud {
-  _id: string;
-  otherAttendee: {
-    _id: string;
-    name: string;
-    profileImage: string;
-  };
-  domainName: string;
-  level: {
-    name: string;
-    taskFile: string;
-  };
-  status: REVIEW_STATUS;
-  payment: ReviewPayment;
-  feedBack: string;
-  mentorEarning: number;
-  commissionAmount: number;
-  isRescheduledOnce: boolean;
-  slot: ReviewSlot;
-  theory: number;
-  practical: number;
-}
-
 export interface IGetBookedSlotsForStud {
   mentorId: string;
   slots: ReviewSlot;
 }
 
 //mentor
-export interface IReviewEntityForMent {
+
+export interface IPopulatedReviewEntity {
   _id: string;
   mentorId: 1;
-  otherAttendee: {
+  me: {
     _id: string;
     name: string;
     profileImage: string;
   };
-  domainName: string;
-  level: {
-    name: string;
-    taskFile: string;
-  };
-  status: REVIEW_STATUS;
-  payment: ReviewPayment;
-  feedBack: string;
-  mentorEarning: number;
-  commissionAmount: number;
-  isRescheduledOnce: boolean;
-  slot: ReviewSlot;
-  theory: number;
-  practical: number;
-}
-export interface IPopulatedReviewEntity {
-  _id: string;
-  mentorId: 1;
-  me:{
-    _id:string,
-    name:string,
-    profileImage:string
-  },
   otherAttendee: {
     _id: string;
     name: string;

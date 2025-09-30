@@ -9,7 +9,7 @@ import {
 } from "shared/constants";
 import { UserRegisterDTO } from "application/dto/requset/auth.dto";
 import { eventBus } from "shared/eventBus";
-import { mailContentProvider } from "shared/mailContentProvider";
+import { mailContentProvider } from "shared/contentProviders/mailContentProvider";
 import { hashPassword } from "shared/utils/bcryptHelper";
 import { CustomError } from "domain/errors/customError";
 import {
@@ -64,7 +64,7 @@ export class RegisterUserUsecase implements IRegisterUserUsecase {
     }
     await Promise.all(asyncOperations);
     eventBus.emit(
-      EVENT_EMITTER_TYPE.SENDMAIL,
+      EVENT_EMITTER_TYPE.SEND_MAIL,
       formData.email,
       "Account creation",
       html

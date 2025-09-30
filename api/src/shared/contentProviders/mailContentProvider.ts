@@ -1,12 +1,17 @@
-import { config } from "./config";
-import { MAIL_CONTENT_PURPOSE } from "./constants";
+import { config } from "../config";
+import { MAIL_CONTENT_PURPOSE } from "../constants";
 
-export function mailContentProvider(purpose:string,data?:any):string{
-
-    const {OTP,MENTOR_ACCEPTANCE,MENTOR_REJECTION,FORGOT_PASSWORD}=MAIL_CONTENT_PURPOSE
-    switch(purpose){
-        case OTP:
-          return `<div style="max-width: 500px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #e0e0e0; border-radius: 10px; padding: 30px; background-color: #f9f9f9; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+export function mailContentProvider(purpose: string, data?: any): string {
+  const {
+    OTP,
+    MENTOR_ACCEPTANCE,
+    MENTOR_REJECTION,
+    FORGOT_PASSWORD,
+    REVIEW_REMINDER,
+  } = MAIL_CONTENT_PURPOSE;
+  switch (purpose) {
+    case OTP:
+      return `<div style="max-width: 500px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #e0e0e0; border-radius: 10px; padding: 30px; background-color: #f9f9f9; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
             <h2 style="text-align: center; color: #333;">🔐 OTP Verification</h2>
             <p style="font-size: 16px; color: #555;">Hi there,</p>
             <p style="font-size: 16px; color: #555;">Use the following OTP to complete your signup process:</p>
@@ -17,9 +22,9 @@ export function mailContentProvider(purpose:string,data?:any):string{
             <p style="font-size: 14px; color: #aaa; text-align: center; margin-top: 40px;">— Meta Mentor Team</p>
           </div>
             `;
-        
-        case MENTOR_ACCEPTANCE:
-            return `<div style="max-width: 500px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #e0e0e0; border-radius: 10px; padding: 30px; background-color: #f9f9f9; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+
+    case MENTOR_ACCEPTANCE:
+      return `<div style="max-width: 500px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #e0e0e0; border-radius: 10px; padding: 30px; background-color: #f9f9f9; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
                          <h2 style="text-align: center; color: #333;">🎉 Welcome Aboard, Mentor!</h2>
                          <p style="font-size: 16px; color: #555;">Dear Mentor,</p>
                          <p style="font-size: 16px; color: #555;">
@@ -38,9 +43,9 @@ export function mailContentProvider(purpose:string,data?:any):string{
                          </p>
                          <p style="font-size: 14px; color: #aaa; text-align: center; margin-top: 40px;">— The Meta Mentor Team</p>
                     </div>`;
-            
-            case MENTOR_REJECTION:
-                return `
+
+    case MENTOR_REJECTION:
+      return `
                      <div style="max-width: 500px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #e0e0e0; border-radius: 10px; padding: 30px; background-color: #fff9f9; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
                       <h2 style="text-align: center; color: #d32f2f;">❌ Application Update</h2>
                       <p style="font-size: 16px; color: #555;">Dear Applicant,</p>
@@ -63,8 +68,8 @@ export function mailContentProvider(purpose:string,data?:any):string{
                      </div>
                     `;
 
-            case FORGOT_PASSWORD:
-                return `<div style="max-width: 500px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #e0e0e0; border-radius: 10px; padding: 30px; background-color: #f9f9f9; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+    case FORGOT_PASSWORD:
+      return `<div style="max-width: 500px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #e0e0e0; border-radius: 10px; padding: 30px; background-color: #f9f9f9; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
                           <h2 style="text-align: center; color: #333;">🔐 Password Reset Request</h2>
                           <p style="font-size: 16px; color: #555;">Hi there,</p>
                           <p style="font-size: 16px; color: #555;">We received a request to reset your password. Click the button below to proceed:</p>
@@ -76,8 +81,41 @@ export function mailContentProvider(purpose:string,data?:any):string{
                         </div>
                         `;
 
-            default:
-                return ""
+    case REVIEW_REMINDER:
+      return `
+            <div style="max-width: 500px; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                        border: 1px solid #e0e0e0; border-radius: 10px; padding: 30px; background-color: #f9f9f9; 
+                        box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+              <h2 style="text-align: center; color: #333;">⏰ Upcoming Review Reminder</h2>
+              <p style="font-size: 16px; color: #555;">Hi ${data.myName},</p>
+              <p style="font-size: 16px; color: #555;">
+                This is a friendly reminder that your scheduled review session will start in 30 minutes.
+              </p>
+              <div style="margin: 20px 0; padding: 15px; background-color: #eef2ff; border-radius: 8px;">
+                <p style="font-size: 16px; color: #1e3a8a;"><strong>Domain:</strong> ${
+                  data.domainName
+                }</p>
+                <p style="font-size: 16px; color: #1e3a8a;"><strong>Level:</strong> ${
+                  data.levelName
+                }</p>
+                <p style="font-size: 16px; color: #1e3a8a;"><strong>${
+                  data.for === "student" ? "Mentor" : "Student"
+                }</strong> ${data.otherAttendee}</p>
+               <p style="font-size: 16px; color: #1e3a8a;">
+            <strong>Time:</strong> ${new Date(
+              Date.now() + 30 * 60 * 1000
+            ).toLocaleString()}
+          </p>
+          
+              </div>
+              <p style="font-size: 16px; color: #555;">
+                Please make sure you join the session on time. We look forward to your participation!
+              </p>
+              <p style="font-size: 14px; color: #aaa; text-align: center; margin-top: 40px;">— Meta Mentor Team</p>
+            </div>
+            `;
 
-    }
+    default:
+      return "";
+  }
 }

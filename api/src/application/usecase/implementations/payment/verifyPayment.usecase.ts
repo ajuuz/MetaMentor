@@ -6,10 +6,20 @@ import { IBookReviewUsecase } from "application/usecase/interfaces/review/bookRe
 import { ICreateTransactionUsecase } from "application/usecase/interfaces/transaction/createTransactionUsecase.interface";
 import { ICreditWalletUsecase } from "application/usecase/interfaces/wallet/creditWalletUsecase.inteface";
 import { config } from "shared/config";
-import { HTTP_STATUS, TRANSACTION_TYPE } from "shared/constants";
+import {
+  EVENT_EMITTER_TYPE,
+  HTTP_STATUS,
+  NOTIFICATION_MESSAGE,
+  NOTIFICATION_TITLE,
+  NOTIFICATION_TYPE,
+  TRANSACTION_TYPE,
+} from "shared/constants";
 import { VerifyPaymentReqDTO } from "application/dto/requset/payment.dto";
 import { CustomError } from "domain/errors/customError";
 import { inject, injectable } from "tsyringe";
+import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
+import { INotificationEntity } from "domain/entities/notificationModel.entity";
+import { eventBus } from "shared/eventBus";
 
 @injectable()
 export class VerifyPaymentUsecase implements IVerifyPaymentUsecase {
@@ -22,7 +32,10 @@ export class VerifyPaymentUsecase implements IVerifyPaymentUsecase {
     private _createTransactionUsecase: ICreateTransactionUsecase,
 
     @inject("ICreditWalletUsecase")
-    private _creditWalletUsecase: ICreditWalletUsecase
+    private _creditWalletUsecase: ICreditWalletUsecase,
+
+    @inject("INotificationRepository")
+    private _notificationRepository: INotificationRepository
   ) {
     this._adminId = config.ADMIN_ID!;
   }
@@ -46,37 +59,53 @@ export class VerifyPaymentUsecase implements IVerifyPaymentUsecase {
       );
     }
 
-    const bookedReview = await this._bookReviewUsecase.create(
+    const reviewId = await this._bookReviewUsecase.create(
       studentId,
       reviewDetails
     );
-    const asyncOperation = [];
+    const asyncOperations = [];
 
     const adminTransaction: Omit<ITransactionEntity, "_id" | "createdAt"> = {
       walletId: this._adminId,
-      reviewId: bookedReview._id.toString(),
+      reviewId,
       type: TRANSACTION_TYPE.CREDIT,
       amount: reviewDetails.amount,
       description: `Amount ${reviewDetails.amount} has been credited for review booked by ${studentId}`,
     };
     const studentTransaction: Omit<ITransactionEntity, "_id" | "createdAt"> = {
       walletId: studentId,
-      reviewId: bookedReview._id.toString(),
+      reviewId,
       type: TRANSACTION_TYPE.DEBIT,
       amount: reviewDetails.amount,
       description: `Amount ${reviewDetails.amount} has been debited for review booked by ${studentId}`,
     };
 
-    asyncOperation.push(
+    asyncOperations.push(
       this._createTransactionUsecase.execute(adminTransaction)
     );
-    asyncOperation.push(
+    asyncOperations.push(
       this._createTransactionUsecase.execute(studentTransaction)
     );
-    asyncOperation.push(this._bookReviewUsecase.save(bookedReview));
-    asyncOperation.push(
+    asyncOperations.push(
       this._creditWalletUsecase.execute(this._adminId, reviewDetails.amount)
     );
-    await Promise.all(asyncOperation);
+
+    const notification: Partial<INotificationEntity> = {
+      userId: reviewDetails.mentorId,
+      type: NOTIFICATION_TYPE.SLOT_BOOKING,
+      title: NOTIFICATION_TITLE.REVIEW_BOOKED,
+      body: NOTIFICATION_MESSAGE.REVIEW_BOOKED,
+      navigate: "/mentor/reviews?tab=pending",
+      isRead: false,
+    };
+    asyncOperations.push(this._notificationRepository.insertOne(notification));
+    await Promise.all(asyncOperations);
+
+    eventBus.emit(
+      EVENT_EMITTER_TYPE.SEND_PUSH_NOTIFICATION,
+      reviewDetails.mentorId,
+      NOTIFICATION_TITLE.REVIEW_BOOKED,
+      NOTIFICATION_MESSAGE.REVIEW_BOOKED
+    );
   }
 }
