@@ -5,6 +5,7 @@ import {
   adminDomainController,
   adminLevelController,
   adminMentorController,
+  adminReviewController,
   adminStudentController,
   authMiddleware,
 } from "infrastructure/dependencyInjection/resolver";
@@ -33,6 +34,7 @@ import {
   GetAllStudentReqDTO,
   UpdateStudentStatusReqDTO,
 } from "application/dto/requset/student.dto";
+import { GetReviewGrowthReqDTO } from "application/dto/requset/review.dto";
 
 export class AdminRoutes {
   private _router: Router;
@@ -136,6 +138,18 @@ export class AdminRoutes {
       adminCommunityController.updateCommunityStatus.bind(
         adminCommunityController
       )
+    );
+
+    //review
+    this._router.get(
+      "/reviews/count",
+      adminReviewController.getReviewCounts.bind(adminReviewController)
+    );
+
+    this._router.get(
+      "/reviews/growth",
+      validationMiddleware(GetReviewGrowthReqDTO),
+      adminReviewController.getReviewGrowth.bind(adminReviewController)
     );
   }
 

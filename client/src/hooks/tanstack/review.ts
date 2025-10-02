@@ -1,5 +1,8 @@
+import { getReviewCountsForAdmin, getReviewGrowthForAdmin } from "@/services/adminService.ts/reviewApi";
 import {
+  getReviewCountsForMentor,
   getReviewForMentor,
+  getReviewGrowthForMentor,
   getReviewsForMentor,
   getSlotReviewsForMent,
 } from "@/services/mentorService.ts/reviewApi";
@@ -16,9 +19,11 @@ import type {
   DATE_RANGE,
   PENDING_REVIEW_STATE,
   REVIEW_FILTER_STATUS,
+  ReviewStatus,
+  TimePeriod,
+  TimePeriodGroupBy,
 } from "@/utils/constants";
 import { useQuery } from "@tanstack/react-query";
-
 
 //////////////----------------mentor-------------------///////////////
 export const useGetReviewsForMentorQuery = (
@@ -28,7 +33,7 @@ export const useGetReviewsForMentorQuery = (
   limit: number,
   pendingReviewState?: PENDING_REVIEW_STATE
 ) => {
-  return useQuery<{reviews:PopulatedReviewEntity[],totalPages:number}>({
+  return useQuery<{ reviews: PopulatedReviewEntity[]; totalPages: number }>({
     queryKey: [
       "getReviewsForMentor",
       status,
@@ -55,6 +60,37 @@ export const useGetReviewForMentorQuery = (reviewId: string) => {
   });
 };
 
+export const useGetReviewCountsForMentorQuery = () => {
+  return useQuery<
+    {
+      _id: ReviewStatus;
+      count: number;
+    }[]
+  >({
+    queryKey: ["reviewCountsForMentor"],
+    queryFn: () => getReviewCountsForMentor(),
+  });
+};
+
+export const useGetSlotReviewsForMentQuery = (date: Date) => {
+  return useQuery<GetDomainReviewSlotResponseDTO>({
+    queryKey: ["getDomainReviewsSlot", date],
+    queryFn: () => getSlotReviewsForMent(date!),
+    enabled: !!date,
+  });
+};
+
+
+export const useGetReviewGrowthForMentorQuery = (
+  timePeriod: TimePeriod,
+  timePeriodGroupBy: TimePeriodGroupBy
+) => {
+  return useQuery<{ name: string; revenue: number; reviewCount: number }[]>({
+    queryKey: ["reviewGrowthForMentor",timePeriod,timePeriodGroupBy],
+    queryFn: () => getReviewGrowthForMentor(timePeriod, timePeriodGroupBy),
+  });
+};
+
 
 //////////////////-----------------student-------------------------///////////////////
 export const useGetReviewsForStudentQuery = (
@@ -64,7 +100,7 @@ export const useGetReviewsForStudentQuery = (
   limit: number,
   pendingReviewState?: PENDING_REVIEW_STATE
 ) => {
-  return useQuery<{reviews:PopulatedReviewEntity[],totalPages:number}>({
+  return useQuery<{ reviews: PopulatedReviewEntity[]; totalPages: number }>({
     queryKey: [
       "getReviewsForStudent",
       status,
@@ -102,11 +138,25 @@ export const useGetSlotReviewsForStudentQuery = (
   });
 };
 
-///================mentor================//
-export const useGetSlotReviewsForMentQuery = (date: Date) => {
-  return useQuery<GetDomainReviewSlotResponseDTO>({
-    queryKey: ["getDomainReviewsSlot", date],
-    queryFn: () => getSlotReviewsForMent(date!),
-    enabled: !!date,
+///================admin================//
+export const useGetReviewCountsForAdminQuery = () => {
+  return useQuery<
+    {
+      _id: ReviewStatus;
+      count: number;
+    }[]
+  >({
+    queryKey: ["reviewCountsForAdmin"],
+    queryFn: () => getReviewCountsForAdmin(),
+  });
+};
+
+export const useGetReviewGrowthForAdminQuery = (
+  timePeriod: TimePeriod,
+  timePeriodGroupBy: TimePeriodGroupBy
+) => {
+  return useQuery<{ name: string; revenue: number; reviewCount: number }[]>({
+    queryKey: ["reviewGrowthForAdmin",timePeriod,timePeriodGroupBy],
+    queryFn: () => getReviewGrowthForAdmin(timePeriod, timePeriodGroupBy),
   });
 };

@@ -5,6 +5,8 @@ export interface IMentorReviewController {
   getReviewsByDay(req: Request, res: Response): Promise<void>;
   getReview(req: Request, res: Response): Promise<void>;
   cancelReview(req: Request, res: Response): Promise<void>;
-  rescheduleReviewSubmit(req: Request, res: Response): Promise<void> 
+  rescheduleReviewSubmit(req: Request, res: Response): Promise<void>;
   submitReviewResult(req: Request, res: Response): Promise<void>;
+  getReviewCounts(req: Request, res: Response): Promise<void>;
+  getReviewGrowth(req: Request, res: Response): Promise<void>;
 }

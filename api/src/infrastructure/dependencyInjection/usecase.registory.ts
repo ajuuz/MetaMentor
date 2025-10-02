@@ -133,6 +133,10 @@ import { IRescheduleReviewSubmitByMentor } from "application/usecase/interfaces/
 import { RescheduleReviewSubmitByMentor } from "application/usecase/implementations/review/rescheduleReviewSubmitByMentor.usecase";
 import { IGetReviewForStudentUsecase } from "application/usecase/interfaces/review/getReviewForStudentUsecase.interface";
 import { GetReviewForStudentUsecase } from "application/usecase/implementations/review/getReviewForStudent.usecase";
+import { IReviewCountUsecase } from "application/usecase/interfaces/review/reviewCountUsecase.interface";
+import { ReviewCountUsecase } from "application/usecase/implementations/review/ReviewCount.usecase";
+import { IGetReviewGrowthUsecase } from "application/usecase/interfaces/review/getReviewGrowthUsecase.interface";
+import { GetReviewGrowthUsecase } from "application/usecase/implementations/review/getReviewGrowth.usecase";
 
 export class UseCaseRegistory {
   static registerUsecases(): void {
@@ -425,6 +429,16 @@ export class UseCaseRegistory {
         useClass: CancelReviewByStudentUsecase,
       }
     );
+
+    container.register<IReviewCountUsecase>("IReviewCountUsecase", {
+      useClass: ReviewCountUsecase,
+    });
+
+    container.register<IGetReviewGrowthUsecase>("IGetReviewGrowthUsecase", {
+      useClass: GetReviewGrowthUsecase,
+    });
+
+    //=============reschedule review=================/////////
     container.register<IRescheduleReviewByStudentUsecase>(
       "IRescheduleReviewByStudentUsecase",
       {

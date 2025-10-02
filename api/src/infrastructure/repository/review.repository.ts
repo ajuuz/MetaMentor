@@ -12,7 +12,12 @@ import {
   IReviewModel,
 } from "infrastructure/database/models/bookedSlot.model";
 import mongoose, { FilterQuery, ObjectId, UpdateQuery } from "mongoose";
-import { PENDING_REVIEW_STATE, REVIEW_STATUS } from "shared/constants";
+import {
+  PENDING_REVIEW_STATE,
+  REVIEW_STATUS,
+  ROLES,
+  TIME_PERIOD_GROUP_BY,
+} from "shared/constants";
 
 import { BaseRepository } from "./base.repository";
 
@@ -476,21 +481,6 @@ export class ReviewRepository
     return response;
   }
 
-  async createReview(reviewDetails: ICreateReview): Promise<IReviewModel> {
-    const studentId = new mongoose.Types.ObjectId(reviewDetails.studentId);
-    const mentorId = new mongoose.Types.ObjectId(reviewDetails.mentorId);
-    const levelId = new mongoose.Types.ObjectId(reviewDetails.levelId);
-    const domainId = new mongoose.Types.ObjectId(reviewDetails.domainId);
-    const newReview = new reviewModel({
-      ...reviewDetails,
-      studentId,
-      mentorId,
-      levelId,
-      domainId,
-    });
-    return newReview;
-  }
-
   async saveReview(review: IReviewModel): Promise<void> {
     await review.save();
   }
@@ -532,6 +522,9 @@ export class ReviewRepository
     if (update.practical) {
       mongoUpdate.practical = update.practical;
     }
+    if (update.paymentCreditAt) {
+      mongoUpdate.paymentCreditAt = update.paymentCreditAt;
+    }
     const updatedReview = await reviewModel
       .findOneAndUpdate(mongoFilter, mongoUpdate)
       .lean<IReviewEntity>();
@@ -546,5 +539,89 @@ export class ReviewRepository
       { _id: reviewId },
       { $set: { slot, status: "pending", isRescheduledOnce: true } }
     );
+  }
+
+  async reviewCount(
+    filters: Partial<Pick<IReviewEntity, "studentId" | "mentorId">>
+  ): Promise<{ _id: REVIEW_STATUS; count: number }[]> {
+    const mongoFilter: FilterQuery<IReviewEntity> = {};
+    for (let key in filters) {
+      const value = filters[key as keyof typeof filters];
+      mongoFilter[key] = new mongoose.Types.ObjectId(value);
+    }
+    const data = await reviewModel.aggregate([
+      { $match: mongoFilter },
+      { $group: { _id: "$status", count: { $sum: 1 } } },
+    ]);
+    return data;
+  }
+
+  async getReviewGrowth(
+    filters: {
+      field: string;
+      value: string | boolean | Date;
+      type: "direct" | "complex";
+    }[],
+    timePeriodGroupBy: TIME_PERIOD_GROUP_BY,
+    role: Exclude<ROLES, ROLES.USER>
+  ): Promise<{ name: string; revenue: number; reviewCount: number }[]> {
+    const mongoFilter: FilterQuery<IReviewModel> = {};
+
+    filters.forEach((filter) => {
+      const { field, value, type } = filter;
+      if (type === "complex") {
+        if (field === "mentorId") {
+          mongoFilter[field] = new mongoose.Types.ObjectId(value as string);
+        } else if (field === "startDate") {
+          mongoFilter["slot.end"] = {
+            ...mongoFilter["slot.end"],
+            $gte: value,
+          };
+        } else if (field === "endDate") {
+          mongoFilter["slot.end"] = {
+            ...mongoFilter["slot.end"],
+            $lte: value,
+          };
+        }
+      }
+    });
+
+    mongoFilter.status = { $in: [REVIEW_STATUS.PASS, REVIEW_STATUS.FAIL] };
+
+    const pipeline = [
+      { $match: mongoFilter },
+      {
+        $group: {
+          _id: {
+            period: {
+              $dateTrunc: {
+                date: "$slot.end",
+                unit: timePeriodGroupBy,
+                timezone: "Asia/Kolkata",
+              },
+            },
+          },
+          revenue: {
+            $sum:
+              role === ROLES.MENTOR ? "$mentorEarning" : "$commissionAmount",
+          },
+          reviewCount: {
+            $sum: 1,
+          },
+        },
+      },
+      { $sort: { "_id.period": 1 as 1 | -1 } },
+      {
+        $project: {
+          _id: 0,
+          name: "$_id.period",
+          revenue: 1,
+          reviewCount: 1,
+        },
+      },
+    ];
+
+    const result = await reviewModel.aggregate(pipeline);
+    return result;
   }
 }

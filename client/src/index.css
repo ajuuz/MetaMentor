@@ -61,6 +61,8 @@
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.705 0.015 286.067);
+  --color-reviews: var(--chart-1);
+  --color-completed: var(--chart-2);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -119,7 +121,6 @@
   }
 }
 
-
 /* For Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -128,6 +129,6 @@ input::-webkit-inner-spin-button {
 }
 
 /* For Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }

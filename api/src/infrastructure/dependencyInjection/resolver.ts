@@ -51,6 +51,8 @@ import { IUserNotificationController } from "application/interfaces/controller/u
 import { UserNotificationController } from "presentation/controller/user/notification.controller";
 import { IUserRescheduledReviewController } from "application/interfaces/controller/user/rescheduledReviewController.interface";
 import { UserRescheduledReviewController } from "presentation/controller/user/rescheduledReview.controller";
+import { IAdminReviewController } from "application/interfaces/controller/admin/reviewController.interface";
+import { AdminReviewController } from "presentation/controller/admin/review.controller";
 
 DependencyInjection.registerAll();
 
@@ -71,6 +73,8 @@ export const adminLevelController =
   container.resolve<IAdminLevelController>(AdminLevelController);
 export const adminCommunityController =
   container.resolve<IAdminCommunityController>(AdminCommunityController);
+export const adminReviewController =
+  container.resolve<IAdminReviewController>(AdminReviewController);
 
 //MentorController
 export const mentorController =
@@ -105,6 +109,8 @@ export const userRescheduledReviewController =
 //paymentController
 export const paymentController =
   container.resolve<IPaymentController>(PaymentController);
+
+
 
 //commomController
 export const commonController =

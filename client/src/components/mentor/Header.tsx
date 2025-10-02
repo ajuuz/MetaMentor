@@ -9,6 +9,7 @@ import { UserCircle2, Bell } from "lucide-react";
 import NotificationComponent from "../notification/Notification";
 import { useGetNotificationQuery } from "@/hooks/tanstack/notification";
 
+
 const Header = () => {
   const navigate = useNavigate();
   const logoutDispatch = useUserStore((state) => state.logout);
@@ -37,13 +38,8 @@ const Header = () => {
     setFilter("unRead");
   }, [showNotifications]);
 
-  if (isLoading) {
-    return <div>Loading</div>;
-  }
-
-  if (isError || !notifications) {
-    return <div>sorry no notifications</div>;
-  }
+  if (isLoading) return <div>Loading</div>;
+  if (isError || !notifications) return <div>sorry no notifications</div>;
 
   const handleLogout = () => {
     logoutMutation();
@@ -51,28 +47,33 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full bg-white shadow-md p-4 flex items-center justify-between z-50">
-      {/* Logo */}
-      <div
-        className="text-2xl font-bold text-[#E63946] cursor-pointer"
-        onClick={() => navigate("/mentor")}
-      >
-        META MENTOR
+      {/* Left Section: Hamburger + Logo */}
+      <div className="flex items-center gap-3">
+        {/* Hamburger for mobile */}
+
+        <div
+          className="text-2xl font-bold text-[#E63946] cursor-pointer"
+          onClick={() => navigate("/mentor")}
+        >
+          META MENTOR
+        </div>
       </div>
 
-      {/* Empty nav placeholder (optional) */}
+      {/* Center (optional nav links for desktop) */}
       <nav className="hidden md:flex items-center space-x-6 text-gray-700">
-        {/* Add more navigation links if needed */}
+        {/* Example link */}
+        {/* <span className="cursor-pointer">Docs</span> */}
       </nav>
 
-      {/* User Info + Notifications + Logout */}
+      {/* Right Section: Notifications + Profile + Logout */}
       <div className="flex items-center space-x-4 relative">
         <button
           className="relative"
           onClick={() => setShowNotifications((prev) => !prev)}
         >
-          <Bell className="w-8 h-8 text-gray-600" />
-          {filter === "unRead" && (
-            <span className="absolute top-0 right-0 w-5 h-5 flex items-center justify-center text-white bg-red-500 rounded-full">
+          <Bell className="w-7 h-7 text-gray-600" />
+          {filter === "unRead" && notifications.length > 0 && (
+            <span className="absolute top-0 right-0 w-5 h-5 flex items-center justify-center text-xs text-white bg-red-500 rounded-full">
               {notifications.length}
             </span>
           )}

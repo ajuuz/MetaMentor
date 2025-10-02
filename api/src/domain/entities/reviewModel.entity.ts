@@ -31,6 +31,7 @@ export interface IReviewEntity {
   practical: number;
   feedBack: string;
   bookedAt: Date;
+  paymentCreditAt: Date;
   isRescheduledOnce: boolean;
 }
 
@@ -45,24 +46,25 @@ export interface ICreateReview
     | "feedBack"
     | "bookedAt"
     | "isRescheduledOnce"
+    | "paymentCreditAt"
   > {
   slot: Omit<ReviewSlot, "_id">;
 }
 export interface ICreateReviewPoplutedEntity {
   _id: string;
   student: {
-    _id:string,
+    _id: string;
     name: string;
     email: string;
   };
   mentor: {
-    _id:string,
+    _id: string;
     name: string;
     email: string;
   };
   levelName: string;
   domainName: string;
-  slot:ReviewSlot
+  slot: ReviewSlot;
 }
 
 //students

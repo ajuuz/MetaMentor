@@ -3,17 +3,21 @@ import SideBar from "@/components/mentor/SideBar";
 import { Outlet } from "react-router-dom";
 
 const MentorLayout = () => {
+
   return (
-    <div className="pt-20 ps-15">
-      <Header/>
+    <div className="pt-20">
+      <Header  />
       <div className="flex">
-        <SideBar/>
-        <div className="flex-1">
-        <Outlet/>
+        {/* Sidebar */}
+        <SideBar  />
+
+        {/* Main Content */}
+        <div className="flex-1 p-4 md:p-8 md:ps-68 ">
+          <Outlet />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MentorLayout
+export default MentorLayout;
