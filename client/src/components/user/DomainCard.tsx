@@ -1,10 +1,10 @@
 import { config } from "@/config/configuration"
-import type { DomainEntity } from "@/types/domainTypes"
+import type { GetEnrolledDomainsRes } from "@/types/response/domain"
 import { FaCaretRight } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 
 type Props={
-  domain:Omit<DomainEntity,'levels'>
+  domain:GetEnrolledDomainsRes
 }
 
 const DomainCard = ({domain}:Props) => {

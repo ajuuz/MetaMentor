@@ -147,6 +147,10 @@ export class UserRoutes {
       userReviewController.getAllReviews.bind(userReviewController)
     );
     this._router.get(
+      "/reviews/count",
+      userReviewController.getReviewCounts.bind(userReviewController)
+    );
+    this._router.get(
       "/reviews/:mentorId/:date",
       validationMiddleware(GetReviewByDayForStudReqDTO),
       userReviewController.getReviewsByDay.bind(userReviewController)

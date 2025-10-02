@@ -8,6 +8,7 @@ import type {
   DATE_RANGE,
   PENDING_REVIEW_STATE,
   REVIEW_FILTER_STATUS,
+  ReviewStatus,
 } from "@/utils/constants";
 
 export const getReviews = async (
@@ -90,6 +91,21 @@ export const rescheduleReviewByStudent = async ({
       `/reviews/${reviewId}/reschedule`,
       { studentText, mentorId, slot }
     );
+    return response.data;
+  } catch (error: any) {
+    throw error?.response?.data || error;
+  }
+};
+
+
+export const getReviewCountsForStudent = async (): Promise<
+  {
+    _id: ReviewStatus;
+    count: number;
+  }[]
+> => {
+  try {
+    const response = await userAxiosInstance.get("/reviews/count");
     return response.data;
   } catch (error: any) {
     throw error?.response?.data || error;

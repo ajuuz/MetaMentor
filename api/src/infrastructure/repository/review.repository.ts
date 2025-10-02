@@ -258,6 +258,7 @@ export class ReviewRepository
         { $match: mongoFilter },
         { $skip: skip },
         { $limit: limit },
+        { $sort: { "slot.start": -1 } },
         this._lookupForDomain,
         { $unwind: "$domain" },
         this._lookupForLevel,

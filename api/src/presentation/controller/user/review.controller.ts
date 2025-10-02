@@ -2,12 +2,13 @@ import { IUserReviewController } from "application/interfaces/controller/user/us
 import { ICancelReviewByStudentUsecase } from "application/usecase/interfaces/review/cancelReviewByStudentUsecase.interface";
 import { IGetReviewsForStudentUsecase } from "application/usecase/interfaces/review/getReviewsForStudentUsecase.interface";
 import { Request, Response } from "express";
-import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
+import { HTTP_STATUS, ROLES, SUCCESS_MESSAGE } from "shared/constants";
 import { ModifiedRequest } from "type/types";
 import { inject, injectable } from "tsyringe";
 import { IGetReviewByDayForStudUsecase } from "application/usecase/interfaces/review/getReviewByDayForStudUsecase.interface";
 import { IRescheduleReviewByStudentUsecase } from "application/usecase/interfaces/review/rescheduleReviewByStudentUsecase.interface";
 import { IGetReviewForStudentUsecase } from "application/usecase/interfaces/review/getReviewForStudentUsecase.interface";
+import { IReviewCountUsecase } from "application/usecase/interfaces/review/reviewCountUsecase.interface";
 
 @injectable()
 export class UserReviewController implements IUserReviewController {
@@ -25,7 +26,10 @@ export class UserReviewController implements IUserReviewController {
     private _cancelReviewByStudentUsecase: ICancelReviewByStudentUsecase,
 
     @inject("IRescheduleReviewByStudentUsecase")
-    private _rescheduleReviewByStudentUsecase: IRescheduleReviewByStudentUsecase
+    private _rescheduleReviewByStudentUsecase: IRescheduleReviewByStudentUsecase,
+
+    @inject("IReviewCountUsecase")
+    private _reviewCountUsecase: IReviewCountUsecase
   ) {}
 
   async getAllReviews(req: Request, res: Response): Promise<void> {
@@ -89,6 +93,16 @@ export class UserReviewController implements IUserReviewController {
       success: true,
       message: SUCCESS_MESSAGE.REVIEWS.RESCHEDULE,
     });
+  }
+
+  async getReviewCounts(req: Request, res: Response): Promise<void> {
+    const studentId: string = (req as ModifiedRequest)?.user?.id;
+
+    const counts = await this._reviewCountUsecase.execute(
+      ROLES.USER,
+      studentId
+    );
+    res.status(HTTP_STATUS.OK).json(counts);
   }
 
   async getDomainReviews(req: Request, res: Response): Promise<void> {
