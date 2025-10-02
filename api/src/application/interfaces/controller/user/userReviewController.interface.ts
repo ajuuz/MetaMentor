@@ -7,4 +7,5 @@ export interface IUserReviewController {
   getReviewsByDay(req: Request, res: Response): Promise<void>;
   cancelReview(req: Request, res: Response): Promise<void>;
   rescheduleReview(req: Request, res: Response): Promise<void>;
+  getReviewCounts(req: Request, res: Response): Promise<void>;
 }

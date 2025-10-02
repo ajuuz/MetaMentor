@@ -7,6 +7,7 @@ import {
   getSlotReviewsForMent,
 } from "@/services/mentorService.ts/reviewApi";
 import {
+  getReviewCountsForStudent,
   getReviewForStudent,
   getReviewsForStudent,
   getSlotReviewsForStudent,
@@ -135,6 +136,18 @@ export const useGetSlotReviewsForStudentQuery = (
     queryKey: ["getDomainReviewsSlot", mentorId, date],
     queryFn: () => getSlotReviewsForStudent(mentorId!, date!),
     enabled: !!mentorId && !!date,
+  });
+};
+
+export const useGetReviewCountsForStudentQuery = () => {
+  return useQuery<
+    {
+      _id: ReviewStatus;
+      count: number;
+    }[]
+  >({
+    queryKey: ["reviewCountsForStudent"],
+    queryFn: () => getReviewCountsForStudent(),
   });
 };
 
