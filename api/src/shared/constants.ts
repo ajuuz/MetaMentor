@@ -168,8 +168,7 @@ export enum NOTIFICATION_TYPE {
   SLOT_RESCHEDULE = "slotReschedule",
   REVIEW_FEEDBACK_UPDATED = "ReviewFeedBackUpdated",
   REVIEW_REMINDER = "reviewReminder",
-  MENTOR_EARNINGS_CREDITED='MentorEarningsCredited'
-
+  MENTOR_EARNINGS_CREDITED = "MentorEarningsCredited",
 }
 
 export enum NOTIFICATION_TITLE {
@@ -181,7 +180,7 @@ export enum NOTIFICATION_TITLE {
   REVIEW_RESCHEDULE_ACCEPTED = "REVIEW RESCHEDULE ACCEPTED",
   REVIEW_FEEDBACK_UPDATED = "REVIEW FEEDBACK UPDATED",
   REVIEW_REMINDER = "REVIEW REMINDER",
-  MENTOR_EARNINGS_CREDITED='MENTOR EARNINGS CREDITED'
+  MENTOR_EARNINGS_CREDITED = "MENTOR EARNINGS CREDITED",
 }
 export enum NOTIFICATION_MESSAGE {
   MENTOR_ACCEPTANCE = "Congratulations! Your mentor application has been accepted successfully.",
@@ -193,8 +192,7 @@ export enum NOTIFICATION_MESSAGE {
   REVIEW_RESCHEDULE_ACCEPTED = "Your review reschedule request has been accepted successfully.",
   REVIEW_FEEDBACK_UPDATED = "The feedback for your review session has been updated. Please check it.",
   REVIEW_REMINDER = "Reminder: Your review session is scheduled to start in 30 minutes. Please be ready to join on time.",
-  MENTOR_EARNINGS_CREDITED = "Congratulations! Your earnings for the recent session have been successfully credited to your account."
-
+  MENTOR_EARNINGS_CREDITED = "Congratulations! Your earnings for the recent session have been successfully credited to your account.",
 }
 
 export enum SORT_ORDER {
@@ -205,4 +203,21 @@ export enum SORT_ORDER {
 export enum LEVEL_TASK_TYPE {
   LINK = "link",
   TEXT = "text",
+}
+
+export enum TIME_PERIOD {
+  ALL = "all",
+  TODAY = "today",
+  "7DAYS" = "7days",
+  MONTH = "month",
+  "3MONTHS" = "3months",
+  YEAR = "year",
+}
+
+export enum TIME_PERIOD_GROUP_BY {
+  HOUR = "hour",
+  DAY = "day",
+  WEEK = "week",
+  MONTH = "month",
+  YEAR = "year",
 }

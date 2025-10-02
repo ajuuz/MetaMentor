@@ -16,6 +16,7 @@ import {
   GetReviewForMentorReqDTO,
   SubmitReviewResultReqDTO,
   GetReviewByDayForMentReqDTO,
+  GetReviewGrowthReqDTO,
 } from "application/dto/requset/review.dto";
 import {
   GetSlotsOfADayForMentReqDTO,
@@ -89,6 +90,15 @@ export class MentorRoutes {
       "/reviews",
       validationMiddleware(GetReviewsForMentorReqDTO),
       mentorReviewController.getAllReviews.bind(mentorReviewController)
+    );
+    this._router.get(
+      "/reviews/count",
+      mentorReviewController.getReviewCounts.bind(mentorReviewController)
+    );
+    this._router.get(
+      "/reviews/growth",
+      validationMiddleware(GetReviewGrowthReqDTO),
+      mentorReviewController.getReviewGrowth.bind(mentorReviewController)
     );
     this._router.get(
       "/reviews/:date/date",

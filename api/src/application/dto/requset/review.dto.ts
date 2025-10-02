@@ -1,5 +1,6 @@
 //student
 import {
+  isEnum,
   IsEnum,
   IsISO8601,
   IsNotEmpty,
@@ -17,6 +18,8 @@ import {
   PENDING_REVIEW_STATE,
   REVIEW_FILTER_STATUS,
   REVIEW_STATUS,
+  TIME_PERIOD,
+  TIME_PERIOD_GROUP_BY,
 } from "shared/constants";
 import { ReviewSlotReqDTO } from "./payment.dto";
 import { Type } from "class-transformer";
@@ -38,7 +41,6 @@ export class GetReviewForStudReqDTO {
   @IsNotEmpty()
   reviewId!: string;
 }
-
 
 export class GetReviewByDayForStudReqDTO {
   @IsString()
@@ -127,4 +129,12 @@ export class SubmitReviewResultReqDTO {
   @Min(0)
   @Max(10)
   practical!: number;
+}
+
+export class GetReviewGrowthReqDTO {
+  @IsEnum(TIME_PERIOD)
+  timePeriod!: TIME_PERIOD;
+  
+  @IsEnum(TIME_PERIOD_GROUP_BY)
+  timePeriodGroupBy!: TIME_PERIOD_GROUP_BY;
 }

@@ -8,6 +8,7 @@ import {
 } from "domain/entities/reviewModel.entity";
 import { IReviewModel } from "infrastructure/database/models/bookedSlot.model";
 import { BaseRepository } from "infrastructure/repository/base.repository";
+import { REVIEW_STATUS, ROLES, TIME_PERIOD_GROUP_BY } from "shared/constants";
 
 export interface IReviewRepository
   extends BaseRepository<IReviewEntity, IReviewModel> {
@@ -50,8 +51,6 @@ export interface IReviewRepository
   createAReview(
     reviewDetails: ICreateReview
   ): Promise<ICreateReviewPoplutedEntity>;
-  
-  createReview(reviewDetails: ICreateReview): Promise<IReviewModel>;
 
   saveReview(review: IReviewModel): Promise<void>;
 
@@ -59,11 +58,25 @@ export interface IReviewRepository
 
   updateReview(
     filter: Record<string, string>,
-    update: Record<string, string | number>
+    update: Record<string, string | number | Date>
   ): Promise<IReviewEntity | null>;
 
   updateReviewSlot(
     reviewId: string,
     slot: { start: Date; end: Date }
   ): Promise<void>;
+
+  reviewCount(
+    filters: Partial<Pick<IReviewEntity, "studentId" | "mentorId">>
+  ): Promise<{ _id: REVIEW_STATUS; count: number }[]>;
+
+  getReviewGrowth(
+    filters: {
+      field: string;
+      value: string | boolean | Date;
+      type: "direct" | "complex";
+    }[],
+    timePeriodGroupBy:TIME_PERIOD_GROUP_BY,
+    role:Exclude<ROLES, ROLES.USER> 
+  ): Promise<{name:string,revenue:number,reviewCount:number}[]>;
 }

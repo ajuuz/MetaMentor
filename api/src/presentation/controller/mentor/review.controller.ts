@@ -4,11 +4,13 @@ import { IGetReviewForMentorUsecase } from "application/usecase/interfaces/revie
 import { ISubmitReviewResultUsecase } from "application/usecase/interfaces/review/submitReviewFeedBackUsecase.interface";
 import { ICancelReviewByMentorUsecase } from "application/usecase/interfaces/review/cancelReviewByMentorUsecase.interface";
 import { Request, Response } from "express";
-import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
+import { HTTP_STATUS, ROLES, SUCCESS_MESSAGE } from "shared/constants";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 import { IGetReviewByDayForStudUsecase } from "application/usecase/interfaces/review/getReviewByDayForStudUsecase.interface";
 import { IRescheduleReviewSubmitByMentor } from "application/usecase/interfaces/review/rescheduleReviewSubmitByMentorUsecase.interface";
+import { IReviewCountUsecase } from "application/usecase/interfaces/review/reviewCountUsecase.interface";
+import { IGetReviewGrowthUsecase } from "application/usecase/interfaces/review/getReviewGrowthUsecase.interface";
 
 @injectable()
 export class MentorReviewController implements IMentorReviewController {
@@ -27,8 +29,15 @@ export class MentorReviewController implements IMentorReviewController {
 
     @inject("ISubmitReviewResultUsecase")
     private _submitReviewResultUsecase: ISubmitReviewResultUsecase,
+
     @inject("IRescheduleReviewSubmitByMentor")
-    private _rescheduleReviewSubmitByMentor: IRescheduleReviewSubmitByMentor
+    private _rescheduleReviewSubmitByMentor: IRescheduleReviewSubmitByMentor,
+
+    @inject("IReviewCountUsecase")
+    private _reviewCountUsecase: IReviewCountUsecase,
+
+    @inject("IGetReviewGrowthUsecase")
+    private _getReviewGrowthUsecase: IGetReviewGrowthUsecase
   ) {}
 
   async getAllReviews(req: Request, res: Response): Promise<void> {
@@ -110,5 +119,26 @@ export class MentorReviewController implements IMentorReviewController {
     res
       .status(HTTP_STATUS.OK)
       .json({ success: true, message: SUCCESS_MESSAGE.REVIEWS.UPDATE_STATUS });
+  }
+
+  async getReviewCounts(req: Request, res: Response): Promise<void> {
+    const mentorId: string = (req as ModifiedRequest)?.user?.id;
+
+    const counts = await this._reviewCountUsecase.execute(
+      ROLES.MENTOR,
+      mentorId
+    );
+    res.status(HTTP_STATUS.OK).json(counts);
+  }
+
+  async getReviewGrowth(req: Request, res: Response): Promise<void> {
+    const mentorId: string = (req as ModifiedRequest)?.user?.id;
+    const { timePeriod, timePeriodGroupBy } = req.verifiedData;
+    const data = await this._getReviewGrowthUsecase.execute(
+      timePeriod,
+      timePeriodGroupBy,
+      mentorId
+    );
+    res.status(HTTP_STATUS.OK).json(data);
   }
 }

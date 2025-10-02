@@ -85,4 +85,5 @@ export class TransactionRepository implements ITransactionRepository {
       throw new Error("Could not aggregate transactions");
     }
   }
+
 }

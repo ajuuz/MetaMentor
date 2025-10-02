@@ -6,6 +6,8 @@ import type {
   PENDING_REVIEW_STATE,
   REVIEW_FILTER_STATUS,
   ReviewStatus,
+  TimePeriod,
+  TimePeriodGroupBy,
 } from "@/utils/constants";
 
 export const getReviewsForMentor = async (
@@ -109,6 +111,33 @@ export const rescheduleReviewSubmit = async ({
     const response = await mentorInstance.patch(
       `/reviews/${reviewId}/reschedule/submit`,
       { status }
+    );
+    return response.data;
+  } catch (error: any) {
+    throw error?.response?.data || error;
+  }
+};
+
+export const getReviewCountsForMentor = async (): Promise<
+  {
+    _id: ReviewStatus;
+    count: number;
+  }[]
+> => {
+  try {
+    const response = await mentorInstance.get("/reviews/count");
+    return response.data;
+  } catch (error: any) {
+    throw error?.response?.data || error;
+  }
+};
+export const getReviewGrowthForMentor = async (
+  timePeriod: TimePeriod,
+  timePeriodGroupBy: TimePeriodGroupBy
+): Promise<{ name: string; revenue: number; reviewCount: number }[]> => {
+  try {
+    const response = await mentorInstance.get(
+      `/reviews/growth?timePeriod=${timePeriod}&timePeriodGroupBy=${timePeriodGroupBy}`
     );
     return response.data;
   } catch (error: any) {

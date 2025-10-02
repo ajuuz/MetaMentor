@@ -36,7 +36,9 @@ export class SubmitReviewResultUsecase implements ISubmitReviewResultUsecase {
       reviewResultDetails;
 
     const filter = { mentorId, reviewId };
-    const update = { status, feedBack, theory, practical };
+    const paymentCreditAt = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+    console.log("update payment credit time",paymentCreditAt)
+    const update = { status, feedBack, theory, practical, paymentCreditAt };
     const updatedReview = await this._reviewRepository.updateReview(
       filter,
       update

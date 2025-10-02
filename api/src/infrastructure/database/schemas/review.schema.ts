@@ -82,6 +82,10 @@ export const reviewSchema: Schema<IReviewModel> =
       type: Date,
       default: new Date(),
     },
+    paymentCreditAt: {
+      type: Date,
+      default:null,
+    },
     isRescheduledOnce: {
       type: Boolean,
       default: false,

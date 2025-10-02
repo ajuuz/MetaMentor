@@ -1,65 +1,108 @@
+import ReviewStatsCard from "@/components/dashboard/mentor/ReviewStatsCard";
+import ReviewGrowthChart from "@/components/dashboard/ReviewChart";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-
-const reviewGrowthData = [
-	100, 120, 140, 200, 180, 90, 160, 130, 220, 300, 350, 400
-];
-const months = [
-	"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
-];
+import {
+  useGetReviewCountsForMentorQuery,
+  useGetReviewGrowthForMentorQuery,
+} from "@/hooks/tanstack/review";
+import {
+  REVIEW_STATUS,
+  type TimePeriod,
+  type TimePeriodGroupBy,
+} from "@/utils/constants";
+import { useUserStore } from "@/zustand/userStore";
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const Dashboard = () => {
-	return (
-		<div className="min-h-screen bg-[#fff] flex flex-col">
-			<div className="flex flex-1">
-				{/* Sidebar */}
-				
-				{/* Main Content */}
-				<main className="flex-1 px-4 md:px-12 py-8">
-					<div className="flex justify-between items-center mb-6">
-						<h2 className="text-xl md:text-2xl font-semibold">Good Morning <span className="text-[#ff5e8a] font-bold">Alexander</span></h2>
-						<div className="flex items-center gap-4">
-							<span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#ffe0e6] text-[#ff5e8a] text-2xl"><svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-7 h-7'><path strokeLinecap='round' strokeLinejoin='round' d='M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z' /><path strokeLinecap='round' strokeLinejoin='round' d='M4.5 19.5a7.5 7.5 0 0115 0v.75a.75.75 0 01-.75.75h-13.5a.75.75 0 01-.75-.75V19.5z' /></svg></span>
-							<Button className="bg-[#ffb3bb] text-[#fff] font-bold rounded-lg px-6">Logout</Button>
-						</div>
-					</div>
-					{/* Red Card Section */}
-					<Card className="bg-gradient-to-br from-[#d90429] to-[#ff5e8a] rounded-2xl p-8 text-white shadow-lg relative mb-10">
-						<div className="text-lg md:text-xl font-semibold mb-2">Today's Scheduled Review's Count</div>
-						<div className="text-5xl font-bold mb-8">6</div>
-						<div className="absolute left-8 bottom-2">
-							<Card className="bg-[#fff3f6] rounded-xl px-8 py-4 text-[#222] shadow-md">
-								<div className="text-base font-semibold mb-1">Total Review Taken</div>
-								<div className="text-3xl font-bold">40</div>
-							</Card>
-						</div>
-					</Card>
-					{/* Review Growth Section */}
-					<div className="mt-10">
-						<h3 className="text-xl font-bold mb-4">Review Growth</h3>
-						<Card className="rounded-2xl p-6 shadow-md">
-							<div className="flex justify-between items-center mb-2">
-								<span className="text-sm font-semibold text-[#222]">Activity</span>
-								<select className="bg-transparent text-[#222] font-semibold">
-									<option>Month</option>
-								</select>
-							</div>
-							{/* Bar Chart */}
-							<div className="flex items-end h-56 gap-2 w-full">
-								{reviewGrowthData.map((val, i) => (
-									<div key={i} className="flex flex-col items-center w-6">
-										<div className="bg-gradient-to-t from-[#ff5e8a] to-[#fff3f6] rounded-t-lg" style={{ height: `${val/4}px`, width: '100%' }}></div>
-										<span className="text-xs text-[#888] mt-2">{months[i]}</span>
-									</div>
-								))}
-							</div>
-						</Card>
-					</div>
-				</main>
-			</div>
-			
-		</div>
-	);
+  const { user } = useUserStore();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [revenue, setRevenue] = useState<number>(0);
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>(
+    (searchParams.get("timePeriod") as TimePeriod) || "today"
+  );
+
+  const [groupBy, setGroupBy] = useState<TimePeriodGroupBy>(
+    (searchParams.get("timePeriodGroupBy") as TimePeriodGroupBy) || "day"
+  );
+
+  const { data: counts } = useGetReviewCountsForMentorQuery();
+  const { data, isError, isPending } = useGetReviewGrowthForMentorQuery(
+    timePeriod,
+    groupBy
+  );
+
+  let todayCount = 0;
+  let rescheduledCount = 0;
+  let completedCount = 0;
+  let pendingCount = 0;
+  let totalReviewCount = 0;
+  if (counts) {
+    for (let { _id, count } of counts) {
+      if (_id === REVIEW_STATUS.FAIL || _id === REVIEW_STATUS.PASS) {
+        totalReviewCount += count;
+        completedCount += count;
+      } else if (_id === REVIEW_STATUS.PENDING) {
+        totalReviewCount += count;
+        pendingCount += count;
+      } else if (_id === REVIEW_STATUS.RESCHEDULED) {
+        totalReviewCount += count;
+        rescheduledCount += count;
+      }
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-[#fff] flex flex-col flex-1 px-8 md:px-8 lg:px-12 py-6 w-full">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-6">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold">
+          Good Morning{" "}
+          <span className="bg-gradient-to-r to-[#2c080e] from-[#ff0000] text-transparent bg-clip-text font-bold capitalize">
+            {user?.name}
+          </span>
+        </h2>
+      </div>
+
+      {/* Red Card Section */}
+      <ReviewStatsCard
+        revenue={revenue}
+        todayCount={todayCount}
+        totalReviewCount={totalReviewCount}
+        rescheduledCount={rescheduledCount}
+        completedCount={completedCount}
+        pendingCount={pendingCount}
+      />
+
+      {/* Review Growth Section */}
+      <div>
+        <h3 className="text-lg sm:text-xl font-bold mb-4">Review Growth</h3>
+        <Card className="rounded-2xl p-4 sm:p-6 shadow-md overflow-x-auto">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-sm font-semibold text-[#222]">Activity</span>
+            <select className="bg-transparent text-[#222] font-semibold border p-1 rounded text-sm sm:text-base">
+              <option>Month</option>
+            </select>
+          </div>
+
+          {/* Scrollable Bar Chart */}
+          <ReviewGrowthChart
+            data={data}
+            isError={isError}
+            isPending={isPending}
+            timePeriod={timePeriod}
+            setTimePeriod={setTimePeriod}
+            groupBy={groupBy}
+            setGroupBy={setGroupBy}
+            setSearchParams={setSearchParams}
+            setRevenue={setRevenue}
+          />
+        </Card>
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;
