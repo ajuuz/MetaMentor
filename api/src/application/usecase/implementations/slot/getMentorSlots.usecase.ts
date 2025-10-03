@@ -1,8 +1,9 @@
-import { plainToInstance } from "class-transformer";
-import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
-import { IGetMentorSlotsUsecase } from "application/usecase/interfaces/slot/getMentorSlotsUsecase.interface";
-import { WeekSlotDTO } from "application/dto/response/slot.dto";
 import { NotFoundError } from "domain/errors/notFounError";
+import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
+
+import { WeekSlotDTO } from "application/dto/response/slot.dto";
+import { IGetMentorSlotsUsecase } from "application/usecase/interfaces/slot/getMentorSlotsUsecase.interface";
+import { plainToInstance } from "class-transformer";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

@@ -1,18 +1,19 @@
 import { ISlotEntity, ISlotTime } from "domain/entities/slotModel.entity";
 import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
-import {
-  ISlotModel,
-  slotModel,
-} from "infrastructure/database/models/slot.model";
-import mongoose from "mongoose";
+
 import {
   DomainSlotsResponseDTO,
   SlotDTO,
   WeekSlotsRequestDTO,
 } from "application/dto/slotDTO";
+import {
+  ISlotModel,
+  slotModel,
+} from "infrastructure/database/models/slot.model";
+import mongoose from "mongoose";
+import { DAYS } from "shared/constants";
 
 import { BaseRepository } from "./base.repository";
-import { DAYS } from "shared/constants";
 
 export class SlotRepository
   extends BaseRepository<ISlotEntity, ISlotModel>

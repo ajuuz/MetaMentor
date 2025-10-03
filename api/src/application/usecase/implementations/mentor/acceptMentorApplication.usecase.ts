@@ -1,10 +1,14 @@
 import { IMentorEntity } from "domain/entities/mentor-model.entity";
+import { INotificationEntity } from "domain/entities/notificationModel.entity";
+import { CustomError } from "domain/errors/customError";
+import { ValidationError } from "domain/errors/validationError";
 import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
+import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
 import { ISequenceNumberRepository } from "domain/repositoryInterfaces/sequenceNumberRepository.interface";
 import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
+
 import { IAcceptMentorApplicationUsecase } from "application/usecase/interfaces/mentor/acceptMentorApplicationUsecase.interface";
-import { ICreateNotificationUsecase } from "application/usecase/interfaces/notification/createNotificationUsecase.interface";
 import {
   EVENT_EMITTER_TYPE,
   HTTP_STATUS,
@@ -14,13 +18,10 @@ import {
   NOTIFICATION_TYPE,
   ROLES,
 } from "shared/constants";
-import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/contentProviders/mailContentProvider";
-import { CustomError } from "domain/errors/customError";
-import { ValidationError } from "domain/errors/validationError";
+import { eventBus } from "shared/eventBus";
 import { inject, injectable } from "tsyringe";
-import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
-import { INotificationEntity } from "domain/entities/notificationModel.entity";
+
 
 @injectable()
 export class AcceptMentorApplicationUsecase

@@ -1,6 +1,7 @@
 import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
-import { IUpdateSlotStatusUsecase } from "application/usecase/interfaces/slot/updateSlotStatusUsecase.interface";
+
 import { UpdateSlotStatusReqDTO } from "application/dto/requset/slot.dto";
+import { IUpdateSlotStatusUsecase } from "application/usecase/interfaces/slot/updateSlotStatusUsecase.interface";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

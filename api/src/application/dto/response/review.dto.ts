@@ -1,10 +1,10 @@
 import { Exclude, Expose, Transform, Type } from "class-transformer";
 import {
-  DAYS,
   PAYMENT_METHOD,
   PAYMENT_STATUS,
   REVIEW_STATUS,
 } from "shared/constants";
+
 import { LevelPreviewDTO } from "./level.dto";
 import { UserPreviewDTO } from "./user.dto";
 

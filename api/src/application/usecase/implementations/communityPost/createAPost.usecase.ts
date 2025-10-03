@@ -1,8 +1,9 @@
-import { inject, injectable } from "tsyringe";
-import { ICreateAPostUsecase } from "application/usecase/interfaces/communityPost/createAPostUsecase.interface";
-import { CreateCommunityPostReqDTO } from "application/dto/requset/communityPost.dto";
 import { ICommunityPostEntity } from "domain/entities/communityPostModel.entity";
 import { ICommunityPostRepository } from "domain/repositoryInterfaces/communityPostRepository.interface";
+
+import { CreateCommunityPostReqDTO } from "application/dto/requset/communityPost.dto";
+import { ICreateAPostUsecase } from "application/usecase/interfaces/communityPost/createAPostUsecase.interface";
+import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class CreateAPostUsecase implements ICreateAPostUsecase {

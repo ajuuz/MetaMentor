@@ -1,6 +1,8 @@
 import { ICommunityChatEnitity, IGetCommunityChat } from "domain/entities/communityChat.entity";
-import { IBaseRepository } from "./baseRepository.interface";
+
 import { ICommunityChatModel } from "infrastructure/database/models/communityChat.model";
+
+import { IBaseRepository } from "./baseRepository.interface";
 
 export interface ICommunityChatRepository
   extends IBaseRepository<ICommunityChatEnitity, ICommunityChatModel> {

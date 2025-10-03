@@ -1,4 +1,5 @@
 import { ISlotEntity } from "domain/entities/slotModel.entity";
+
 import mongoose, { Document, ObjectId } from "mongoose";
 
 import { slotSchema } from "../schemas/slot.schema";

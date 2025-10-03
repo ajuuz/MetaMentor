@@ -1,12 +1,13 @@
 import { IFcmTokenEntity } from "domain/entities/fcmTokenModel.entity";
 import { IFcmTokenRepository } from "domain/repositoryInterfaces/fcmTokenRepository.interface";
+
 import {
   fcmTokenModel,
   IFcmTokenModel,
 } from "infrastructure/database/models/fcmToken.model";
+import { injectable } from "tsyringe";
 
 import { BaseRepository } from "./base.repository";
-import { injectable } from "tsyringe";
 
 @injectable()
 export class FcmTokenRepository

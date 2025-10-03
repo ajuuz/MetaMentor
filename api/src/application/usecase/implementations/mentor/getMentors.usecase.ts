@@ -1,5 +1,6 @@
 import { IGetMentors } from "domain/entities/mentor-model.entity";
 import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
+
 import { IGetMentorsUsecase } from "application/usecase/interfaces/mentor/getMentorsUsecase.interface";
 import { SORT_ORDER } from "shared/constants";
 import { inject, injectable } from "tsyringe";

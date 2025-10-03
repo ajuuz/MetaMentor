@@ -1,8 +1,9 @@
 import { IDomainEntity } from "domain/entities/domainModel.entity";
+
 import { IDomainModel } from "infrastructure/database/models/domain.model";
+import { SORT_ORDER } from "shared/constants";
 
 import { IBaseRepository } from "./baseRepository.interface";
-import { SORT_ORDER } from "shared/constants";
 
 export interface IDomainRepository
   extends IBaseRepository<IDomainEntity, IDomainModel> {

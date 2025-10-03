@@ -1,4 +1,5 @@
 import { ICommunityPostLikeRepository } from "domain/repositoryInterfaces/communityPostLikeRepository.interface";
+
 import { communityPostLikeModel } from "infrastructure/database/models/communityPostLike.model";
 
 export class CommunityPostLikeRepository

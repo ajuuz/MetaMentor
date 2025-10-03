@@ -1,5 +1,8 @@
 import { IMentorEntity } from "domain/entities/mentor-model.entity";
+import { INotificationEntity } from "domain/entities/notificationModel.entity";
 import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
+import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
+
 import { IRejectMentorApplicationUsecase } from "application/usecase/interfaces/mentor/rejectMentorApplication.interface";
 import {
   EVENT_EMITTER_TYPE,
@@ -8,11 +11,9 @@ import {
   NOTIFICATION_TITLE,
   NOTIFICATION_TYPE,
 } from "shared/constants";
-import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/contentProviders/mailContentProvider";
+import { eventBus } from "shared/eventBus";
 import { inject, injectable } from "tsyringe";
-import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
-import { INotificationEntity } from "domain/entities/notificationModel.entity";
 
 @injectable()
 export class RejectMentorApplicationUsecase

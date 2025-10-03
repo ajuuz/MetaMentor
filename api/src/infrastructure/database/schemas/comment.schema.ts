@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { ICommentModel } from "../models/comment.model";
 
 export const commentSchema = new mongoose.Schema<ICommentModel>({

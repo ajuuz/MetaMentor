@@ -3,14 +3,15 @@ import {
   IStudentEntity,
 } from "domain/entities/student-model.entity";
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
+
 import {
   IStudentModel,
   studentModel,
 } from "infrastructure/database/models/student.model";
-import { FilterQuery, ObjectId, SortOrder, Types } from "mongoose";
+import { FilterQuery, ObjectId, Types } from "mongoose";
+import { SORT_ORDER } from "shared/constants";
 
 import { BaseRepository } from "./base.repository";
-import { SORT_ORDER } from "shared/constants";
 
 export class StudentRepository
   extends BaseRepository<IStudentEntity, IStudentModel>
@@ -58,7 +59,7 @@ export class StudentRepository
       }
     });
 
-    let sortOption: Record<string, 1 | -1> = {};
+    const sortOption: Record<string, 1 | -1> = {};
     if (sort.field === "name") {
       sortOption["user.name"] = sort.order === SORT_ORDER.ASC ? 1 : -1;
     } else {

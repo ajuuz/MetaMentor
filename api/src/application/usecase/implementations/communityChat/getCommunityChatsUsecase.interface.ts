@@ -1,7 +1,8 @@
-import { inject, injectable } from "tsyringe";
 import { IGetCommunityChat } from "domain/entities/communityChat.entity";
-import { IGetCommunityChatsUsecase } from "application/usecase/interfaces/communityChat/getCommunityChatsUsecase.interface";
 import { ICommunityChatRepository } from "domain/repositoryInterfaces/communityChatRepository.interface";
+
+import { IGetCommunityChatsUsecase } from "application/usecase/interfaces/communityChat/getCommunityChatsUsecase.interface";
+import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class GetCommunityChatsUsecase implements IGetCommunityChatsUsecase {

@@ -1,8 +1,9 @@
 import { ISelectedDomain } from "domain/entities/student-model.entity";
+
 import mongoose from "mongoose";
 
-import { IStudentModel } from "../models/student.model";
 import { SequenceNumberModel } from "../models/sequenceNumber.model";
+import { IStudentModel } from "../models/student.model";
 
 const domainSchema = new mongoose.Schema<ISelectedDomain>(
   {

@@ -1,8 +1,9 @@
 import { IMentorEntity } from "domain/entities/mentor-model.entity";
+import { ValidationError } from "domain/errors/validationError";
 import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
+
 import { IUpdateMentorStatusUsecase } from "application/usecase/interfaces/mentor/updateMentorStatusUsecase.interface";
-import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

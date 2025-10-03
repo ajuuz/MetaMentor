@@ -1,4 +1,5 @@
 import { IOtpEntity } from "domain/entities/otp-model.entity";
+
 import mongoose, { ObjectId } from "mongoose";
 
 import { otpSchema } from "../schemas/otp.schema";

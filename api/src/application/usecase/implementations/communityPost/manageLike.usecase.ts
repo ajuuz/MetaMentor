@@ -1,6 +1,7 @@
-import { inject, injectable } from "tsyringe";
-import { IManageLikeUsecase } from "application/usecase/interfaces/communityPost/manageLikeUsecase.interface";
 import { ICommunityPostLikeRepository } from "domain/repositoryInterfaces/communityPostLikeRepository.interface";
+
+import { IManageLikeUsecase } from "application/usecase/interfaces/communityPost/manageLikeUsecase.interface";
+import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class ManageLikeUsecase implements IManageLikeUsecase {

@@ -1,8 +1,9 @@
+import { AuthError } from "domain/errors/authError";
+
 import { ITokenService } from "application/interfaces/service/tokenService.interface";
 import { ITokenRefreshingUsecase } from "application/usecase/interfaces/auth/tokenRefreshing.interface";
 import { JwtPayload } from "jsonwebtoken";
 import { ERROR_MESSAGE, HTTP_STATUS, ROLES } from "shared/constants";
-import { AuthError } from "domain/errors/authError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

@@ -1,10 +1,12 @@
-import { BaseRepository } from "./base.repository";
 import { IRescheduleReviewEntity } from "domain/entities/rescheduleReviewModel.entity";
+import { IRescheduleReviewRepository } from "domain/repositoryInterfaces/rescheduleReviewRepository.interface";
+
 import {
   IRescheduleReviewModel,
   RescheduleReviewModel,
 } from "infrastructure/database/models/rescheduleReview.model";
-import { IRescheduleReviewRepository } from "domain/repositoryInterfaces/rescheduleReviewRepository.interface";
+
+import { BaseRepository } from "./base.repository";
 
 export class RescheduleReviewRepository
   extends BaseRepository<IRescheduleReviewEntity, IRescheduleReviewModel>

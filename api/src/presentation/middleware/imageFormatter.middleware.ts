@@ -11,7 +11,7 @@ export const formDataParserFormatter = (
 ) => {
   const files: Express.Multer.File[] = (req as MulterRequest).files;
   req.body.images = files.map((file: any) => file.filename);
-  for (let key in req.body) {
+  for (const key in req.body) {
     req.body[key] = parseValue(req.body[key]);
   }
   next();

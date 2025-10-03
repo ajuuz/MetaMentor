@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
-import { IRescheduleReviewModel } from "../models/rescheduleReview.model";
 import { ROLES } from "shared/constants";
+
+import { IRescheduleReviewModel } from "../models/rescheduleReview.model";
 
 const slotSchema = new mongoose.Schema(
   {

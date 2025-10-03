@@ -1,4 +1,5 @@
 import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
+
 import { IDebitWalletUsecase } from "application/usecase/interfaces/wallet/debitWalletUsecase.interface";
 import { inject, injectable } from "tsyringe";
 

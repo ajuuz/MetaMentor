@@ -1,4 +1,5 @@
 import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
+
 import { IMarkAsReadUsecase } from "application/usecase/interfaces/notification/markAsReadUsecase.interface";
 import { inject, injectable } from "tsyringe";
 

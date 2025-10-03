@@ -1,6 +1,7 @@
-import { inject, injectable } from "tsyringe";
 import { ICommunityPostLikeRepository } from "domain/repositoryInterfaces/communityPostLikeRepository.interface";
+
 import { IGetPostLikesUsecase } from "application/usecase/interfaces/communityPost/getPostLikesUsecase.interface";
+import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class GetPostLikesUsecase implements IGetPostLikesUsecase {

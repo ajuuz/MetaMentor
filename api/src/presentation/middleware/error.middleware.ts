@@ -1,10 +1,11 @@
+import { CustomError } from "domain/errors/customError";
+import { NotFoundError } from "domain/errors/notFounError";
+import { ValidationError } from "domain/errors/validationError";
+
 import { IErrorMiddleware } from "application/interfaces/middleware/error-middleware.interface";
 import { ILoggerService } from "application/interfaces/service/loggerService.interface";
 import { NextFunction, Request, Response } from "express";
 import { ERROR_MESSAGE, HTTP_STATUS } from "shared/constants";
-import { CustomError } from "domain/errors/customError";
-import { NotFoundError } from "domain/errors/notFounError";
-import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

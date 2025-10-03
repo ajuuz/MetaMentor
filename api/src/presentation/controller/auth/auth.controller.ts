@@ -1,3 +1,5 @@
+import { ValidationError } from "domain/errors/validationError";
+
 import { IAuthController } from "application/interfaces/controller/auth/authController.interface";
 import { IForgotPasswordSendMailUsecase } from "application/usecase/interfaces/auth/forgotPasswordMailUsecase.interface";
 import { IForgotPasswordResetUsecase } from "application/usecase/interfaces/auth/forgotPasswordResetUsecase.interface";
@@ -15,7 +17,6 @@ import {
   setAccessCookie,
   setCookie,
 } from "shared/utils/cookeHelper";
-import { ValidationError } from "domain/errors/validationError";
 import { ISuccessResponseHandler } from "shared/utils/successResponseHandler";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
@@ -79,7 +80,7 @@ export class AuthController implements IAuthController {
     }
   }
 
-  async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async login(req: Request, res: Response): Promise<void> {
     const { email, password } = req.verifiedData;
     const details = await this._LoginUsecase.execute(email, password);
     const { userData: user, accessToken, refreshToken } = details;
@@ -124,7 +125,6 @@ export class AuthController implements IAuthController {
   async resendOtp(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
     const { email } = req.verifiedData;
 
@@ -137,7 +137,6 @@ export class AuthController implements IAuthController {
   async forgotPasswordSendMail(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
     const { email } = req.body;
 
@@ -151,7 +150,6 @@ export class AuthController implements IAuthController {
   async forgotPasswordReset(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
     const { password, token }= req.verifiedData;
     await this._forgotPasswordResetUsecase.execute(password, token);
@@ -163,7 +161,6 @@ export class AuthController implements IAuthController {
   async tokenRefreshing(
     req: Request,
     res: Response,
-    next: NextFunction
   ): Promise<void> {
     const refreshToken = req.cookies.refreshToken;
     const accessToken = this._tokenRefreshingUsecase.execute(refreshToken);
@@ -173,7 +170,7 @@ export class AuthController implements IAuthController {
       .json({ success: true, message: "token refreshed successfully" });
   }
 
-  async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async logout(req: Request, res: Response): Promise<void> {
     const userId: string = (req as ModifiedRequest).user.id;
     clearCookies(res);
     await this._logoutUsecase.execute(userId);

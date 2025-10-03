@@ -1,4 +1,5 @@
 import { ISlotLockRepository } from "domain/repositoryInterfaces/slotLockRepository.interface";
+
 import { RedisClient } from "infrastructure/config/redis/redisClient.config";
 import { injectable } from "tsyringe";
 

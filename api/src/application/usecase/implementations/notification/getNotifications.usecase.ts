@@ -1,5 +1,6 @@
 import { INotificationEntity } from "domain/entities/notificationModel.entity";
 import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
+
 import { IGetNotificationUsecase } from "application/usecase/interfaces/notification/getNotificationUsecase.interface";
 import { inject, injectable } from "tsyringe";
 
@@ -13,7 +14,7 @@ export class GetNotificationUsecase implements IGetNotificationUsecase {
     userId: string,
     filter: "all" | "unRead"
   ): Promise<INotificationEntity[]> {
-    let findFilter: Partial<INotificationEntity> = { userId };
+    const findFilter: Partial<INotificationEntity> = { userId };
     if (filter === "unRead") findFilter.isRead = false;
     const notifications = await this._notificationRepository.findWhole(
       findFilter

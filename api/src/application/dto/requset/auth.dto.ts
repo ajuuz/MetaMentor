@@ -1,3 +1,6 @@
+import { IUserEntity } from "domain/entities/user-model.entity";
+import { ValidationError } from "domain/errors/validationError";
+
 import { Transform } from "class-transformer";
 import {
   IsEmail,
@@ -7,9 +10,8 @@ import {
   IsString,
   Matches,
 } from "class-validator";
-import { IUserEntity } from "domain/entities/user-model.entity";
 import { GENDER } from "shared/constants";
-import { ValidationError } from "domain/errors/validationError";
+
 
 export interface IuserRegisterData
   extends Partial<

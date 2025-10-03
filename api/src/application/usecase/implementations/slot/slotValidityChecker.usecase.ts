@@ -1,10 +1,11 @@
-import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
-import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
-import { ISlotValidityCheckerUsecase } from "application/usecase/interfaces/slot/slotValidityCheckerUsecase.interface";
-import { ERROR_MESSAGE, HTTP_STATUS } from "shared/constants";
-import { SlotDTO } from "application/dto/slotDTO";
 import { CustomError } from "domain/errors/customError";
 import { NotFoundError } from "domain/errors/notFounError";
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
+import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
+
+import { SlotDTO } from "application/dto/slotDTO";
+import { ISlotValidityCheckerUsecase } from "application/usecase/interfaces/slot/slotValidityCheckerUsecase.interface";
+import { ERROR_MESSAGE, HTTP_STATUS } from "shared/constants";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

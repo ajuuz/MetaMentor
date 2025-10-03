@@ -1,5 +1,7 @@
 import { IEnrolledLevelEntity } from "domain/entities/enrolledLevelModel";
+
 import mongoose, { Document, ObjectId } from "mongoose";
+
 import { enrolledLevelSchema } from "../schemas/enrolledLevel.schema";
 
 export interface IEnrolledLevelModel

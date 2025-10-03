@@ -1,12 +1,13 @@
-import { plainToInstance } from "class-transformer";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
+
+import { GetReviewsForMentResDTO } from "application/dto/response/review.dto";
 import { IGetMentorReviewsUsecase } from "application/usecase/interfaces/review/getReviewsForMentorUsecase.interface";
+import { plainToInstance } from "class-transformer";
 import {
   PENDING_REVIEW_STATE,
   REVIEW_FILTER_STATUS,
   REVIEW_STATUS,
 } from "shared/constants";
-import { GetReviewsForMentResDTO } from "application/dto/response/review.dto";
 import { dateRangeCalculator } from "shared/utils/dateRangeCalculator";
 import { inject, injectable } from "tsyringe";
 
@@ -26,7 +27,7 @@ export class GetMentorReviewsUsecase implements IGetMentorReviewsUsecase {
     pendingReviewState?: PENDING_REVIEW_STATE | undefined
   ): Promise<{ reviews: GetReviewsForMentResDTO[]; totalPages: number }> {
     const skip: number = (currentPage - 1) * limit;
-    let filter: any = { mentorId };
+    const filter: any = { mentorId };
     switch (status) {
       case REVIEW_FILTER_STATUS.COMPLETED:
         filter.status = [REVIEW_STATUS.PASS, REVIEW_STATUS.FAIL];

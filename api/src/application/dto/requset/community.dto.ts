@@ -1,4 +1,5 @@
 import { IsBoolean, IsNotEmpty, IsString } from "class-validator";
+
 import { FilterReqDTO } from "./pagination.dto";
 
 //admin

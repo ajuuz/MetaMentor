@@ -1,11 +1,14 @@
-import { injectable } from "tsyringe";
-import { BaseRepository } from "./base.repository";
 import { ICommentEntity } from "domain/entities/commentModel.entity";
+import { ICommentRepository } from "domain/repositoryInterfaces/commentRepository.interface";
+
 import {
   commentModel,
   ICommentModel,
 } from "infrastructure/database/models/comment.model";
-import { ICommentRepository } from "domain/repositoryInterfaces/commentRepository.interface";
+import { injectable } from "tsyringe";
+
+import { BaseRepository } from "./base.repository";
+
 
 @injectable()
 export class CommentRepository

@@ -1,17 +1,3 @@
-import { Router } from "express";
-import { upload } from "infrastructure/config/cloudinary/cloudinary.config";
-import {
-  adminCommunityController,
-  adminDomainController,
-  adminLevelController,
-  adminMentorController,
-  adminReviewController,
-  adminStudentController,
-  authMiddleware,
-} from "infrastructure/dependencyInjection/resolver";
-import { formDataParserFormatter } from "presentation/middleware/imageFormatter.middleware";
-import { validationMiddleware } from "presentation/middleware/validation.middleware";
-import { ROLES } from "shared/constants";
 import {
   GetCommunitiesForAdminReqDTO,
   UpdateCommunityStatusDTO,
@@ -30,11 +16,25 @@ import {
   MentorApplicationVerificationReqDTO,
   UpdateMentorStatusReqDTO,
 } from "application/dto/requset/mentor.dto";
+import { GetReviewGrowthReqDTO } from "application/dto/requset/review.dto";
 import {
   GetAllStudentReqDTO,
   UpdateStudentStatusReqDTO,
 } from "application/dto/requset/student.dto";
-import { GetReviewGrowthReqDTO } from "application/dto/requset/review.dto";
+import { Router } from "express";
+import { upload } from "infrastructure/config/cloudinary/cloudinary.config";
+import {
+  adminCommunityController,
+  adminDomainController,
+  adminLevelController,
+  adminMentorController,
+  adminReviewController,
+  adminStudentController,
+  authMiddleware,
+} from "infrastructure/dependencyInjection/resolver";
+import { formDataParserFormatter } from "presentation/middleware/imageFormatter.middleware";
+import { validationMiddleware } from "presentation/middleware/validation.middleware";
+import { ROLES } from "shared/constants";
 
 export class AdminRoutes {
   private _router: Router;

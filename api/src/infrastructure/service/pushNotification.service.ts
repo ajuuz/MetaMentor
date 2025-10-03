@@ -1,9 +1,10 @@
 import { IFcmTokenRepository } from "domain/repositoryInterfaces/fcmTokenRepository.interface";
+
 import { IPushNotificationService } from "application/interfaces/service/pushNotificationService.interface";
 import { FirebaseAdminConfig } from "infrastructure/config/firebase/firebaseAdmin.config";
-import { inject, injectable } from "tsyringe";
-import { eventBus } from "shared/eventBus";
 import { EVENT_EMITTER_TYPE } from "shared/constants";
+import { eventBus } from "shared/eventBus";
+import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class PushNotificationService implements IPushNotificationService {

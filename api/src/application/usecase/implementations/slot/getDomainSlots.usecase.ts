@@ -1,9 +1,10 @@
-import { plainToInstance } from "class-transformer";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
-import { IGetDomainSlotsUsecase } from "application/usecase/interfaces/slot/getDomainSlotsUsecase.interface";
+
 import { GetBookedReviewSlotsResDTO } from "application/dto/response/review.dto";
 import { GetSlotsForStudResDTO } from "application/dto/response/slot.dto";
+import { IGetDomainSlotsUsecase } from "application/usecase/interfaces/slot/getDomainSlotsUsecase.interface";
+import { plainToInstance } from "class-transformer";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

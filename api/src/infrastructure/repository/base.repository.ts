@@ -1,4 +1,5 @@
 import { IBaseRepository } from "domain/repositoryInterfaces/baseRepository.interface";
+
 import {
   ClientSession,
   Document,
@@ -50,7 +51,7 @@ export class BaseRepository<T, D extends Document>
     updationFields: Partial<T>
   ): Promise<void> {
     const mongoFilter: Partial<Record<keyof T, string | boolean | number>> = {};
-    for (let { field, value } of filters) {
+    for (const { field, value } of filters) {
       mongoFilter[field] = value;
     }
     await this.model.updateOne(

@@ -1,13 +1,12 @@
+import { Transform } from "class-transformer";
 import {
   IsString,
   Matches,
   IsEnum,
   IsOptional,
-  Length,
   IsNotEmpty,
   IsArray,
 } from "class-validator";
-import { Transform } from "class-transformer";
 import { GENDER } from "shared/constants";
 
 export class UpdateUserDetailsReqDTO {

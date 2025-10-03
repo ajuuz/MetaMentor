@@ -1,7 +1,8 @@
 import { IUserEntity } from "domain/entities/user-model.entity";
+
+import { IuserRegisterData } from "application/dto/requset/auth.dto";
 import { IUserModel } from "infrastructure/database/models/user.model";
 import { FilterQuery } from "mongoose";
-import { IuserRegisterData } from "application/dto/requset/auth.dto";
 
 export interface IUserRespository {
   findByEmail(email: string): Promise<IUserModel | null>;

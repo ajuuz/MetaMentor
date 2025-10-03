@@ -1,13 +1,15 @@
 import { IDomainEntity } from "domain/entities/domainModel.entity";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
+
 import {
   domainModel,
   IDomainModel,
 } from "infrastructure/database/models/domain.model";
+import { FilterQuery, SortOrder } from "mongoose";
+import { SORT_ORDER } from "shared/constants";
 
 import { BaseRepository } from "./base.repository";
-import { SORT_ORDER } from "shared/constants";
-import { FilterQuery, SortOrder } from "mongoose";
+
 
 export class DomainRepository
   extends BaseRepository<IDomainEntity, IDomainModel>

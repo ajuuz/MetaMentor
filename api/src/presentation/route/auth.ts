@@ -1,9 +1,3 @@
-import { NextFunction, Request, Response, Router } from "express";
-import {
-  authController,
-  authMiddleware,
-} from "infrastructure/dependencyInjection/resolver";
-import { validationMiddleware } from "presentation/middleware/validation.middleware";
 import {
   ForgotPasswordResetReqDTO,
   ForgotPasswordSendMailReqDTO,
@@ -13,6 +7,12 @@ import {
   ResendOtpReqDTO,
   UserRegisterDTO,
 } from "application/dto/requset/auth.dto";
+import { NextFunction, Request, Response, Router } from "express";
+import {
+  authController,
+  authMiddleware,
+} from "infrastructure/dependencyInjection/resolver";
+import { validationMiddleware } from "presentation/middleware/validation.middleware";
 
 export class AuthRoutes {
   private _router: Router;

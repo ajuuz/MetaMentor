@@ -1,3 +1,4 @@
+import { Transform, Type } from "class-transformer";
 import {
   ArrayMinSize,
   ArrayNotEmpty,
@@ -13,9 +14,9 @@ import {
   Min,
   ValidateIf,
 } from "class-validator";
-import { FilterReqDTO } from "./pagination.dto";
 import { MENTOR_APPLICATION_STATUS } from "shared/constants";
-import { Transform, Type } from "class-transformer";
+
+import { FilterReqDTO } from "./pagination.dto";
 
 ///------------------Admin---------------------------///
 export class GetAllMentorsReqDTO extends FilterReqDTO {

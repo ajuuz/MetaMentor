@@ -1,6 +1,5 @@
-import { IReviewEntity } from "domain/entities/reviewModel.entity";
-import { IReviewModel } from "infrastructure/database/models/bookedSlot.model";
 import { BookReviewReqDTO } from "application/dto/requset/payment.dto";
+import { IReviewModel } from "infrastructure/database/models/bookedSlot.model";
 
 
 export interface IBookReviewUsecase {

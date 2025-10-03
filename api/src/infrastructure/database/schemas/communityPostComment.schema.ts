@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { ICommunityPostCommentModel } from "../models/communityPostComment.model";
 
 export const communityPostCommentSchema = new mongoose.Schema<ICommunityPostCommentModel>({

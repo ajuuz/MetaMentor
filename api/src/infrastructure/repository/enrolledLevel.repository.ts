@@ -1,14 +1,16 @@
-import { BaseRepository } from "./base.repository";
-import { IEnrolledLevelRepository } from "domain/repositoryInterfaces/enrolledLevelRepository.interface";
 import {
   IEnrolledLevelEntity,
   IGetEnrolledLevel,
 } from "domain/entities/enrolledLevelModel";
+import { IEnrolledLevelRepository } from "domain/repositoryInterfaces/enrolledLevelRepository.interface";
+
 import {
   EnrolledLevelModel,
   IEnrolledLevelModel,
 } from "infrastructure/database/models/enrolledLevel.model";
 import mongoose from "mongoose";
+
+import { BaseRepository } from "./base.repository";
 
 export class EnrolledLevelRepository
   extends BaseRepository<IEnrolledLevelEntity, IEnrolledLevelModel>

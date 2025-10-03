@@ -1,10 +1,11 @@
+import { CustomError } from "domain/errors/customError";
+
 import { ITokenService } from "application/interfaces/service/tokenService.interface";
 import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import { ObjectId } from "mongoose";
 import ms from "ms";
 import { config } from "shared/config";
 import { ERROR_MESSAGE, HTTP_STATUS, ROLES } from "shared/constants";
-import { CustomError } from "domain/errors/customError";
 import { injectable } from "tsyringe";
 
 @injectable()

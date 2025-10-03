@@ -1,6 +1,7 @@
+import { ICommunityPostLikeEntity } from "domain/entities/communityPostLike.entity";
+
 import mongoose, { Document, ObjectId } from "mongoose";
 
-import { ICommunityPostLikeEntity } from "domain/entities/communityPostLike.entity";
 import { communityPostLikeSchema } from "../schemas/communityPostLike.schema";
 
 export interface ICommunityPostLikeModel

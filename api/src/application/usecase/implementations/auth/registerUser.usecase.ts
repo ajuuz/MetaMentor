@@ -1,17 +1,18 @@
 import { IUserEntity } from "domain/entities/user-model.entity";
+import { CustomError } from "domain/errors/customError";
 import { IOtpRespository } from "domain/repositoryInterfaces/otp-repository.interface";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
+
+import { UserRegisterDTO } from "application/dto/requset/auth.dto";
 import { IRegisterUserUsecase } from "application/usecase/interfaces/auth/registerUsecase.interface";
 import {
   EVENT_EMITTER_TYPE,
   HTTP_STATUS,
   MAIL_CONTENT_PURPOSE,
 } from "shared/constants";
-import { UserRegisterDTO } from "application/dto/requset/auth.dto";
-import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/contentProviders/mailContentProvider";
+import { eventBus } from "shared/eventBus";
 import { hashPassword } from "shared/utils/bcryptHelper";
-import { CustomError } from "domain/errors/customError";
 import {
   ISuccessResponseHandler,
   successResponseHandler,

@@ -1,4 +1,5 @@
 import { IStudentEntity } from "domain/entities/student-model.entity";
+
 import mongoose, { Document, ObjectId } from "mongoose";
 
 import { studentSchema } from "../schemas/student.schema";

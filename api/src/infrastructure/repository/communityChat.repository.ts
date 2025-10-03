@@ -1,15 +1,18 @@
-import { injectable } from "tsyringe";
-import { BaseRepository } from "./base.repository";
-import mongoose from "mongoose";
-import { ICommunityChatRepository } from "domain/repositoryInterfaces/communityChatRepository.interface";
 import {
   ICommunityChatEnitity,
   IGetCommunityChat,
 } from "domain/entities/communityChat.entity";
+import { ICommunityChatRepository } from "domain/repositoryInterfaces/communityChatRepository.interface";
+
 import {
   communityChatModel,
   ICommunityChatModel,
 } from "infrastructure/database/models/communityChat.model";
+import mongoose from "mongoose";
+import { injectable } from "tsyringe";
+
+import { BaseRepository } from "./base.repository";
+
 
 @injectable()
 export class CommunityChatRepository

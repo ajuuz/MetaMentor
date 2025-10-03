@@ -1,11 +1,12 @@
+import { IWalletEntity } from "domain/entities/walletModel.entity";
 import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
+
 import {
   IWalletModel,
   walletModel,
 } from "infrastructure/database/models/wallet.model";
 
 import { BaseRepository } from "./base.repository";
-import { IWalletEntity } from "domain/entities/walletModel.entity";
 
 export class WalletRepository
   extends BaseRepository<IWalletEntity, IWalletModel>
