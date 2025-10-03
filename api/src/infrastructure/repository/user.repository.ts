@@ -1,11 +1,12 @@
 import { IUserEntity } from "domain/entities/user-model.entity";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
+
+import { IuserRegisterData } from "application/dto/requset/auth.dto";
 import {
   IUserModel,
   userModel,
 } from "infrastructure/database/models/user.model";
 import { FilterQuery } from "mongoose";
-import { IuserRegisterData } from "application/dto/requset/auth.dto";
 import { injectable } from "tsyringe";
 
 @injectable()

@@ -1,6 +1,7 @@
-import { ICommonController } from "application/interfaces/controller/common/commonController.interface";
 import { ITransactionRepository } from "domain/repositoryInterfaces/transactionRepository.interface";
 import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
+
+import { ICommonController } from "application/interfaces/controller/common/commonController.interface";
 import { IUploadImageUsecase } from "application/usecase/interfaces/common/uploadImageUsecase.interface";
 import { NextFunction, Request, Response } from "express";
 import sseClientManager from "infrastructure/config/sse/sseClientManager.config";

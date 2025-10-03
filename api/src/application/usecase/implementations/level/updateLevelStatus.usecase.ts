@@ -1,6 +1,7 @@
-import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
-import { IUpdateLevelStatusUsecase } from "application/usecase/interfaces/level/updateLevelStatusUsecase.interface";
 import { ValidationError } from "domain/errors/validationError";
+import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
+
+import { IUpdateLevelStatusUsecase } from "application/usecase/interfaces/level/updateLevelStatusUsecase.interface";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

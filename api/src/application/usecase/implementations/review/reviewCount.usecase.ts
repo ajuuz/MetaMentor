@@ -1,6 +1,7 @@
-import { IReviewCountUsecase } from "application/usecase/interfaces/review/reviewCountUsecase.interface";
 import { IReviewEntity } from "domain/entities/reviewModel.entity";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
+
+import { IReviewCountUsecase } from "application/usecase/interfaces/review/reviewCountUsecase.interface";
 import { REVIEW_STATUS, ROLES } from "shared/constants";
 import { inject, injectable } from "tsyringe";
 

@@ -1,12 +1,15 @@
-import { Server as SocketIoServer } from "socket.io";
 import { Server as HTTPServer } from "http";
-import { config } from "shared/config";
+
+import { UserRepository } from "infrastructure/repository/user.repository";
+import { SocketChatController } from "presentation/socket/controller/socketChat.controller";
 import { SocketVideoCallController } from "presentation/socket/controller/socketVideoCall.controller";
 import { socketAuthMiddleware } from "presentation/socket/middleware/auth.middleware";
+import { config } from "shared/config";
+import { Server as SocketIoServer } from "socket.io";
 import { ModifiedSocket } from "type/types";
-import { UserRepository } from "infrastructure/repository/user.repository";
+
 import { videoRooms } from "./context";
-import { SocketChatController } from "presentation/socket/controller/socketChat.controller";
+
 
 export class SocketConfig {
   private static _io: SocketIoServer;
@@ -16,7 +19,7 @@ export class SocketConfig {
       SocketConfig._io = new SocketIoServer(server, {
         path: "/api/socket.io",
         cors: {
-          origin: [config.client.uri, "https://192.168.29.148:5173"],
+          origin: [config.client.uri, "https://192.168.10.161:5173"],
           credentials: true,
         },
       });

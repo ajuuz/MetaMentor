@@ -1,7 +1,8 @@
+import { ValidationError } from "domain/errors/validationError";
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
+
 import { IUpdateStudentStatusUsecase } from "application/usecase/interfaces/student/updateStudentStatusUsecase.interface";
-import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

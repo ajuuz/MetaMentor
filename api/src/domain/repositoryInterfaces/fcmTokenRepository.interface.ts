@@ -1,4 +1,5 @@
 import { IFcmTokenEntity } from "domain/entities/fcmTokenModel.entity";
+
 import { IFcmTokenModel } from "infrastructure/database/models/fcmToken.model";
 
 import { IBaseRepository } from "./baseRepository.interface";

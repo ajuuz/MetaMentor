@@ -1,12 +1,13 @@
-import { plainToInstance } from "class-transformer";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
+
+import { GetReviewsForStudResDTO } from "application/dto/response/review.dto";
 import { IGetReviewsForStudentUsecase } from "application/usecase/interfaces/review/getReviewsForStudentUsecase.interface";
+import { plainToInstance } from "class-transformer";
 import {
   PENDING_REVIEW_STATE,
   REVIEW_FILTER_STATUS,
   REVIEW_STATUS,
 } from "shared/constants";
-import { GetReviewsForStudResDTO } from "application/dto/response/review.dto";
 import { dateRangeCalculator } from "shared/utils/dateRangeCalculator";
 import { inject, injectable } from "tsyringe";
 
@@ -28,7 +29,7 @@ export class GetReviewsForStudentUsecase
     pendingReviewState?: PENDING_REVIEW_STATE | undefined
   ): Promise<{ reviews: GetReviewsForStudResDTO[]; totalPages: number }> {
     const skip: number = (currentPage - 1) * limit;
-    let filter: any = { studentId };
+    const filter: any = { studentId };
     switch (status) {
       case REVIEW_FILTER_STATUS.COMPLETED:
         filter.status = [REVIEW_STATUS.PASS, REVIEW_STATUS.FAIL];

@@ -1,22 +1,13 @@
+import { ICommunityChatRepository } from "domain/repositoryInterfaces/communityChatRepository.interface";
+
 import {
   chatRooms,
   chatRoomOnlineUsers,
 } from "infrastructure/config/socket/context";
-import { ModifiedSocket } from "type/types";
-import { Server as SocketIoServer } from "socket.io";
 import { CommunityChatRepository } from "infrastructure/repository/communityChat.repository";
-import { ICommunityChatRepository } from "domain/repositoryInterfaces/communityChatRepository.interface";
+import { Server as SocketIoServer } from "socket.io";
+import { ModifiedSocket } from "type/types";
 
-type ChatContextType = {
-  userKey: string;
-  socketId: string;
-};
-
-type ChatMessageType = {
-  senderName: string;
-  content: string;
-  createdAt: string;
-};
 
 export class SocketChatController {
   private _socket: ModifiedSocket;
@@ -33,8 +24,8 @@ export class SocketChatController {
     // -------------------- Join Chat Room --------------------
     this._socket.on(
       "chat:join",
-      async (payload: { userKey: string; roomId: string; userId: string }) => {
-        const { userKey, roomId, userId } = payload;
+      async (payload: { userKey: string; roomId: string }) => {
+        const { userKey, roomId } = payload;
         this._socket.roomId = roomId;
         const socketId = this._socket.id;
 

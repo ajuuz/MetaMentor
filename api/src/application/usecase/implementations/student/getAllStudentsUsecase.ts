@@ -1,9 +1,10 @@
-import { plainToInstance } from "class-transformer";
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
-import { IGetAllStudentsUsecase } from "application/usecase/interfaces/student/getAllStudentsUsecase.interface";
-import { SORT_ORDER } from "shared/constants";
+
 import { GetAllStudentReqDTO } from "application/dto/requset/student.dto";
 import { GetStudentsForAdminResDTO } from "application/dto/response/student.dto";
+import { IGetAllStudentsUsecase } from "application/usecase/interfaces/student/getAllStudentsUsecase.interface";
+import { plainToInstance } from "class-transformer";
+import { SORT_ORDER } from "shared/constants";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

@@ -1,5 +1,6 @@
-import { Worker } from "bullmq";
 import { INotificationEntity } from "domain/entities/notificationModel.entity";
+
+import { Worker } from "bullmq";
 import { bullRedisConfig } from "infrastructure/config/bullRedis/bullRedis.config";
 import { NotificationRepository } from "infrastructure/repository/notification.repository";
 import { ReviewRepository } from "infrastructure/repository/review.repository";

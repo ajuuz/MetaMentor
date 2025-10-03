@@ -1,9 +1,10 @@
-import { plainToInstance } from "class-transformer";
 import { IDomainEntity } from "domain/entities/domainModel.entity";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
-import { IGetUnblockedDomainsUsecase } from "application/usecase/interfaces/domain/getUnblockedDomainsUsecase.interface";
-import { SORT_ORDER } from "shared/constants";
+
 import { GetDomainsForStudResDTO } from "application/dto/response/domain.dto";
+import { IGetUnblockedDomainsUsecase } from "application/usecase/interfaces/domain/getUnblockedDomainsUsecase.interface";
+import { plainToInstance } from "class-transformer";
+import { SORT_ORDER } from "shared/constants";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

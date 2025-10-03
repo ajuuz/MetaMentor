@@ -1,14 +1,3 @@
-import { Router } from "express";
-import { upload } from "infrastructure/config/cloudinary/cloudinary.config";
-import {
-  authMiddleware,
-  mentorController,
-  mentorReviewController,
-  mentorSlotController,
-} from "infrastructure/dependencyInjection/resolver";
-import { formDataParserFormatter } from "presentation/middleware/imageFormatter.middleware";
-import { validationMiddleware } from "presentation/middleware/validation.middleware";
-import { ROLES } from "shared/constants";
 import { CreateMentorApplicationReqDTO } from "application/dto/requset/mentor.dto";
 import {
   CancelReviewByMentorReqDTO,
@@ -24,6 +13,17 @@ import {
   UpdateSlotReqDTO,
   UpdateSlotStatusReqDTO,
 } from "application/dto/requset/slot.dto";
+import { Router } from "express";
+import { upload } from "infrastructure/config/cloudinary/cloudinary.config";
+import {
+  authMiddleware,
+  mentorController,
+  mentorReviewController,
+  mentorSlotController,
+} from "infrastructure/dependencyInjection/resolver";
+import { formDataParserFormatter } from "presentation/middleware/imageFormatter.middleware";
+import { validationMiddleware } from "presentation/middleware/validation.middleware";
+import { ROLES } from "shared/constants";
 
 export class MentorRoutes {
   private _router: Router;

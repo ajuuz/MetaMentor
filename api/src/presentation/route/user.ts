@@ -1,22 +1,5 @@
-import { Router } from "express";
-import { upload } from "infrastructure/config/cloudinary/cloudinary.config";
-import {
-  authMiddleware,
-  userCommunityController,
-  userCommunityPostController,
-  userController,
-  userDomainController,
-  userEnrolledLevelController,
-  userMentorController,
-  userNotificationController,
-  userRescheduledReviewController,
-  userReviewController,
-  userSlotController,
-} from "infrastructure/dependencyInjection/resolver";
-import { formDataParserFormatter } from "presentation/middleware/imageFormatter.middleware";
-import { validationMiddleware } from "presentation/middleware/validation.middleware";
-import { ROLES } from "shared/constants";
 import { GetCommunitiesForStudReqDTO } from "application/dto/requset/community.dto";
+import { CreateCommunityPostReqDTO } from "application/dto/requset/communityPost.dto";
 import {
   EnrollDomainReqDTO,
   GetAllDomainsForStudReqDTO,
@@ -42,7 +25,24 @@ import {
   SlotValidityCheckReqDTO,
 } from "application/dto/requset/slot.dto";
 import { UpdateUserDetailsReqDTO } from "application/dto/requset/user.dto";
-import { CreateCommunityPostReqDTO } from "application/dto/requset/communityPost.dto";
+import { Router } from "express";
+import { upload } from "infrastructure/config/cloudinary/cloudinary.config";
+import {
+  authMiddleware,
+  userCommunityController,
+  userCommunityPostController,
+  userController,
+  userDomainController,
+  userEnrolledLevelController,
+  userMentorController,
+  userNotificationController,
+  userRescheduledReviewController,
+  userReviewController,
+  userSlotController,
+} from "infrastructure/dependencyInjection/resolver";
+import { formDataParserFormatter } from "presentation/middleware/imageFormatter.middleware";
+import { validationMiddleware } from "presentation/middleware/validation.middleware";
+import { ROLES } from "shared/constants";
 
 export class UserRoutes {
   private _router: Router;

@@ -1,4 +1,5 @@
 import { ISequenceNumberRepository } from "domain/repositoryInterfaces/sequenceNumberRepository.interface";
+
 import { SequenceNumberModel } from "infrastructure/database/models/sequenceNumber.model";
 
 export class SequenceNumberRepository implements ISequenceNumberRepository {

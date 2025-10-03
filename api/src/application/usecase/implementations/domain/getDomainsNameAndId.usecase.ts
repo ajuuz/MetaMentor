@@ -1,5 +1,6 @@
 import { IDomainEntity } from "domain/entities/domainModel.entity";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
+
 import { IGetAllDomainsNameAndIdUsecase } from "application/usecase/interfaces/domain/getDomainsNameAndIdUsecase.interface";
 import { inject, injectable } from "tsyringe";
 

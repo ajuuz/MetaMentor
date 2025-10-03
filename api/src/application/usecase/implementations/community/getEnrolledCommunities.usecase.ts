@@ -1,9 +1,11 @@
+import { IDomainEntity } from "domain/entities/domainModel.entity";
+import { NotFoundError } from "domain/errors/notFounError";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
+
 import { IGetEnrolledCommunitiesUsecase } from "application/usecase/interfaces/community/getEnrolledCommunitiesUsecase.interface";
-import { NotFoundError } from "domain/errors/notFounError";
 import { inject, injectable } from "tsyringe";
-import { IDomainEntity } from "domain/entities/domainModel.entity";
+
 
 @injectable()
 export class GetEnrolledCommunitiesUsecase

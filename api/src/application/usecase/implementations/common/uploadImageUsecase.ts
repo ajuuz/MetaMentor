@@ -1,5 +1,5 @@
-import { IUploadImageUsecase } from "application/usecase/interfaces/common/uploadImageUsecase.interface";
 import { MulterResDTO } from "application/dto/response/multer.dto";
+import { IUploadImageUsecase } from "application/usecase/interfaces/common/uploadImageUsecase.interface";
 import { injectable } from "tsyringe";
 
 @injectable()

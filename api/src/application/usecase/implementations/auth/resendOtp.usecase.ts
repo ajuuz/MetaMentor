@@ -1,9 +1,10 @@
+import { ValidationError } from "domain/errors/validationError";
 import { IOtpRespository } from "domain/repositoryInterfaces/otp-repository.interface";
+
 import { IResendOtpUsecase } from "application/usecase/interfaces/auth/resendOtpUsecase.interface";
 import { EVENT_EMITTER_TYPE, MAIL_CONTENT_PURPOSE } from "shared/constants";
-import { eventBus } from "shared/eventBus";
 import { mailContentProvider } from "shared/contentProviders/mailContentProvider";
-import { ValidationError } from "domain/errors/validationError";
+import { eventBus } from "shared/eventBus";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

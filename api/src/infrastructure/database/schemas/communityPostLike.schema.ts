@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { ICommunityPostLikeModel } from "../models/communityPostLike.model";
 
 export const communityPostLikeSchema =

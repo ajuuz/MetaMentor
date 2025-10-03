@@ -2,8 +2,8 @@ import {
   videoRooms,
   videoRoomsChat,
 } from "infrastructure/config/socket/context";
-import { ModifiedSocket } from "type/types";
 import { Server as SocketIoServer } from "socket.io";
+import { ModifiedSocket } from "type/types";
 export class SocketVideoCallController {
   private _socket: ModifiedSocket;
   private _io: SocketIoServer;

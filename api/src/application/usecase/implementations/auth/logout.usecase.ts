@@ -1,4 +1,5 @@
 import { IFcmTokenRepository } from "domain/repositoryInterfaces/fcmTokenRepository.interface";
+
 import { ILogoutUsecase } from "application/usecase/interfaces/auth/logoutUsecase.interface";
 import { inject, injectable } from "tsyringe";
 

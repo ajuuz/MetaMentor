@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { ICommunityChatModel } from "../models/communityChat.model";
 
 export const communityChatSchema = new mongoose.Schema<ICommunityChatModel>(

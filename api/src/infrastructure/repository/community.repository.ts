@@ -1,13 +1,15 @@
 import { ICommunityEntity } from "domain/entities/communityModel.entity";
 import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
+
 import {
   communityModel,
   ICommunityModel,
 } from "infrastructure/database/models/community.model";
+import { FilterQuery } from "mongoose";
+import { SORT_ORDER } from "shared/constants";
 
 import { BaseRepository } from "./base.repository";
-import { SORT_ORDER } from "shared/constants";
-import { FilterQuery } from "mongoose";
+
 
 export class CommunityRepository
   extends BaseRepository<ICommunityEntity, ICommunityModel>
@@ -37,7 +39,7 @@ export class CommunityRepository
       mongoFilter["domain.name"] = { $regex: filter.searchTerm, $options: "i" };
     }
 
-    let sortOption: Record<string, 1 | -1> = {};
+    const sortOption: Record<string, 1 | -1> = {};
     if (sort.field === "name") {
       sortOption["domain.name"] = sort.order === SORT_ORDER.ASC ? 1 : -1;
     } else {

@@ -1,6 +1,7 @@
+import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
+
 import { IGetReviewGrowthUsecase } from "application/usecase/interfaces/review/getReviewGrowthUsecase.interface";
 import { endOfDay, startOfDay, subDays, subMonths, subYears } from "date-fns";
-import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
 import { ROLES, TIME_PERIOD, TIME_PERIOD_GROUP_BY } from "shared/constants";
 import { inject, injectable } from "tsyringe";
 

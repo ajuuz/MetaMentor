@@ -2,11 +2,12 @@ import {
   IGetStudentsForAdmin,
   IStudentEntity,
 } from "domain/entities/student-model.entity";
+
 import { IStudentModel } from "infrastructure/database/models/student.model";
 import { ObjectId } from "mongoose";
+import { SORT_ORDER } from "shared/constants";
 
 import { IBaseRepository } from "./baseRepository.interface";
-import { SORT_ORDER } from "shared/constants";
 
 export interface IStudentRepository
   extends IBaseRepository<IStudentEntity, IStudentModel> {

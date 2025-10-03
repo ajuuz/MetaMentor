@@ -1,4 +1,5 @@
 import { ICommunityEntity } from "domain/entities/communityModel.entity";
+
 import mongoose, { Document, ObjectId } from "mongoose";
 
 import { communitySchema } from "../schemas/community.schema";

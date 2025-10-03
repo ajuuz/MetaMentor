@@ -1,5 +1,6 @@
 import { INotificationEntity } from "domain/entities/notificationModel.entity";
 import { INotificationRepository } from "domain/repositoryInterfaces/notificationRepository.interface";
+
 import { ICreateNotificationUsecase } from "application/usecase/interfaces/notification/createNotificationUsecase.interface";
 import { inject, injectable } from "tsyringe";
 

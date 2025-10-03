@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { ISequenceNumberModel } from "../models/sequenceNumber.model";
 
 export const sequenceNumberSchema = new mongoose.Schema<ISequenceNumberModel>({

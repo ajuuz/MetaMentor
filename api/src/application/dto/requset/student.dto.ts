@@ -1,6 +1,7 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from "class-validator";
-import { FilterReqDTO } from "./pagination.dto";
 import { Transform } from "class-transformer";
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from "class-validator";
+
+import { FilterReqDTO } from "./pagination.dto";
 
 
 export class GetAllStudentReqDTO extends FilterReqDTO{

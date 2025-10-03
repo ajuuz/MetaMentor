@@ -1,6 +1,6 @@
 //student
+import { Type } from "class-transformer";
 import {
-  isEnum,
   IsEnum,
   IsISO8601,
   IsNotEmpty,
@@ -12,7 +12,6 @@ import {
   ValidateIf,
   ValidateNested,
 } from "class-validator";
-import { FilterReqDTO } from "./pagination.dto";
 import {
   DATE_RANGE,
   PENDING_REVIEW_STATE,
@@ -21,8 +20,9 @@ import {
   TIME_PERIOD,
   TIME_PERIOD_GROUP_BY,
 } from "shared/constants";
+
+import { FilterReqDTO } from "./pagination.dto";
 import { ReviewSlotReqDTO } from "./payment.dto";
-import { Type } from "class-transformer";
 
 export class GetAllReviewsForStudReqDTO extends FilterReqDTO {
   @IsEnum(REVIEW_FILTER_STATUS)

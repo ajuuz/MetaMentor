@@ -1,7 +1,7 @@
 import { IAdminMentorController } from "application/interfaces/controller/admin/adminMentorController.interface";
 import { IAcceptMentorApplicationUsecase } from "application/usecase/interfaces/mentor/acceptMentorApplicationUsecase.interface";
-import { IGetMentorsForAdminUsecase } from "application/usecase/interfaces/mentor/getMentorsForAdmin.interface";
 import { IGetMentorApplicationDetailsUsecase } from "application/usecase/interfaces/mentor/getMentorApplicationDetailsUsecase.interface";
+import { IGetMentorsForAdminUsecase } from "application/usecase/interfaces/mentor/getMentorsForAdmin.interface";
 import { IRejectMentorApplicationUsecase } from "application/usecase/interfaces/mentor/rejectMentorApplication.interface";
 import { IUpdateMentorStatusUsecase } from "application/usecase/interfaces/mentor/updateMentorStatusUsecase.interface";
 import { NextFunction, Request, Response } from "express";

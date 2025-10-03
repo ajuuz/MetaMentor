@@ -1,7 +1,8 @@
+import { ITransactionEntity } from "domain/entities/transactionModel.entity";
 import { ITransactionRepository } from "domain/repositoryInterfaces/transactionRepository.interface";
+
 import { ICreateTransactionUsecase } from "application/usecase/interfaces/transaction/createTransactionUsecase.interface";
 import { inject, injectable } from "tsyringe";
-import { ITransactionEntity } from "domain/entities/transactionModel.entity";
 
 @injectable()
 export class CreateTransactionUsecase implements ICreateTransactionUsecase {

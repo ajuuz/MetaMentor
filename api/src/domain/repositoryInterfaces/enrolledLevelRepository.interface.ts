@@ -2,8 +2,10 @@ import {
   IEnrolledLevelEntity,
   IGetEnrolledLevel,
 } from "domain/entities/enrolledLevelModel";
-import { IBaseRepository } from "./baseRepository.interface";
+
 import { IEnrolledLevelModel } from "infrastructure/database/models/enrolledLevel.model";
+
+import { IBaseRepository } from "./baseRepository.interface";
 
 export interface IEnrolledLevelRepository
   extends IBaseRepository<IEnrolledLevelEntity, IEnrolledLevelModel> {

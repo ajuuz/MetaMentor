@@ -1,9 +1,10 @@
-import { plainToInstance } from "class-transformer";
+import { NotFoundError } from "domain/errors/notFounError";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
-import { IGetEnrolledDomainsUsecase } from "application/usecase/interfaces/domain/getDomainDashboardUsecase.interface";
+
 import { GetEnrolledDomainsResDTO } from "application/dto/response/domain.dto";
-import { NotFoundError } from "domain/errors/notFounError";
+import { IGetEnrolledDomainsUsecase } from "application/usecase/interfaces/domain/getDomainDashboardUsecase.interface";
+import { plainToInstance } from "class-transformer";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

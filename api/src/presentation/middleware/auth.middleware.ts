@@ -1,12 +1,13 @@
-import { IAuthMiddleware } from "application/interfaces/middleware/authMiddleware.interface";
+import { AuthError } from "domain/errors/authError";
 import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
+
+import { IAuthMiddleware } from "application/interfaces/middleware/authMiddleware.interface";
 import { ITokenService } from "application/interfaces/service/tokenService.interface";
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { ERROR_MESSAGE, HTTP_STATUS, ROLES } from "shared/constants";
 import { clearCookies } from "shared/utils/cookeHelper";
-import { AuthError } from "domain/errors/authError";
 import { inject, injectable } from "tsyringe";
 import { ModifiedRequest } from "type/types";
 

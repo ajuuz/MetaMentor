@@ -5,6 +5,7 @@ import {
   IMentorEntity,
 } from "domain/entities/mentor-model.entity";
 import { IMentorRepository } from "domain/repositoryInterfaces/mentorRepository.interface";
+
 import {
   IMentorModel,
   mentorModel,
@@ -12,6 +13,7 @@ import {
 import mongoose, { FilterQuery, Types } from "mongoose";
 import { SORT_ORDER } from "shared/constants";
 import { injectable } from "tsyringe";
+
 import { BaseRepository } from "./base.repository";
 
 @injectable()
@@ -146,7 +148,7 @@ export class MentorRepository
       }
     });
 
-    let sortOption: Record<string, 1 | -1> = {};
+    const sortOption: Record<string, 1 | -1> = {};
     if (sort.field === "name") {
       sortOption["user.name"] = sort.order === SORT_ORDER.ASC ? 1 : -1;
     } else {

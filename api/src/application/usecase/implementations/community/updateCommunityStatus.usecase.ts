@@ -1,6 +1,7 @@
-import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
-import { IUpdateCommunityStatusUsecase } from "application/usecase/interfaces/community/updateCommunityUsecase.interface";
 import { ValidationError } from "domain/errors/validationError";
+import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
+
+import { IUpdateCommunityStatusUsecase } from "application/usecase/interfaces/community/updateCommunityUsecase.interface";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

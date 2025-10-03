@@ -1,8 +1,9 @@
 import { IUserEntity } from "domain/entities/user-model.entity";
-import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
-import { IUpdateUserUsecase } from "application/usecase/interfaces/user/updateUserUsecase.interface";
-import { UpdateUserDetailsReqDTO } from "application/dto/requset/user.dto";
 import { ValidationError } from "domain/errors/validationError";
+import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
+
+import { UpdateUserDetailsReqDTO } from "application/dto/requset/user.dto";
+import { IUpdateUserUsecase } from "application/usecase/interfaces/user/updateUserUsecase.interface";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

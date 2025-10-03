@@ -19,6 +19,7 @@ import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.inte
 import { ITransactionRepository } from "domain/repositoryInterfaces/transactionRepository.interface";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
 import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.inteface";
+
 import { BlackListTokenRepository } from "infrastructure/repository/blackListToken.repository";
 import { CommentRepository } from "infrastructure/repository/comment.repository";
 import { CommunityRepository } from "infrastructure/repository/community.repository";

@@ -6,8 +6,8 @@ import { IGetSpecificDomainUsecase } from "application/usecase/interfaces/domain
 import { IGetUnblockedDomainsUsecase } from "application/usecase/interfaces/domain/getUnblockedDomainsUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS, SUCCESS_MESSAGE } from "shared/constants";
-import { ModifiedRequest } from "type/types";
 import { inject, injectable } from "tsyringe";
+import { ModifiedRequest } from "type/types";
 
 @injectable()
 export class UserDomainController implements IUserDomainController {

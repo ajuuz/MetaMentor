@@ -1,15 +1,16 @@
-import { plainToInstance } from "class-transformer";
 import { IDomainEntity } from "domain/entities/domainModel.entity";
 import { IGetReviewsForStudAndDomain } from "domain/entities/reviewModel.entity";
+import { NotFoundError } from "domain/errors/notFounError";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import { IEnrolledLevelRepository } from "domain/repositoryInterfaces/enrolledLevelRepository.interface";
 import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
-import { IGetDomainInsightUsecase } from "application/usecase/interfaces/domain/getDomainInsightUsecase.interface";
+
 import { GetDomainResDTO } from "application/dto/response/domain.dto";
 import { EnrolledLevelResDTO } from "application/dto/response/enrolledLevel.dto";
 import { GetReviewsForStudAndDomainResDTO } from "application/dto/response/review.dto";
-import { NotFoundError } from "domain/errors/notFounError";
+import { IGetDomainInsightUsecase } from "application/usecase/interfaces/domain/getDomainInsightUsecase.interface";
+import { plainToInstance } from "class-transformer";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

@@ -1,12 +1,13 @@
 import { ISlotEntity, ISlotTime } from "domain/entities/slotModel.entity";
-import { ISlotModel } from "infrastructure/database/models/slot.model";
-import { BaseRepository } from "interfaceAdapters/repositories/base.repository";
-import { DAYS } from "shared/constants";
+
 import {
   DomainSlotsResponseDTO,
   SlotDTO,
   WeekSlotsRequestDTO,
 } from "application/dto/slotDTO";
+import { ISlotModel } from "infrastructure/database/models/slot.model";
+import { BaseRepository } from "interfaceAdapters/repositories/base.repository";
+import { DAYS } from "shared/constants";
 
 export interface ISlotRepository
   extends BaseRepository<ISlotEntity, ISlotModel> {

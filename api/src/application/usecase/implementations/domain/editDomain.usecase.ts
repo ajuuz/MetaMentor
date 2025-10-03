@@ -2,8 +2,9 @@ import { IDomainEntity } from "domain/entities/domainModel.entity";
 import { ICreateLevelEntity } from "domain/entities/levelModel.entity";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
-import { IEditDomainUsecase } from "application/usecase/interfaces/domain/editDomainUsecase";
+
 import { EditDomainReqDTO } from "application/dto/requset/domain.dto";
+import { IEditDomainUsecase } from "application/usecase/interfaces/domain/editDomainUsecase";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

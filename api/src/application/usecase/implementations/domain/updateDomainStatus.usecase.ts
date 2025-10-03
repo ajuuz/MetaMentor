@@ -1,6 +1,7 @@
-import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
-import { IUpdateDomainStatusUsecase } from "application/usecase/interfaces/domain/updateDomainStatusUsecase.interface";
 import { ValidationError } from "domain/errors/validationError";
+import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
+
+import { IUpdateDomainStatusUsecase } from "application/usecase/interfaces/domain/updateDomainStatusUsecase.interface";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

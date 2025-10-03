@@ -1,5 +1,6 @@
 import { ISlotTime } from "domain/entities/slotModel.entity";
 import { ISlotRepository } from "domain/repositoryInterfaces/slotRepository.interface";
+
 import { IGetSlotsForStudUsecase } from "application/usecase/interfaces/slot/getSlotsForStudUsecase.interface";
 import { DAYS } from "shared/constants";
 import { inject, injectable } from "tsyringe";

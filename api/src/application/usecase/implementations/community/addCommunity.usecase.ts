@@ -1,7 +1,8 @@
 import { ICommunityEntity } from "domain/entities/communityModel.entity";
-import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
-import { IAddCommunityUsecase } from "application/usecase/interfaces/community/addCommunityUsecase.interface";
 import { ValidationError } from "domain/errors/validationError";
+import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
+
+import { IAddCommunityUsecase } from "application/usecase/interfaces/community/addCommunityUsecase.interface";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

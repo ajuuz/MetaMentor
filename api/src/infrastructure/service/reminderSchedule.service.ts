@@ -1,5 +1,6 @@
-import { IReminderScheduleService } from "application/interfaces/service/reminderScheduleService.interface";
 import { ICreateReviewPoplutedEntity } from "domain/entities/reviewModel.entity";
+
+import { IReminderScheduleService } from "application/interfaces/service/reminderScheduleService.interface";
 import { reminderQueue } from "infrastructure/queues/reminder.queue";
 import { injectable } from "tsyringe";
 

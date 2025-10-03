@@ -1,7 +1,9 @@
-import { inject, injectable } from "tsyringe";
-import { ICommunityPostRepository } from "domain/repositoryInterfaces/communityPostRepository.interface";
-import { IGetCommunityPostsUsecase } from "application/usecase/interfaces/communityPost/getCommunityPostsUsecase.interface";
 import { IGetCommunityPost } from "domain/entities/communityPostModel.entity";
+import { ICommunityPostRepository } from "domain/repositoryInterfaces/communityPostRepository.interface";
+
+import { IGetCommunityPostsUsecase } from "application/usecase/interfaces/communityPost/getCommunityPostsUsecase.interface";
+import { inject, injectable } from "tsyringe";
+
 
 @injectable()
 export class GetCommunityPostsUsecase implements IGetCommunityPostsUsecase {

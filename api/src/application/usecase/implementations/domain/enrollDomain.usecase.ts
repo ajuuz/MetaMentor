@@ -1,9 +1,10 @@
 import { IEnrolledLevelEntity } from "domain/entities/enrolledLevelModel";
+import { ValidationError } from "domain/errors/validationError";
 import { IEnrolledLevelRepository } from "domain/repositoryInterfaces/enrolledLevelRepository.interface";
 import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
 import { IStudentRepository } from "domain/repositoryInterfaces/student-repository.interface";
+
 import { IEnrollDomainUsecase } from "application/usecase/interfaces/domain/enrollDomainUsecase.interface";
-import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

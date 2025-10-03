@@ -4,8 +4,9 @@ import { ICreateLevelEntity } from "domain/entities/levelModel.entity";
 import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
 import { ILevelRepository } from "domain/repositoryInterfaces/levelRepository.interface";
-import { IAddDomainUsecase } from "application/usecase/interfaces/domain/addDomainUsecase.interface";
+
 import { CreateDomainReqDTO } from "application/dto/requset/domain.dto";
+import { IAddDomainUsecase } from "application/usecase/interfaces/domain/addDomainUsecase.interface";
 import { inject, injectable } from "tsyringe";
 
 type CreateCommunity = Omit<ICommunityEntity, "_id" | "isBlocked">;

@@ -1,4 +1,5 @@
 import { IFcmTokenRepository } from "domain/repositoryInterfaces/fcmTokenRepository.interface";
+
 import { ISaveFcmTokenUsecase } from "application/usecase/interfaces/fcmToken/saveFcmTokenUsecase.interface";
 import { inject, injectable } from "tsyringe";
 

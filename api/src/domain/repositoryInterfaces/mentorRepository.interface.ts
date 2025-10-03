@@ -4,9 +4,11 @@ import {
   IGetMentors,
   IMentorEntity,
 } from "domain/entities/mentor-model.entity";
-import { SORT_ORDER } from "shared/constants";
-import { IBaseRepository } from "./baseRepository.interface";
+
 import { IMentorModel } from "infrastructure/database/models/mentor.model";
+import { SORT_ORDER } from "shared/constants";
+
+import { IBaseRepository } from "./baseRepository.interface";
 
 export interface IMentorRepository
   extends IBaseRepository<IMentorEntity, IMentorModel> {

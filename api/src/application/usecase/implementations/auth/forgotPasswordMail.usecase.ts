@@ -1,11 +1,12 @@
+import { NotFoundError } from "domain/errors/notFounError";
+import { ValidationError } from "domain/errors/validationError";
 import { IUserRespository } from "domain/repositoryInterfaces/user-repository.interface";
+
 import { IEmailService } from "application/interfaces/service/email-service.interface";
 import { ITokenService } from "application/interfaces/service/tokenService.interface";
 import { IForgotPasswordSendMailUsecase } from "application/usecase/interfaces/auth/forgotPasswordMailUsecase.interface";
 import { MAIL_CONTENT_PURPOSE } from "shared/constants";
 import { mailContentProvider } from "shared/contentProviders/mailContentProvider";
-import { NotFoundError } from "domain/errors/notFounError";
-import { ValidationError } from "domain/errors/validationError";
 import { inject, injectable } from "tsyringe";
 
 @injectable()

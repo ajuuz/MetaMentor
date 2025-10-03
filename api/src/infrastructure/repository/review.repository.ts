@@ -7,6 +7,7 @@ import {
   ICreateReviewPoplutedEntity,
 } from "domain/entities/reviewModel.entity";
 import { IReviewRepository } from "domain/repositoryInterfaces/reviewRepository.interface";
+
 import {
   reviewModel,
   IReviewModel,
@@ -546,7 +547,7 @@ export class ReviewRepository
     filters: Partial<Pick<IReviewEntity, "studentId" | "mentorId">>
   ): Promise<{ _id: REVIEW_STATUS; count: number }[]> {
     const mongoFilter: FilterQuery<IReviewEntity> = {};
-    for (let key in filters) {
+    for (const key in filters) {
       const value = filters[key as keyof typeof filters];
       mongoFilter[key] = new mongoose.Types.ObjectId(value);
     }

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
+import { LEVEL_TASK_TYPE } from "shared/constants";
 
 import { ILevelModel } from "../models/level.model";
-import { LEVEL_TASK_TYPE } from "shared/constants";
 
 const taskSchema = new mongoose.Schema({
   type: {

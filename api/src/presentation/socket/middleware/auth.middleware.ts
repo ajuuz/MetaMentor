@@ -1,7 +1,8 @@
-import cookie from "cookie";
 import { CustomError } from "domain/errors/customError";
-import { JwtPayload } from "jsonwebtoken"; // if using jsonwebtoken
+
+import cookie from "cookie";
 import { TokenService } from "infrastructure/service/token.service";
+import { JwtPayload } from "jsonwebtoken"; // if using jsonwebtoken
 import { ModifiedSocket } from "type/types";
 
 

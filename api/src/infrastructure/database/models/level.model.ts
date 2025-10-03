@@ -1,4 +1,5 @@
 import { ILevelEntity } from "domain/entities/levelModel.entity";
+
 import mongoose, { Document, ObjectId } from "mongoose";
 
 import { levelSchema } from "../schemas/level.schema";

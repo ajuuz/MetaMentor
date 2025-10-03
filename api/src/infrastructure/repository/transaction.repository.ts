@@ -1,5 +1,6 @@
 import { ITransactionEntity } from "domain/entities/transactionModel.entity";
 import { ITransactionRepository } from "domain/repositoryInterfaces/transactionRepository.interface";
+
 import { transactionModel } from "infrastructure/database/models/transaction.model";
 import mongoose from "mongoose";
 import { injectable } from "tsyringe";

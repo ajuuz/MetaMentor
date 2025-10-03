@@ -1,3 +1,7 @@
+import {
+  RazorPayCreateOrderReqDTO,
+  VerifyPaymentReqDTO,
+} from "application/dto/requset/payment.dto";
 import { Router } from "express";
 import {
   authMiddleware,
@@ -5,10 +9,6 @@ import {
 } from "infrastructure/dependencyInjection/resolver";
 import { validationMiddleware } from "presentation/middleware/validation.middleware";
 import { ROLES } from "shared/constants";
-import {
-  RazorPayCreateOrderReqDTO,
-  VerifyPaymentReqDTO,
-} from "application/dto/requset/payment.dto";
 
 export class PaymentRoutes {
   private _router: Router;

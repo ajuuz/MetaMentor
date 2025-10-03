@@ -1,5 +1,7 @@
-import mongoose, { Document, ObjectId } from "mongoose";
 import { ICommunityChatEnitity } from "domain/entities/communityChat.entity";
+
+import mongoose, { Document, ObjectId } from "mongoose";
+
 import { communityChatSchema } from "../schemas/communityChat.schema";
 
 export interface ICommunityChatModel
