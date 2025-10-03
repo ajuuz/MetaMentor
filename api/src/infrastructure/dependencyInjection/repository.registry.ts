@@ -1,5 +1,7 @@
 import { IBlackListTokenRepository } from "domain/repositoryInterfaces/blackListTokenRepository.interface";
 import { ICommentRepository } from "domain/repositoryInterfaces/commentRepository.interface";
+import { ICommunityChatRepository } from "domain/repositoryInterfaces/communityChatRepository.interface";
+import { ICommunityPostLikeRepository } from "domain/repositoryInterfaces/communityPostLikeRepository.interface";
 import { ICommunityPostRepository } from "domain/repositoryInterfaces/communityPostRepository.interface";
 import { ICommunityRepository } from "domain/repositoryInterfaces/communityRepository.interface";
 import { IDomainRepository } from "domain/repositoryInterfaces/domainRepository.interface";
@@ -20,7 +22,9 @@ import { IWalletRepository } from "domain/repositoryInterfaces/walletRepository.
 import { BlackListTokenRepository } from "infrastructure/repository/blackListToken.repository";
 import { CommentRepository } from "infrastructure/repository/comment.repository";
 import { CommunityRepository } from "infrastructure/repository/community.repository";
+import { CommunityChatRepository } from "infrastructure/repository/communityChat.repository";
 import { CommunityPostRepository } from "infrastructure/repository/communityPost.repository";
+import { CommunityPostLikeRepository } from "infrastructure/repository/communityPostLike.repository";
 import { DomainRepository } from "infrastructure/repository/domain.repository";
 import { EnrolledLevelRepository } from "infrastructure/repository/enrolledLevel.repository";
 import { FcmTokenRepository } from "infrastructure/repository/fcmToken.repository";
@@ -66,7 +70,7 @@ export class RepositoryRegistry {
     });
 
     container.register<IDomainRepository>("IDomainRepository", {
-      useClass: DomainRepository, 
+      useClass: DomainRepository,
     });
 
     container.register<ILevelRepository>("ILevelRepository", {
@@ -103,6 +107,12 @@ export class RepositoryRegistry {
 
     container.register<ICommunityPostRepository>("ICommunityPostRepository", {
       useClass: CommunityPostRepository,
+    });
+    container.register<ICommunityPostLikeRepository>("ICommunityPostLikeRepository", {
+      useClass: CommunityPostLikeRepository,
+    });
+    container.register<ICommunityChatRepository>("ICommunityChatRepository", {
+      useClass: CommunityChatRepository,
     });
     container.register<ICommentRepository>("ICommentRepository", {
       useClass: CommentRepository,

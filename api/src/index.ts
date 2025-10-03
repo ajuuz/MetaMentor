@@ -10,8 +10,8 @@ import { SocketConfig } from "infrastructure/config/socket/socket.config";
 import fs from "fs";
 
 const options = {
-  key: fs.readFileSync("../certs/192.168.10.161-key.pem"),
-  cert: fs.readFileSync("../certs/192.168.10.161.pem"),
+  key: fs.readFileSync("../certs/192.168.29.148-key.pem"),
+  cert: fs.readFileSync("../certs/192.168.29.148.pem"),
 };
 const app = new App().getApp();
 const server = https.createServer(options, app);

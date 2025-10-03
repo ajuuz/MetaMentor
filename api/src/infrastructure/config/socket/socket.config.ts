@@ -6,6 +6,7 @@ import { socketAuthMiddleware } from "presentation/socket/middleware/auth.middle
 import { ModifiedSocket } from "type/types";
 import { UserRepository } from "infrastructure/repository/user.repository";
 import { videoRooms } from "./context";
+import { SocketChatController } from "presentation/socket/controller/socketChat.controller";
 
 export class SocketConfig {
   private static _io: SocketIoServer;
@@ -15,7 +16,7 @@ export class SocketConfig {
       SocketConfig._io = new SocketIoServer(server, {
         path: "/api/socket.io",
         cors: {
-          origin: [config.client.uri, "https://192.168.10.161:5173"],
+          origin: [config.client.uri, "https://192.168.29.148:5173"],
           credentials: true,
         },
       });
@@ -40,8 +41,13 @@ export class SocketConfig {
         socket,
         SocketConfig._io
       );
+      const chatController = new SocketChatController(
+        socket,
+        SocketConfig._io
+      );
 
       videoCallController.registerVideoCallConnectionHandlers();
+      chatController.registerChatRoomConnectionHandlers();
 
       socket.on("disconnect", () => {
         console.log("Disconnected: ", socket.userName);

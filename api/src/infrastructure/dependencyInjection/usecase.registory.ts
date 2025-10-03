@@ -134,9 +134,19 @@ import { RescheduleReviewSubmitByMentor } from "application/usecase/implementati
 import { IGetReviewForStudentUsecase } from "application/usecase/interfaces/review/getReviewForStudentUsecase.interface";
 import { GetReviewForStudentUsecase } from "application/usecase/implementations/review/getReviewForStudent.usecase";
 import { IReviewCountUsecase } from "application/usecase/interfaces/review/reviewCountUsecase.interface";
-import { ReviewCountUsecase } from "application/usecase/implementations/review/ReviewCount.usecase";
 import { IGetReviewGrowthUsecase } from "application/usecase/interfaces/review/getReviewGrowthUsecase.interface";
 import { GetReviewGrowthUsecase } from "application/usecase/implementations/review/getReviewGrowth.usecase";
+import { ReviewCountUsecase } from "application/usecase/implementations/review/reviewCount.usecase";
+import { ICreateAPostUsecase } from "application/usecase/interfaces/communityPost/createAPostUsecase.interface";
+import { CreateAPostUsecase } from "application/usecase/implementations/communityPost/createAPost.usecase";
+import { IGetCommunityPostsUsecase } from "application/usecase/interfaces/communityPost/getCommunityPostsUsecase.interface";
+import { GetCommunityPostsUsecase } from "application/usecase/implementations/communityPost/getCommunityPosts.usecase";
+import { IGetCommunityChatsUsecase } from "application/usecase/interfaces/communityChat/getCommunityChatsUsecase.interface";
+import { GetCommunityChatsUsecase } from "application/usecase/implementations/communityChat/getCommunityChatsUsecase.interface";
+import { IManageLikeUsecase } from "application/usecase/interfaces/communityPost/manageLikeUsecase.interface";
+import { ManageLikeUsecase } from "application/usecase/implementations/communityPost/manageLike.usecase";
+import { IGetPostLikesUsecase } from "application/usecase/interfaces/communityPost/getPostLikesUsecase.interface";
+import { GetPostLikesUsecase } from "application/usecase/implementations/communityPost/getPostLikes.usecase";
 
 export class UseCaseRegistory {
   static registerUsecases(): void {
@@ -497,6 +507,22 @@ export class UseCaseRegistory {
         useClass: RescheduleReviewSubmitByMentor,
       }
     );
+
+    container.register<ICreateAPostUsecase>("ICreateAPostUsecase", {
+      useClass: CreateAPostUsecase,
+    });
+    container.register<IGetCommunityPostsUsecase>("IGetCommunityPostsUsecase", {
+      useClass: GetCommunityPostsUsecase,
+    });
+    container.register<IManageLikeUsecase>("IManageLikeUsecase", {
+      useClass: ManageLikeUsecase,
+    });
+    container.register<IGetPostLikesUsecase>("IGetPostLikesUsecase", {
+      useClass: GetPostLikesUsecase,
+    });
+    container.register<IGetCommunityChatsUsecase>("IGetCommunityChatsUsecase", {
+      useClass: GetCommunityChatsUsecase,
+    });
 
     //========================common usecase================/////////////
     container.register<IUploadImageUsecase>("IUploadImageUsecase", {

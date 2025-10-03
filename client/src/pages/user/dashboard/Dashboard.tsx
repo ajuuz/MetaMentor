@@ -163,7 +163,7 @@ const Dashboard = () => {
       </div>
       <div className="flex flex-col justify-center items-center gap-5 relative -top-30">
         {domains?.map((domain) => (
-          <DomainCard domain={domain} />
+          <DomainCard domain={domain} isEnrolled={true}/>
         ))}
       </div>
 

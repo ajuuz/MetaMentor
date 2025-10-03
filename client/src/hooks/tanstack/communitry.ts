@@ -1,7 +1,8 @@
 import { getAllCommunities } from "@/services/adminService.ts/communityApi";
-import { getEnrolledCommunities } from "@/services/userService/communityApi";
+import { getCommunityChats, getEnrolledCommunities } from "@/services/userService/communityApi";
 import type { GetAllCommunity } from "@/types/communityTypes";
 import type { DomainEntity } from "@/types/domainTypes";
+import type { IGetCommunityChat } from "@/types/entity/communityChat";
 import { useQuery } from "@tanstack/react-query";
 
 //admin
@@ -16,6 +17,13 @@ export const useGetAllCommunitiesForStudentQuery=(currentPage:number,limit:numbe
     return useQuery<DomainEntity>({
         queryKey:['enrolledDomains',currentPage,limit],
         queryFn:()=> getEnrolledCommunities(currentPage,limit)
+    })
+};
+
+export const useGetCommunityChatForStudentQuery=(communityId:string)=>{
+    return useQuery<IGetCommunityChat[]>({
+        queryKey:['getCommunityChat'],
+        queryFn:()=> getCommunityChats(communityId)
     })
 };
 

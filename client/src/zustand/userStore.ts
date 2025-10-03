@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 export type UserType = {
+  _id:string
   name: string;
   email: string;
   role: "user" | "admin" | "mentor";
