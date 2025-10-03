@@ -25,6 +25,7 @@ import StudentReviewsPage from "@/pages/user/reviews/Reviews";
 import UserWallet from "@/pages/user/wallet/UserWallet";
 import ReviewsPage from "@/pages/user/review/Review";
 import VideoCallPage from "@/pages/user/videoCall/VideoCallPage";
+import ChatRoom from "@/pages/user/chat/ChatRoom";
 
 const UserRoutes = () => {
   return (
@@ -100,6 +101,7 @@ const UserRoutes = () => {
 
 
         <Route path='/call/:roomId' element={<VideoCallPage/>}/>
+        <Route path='/chat/:communityId' element={<ChatRoom/>}/>
 
 
       </Routes>

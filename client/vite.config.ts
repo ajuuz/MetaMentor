@@ -14,10 +14,10 @@ export default defineConfig({
   },
   server: {
     https: {
-      key: fs.readFileSync("../certs/192.168.10.161-key.pem"),
-      cert: fs.readFileSync("../certs/192.168.10.161.pem"),
+      key: fs.readFileSync("../certs/192.168.29.148-key.pem"),
+      cert: fs.readFileSync("../certs/192.168.29.148.pem"),
     },
-    host: "192.168.10.161",
+    host: "192.168.29.148",
     port: 5173,
   },
 });

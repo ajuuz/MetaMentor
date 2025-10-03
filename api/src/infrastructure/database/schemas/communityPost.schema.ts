@@ -9,7 +9,7 @@ export const communityPostSchema = new mongoose.Schema<ICommunityPostModel>({
   },
   studentId: {
     type: mongoose.Schema.ObjectId,
-    ref: "domains",
+    ref: "users",
     required: true,
   },
   title: {

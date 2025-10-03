@@ -14,7 +14,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!user) return;
-    const socketInstance = io("https://192.168.10.161:4000", {
+    const socketInstance = io("https://192.168.29.148:4000", {
       path: "/api/socket.io",
       withCredentials: true, // if cookies are used
     });

@@ -53,6 +53,8 @@ import { IUserRescheduledReviewController } from "application/interfaces/control
 import { UserRescheduledReviewController } from "presentation/controller/user/rescheduledReview.controller";
 import { IAdminReviewController } from "application/interfaces/controller/admin/reviewController.interface";
 import { AdminReviewController } from "presentation/controller/admin/review.controller";
+import { IUserCommunityPostController } from "application/interfaces/controller/user/communityPostController.interface";
+import { UserCommunityPostController } from "presentation/controller/user/communityPost.controller";
 
 DependencyInjection.registerAll();
 
@@ -73,8 +75,9 @@ export const adminLevelController =
   container.resolve<IAdminLevelController>(AdminLevelController);
 export const adminCommunityController =
   container.resolve<IAdminCommunityController>(AdminCommunityController);
-export const adminReviewController =
-  container.resolve<IAdminReviewController>(AdminReviewController);
+export const adminReviewController = container.resolve<IAdminReviewController>(
+  AdminReviewController
+);
 
 //MentorController
 export const mentorController =
@@ -105,12 +108,12 @@ export const userRescheduledReviewController =
   container.resolve<IUserRescheduledReviewController>(
     UserRescheduledReviewController
   );
+export const userCommunityPostController =
+  container.resolve<IUserCommunityPostController>(UserCommunityPostController);
 
 //paymentController
 export const paymentController =
   container.resolve<IPaymentController>(PaymentController);
-
-
 
 //commomController
 export const commonController =

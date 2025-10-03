@@ -64,7 +64,7 @@ const VideoCallPage = () => {
   }
 
   const slotStart = new Date(review.slot.start);
-  const tenMinutesBefore = new Date(slotStart.getTime() - 10 * 60 * 1000);
+  const tenMinutesBefore = new Date(slotStart.getTime() - 30 * 60 * 1000);
   const slotEnd = new Date(review.slot.end);
 
   if (now < tenMinutesBefore || now > slotEnd) {

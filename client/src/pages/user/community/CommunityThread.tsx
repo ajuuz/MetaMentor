@@ -1,160 +1,109 @@
-import React, { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { useMutation } from '@tanstack/react-query';
-import { createCommunityPost } from '@/services/userService/communityApi';
-import { toast } from 'sonner';
-import { useParams } from 'react-router-dom';
-import { imageUploader } from '@/utils/helperFunctions/imageUploadFunction';
+"use client"
 
-interface CommunityPost {
-  id: string;
-  communityId: string;
-  title: string;
-  image?: string;
-  description: string;
-  studentId: string;
-  createdAt: string;
-  comments: Comment[];
-}
-
-interface Comment {
-  id: string;
-  commenterId: string;
-  comment: string;
-  createdAt: string;
-}
-
-const dummyPosts: CommunityPost[] = [
-  {
-    id: '1',
-    communityId: 'mern',
-    title: 'How to optimize MongoDB queries?',
-    image: '',
-    description: 'I have performance issues when querying large data. Any suggestions?',
-    studentId: 'stu123',
-    createdAt: new Date().toISOString(),
-    comments: [
-      {
-        id: 'c1',
-        commenterId: 'stu456',
-        comment: 'Try indexing the frequently queried fields.',
-        createdAt: new Date().toISOString(),
-      },
-    ],
-  },
-];
+import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { useNavigate, useParams } from "react-router-dom"
+import { CreatePostDialog } from "@/components/community/CreatePostDialog"
+import { useGetAllCommunityPostsForStudentQuery } from "@/hooks/tanstack/communityPosts"
+import { config } from "@/config/configuration"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Heart, MessageSquare, MoreHorizontal, Users, TrendingUp } from "lucide-react"
+import { useState } from "react"
+import PostCard from "@/components/community/PostCard"
 
 export default function CommunityPage() {
-  const [posts, setPosts] = useState<CommunityPost[]>(dummyPosts);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
-  const [imageFile, setImageFile] = useState<File|null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string>('');
-  const {communityId} = useParams()
+  const { communityId } = useParams()
+  const navigate = useNavigate()
+  const { data: posts, isError, isLoading } = useGetAllCommunityPostsForStudentQuery(communityId!)
+  const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set())
 
-  const {mutate:createPostMutation}=useMutation({
-    mutationFn:createCommunityPost,
-    onSuccess:(response)=>{
-        toast.success(response.message)
-    },
-    onError:(error)=>{
-        toast.error(error.message)
-    }
-  })
+  const toggleLike = (postId: string) => {
+    setLikedPosts((prev) => {
+      const newSet = new Set(prev)
+      if (newSet.has(postId)) {
+        newSet.delete(postId)
+      } else {
+        newSet.add(postId)
+      }
+      return newSet
+    })
+  }
 
-  const handlePost = async() => {
-    const newPost: CommunityPost = {
-      id: Date.now().toString(),
-      communityId: 'mern',
-      title,
-      image,
-      description,
-      studentId: 'currentStudentId',
-      createdAt: new Date().toISOString(),
-      comments: [],
-    };
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <div className="flex items-center justify-center">
+            <div className="animate-pulse space-y-4 w-full">
+              <div className="h-12 bg-gray-200 rounded-lg w-1/3 mx-auto"></div>
+              <div className="h-64 bg-gray-200 rounded-xl"></div>
+              <div className="h-64 bg-gray-200 rounded-xl"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
-    if(communityId){
-      const imageUrl = await imageUploader([imageFile!])
-      console.log(imageUrl)
-      return
-      const createPostData={communityId,title,image,description}
-    
-    }
-    setPosts([newPost, ...posts]);
-    setTitle('');
-    setDescription('');
-    setImage('');
-  };
-
-   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const preview = URL.createObjectURL(file);
-      setPreviewUrl(preview);
-    }
-  };
+  if (isError || !posts) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-xl text-gray-600">Error loading posts</p>
+          <Button onClick={() => window.location.reload()} className="mt-4">
+            Try Again
+          </Button>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="max-w-3xl mx-auto p-4 space-y-6">
-      <h2 className="text-2xl font-bold">Community - MERN</h2>
-
-      <Card>
-        <CardContent className="space-y-4 p-4">
-          <Input
-            placeholder="Post Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <Input
-            placeholder="Upload image (optional)"
-            value={image}
-            type='file'
-            accept="image/*"
-            onChange={handleFileChange}
-          />
-          {previewUrl && 
-          <div className='flex justify-center'><img src={previewUrl} className='max-w-50'/></div>
-          }
-          <Textarea
-            placeholder="Write your question or share something..."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <Button onClick={handlePost}>Share Post</Button>
-        </CardContent>
-      </Card>
-
-      {/* Posts */}
-      {posts.map((post) => (
-        <Card key={post.id} className="bg-white shadow p-4">
-          <CardContent className="space-y-2">
-            <h3 className="text-lg font-semibold">{post.title}</h3>
-            {post.image && <img src={post.image} alt="Post" className="rounded w-full max-h-60 object-cover" />}
-            <p>{post.description}</p>
-            <p className="text-sm text-gray-500">Posted by: {post.studentId}</p>
-
-            {/* Comments */}
-            <div className="mt-4 space-y-2">
-              <h4 className="font-medium">Comments</h4>
-              {post.comments.map((comment) => (
-                <div
-                  key={comment.id}
-                  className="text-sm border border-gray-200 rounded p-2 bg-gray-50"
-                >
-                  <p>{comment.comment}</p>
-                  <p className="text-xs text-gray-400">By: {comment.commenterId}</p>
-                </div>
-              ))}
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Header Section */}
+      <div className=" border-b border-gray-200 sticky top-0 z-10 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                <Users className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-gray-900">MERN Community</h1>
+                <p className="text-sm text-gray-500">{posts.length} posts</p>
+              </div>
             </div>
-          </CardContent>
-        </Card>
-      ))}
+            <div className="flex items-center gap-2">
+              <CreatePostDialog communityId={communityId!} />
+              <Button variant="outline" onClick={() => navigate(`/chat/${communityId}`)} className="hidden sm:flex">
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Chat
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="space-y-4">
+          {posts.map((post) => (
+           <PostCard post={post}/>
+          ))}
+
+          {/* Empty State */}
+          {posts.length === 0 && (
+            <div className="text-center py-16">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+                <TrendingUp className="h-8 w-8 text-gray-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">No posts yet</h3>
+              <p className="text-gray-500 mb-4">Be the first to share something with the community!</p>
+              <CreatePostDialog communityId={communityId!} />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
-  );
+  )
 }

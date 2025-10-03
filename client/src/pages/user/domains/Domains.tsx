@@ -2,13 +2,13 @@ import FilterComponent from "@/components/common/FilterComponent";
 import PaginationComponent from "@/components/common/PaginationComponent";
 import DomainCard from "@/components/user/DomainCard";
 import { useUserGetAllDomainsQuery } from "@/hooks/tanstack/domain";
-import type { DomainEntity } from "@/types/domainTypes";
+import type { DomainResBase } from "@/types/response/domain";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const Domains = () => {
-  const [domains, setDomains] = useState<DomainEntity[]>();
+  const [domains, setDomains] = useState<DomainResBase[]>();
   const [totalpages, setTotalPages] = useState<number>(0);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -69,7 +69,7 @@ const Domains = () => {
       </div>
       <div className="flex flex-col items-center gap-9 justify-center">
         {domains?.map((domain) => (
-          <DomainCard domain={domain} />
+          <DomainCard domain={domain} isEnrolled={false}/>
         ))}
       </div>
       <PaginationComponent

@@ -3,6 +3,7 @@ import { upload } from "infrastructure/config/cloudinary/cloudinary.config";
 import {
   authMiddleware,
   userCommunityController,
+  userCommunityPostController,
   userController,
   userDomainController,
   userEnrolledLevelController,
@@ -41,6 +42,7 @@ import {
   SlotValidityCheckReqDTO,
 } from "application/dto/requset/slot.dto";
 import { UpdateUserDetailsReqDTO } from "application/dto/requset/user.dto";
+import { CreateCommunityPostReqDTO } from "application/dto/requset/communityPost.dto";
 
 export class UserRoutes {
   private _router: Router;
@@ -209,6 +211,46 @@ export class UserRoutes {
       userEnrolledLevelController.saveLevelAssignments.bind(
         userEnrolledLevelController
       )
+    );
+
+    //community post///
+    this._router.post(
+      "/communities/:communityId/posts",
+      upload.array("images", 1),
+      formDataParserFormatter,
+      validationMiddleware(CreateCommunityPostReqDTO),
+      userCommunityPostController.createAPost.bind(userCommunityPostController)
+    );
+    this._router.post(
+      "/communities/:communityId/posts",
+      upload.array("images", 1),
+      formDataParserFormatter,
+      validationMiddleware(CreateCommunityPostReqDTO),
+      userCommunityPostController.createAPost.bind(userCommunityPostController)
+    );
+    this._router.get(
+      "/communities/:communityId/posts",
+      userCommunityPostController.getCommunityPost.bind(
+        userCommunityPostController
+      )
+    );
+    this._router.get(
+      "/communities/:communityId/chat",
+      userCommunityController.getCommunityChat.bind(userCommunityController)
+    );
+
+    //communityPost
+    this._router.get(
+      "/posts/:postId/like",
+      userCommunityPostController.getPostLikes.bind(userCommunityPostController)
+    );
+    this._router.post(
+      "/posts/:postId/like",
+      userCommunityPostController.likeAPost.bind(userCommunityPostController)
+    );
+    this._router.post(
+      "/posts/:postId/unLike",
+      userCommunityPostController.unLikeAPost.bind(userCommunityPostController)
     );
   }
 
