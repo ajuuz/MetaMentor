@@ -14,9 +14,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!user) return;
-    const socketInstance = io("https://192.168.10.161:4000", {
+    const socketInstance = io(import.meta.env.VITE_API_SOCKET_BASE_URL, {
       path: "/api/socket.io",
-      withCredentials: true, // if cookies are used
+      withCredentials: true,
     });
 
     socketInstance.on("connect_error", (err) => {

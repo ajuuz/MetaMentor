@@ -35,7 +35,7 @@ export class App {
   private configureMiddleware(): void {
     this._app.use(
       cors({
-        origin:[ config.client.uri,"https://192.168.10.161:5173"],
+        origin:[ config.client.uri],
         credentials: true,
       })
     );
