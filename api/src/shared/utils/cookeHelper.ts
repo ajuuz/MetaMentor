@@ -10,13 +10,13 @@ export const setCookie = (
   console.log("isProduction",isProduction);
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: isProduction,
+    secure: true,
     sameSite: "none",
   });
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: isProduction,
+    secure: true,
     sameSite: "none",
   });
 };
