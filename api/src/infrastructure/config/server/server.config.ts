@@ -35,14 +35,19 @@ export class App {
   private configureMiddleware(): void {
     this._app.use(
       cors({
-        origin:[ config.client.uri],
+        origin: [config.client.uri],
         credentials: true,
       })
     );
     this._app.use(loggerMiddleware.handle.bind(loggerMiddleware));
     this._app.use(cookieParser());
-    this._app.use(express.json());
-    this._app.use(express.urlencoded({ extended: true }));
+    this._app.use((req, res, next) => {
+      console.log(
+        `Incoming request: ${req.method} ${req.url}, Content-Length: ${req.headers["content-length"]}`
+      );
+      next();
+    });
+    this._app.use(express.urlencoded({ extended: true, limit: "10mb" }));
   }
 
   private configureErrorMiddleware(): void {
