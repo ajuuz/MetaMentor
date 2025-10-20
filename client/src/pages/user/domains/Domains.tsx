@@ -21,6 +21,11 @@ const Domains = () => {
   const [sortBy, setSortBy] = useState<string>(
     searchParams.get("sortBy") || "name-asc"
   );
+
+    const [limit, setLimit] = useState<number>(
+    Number(searchParams.get("limit")) || 5
+  );
+
   const {
     data: allDomains,
     isError,
@@ -65,6 +70,8 @@ const Domains = () => {
           setSortBy={setSortBy}
           contentForSortSelect={contentForSortSelect}
           setCurrentPage={setCurrentPage}
+          limit={limit}
+          setLimit={setLimit}
         />
       </div>
       <div className="flex flex-col items-center gap-9 justify-center">

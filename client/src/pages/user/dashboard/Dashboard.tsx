@@ -85,9 +85,6 @@ const Dashboard = () => {
   const upcomingReview = reviewResponse?.reviews[0];
 
   const enrolledCount = enrolledDomainss.length;
-  const upcoming = enrolledDomainss[0].upcomingReview;
-  const reviewer = enrolledDomainss[0].reviewer;
-  const domain = enrolledDomainss[0].upcomingReview?.domain;
 
   let todayCount = 0;
   let rescheduledCount = 0;

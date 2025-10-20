@@ -19,6 +19,7 @@ export default function ScheduleReview() {
 
   const { domainId, levelId } = useParams();
   if (!domainId || !levelId) {
+    console.log(setSortBy,setSearchTerm);
     return <div>some thing wrong</div>;
   }
 

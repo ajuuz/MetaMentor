@@ -7,7 +7,6 @@ import { PublicOnlyRoute } from "./protectedRoutes/PublicOnlyRoute";
 import SendEmail from "@/pages/auth/ForgotPassword/SendEmail";
 import ForgotEmailSuccess from "@/pages/auth/ForgotPassword/ForgotSuccess";
 import PasswordReset from "@/pages/auth/ForgotPassword/PasswordReset";
-import MentorListing from "@/pages/user/mentors/MentorListing";
 import Profile from "@/pages/user/Profile/Profile";
 import UserLayout from "@/layouts/UserLayout";
 import UserProfileLayout from "@/layouts/UserProfileLayout";
@@ -18,7 +17,6 @@ import Dashboard from "@/pages/user/dashboard/Dashboard";
 import DomainInsight from "@/pages/user/dashboard/DomainInsight";
 import ScheduleReview from "@/pages/user/scheduleReview/ScheduleReview";
 import CommunityPost from "@/pages/user/community/CommunityThread";
-import Communities from "@/pages/user/community/Communities";
 import CreateMentorApplication from "@/pages/user/Application/Create";
 import EditMentorApplication from "@/pages/user/Application/Edit";
 import StudentReviewsPage from "@/pages/user/reviews/Reviews";
@@ -61,7 +59,6 @@ const UserRoutes = () => {
         {/* user layout */}
         <Route element={<UserLayout />}>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/mentors" element={<MentorListing />} />
           <Route path="/domains" element={<Domains />} />
           <Route path="/domains/:domainId" element={<DomainDetail />} />
           <Route element={<ProtectedRoute allowedRoles={["user", "mentor"]} />}>
@@ -71,7 +68,6 @@ const UserRoutes = () => {
               path="/review/schedule/:domainId/:levelId"
               element={<ScheduleReview />}
             />
-            <Route path="/communities" element={<Communities />} />
             <Route
               path="/communities/:communityId"
               element={<CommunityPost />}

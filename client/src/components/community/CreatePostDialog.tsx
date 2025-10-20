@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -22,12 +21,6 @@ type Props = {
   communityId: string;
 };
 
-interface CommunityPost {
-  communityId: string;
-  title: string;
-  images?: File[] | null;
-  description: string;
-}
 export function CreatePostDialog({ communityId }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");

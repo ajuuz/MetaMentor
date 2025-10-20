@@ -26,7 +26,7 @@ type Props = {
   applicationDetails?: Partial<MentorApplicationFormReq>; // For editing
   images?: string[]; // For editing
   onSubmit: (values: MentorApplicationFormReq) => void;
-  isViewMode: boolean;
+  isViewMode?: boolean;
   loading?: boolean;
 };
 

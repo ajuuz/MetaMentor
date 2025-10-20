@@ -1,33 +1,17 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useNavigate, useParams } from "react-router-dom"
 import { CreatePostDialog } from "@/components/community/CreatePostDialog"
 import { useGetAllCommunityPostsForStudentQuery } from "@/hooks/tanstack/communityPosts"
-import { config } from "@/config/configuration"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Heart, MessageSquare, MoreHorizontal, Users, TrendingUp } from "lucide-react"
-import { useState } from "react"
+import {  MessageSquare, Users, TrendingUp } from "lucide-react"
 import PostCard from "@/components/community/PostCard"
 
 export default function CommunityPage() {
   const { communityId } = useParams()
   const navigate = useNavigate()
   const { data: posts, isError, isLoading } = useGetAllCommunityPostsForStudentQuery(communityId!)
-  const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set())
-
-  const toggleLike = (postId: string) => {
-    setLikedPosts((prev) => {
-      const newSet = new Set(prev)
-      if (newSet.has(postId)) {
-        newSet.delete(postId)
-      } else {
-        newSet.add(postId)
-      }
-      return newSet
-    })
-  }
+ 
 
   if (isLoading) {
     return (

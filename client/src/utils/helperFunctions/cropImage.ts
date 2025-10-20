@@ -8,7 +8,6 @@ type CroppedAreaPixels = {
 export const getCroppedImg = async (
   imageSrc: string,
   croppedAreaPixels: CroppedAreaPixels,
-  zoom: number
 ): Promise<Blob | null> => {
   const createImage = (url: string): Promise<HTMLImageElement> =>
     new Promise((resolve, reject) => {

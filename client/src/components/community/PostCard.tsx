@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+import { Avatar } from "@radix-ui/react-avatar";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Heart, MessageSquare, MoreHorizontal } from "lucide-react";

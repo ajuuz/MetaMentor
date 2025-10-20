@@ -1,5 +1,4 @@
 import { userAxiosInstance } from "@/config/axiosConfig/userAxiosConfig";
-import type { UserDetailsReq } from "@/types/request/user";
 import type { UserDetailsRes } from "@/types/response/user";
 import type { MutationApiResponse } from "@/types/responseType";
 import type { UserDetailsType } from "@/types/userType";

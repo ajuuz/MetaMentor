@@ -38,7 +38,7 @@ const Otp = () => {
         }
     })
 
-    const {mutate:resendOtpMutaion,isPending:resendOtpLoading}=useMutation({
+    const {mutate:resendOtpMutaion}=useMutation({
       mutationFn:resendOtp,
       onSuccess:(response)=>{
         toast.success(response.message)

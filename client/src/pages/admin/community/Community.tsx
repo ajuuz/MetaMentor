@@ -16,6 +16,7 @@ import { useSearchParams } from "react-router-dom";
 import { config } from "@/config/configuration";
 
 const Community = () => {
+  
   const [communities, setCommunities] = useState<TableDetailsType[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
 
