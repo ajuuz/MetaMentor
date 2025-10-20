@@ -22,11 +22,13 @@ export class SlotValidityCheckerUsecase implements ISlotValidityCheckerUsecase {
     const start = new Date(date);
     const end = new Date(date);
     const day = start.toLocaleDateString("en-US", { weekday: "long" });
+    console.log(start)
     const slot: SlotDTO | null = await this._slotRepository.getSpecificSlot(
       mentorId,
       day,
       slotId
     );
+    console.log("in usecase slot",slot)
     if (!slot) throw new NotFoundError("Slot not Found");
     if (!slot.enabled)
       throw new CustomError(

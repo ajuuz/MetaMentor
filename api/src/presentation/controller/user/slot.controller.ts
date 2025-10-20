@@ -33,7 +33,7 @@ export class UserSlotController implements IUserSlotController {
 
   async slotValidityChecker(req: Request, res: Response): Promise<void> {
     const { mentorId, date, slotId } = req.verifiedData;
-
+    console.log("slot checking ",mentorId,date,slotId);
     await this._slotValidityCheckerUsecase.execute(mentorId, date, slotId);
     res.status(200).json({ success: true, message: "Slot is Valid" });
   }

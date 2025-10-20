@@ -105,6 +105,7 @@ export class SlotRepository
     day: string,
     slotId: string
   ): Promise<SlotDTO | null> {
+    console.log("in repository ",mentorId,slotId)
     const slotObjectId = new mongoose.Types.ObjectId(slotId);
     const slots = await slotModel.aggregate([
       {
@@ -128,6 +129,7 @@ export class SlotRepository
         $project: { _id: 0 },
       },
     ]);
+    console.log("in repo",slots)
     return slots[0] ? slots[0].slot : null;
   }
 
