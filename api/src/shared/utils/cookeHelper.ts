@@ -7,7 +7,7 @@ export const setCookie = (
   refreshToken: string
 ) => {
   const isProduction = config.node_env === "production";
-  console.log("isProduction",isProduction);
+  console.log("isProduction", isProduction);
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
     secure: true,
@@ -25,7 +25,8 @@ export const setAccessCookie = (res: Response, accessToken: string) => {
   const isProduction = config.node_env === "production";
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: isProduction,
+    secure: true,
+    sameSite: "none",
   });
 };
 
