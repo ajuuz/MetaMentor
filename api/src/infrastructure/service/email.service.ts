@@ -21,7 +21,7 @@ export class EmailService implements IEmailService {
   }
 
   private _registerEventListeners(): void {
-    eventBus.on(EVENT_EMITTER_TYPE.SENDMAIL, this.sendMail.bind(this));
+    eventBus.on(EVENT_EMITTER_TYPE.SEND_MAIL, this.sendMail.bind(this));
   }
 
   async sendMail(to: string, subject: string, html: string): Promise<void> {
