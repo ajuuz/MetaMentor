@@ -21,7 +21,7 @@ export class SlotValidityCheckerUsecase implements ISlotValidityCheckerUsecase {
   async execute(mentorId: string, date: string, slotId: string): Promise<void> {
     const start = new Date(date);
     const end = new Date(date);
-    const day = start.toLocaleDateString("en-US", { weekday: "long" });
+    const day = start.toLocaleDateString("en-US", { weekday: "long",timeZone: "Asia/Kolkata"  });
     console.log(start)
     const slot: SlotDTO | null = await this._slotRepository.getSpecificSlot(
       mentorId,
