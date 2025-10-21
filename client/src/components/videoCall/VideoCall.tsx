@@ -559,7 +559,7 @@ const VideoCall = ({ myUserKey }: Props) => {
                     ref={(el) => {
                       if (el) remoteScreenShareRef.current[username] = el;
                     }}
-                    className="w-full h-full object-cover aspect-video rounded-2xl  scale-x-[-1]"
+                    className="w-full h-full object-cover aspect-video rounded-2xl"
                   />
                 </div>
               )}
