@@ -96,7 +96,7 @@ export class VerifyPaymentUsecase implements IVerifyPaymentUsecase {
       type: NOTIFICATION_TYPE.SLOT_BOOKING,
       title: NOTIFICATION_TITLE.REVIEW_BOOKED,
       body: NOTIFICATION_MESSAGE.REVIEW_BOOKED,
-      navigate: "/mentor/reviews?tab=pending",
+      navigate: "/mentor/reviews?tab=pending&pendingReviewState=notOver",
       isRead: false,
     };
     asyncOperations.push(this._notificationRepository.insertOne(notification));

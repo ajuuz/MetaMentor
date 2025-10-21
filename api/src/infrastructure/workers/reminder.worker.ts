@@ -104,7 +104,7 @@ export const reminderWorker = new Worker(
           type: NOTIFICATION_TYPE.REVIEW_REMINDER,
           title: NOTIFICATION_TITLE.REVIEW_REMINDER,
           body: NOTIFICATION_MESSAGE.REVIEW_REMINDER,
-          navigate: "/reviews?tab=pending",
+          navigate: "/reviews?tab=pending&pendingReviewState=notOver",
           isRead: false,
         };
         asyncOperations.push(
@@ -117,7 +117,7 @@ export const reminderWorker = new Worker(
           type: NOTIFICATION_TYPE.REVIEW_REMINDER,
           title: NOTIFICATION_TITLE.REVIEW_REMINDER,
           body: NOTIFICATION_MESSAGE.REVIEW_REMINDER,
-          navigate: "/mentor/reviews?tab=pending",
+          navigate: "/mentor/reviews?tab=pending&pendingReviewState=notOver",
           isRead: false,
         };
         asyncOperations.push(

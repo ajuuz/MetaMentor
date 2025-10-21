@@ -114,7 +114,7 @@ const MentorCompleted = ({ review, start, end }: Props) => {
     mutationFn: submitReviewFeedBack,
     onSuccess: (response) => {
       toast.success(response.message);
-      navigate("/mentor/reviews/upcoming");
+      navigate("/mentor/reviews?tab=pending&pendingReviewState=notOver");
     },
     onError: (error) => {
       toast.error(error.message);
