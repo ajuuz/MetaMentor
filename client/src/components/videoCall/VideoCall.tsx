@@ -3,6 +3,7 @@ import {
   MessageCircleOff,
   Mic,
   MicOff,
+  Phone,
   ScreenShare,
   Send,
   Video,
@@ -10,7 +11,7 @@ import {
   VideoOffIcon,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useSocket } from "@/context/socketContext";
 import { AnimatePresence, motion } from "framer-motion";
@@ -57,6 +58,7 @@ const VideoCall = ({ myUserKey }: Props) => {
   const [yourMessage, setYourMessage] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
+  const navigate = useNavigate();
   const { roomId } = useParams();
   if (!roomId) {
     return <div>No room id</div>;
@@ -284,6 +286,21 @@ const VideoCall = ({ myUserKey }: Props) => {
         handleSetChatMessages(userName, message, createdAt);
       }
     );
+
+    socket.on("video-call:user-left", ({ socketId }) => {
+      // Find which userKey corresponds to that socket
+      const leftUserKey = Object.keys(userSocketMap.current).find(
+        (key) => userSocketMap.current[key] === socketId
+      );
+
+      if (leftUserKey) {
+        setRemoteUsers((prev) => {
+          const newMap = new Map(prev);
+          newMap.delete(leftUserKey);
+          return newMap;
+        });
+      }
+    });
   };
 
   const setupLocalStream = async () => {
@@ -470,6 +487,32 @@ const VideoCall = ({ myUserKey }: Props) => {
       createdAt: time,
     });
   };
+
+ const handleLeaveMeet = () => {
+  socket?.emit("video-call:leave");
+
+  // Close all peer connections
+  Object.values(pcRef.current).forEach((pc) => pc.close());
+  pcRef.current = {};
+
+  // Stop all local media tracks
+  if (localStreamRef.current) {
+    localStreamRef.current.getTracks().forEach((track) => track.stop());
+  }
+
+  // Detach stream from local video element
+  if (localVideoRef.current) {
+    localVideoRef.current.srcObject = null;
+  }
+
+  // Reset UI
+  setRemoteUsers(new Map());
+  setScreenStream(null);
+
+  navigate(-1);
+};
+
+
   return (
     <div className="h-screen flex flex-col bg-black text-white">
       <div className="h-full pt-5 flex pe-10 items-center">
@@ -636,6 +679,9 @@ const VideoCall = ({ myUserKey }: Props) => {
           onClick={() => setIsChatBarOpen((prev) => !prev)}
         >
           {isChatBarOpen ? <MessageCircle /> : <MessageCircleOff />}
+        </Button>
+        <Button className="bg-red-500 w-13 py-5" onClick={handleLeaveMeet}>
+          <Phone />
         </Button>
       </footer>
     </div>

@@ -116,21 +116,43 @@ export class SocketVideoCallController {
     );
 
     this._socket.on("video-call:leave", () => {
-      console.log("Disconnected: ", this._socket.userName);
-      if (this._socket.roomId && videoRooms.has(this._socket.roomId)) {
-        const users = videoRooms.get(this._socket.roomId);
-        if (users) {
-          const updatedUsers = users.filter(
-            (user) => user.socketId !== this._socket.id
-          );
-          // Update the Map with filtered list
-          videoRooms.set(this._socket.roomId, updatedUsers);
-          // Optional: remove the room if empty
-          if (updatedUsers.length === 0) {
-            videoRooms.delete(this._socket.roomId);
-          }
+      const userName = this._socket.userName;
+      const roomId = this._socket.roomId;
+
+      console.log(
+        `User leaving: ${userName} (${this._socket.id}) from room ${roomId}`
+      );
+
+      if (!roomId) return;
+
+      const users = videoRooms.get(roomId);
+      if (users) {
+        const updatedUsers = users.filter(
+          (user) => user.socketId !== this._socket.id
+        );
+        videoRooms.set(roomId, updatedUsers);
+
+        // ✅ Notify other users in the room
+        this._socket.to(`video_call_${roomId}`).emit("video-call:user-left", {
+          socketId: this._socket.id,
+          userName,
+        });
+
+        // ✅ If room is empty, delete it completely
+        if (updatedUsers.length === 0) {
+          videoRooms.delete(roomId);
+          videoRoomsChat.delete(roomId);
+          console.log(`Room ${roomId} deleted (empty).`);
         }
       }
+
+      // ✅ Make socket leave the room
+      this._socket.leave(`video_call_${roomId}`);
+
+      // ✅ Clear socket-specific data
+      this._socket.roomId = undefined;
+
+      console.log(`User ${userName} left room ${roomId}`);
     });
 
     // (Optional) Handle call end logic
