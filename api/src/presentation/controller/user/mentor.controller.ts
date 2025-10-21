@@ -1,6 +1,7 @@
 import { IUserMentorController } from "application/interfaces/controller/user/mentorController.interface";
 import { IGetMentorApplicationDetailsUsecase } from "application/usecase/interfaces/mentor/getMentorApplicationDetailsUsecase.interface";
 import { IGetMentorsForStudUsecase } from "application/usecase/interfaces/mentor/getMentorsForStudUsecase.interface";
+import { IRateMentorUseCase } from "application/usecase/interfaces/mentor/rateMentorUsecase.interface";
 import { IUpdateMentorApplicationUsecase } from "application/usecase/interfaces/mentor/updateMentorApplicationUsecase.interface";
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "shared/constants";
@@ -17,7 +18,10 @@ export class UserMentorController implements IUserMentorController {
     private _updateMentorApplicationUsecase: IUpdateMentorApplicationUsecase,
 
     @inject("IGetMentorsForStudUsecase")
-    private _getMentorsForStudUsecase: IGetMentorsForStudUsecase
+    private _getMentorsForStudUsecase: IGetMentorsForStudUsecase,
+
+    @inject("IRateMentorUseCase")
+    private _rateMentorUsecase: IRateMentorUseCase
   ) {}
 
   async getMentorApplicationDetails(
@@ -54,5 +58,14 @@ export class UserMentorController implements IUserMentorController {
       limit
     );
     res.status(HTTP_STATUS.OK).json(data);
+  }
+
+
+   async rateMentor(req: Request, res: Response): Promise<void> {
+    const mentorId = req.params.mentorId;
+    const rating = req.body.stars;
+
+    await this._rateMentorUsecase.execute(mentorId, rating);
+    res.status(HTTP_STATUS.OK).json({ message: "Mentor rated successfully" });
   }
 }

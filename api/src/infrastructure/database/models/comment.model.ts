@@ -4,8 +4,16 @@ import mongoose, { Document, ObjectId } from "mongoose";
 
 import { commentSchema } from "../schemas/comment.schema";
 
-export interface ICommentModel extends Omit<ICommentEntity, "_id">, Document {
+export interface ICommentModel
+  extends Omit<
+      ICommentEntity,
+      "_id" | "postId" | "parentCommentId" | "commenterId"
+    >,
+    Document {
   _id: ObjectId;
+  postId: ObjectId;
+  parentCommentId: ObjectId;
+  commenterId: ObjectId;
 }
 
 export const commentModel = mongoose.model<ICommentModel>(

@@ -34,4 +34,6 @@ export interface IMentorRepository
   ): Promise<{ items: IGetMentors[]; totalDocuments: number }>;
 
   getStatus(userId: string): Promise<IMentorEntity | null>;
+
+  rateUser(mentorId: string, rating: number): Promise<void>
 }

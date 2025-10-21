@@ -84,7 +84,7 @@ const MentorWrapper = ({ isVerified, children }: Prop) => {
               ? mentor.name.slice(0, 15) + "..."
               : mentor.name,
             mentor.mobileNumber ?? "Unavailable",
-            0,
+            mentor.rating ?? 0,
             mentor.country,
             <div>
               {mentor.domains.map((domain) => (
@@ -180,7 +180,7 @@ const MentorWrapper = ({ isVerified, children }: Prop) => {
     isVerified ? "Mentor No." : "Seq No.",
     "Mentor Name",
     "Number",
-    "Review Count",
+    isVerified ? "Rating" : "Review Count",
     "Country",
     "Domains",
     "Skills",

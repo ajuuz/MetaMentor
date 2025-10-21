@@ -6,13 +6,11 @@ import {
   getFormattedDayWithMonthAndYear,
   isoStringToLocalTime,
 } from "@/utils/helperFunctions/toTimeString";
-import {
-  Award,
-  CheckCircle,
-  MessageSquare,
-  XCircle,
-} from "lucide-react";
+import { Award, CheckCircle, MessageSquare, XCircle } from "lucide-react";
 import { REVIEW_STATUS } from "@/utils/constants";
+import StarRating from "@/components/common/StarRating";
+import { useRateMentorMutation } from "@/hooks/tanstack/mentorHooks";
+import { useState } from "react";
 import ContentViewerModal from "@/components/common/ContentViewerModal";
 
 type Props = {
@@ -26,7 +24,10 @@ type Props = {
 const Completed = ({ review, start, end }: Props) => {
   const startTime = new Date(start);
   const endTime = new Date(end);
-
+  const [userRating, setUserRating] = useState(0);
+  const { mutate: rateMentorMutation } = useRateMentorMutation(
+    review.otherAttendee._id
+  );
 
   const getCompletedIcon = () => {
     switch (review.status) {
@@ -98,10 +99,8 @@ const Completed = ({ review, start, end }: Props) => {
     }
   };
 
-
   return (
     <Card className="h-full">
-
       <CardHeader className="text-center">
         <CardTitle className="flex items-center justify-center gap-2 text-green-600">
           <CheckCircle className="w-6 h-6" />
@@ -150,21 +149,38 @@ const Completed = ({ review, start, end }: Props) => {
           </div>
         </div>
 
-        <div className="flex gap-3">
-          {(review.status === REVIEW_STATUS.FAIL || review.status === REVIEW_STATUS.PASS)  && 
-          (
-            <ContentViewerModal
-              triggerer={
-                <Button size="sm" variant="outline" className="gap-2">
-                  <MessageSquare className="w-4 h-4" />
-                  Feedback
-                </Button>
-              }
-              title="Feedback"
-              description="Feedback"
-              content={review.feedBack}
-            />
+        <div className="flex flex-col items-center gap-4">
+          {review.status === REVIEW_STATUS.PASS && (
+            <div className="text-center">
+              <p className="text-sm text-gray-600 mb-2">Rate your mentor</p>
+              <StarRating
+                rating={userRating}
+                onRate={(stars) => {
+                  setUserRating(stars);
+                  rateMentorMutation(stars);
+                }}
+                size="lg"
+                className="justify-center"
+              />
+            </div>
           )}
+
+          <div className="flex gap-3">
+            {(review.status === REVIEW_STATUS.FAIL ||
+              review.status === REVIEW_STATUS.PASS) && (
+              <ContentViewerModal
+                triggerer={
+                  <Button size="sm" variant="outline" className="gap-2">
+                    <MessageSquare className="w-4 h-4" />
+                    Feedback
+                  </Button>
+                }
+                title="Feedback"
+                description="Feedback"
+                content={review.feedBack}
+              />
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>

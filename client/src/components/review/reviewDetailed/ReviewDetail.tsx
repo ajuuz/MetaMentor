@@ -149,7 +149,7 @@ const ReviewDetail = ({ role, review, loading, error }: Props) => {
           </div>
 
           {/* Main Content Area */}
-          <div className="lg:col-span-2">{renderMainContent()}</div>
+          <div className="lg:col-span-2 ">{renderMainContent()}</div>
         </div>
       </div>
     </div>

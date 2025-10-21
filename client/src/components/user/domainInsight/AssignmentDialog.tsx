@@ -78,6 +78,7 @@ import { toast } from "sonner";
 import { FileWarning } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { submitAssignments } from "@/services/userService/enrolledLevelApi";
+import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
 
 // ------------------- Zod Schema -------------------
 const assignmentSchema = z.object({
@@ -110,6 +111,7 @@ export const AssignmentEditor = ({enrolledLevelId, tasks, assignments = [] }: Ed
     mutationFn:submitAssignments,
     onSuccess:(response)=>{
         toast.success(response.message)
+        queryClient.invalidateQueries({ queryKey: ["enrolledDomain"] });
     },
     onError:(error)=>{
         toast.error(error.message)

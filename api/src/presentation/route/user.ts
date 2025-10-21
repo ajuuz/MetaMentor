@@ -124,6 +124,10 @@ export class UserRoutes {
       validationMiddleware(GetMentorsForStudReqDTO),
       userMentorController.getMentorsForStud.bind(userMentorController)
     );
+    this._router.post(
+      "/mentors/:mentorId/rate",
+      userMentorController.rateMentor.bind(userMentorController)
+    );
 
     //==================slots======================//////////////
     this._router.get(
@@ -221,13 +225,17 @@ export class UserRoutes {
       validationMiddleware(CreateCommunityPostReqDTO),
       userCommunityPostController.createAPost.bind(userCommunityPostController)
     );
-    this._router.post(
-      "/communities/:communityId/posts",
+    this._router.patch(
+      "/posts/:postId",
       upload.array("images", 1),
       formDataParserFormatter,
-      validationMiddleware(CreateCommunityPostReqDTO),
-      userCommunityPostController.createAPost.bind(userCommunityPostController)
+      userCommunityPostController.editPost.bind(userCommunityPostController)
     );
+    this._router.delete(
+      "/posts/:postId",
+      userCommunityPostController.deletePost.bind(userCommunityPostController)
+    );
+    
     this._router.get(
       "/communities/:communityId/posts",
       userCommunityPostController.getCommunityPost.bind(
@@ -251,6 +259,28 @@ export class UserRoutes {
     this._router.post(
       "/posts/:postId/unLike",
       userCommunityPostController.unLikeAPost.bind(userCommunityPostController)
+    );
+    this._router.post(
+      "/posts/:postId/comments",
+      userCommunityPostController.commentAPost.bind(userCommunityPostController)
+    );
+    this._router.get(
+      "/posts/:postId/comments",
+      userCommunityPostController.getPostComments.bind(
+        userCommunityPostController
+      )
+    );
+    this._router.get(
+      "/posts/:postId/comments/count",
+      userCommunityPostController.getPostCommentsCount.bind(
+        userCommunityPostController
+      )
+    );
+    this._router.delete(
+      "/comments/:commentId",
+      userCommunityPostController.deleteComment.bind(
+        userCommunityPostController
+      )
     );
   }
 

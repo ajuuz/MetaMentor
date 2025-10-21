@@ -13,8 +13,14 @@ import { GetCommunitiesUsecase } from "application/usecase/implementations/commu
 import { GetEnrolledCommunitiesUsecase } from "application/usecase/implementations/community/getEnrolledCommunities.usecase";
 import { UpdateCommunityStatusUsecase } from "application/usecase/implementations/community/updateCommunityStatus.usecase";
 import { GetCommunityChatsUsecase } from "application/usecase/implementations/communityChat/getCommunityChatsUsecase.interface";
+import { AddCommentUseCase } from "application/usecase/implementations/communityPost/addComment.usecase";
 import { CreateAPostUsecase } from "application/usecase/implementations/communityPost/createAPost.usecase";
+import { DeletePostUseCase } from "application/usecase/implementations/communityPost/deleteAPost.usecase";
+import { DeleteCommentUseCase } from "application/usecase/implementations/communityPost/deleteComment.usecase";
+import { EditPostUseCase } from "application/usecase/implementations/communityPost/editPost.usecase";
+import { GetCommentsCountUseCase } from "application/usecase/implementations/communityPost/getCommentsCount.usecase";
 import { GetCommunityPostsUsecase } from "application/usecase/implementations/communityPost/getCommunityPosts.usecase";
+import { GetPostCommentsUseCase } from "application/usecase/implementations/communityPost/getPostComments.usecase";
 import { GetPostLikesUsecase } from "application/usecase/implementations/communityPost/getPostLikes.usecase";
 import { ManageLikeUsecase } from "application/usecase/implementations/communityPost/manageLike.usecase";
 import { AddDomainUsecase } from "application/usecase/implementations/domain/addDomain.usecase";
@@ -37,6 +43,7 @@ import { GetMentorsUsecase } from "application/usecase/implementations/mentor/ge
 import { GetMentorsForAdminUsecase } from "application/usecase/implementations/mentor/getMentorsForAdmin.usecase";
 import { GetMentorsForStudUsecase } from "application/usecase/implementations/mentor/getMentorsForStud.usecase";
 import { GetProfessionalDetailsUsecase } from "application/usecase/implementations/mentor/getProfessionalDetails.usecase";
+import { RateMentorUseCase } from "application/usecase/implementations/mentor/rateMentor.usecase";
 import { RejectMentorApplicationUsecase } from "application/usecase/implementations/mentor/rejectMentorApplication.usecase";
 import { UpdateMentorApplicationUsecase } from "application/usecase/implementations/mentor/updateMentorApplication.usecase";
 import { UpdateMentorStatusUsecase } from "application/usecase/implementations/mentor/updateMentorStatus.usecase";
@@ -87,8 +94,14 @@ import { IGetCommunitiesUsecase } from "application/usecase/interfaces/community
 import { IGetEnrolledCommunitiesUsecase } from "application/usecase/interfaces/community/getEnrolledCommunitiesUsecase.interface";
 import { IUpdateCommunityStatusUsecase } from "application/usecase/interfaces/community/updateCommunityUsecase.interface";
 import { IGetCommunityChatsUsecase } from "application/usecase/interfaces/communityChat/getCommunityChatsUsecase.interface";
+import { IAddCommentUseCase } from "application/usecase/interfaces/communityPost/addCommentUseCase.interface";
 import { ICreateAPostUsecase } from "application/usecase/interfaces/communityPost/createAPostUsecase.interface";
+import { IDeletePostUseCase } from "application/usecase/interfaces/communityPost/deleteAPostUsecase.interface";
+import { IDeleteCommentUseCase } from "application/usecase/interfaces/communityPost/deleteCommentUsecase.interface";
+import { IEditPostUseCase } from "application/usecase/interfaces/communityPost/editPostUsecase.interface";
+import { IGetCommentsCountUseCase } from "application/usecase/interfaces/communityPost/getCommentsCountUsecase.interface";
 import { IGetCommunityPostsUsecase } from "application/usecase/interfaces/communityPost/getCommunityPostsUsecase.interface";
+import { IGetPostCommentsUseCase } from "application/usecase/interfaces/communityPost/getPostCommentsUsecase.interface";
 import { IGetPostLikesUsecase } from "application/usecase/interfaces/communityPost/getPostLikesUsecase.interface";
 import { IManageLikeUsecase } from "application/usecase/interfaces/communityPost/manageLikeUsecase.interface";
 import { IAddDomainUsecase } from "application/usecase/interfaces/domain/addDomainUsecase.interface";
@@ -111,6 +124,7 @@ import { IGetMentorsForAdminUsecase } from "application/usecase/interfaces/mento
 import { IGetMentorsForStudUsecase } from "application/usecase/interfaces/mentor/getMentorsForStudUsecase.interface";
 import { IGetMentorsUsecase } from "application/usecase/interfaces/mentor/getMentorsUsecase.interface";
 import { IGetProfessionalDetailsUsecase } from "application/usecase/interfaces/mentor/getProfessionalDetailsUsecase.interface";
+import { IRateMentorUseCase } from "application/usecase/interfaces/mentor/rateMentorUsecase.interface";
 import { IRejectMentorApplicationUsecase } from "application/usecase/interfaces/mentor/rejectMentorApplication.interface";
 import { IUpdateMentorApplicationUsecase } from "application/usecase/interfaces/mentor/updateMentorApplicationUsecase.interface";
 import { IUpdateMentorStatusUsecase } from "application/usecase/interfaces/mentor/updateMentorStatusUsecase.interface";
@@ -221,6 +235,9 @@ export class UseCaseRegistory {
         useClass: CreateMentorApplicationUsecase,
       }
     );
+    container.register<IRateMentorUseCase>("IRateMentorUseCase", {
+      useClass: RateMentorUseCase,
+    });
 
     container.register<IGetProfessionalDetailsUsecase>(
       "IGetProfessionalDetailsUsecase",
@@ -511,6 +528,12 @@ export class UseCaseRegistory {
     container.register<ICreateAPostUsecase>("ICreateAPostUsecase", {
       useClass: CreateAPostUsecase,
     });
+    container.register<IEditPostUseCase>("IEditPostUseCase", {
+      useClass: EditPostUseCase,
+    });
+    container.register<IDeletePostUseCase>("IDeletePostUseCase", {
+      useClass: DeletePostUseCase,
+    });
     container.register<IGetCommunityPostsUsecase>("IGetCommunityPostsUsecase", {
       useClass: GetCommunityPostsUsecase,
     });
@@ -519,6 +542,18 @@ export class UseCaseRegistory {
     });
     container.register<IGetPostLikesUsecase>("IGetPostLikesUsecase", {
       useClass: GetPostLikesUsecase,
+    });
+    container.register<IAddCommentUseCase>("IAddCommentUseCase", {
+      useClass: AddCommentUseCase,
+    });
+    container.register<IGetPostCommentsUseCase>("IGetPostCommentsUseCase", {
+      useClass: GetPostCommentsUseCase,
+    });
+    container.register<IDeleteCommentUseCase>("IDeleteCommentUseCase", {
+      useClass: DeleteCommentUseCase,
+    });
+    container.register<IGetCommentsCountUseCase>("IGetCommentsCountUseCase", {
+      useClass: GetCommentsCountUseCase,
     });
     container.register<IGetCommunityChatsUsecase>("IGetCommunityChatsUsecase", {
       useClass: GetCommunityChatsUsecase,

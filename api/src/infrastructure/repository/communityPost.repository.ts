@@ -13,8 +13,6 @@ import { injectable } from "tsyringe";
 
 import { BaseRepository } from "./base.repository";
 
-
-
 @injectable()
 export class CommunityPostRepository
   extends BaseRepository<ICommunityPostEntity, ICommunityPostModel>
@@ -28,6 +26,7 @@ export class CommunityPostRepository
     const newCommunityPost = new communityPostModel(post);
     await newCommunityPost.save();
   }
+
   async getAllPosts(communityId: string): Promise<IGetCommunityPost[]> {
     const posts = await communityPostModel.aggregate([
       {
@@ -58,5 +57,27 @@ export class CommunityPostRepository
     ]);
 
     return posts;
+  }
+
+  async editPost(
+    postId: string,
+    studentId: string,
+    updates: Partial<
+      Pick<ICommunityPostEntity, "title" | "description" | "image">
+    >
+  ): Promise<void> {
+    await communityPostModel.updateOne(
+      { _id: postId, studentId },
+      { $set: updates }
+    );
+  }
+
+  async deletePost(postId: string, studentId: string): Promise<boolean> {
+    const result = await communityPostModel.deleteOne({
+      _id: postId,
+      studentId: studentId,
+    });
+
+    return result.deletedCount > 0;
   }
 }

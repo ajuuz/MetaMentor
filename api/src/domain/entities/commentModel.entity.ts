@@ -1,11 +1,10 @@
-import { ObjectId } from "mongoose";
-
 
 export interface ICommentEntity{
-    _id:ObjectId,
-    postId:ObjectId,
-    commenterId:ObjectId,
-    comment:string,
+    _id:string,
+    postId:string,
+    parentCommentId:string|null,
+    text:string,
+    commenterId:string,
     commentedAt:Date,
     isBlocked:boolean
 }

@@ -1,20 +1,37 @@
+"use client";
+
+import { useState } from "react";
 import { Avatar } from "@radix-ui/react-avatar";
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
-import { Heart, MessageSquare, MoreHorizontal } from "lucide-react";
+import { Heart, MessageSquare, MoreHorizontal, Trash } from "lucide-react";
 import type { IGetCommunityPost } from "@/types/entity/communityPost";
 import { config } from "@/config/configuration";
 import { useGetCommunityPostLikeQuery } from "@/hooks/tanstack/communityPosts";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import {  likePost, unLikePost } from "@/services/userService/communityApi";
+import {
+  likePost,
+  unLikePost,
+  deletePost,
+} from "@/services/userService/communityApi";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
+import CommentThread from "@/components/community/CommentThread";
+import { useGetCommunityCommentCountQuery } from "@/hooks/tanstack/communityPosts";
 
 const PostCard = ({ post }: { post: IGetCommunityPost }) => {
+  // ------------------- HOOKS -------------------
   const { data, isError, isPending } = useGetCommunityPostLikeQuery(post._id);
+  const [showComments, setShowComments] = useState(false);
 
-
-   const { mutate: likeMutation } = useMutation({
+  // ------------------- MUTATIONS -------------------
+  const { mutate: likeMutation } = useMutation({
     mutationFn: likePost,
     onSuccess: (response) => {
       toast.success(response.message);
@@ -24,7 +41,8 @@ const PostCard = ({ post }: { post: IGetCommunityPost }) => {
       toast.error(error.message);
     },
   });
-   const { mutate: unLikeMutation } = useMutation({
+
+  const { mutate: unLikeMutation } = useMutation({
     mutationFn: unLikePost,
     onSuccess: (response) => {
       toast.success(response.message);
@@ -35,18 +53,36 @@ const PostCard = ({ post }: { post: IGetCommunityPost }) => {
     },
   });
 
-  if (isPending) {
-    return <div>loding...</div>;
-  }
-  if (isError || !data) {
-    return <div>error...</div>;
-  }
+  const { mutate: deletePostMutation } = useMutation({
+    mutationFn: deletePost,
+    onSuccess: (response) => {
+      toast.success(response.message);
+      queryClient.invalidateQueries({
+        queryKey: ["getCommunityPostsForStudent"],
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
+  // ------------------- DUMMY COMMENTS -------------------
+  const { data: commentCountData } = useGetCommunityCommentCountQuery(post._id);
+  const commentsCount = commentCountData?.count ?? 0;
 
-  const toggleLike=(postId:string)=>{
-    if(data.doILiked) unLikeMutation(postId)
-    else likeMutation(postId)
-  }
+  // ------------------- LOADING / ERROR -------------------
+  if (isPending) return <div>loading...</div>;
+  if (isError || !data) return <div>error...</div>;
+
+  // ------------------- HANDLERS -------------------
+  const toggleLike = (postId: string) => {
+    if (data.doILiked) unLikeMutation(postId);
+    else likeMutation(postId);
+  };
+
+  const toggleComments = () => setShowComments((prev) => !prev);
+
+  // ------------------- JSX -------------------
   return (
     <Card
       key={post._id}
@@ -80,13 +116,27 @@ const PostCard = ({ post }: { post: IGetCommunityPost }) => {
             </h3>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full flex-shrink-0"
-        >
-          <MoreHorizontal className="h-5 w-5" />
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full flex-shrink-0"
+            >
+              <MoreHorizontal className="h-5 w-5" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-[160px]">
+            <DropdownMenuItem
+              className="text-red-600 focus:text-red-600 cursor-pointer"
+              onClick={() => {
+                deletePostMutation(post._id);
+              }}
+            >
+              <Trash className="mr-2 h-4 w-4" /> Delete Post
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* Post Content */}
@@ -94,7 +144,6 @@ const PostCard = ({ post }: { post: IGetCommunityPost }) => {
         <p className="px-4 pb-3 text-gray-700 leading-relaxed whitespace-pre-wrap">
           {post.description}
         </p>
-
         {post.image && (
           <div className="relative bg-gray-100">
             <img
@@ -114,8 +163,12 @@ const PostCard = ({ post }: { post: IGetCommunityPost }) => {
               <Heart className="h-4 w-4 fill-red-500 text-red-500" />
               {data.noOfLikes}
             </span>
-            <span className="flex items-center gap-1">
+            <span
+              className="flex items-center gap-1 cursor-pointer"
+              onClick={toggleComments}
+            >
               <MessageSquare className="h-4 w-4" />
+              {commentsCount}
             </span>
           </div>
           <span className="text-xs">#{post._id.slice(-6)}</span>
@@ -138,11 +191,22 @@ const PostCard = ({ post }: { post: IGetCommunityPost }) => {
           <span className="font-medium text-sm">Like</span>
         </button>
 
-        <button className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-gray-600 hover:bg-gray-50 transition-all">
+        <button
+          onClick={toggleComments}
+          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-gray-600 hover:bg-gray-50 transition-all"
+        >
           <MessageSquare className="h-5 w-5" />
           <span className="font-medium text-sm">Comment</span>
         </button>
       </div>
+
+      {showComments && (
+        <div className="border-t border-gray-100 bg-gray-50">
+          <div className="px-2 py-2">
+            <CommentThread postId={post._id} />
+          </div>
+        </div>
+      )}
     </Card>
   );
 };

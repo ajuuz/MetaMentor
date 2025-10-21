@@ -16,6 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createCommunityPost } from "@/services/userService/communityApi";
 import { toast } from "sonner";
 import LoadingSpinnerComponent from "../common/LoadingSpinnerComponent";
+import { queryClient } from "@/config/tanstackConfig/tanstackConfig";
 
 type Props = {
   communityId: string;
@@ -32,6 +33,9 @@ export function CreatePostDialog({ communityId }: Props) {
     mutationFn: createCommunityPost,
     onSuccess: (response) => {
       toast.success(response.message);
+      queryClient.invalidateQueries({
+        queryKey: ["getCommunityPostsForStudent"],
+      });
     },
     onError: (error) => {
       toast.error(error.message);

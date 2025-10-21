@@ -239,6 +239,26 @@ export class MentorRepository
     return user;
   }
 
+  async rateUser(mentorId: string, rating: number): Promise<void> {
+    // Find the mentor and update the rating
+    const mentor = await mentorModel.findOne({userId: mentorId});
+    if (!mentor) {
+      throw new Error("Mentor not found");
+    }
+    const totalStars = mentor.rating.totalStars + rating;
+    const noOfRaters = mentor.rating.noOfRaters + 1;
+
+    await mentorModel.updateOne(
+      {userId: mentorId},
+      {
+        $set: {
+          "rating.totalStars": totalStars,
+          "rating.noOfRaters": noOfRaters,
+        },
+      }
+    );
+  }
+
   //projection
   private _previewDomainProjection = {
     $map: {
